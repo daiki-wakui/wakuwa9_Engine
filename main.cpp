@@ -1,12 +1,11 @@
-#include <windows.h>
 #include "WindowsApp.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-	//OutputDebugStringA("Hello,DirectX!!\n");
-
+	//windowsAPIの生成クラス
 	WindowsApp* win = nullptr;
-
 	win = new WindowsApp();
+
+	////windowsAPI初期化
 	win->Initalize();
 	MSG msg{};
 
@@ -16,9 +15,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//ゲームループ
 	while (true) {
-		
+		//×ボタンで終了メッセージがきたら
 		if (win->gameloopExit(msg) == true) {
-			break;
+			break;	//ゲームループ終了
 		}
 #pragma region DirectX毎フレーム処理
 
@@ -26,9 +25,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	}
 
-
+	//ウィンドウクラスを登録解除
 	win->Release();
-
+	//解放
 	delete win;
 	return 0;
 }
