@@ -6,7 +6,7 @@ class WindowsApp
 private:
 	//ウィンドウクラスの設定
 	WNDCLASSEX w{};
-	HWND hwnd{};
+	HWND hwnd = nullptr;
 
 public:	//静的メンバ関数
 
@@ -22,5 +22,8 @@ public:	//メンバ関数
 
 	void Release();
 	bool gameloopExit(MSG& msg);
+
+	//getter
+	HWND GetHwnd() const { return hwnd; }
 };
 
