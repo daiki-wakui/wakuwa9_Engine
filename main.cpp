@@ -20,6 +20,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	win->Initalize();
 	MSG msg{};
 
+
 #pragma region  DirectX‰Šú‰»ˆ—
 
 #ifdef _DEBUG
