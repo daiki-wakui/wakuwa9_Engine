@@ -9,6 +9,8 @@
 #include <vector>
 #include <string>
 
+#include <wrl.h>
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//windowsAPIの生成クラス
 	WindowsApp* win = nullptr;
@@ -22,7 +24,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #ifdef _DEBUG
 	//デバックレイヤーをオンに
-	ID3D12Debug1* debugController;
+	Microsoft::WRL::ComPtr<ID3D12Debug1> debugController;
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController)))) {
 		debugController->EnableDebugLayer();
 		debugController->SetEnableGPUBasedValidation(TRUE);
@@ -30,13 +32,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #endif // _DEBUG
 
 	HRESULT result;
-	ID3D12Device* device = nullptr;
-	IDXGIFactory7* dxgiFactory = nullptr;
-	IDXGISwapChain4* swapChain = nullptr;
-	ID3D12CommandAllocator* cmdAllocator = nullptr;
-	ID3D12GraphicsCommandList* commandList = nullptr;
-	ID3D12CommandQueue* commandQueue = nullptr;
-	ID3D12DescriptorHeap* rtvHeap = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Device> device;
+	Microsoft::WRL::ComPtr<IDXGIFactory7> dxgiFactory;
+	Microsoft::WRL::ComPtr<IDXGISwapChain4> swapChain;
+	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> cmdAllocator;
+	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList;
+	Microsoft::WRL::ComPtr<ID3D12CommandQueue> commandQueue;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> rtvHeap;
 
 #pragma region  アダプタの列挙
 
@@ -44,9 +46,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	result = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory));
 	assert(SUCCEEDED(result));
 	// アダプターの列挙用
-	std::vector<IDXGIAdapter4*> adapters;
+	std::vector<Microsoft::WRL::ComPtr<IDXGIAdapter4>> adapters;
 	// ここに特定の名前を持つアダプターオブジェクトが入る
-	IDXGIAdapter4* tmpAdapter = nullptr;
+	Microsoft::WRL::ComPtr<IDXGIAdapter4> tmpAdapter;
 	// パフォーマンスが高いものから順に、全てのアダプターを列挙する
 	for (UINT i = 0;
 		dxgiFactory->EnumAdapterByGpuPreference(i,
@@ -65,7 +67,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// ソフトウェアデバイスを回避
 		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)) {
 			// デバイスを採用してループを抜ける
-			tmpAdapter = adapters[i];
+			tmpAdapter = adapters[i].Get();
 			break;
 		}
 	}
@@ -84,7 +86,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	D3D_FEATURE_LEVEL featureLevel;
 	for (size_t i = 0; i < _countof(levels); i++) {
 		// 採用したアダプターでデバイスを生成
-		result = D3D12CreateDevice(tmpAdapter, levels[i],
+		result = D3D12CreateDevice(tmpAdapter.Get(), levels[i],
 			IID_PPV_ARGS(&device));
 		if (result == S_OK) {
 			// デバイスを生成できた時点でループを抜ける
@@ -97,11 +99,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #ifdef _DEBUG
 
-	ID3D12InfoQueue* infoQueue;
+	Microsoft::WRL::ComPtr<ID3D12InfoQueue> infoQueue;
 	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
 		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);	//やばいエラー時に止まる
 		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);	//エラー時に止まる
-		infoQueue->Release();
 	}
 
 	//抑制するエラー
@@ -131,7 +132,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// コマンドリストを生成
 	result = device->CreateCommandList(0,
 		D3D12_COMMAND_LIST_TYPE_DIRECT,
-		cmdAllocator, nullptr,
+		cmdAllocator.Get(), nullptr,
 		IID_PPV_ARGS(&commandList));
 	assert(SUCCEEDED(result));
 
@@ -156,10 +157,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	swapChainDesc.BufferCount = 2; // バッファ数を2つに設定
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD; // フリップ後は破棄
 	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+
+	Microsoft::WRL::ComPtr<IDXGISwapChain1> swapChain1 = nullptr;
+
 	// スワップチェーンの生成
 	result = dxgiFactory->CreateSwapChainForHwnd(
-		commandQueue, win->GetHwnd(), &swapChainDesc, nullptr, nullptr,
-		(IDXGISwapChain1**)&swapChain);
+		commandQueue.Get(),
+		win->GetHwnd(),
+		&swapChainDesc,
+		nullptr,
+		nullptr,
+		&swapChain1);
+
+	swapChain1.As(&swapChain);
+
 	assert(SUCCEEDED(result));
 
 #pragma endregion
@@ -178,7 +189,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region  バックバッファ
 
 	// バックバッファ
-	std::vector<ID3D12Resource*> backBuffers;
+	std::vector<Microsoft::WRL::ComPtr<ID3D12Resource>> backBuffers;
 	backBuffers.resize(swapChainDesc.BufferCount);
 
 #pragma endregion
@@ -199,7 +210,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 		rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 		// レンダーターゲットビューの生成
-		device->CreateRenderTargetView(backBuffers[i], &rtvDesc, rtvHandle);
+		device->CreateRenderTargetView(backBuffers[i].Get(), &rtvDesc, rtvHandle);
 	}
 
 #pragma endregion
@@ -207,7 +218,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region  フェンス
 
 	// フェンスの生成
-	ID3D12Fence* fence = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Fence> fence;
 	UINT64 fenceVal = 0;
 	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 
@@ -229,7 +240,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		UINT bbIndex = swapChain->GetCurrentBackBufferIndex();
 		// 1.リソースバリアで書き込み可能に変更
 		D3D12_RESOURCE_BARRIER barrierDesc{};
-		barrierDesc.Transition.pResource = backBuffers[bbIndex]; // バックバッファを指定
+		barrierDesc.Transition.pResource = backBuffers[bbIndex].Get(); // バックバッファを指定
 		barrierDesc.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT; // 表示状態から
 		barrierDesc.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET; // 描画状態へ
 		commandList->ResourceBarrier(1, &barrierDesc);
@@ -273,7 +284,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		result = commandList->Close();
 		assert(SUCCEEDED(result));
 		// コマンドリストの実行
-		ID3D12CommandList* commandLists[] = { commandList };
+		ID3D12CommandList* commandLists[] = { commandList.Get()};
 		commandQueue->ExecuteCommandLists(1, commandLists);
 		// 画面に表示するバッファをフリップ(裏表の入替え)
 		result = swapChain->Present(1, 0);
@@ -284,7 +295,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region  コマンド完了待ち 画面入れ替え
 
 		// コマンドの実行完了を待つ
-		commandQueue->Signal(fence, ++fenceVal);
+		commandQueue->Signal(fence.Get(), ++fenceVal);
 		if (fence->GetCompletedValue() != fenceVal) {
 			HANDLE event = CreateEvent(nullptr, false, false, nullptr);
 			fence->SetEventOnCompletion(fenceVal, event);
@@ -295,7 +306,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		result = cmdAllocator->Reset();
 		assert(SUCCEEDED(result));
 		// 再びコマンドリストを貯める準備
-		result = commandList->Reset(cmdAllocator, nullptr);
+		result = commandList->Reset(cmdAllocator.Get(), nullptr);
 		assert(SUCCEEDED(result));
 
 #pragma endregion
