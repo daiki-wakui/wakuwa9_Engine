@@ -33,4 +33,8 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="BasicVShader.hlsl" />
+    <FxCompile Include="BasicPShader.hlsl" />
+  </ItemGroup>
 </Project>
