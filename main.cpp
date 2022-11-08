@@ -1,5 +1,6 @@
 #include "WindowsApp.h"
 #include "KeyBoard.h"
+#include "DirectXBasis.h"
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <cassert>
@@ -22,12 +23,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WindowsApp* win = nullptr;
 	win = new WindowsApp();
 
+	//keyboradクラスの生成
 	KeyBoard* input_ = nullptr;
 	input_ = new KeyBoard();
+
+	//DirectXの基盤生成クラス
+	DirectXBasis* dxBasis = nullptr;
+	dxBasis = new DirectXBasis();
 
 	//windowsAPI初期化
 	win->Initalize();
 	MSG msg{};
+
+	//DirectX初期化
+	dxBasis->Initialize();
 
 #pragma region  DirectX初期化処理
 
@@ -606,5 +615,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//解放
 	delete win;
 	delete input_;
+	delete dxBasis;
 	return 0;
 }
