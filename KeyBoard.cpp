@@ -5,7 +5,7 @@ void KeyBoard::Initialize(HINSTANCE hInstance, HWND hwnd)
 	HRESULT result;
 
 	//DirectInput‚Ì‰Šú‰»
-	IDirectInput8* directInput = nullptr;
+	ComPtr<IDirectInput8> directInput = nullptr;
 	result = DirectInput8Create(
 		hInstance,
 		DIRECTINPUT_VERSION,

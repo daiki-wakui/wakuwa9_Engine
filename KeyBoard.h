@@ -2,20 +2,24 @@
 #include <DirectXMath.h>
 #include <d3dcompiler.h>
 #include <dinput.h>
-
-using namespace DirectX;
+#include <wrl.h>
 
 #pragma comment(lib,"dinput8.lib")
 #pragma comment(lib,"dxguid.lib")
 
 #define DIRECTINPUT_VERSION	0x0800
 
+using namespace DirectX;
 
 class KeyBoard
 {
+public:
+
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+
 private:
 
-	IDirectInputDevice8* keyboard = nullptr;
+	ComPtr<IDirectInputDevice8> keyboard = nullptr;
 	BYTE key[256] = {};
 	BYTE oldkey[256] = {};
 
