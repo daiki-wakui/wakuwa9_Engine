@@ -15,8 +15,12 @@ class KeyBoard
 {
 private:
 
+	IDirectInputDevice8* keyboard = nullptr;
+	BYTE key[256] = {};
+	BYTE oldkey[256] = {};
+
 public:
-	void Initialize();
+	void Initialize(HINSTANCE hInstance, HWND hwnd);
 	void Update();
 
 	bool keyPush(uint8_t key);

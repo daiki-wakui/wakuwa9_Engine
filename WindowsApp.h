@@ -25,5 +25,7 @@ public:	//ƒƒ“ƒoŠÖ”
 
 	//getter
 	HWND GetHwnd() const { return hwnd; }
+	WNDCLASSEX GetW() const { return w; };
+	HINSTANCE GetHInstancee() const { return w.hInstance; };
 };
 

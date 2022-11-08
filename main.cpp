@@ -1,4 +1,5 @@
 #include "WindowsApp.h"
+#include "KeyBoard.h"
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <cassert>
@@ -20,6 +21,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//windowsAPIの生成クラス
 	WindowsApp* win = nullptr;
 	win = new WindowsApp();
+
+	KeyBoard* input_ = nullptr;
+	input_ = new KeyBoard();
 
 	//windowsAPI初期化
 	win->Initalize();
@@ -230,6 +234,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 
 #pragma endregion
+
+	//keyborad初期化
+	input_->Initialize(win->GetHInstancee(), win->GetHwnd());
 
 #pragma region  描画初期化処理
 
@@ -444,6 +451,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (win->gameloopExit(msg) == true) {
 			break;	//ゲームループ終了
 		}
+
+		//keyborad更新処理
+		input_->Update();
+
 #pragma region DirectX毎フレーム処理
 
 #pragma region  1.リソースバリアの変更コマンド
@@ -472,6 +483,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 3.画面クリア R G B A
 		FLOAT clearColor[] = { 0.1f,0.25f, 0.5f,0.0f }; // 青っぽい色
 		commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+
+		if (input_->keyPush(DIK_0)) {
+			FLOAT clearColor[] = { 0.1f,0.1f, 0.1f,0.0f }; // 青っぽい色
+			commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
+		}
 
 #pragma endregion
 
@@ -589,5 +605,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	win->Release();
 	//解放
 	delete win;
+	delete input_;
 	return 0;
 }
