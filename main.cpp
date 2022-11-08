@@ -265,7 +265,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region  頂点バッファの生成
 
 	// 頂点バッファの生成
-	ID3D12Resource* vertBuff = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> vertBuff = nullptr;
 	result = device->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,
@@ -413,7 +413,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	pipelineDesc.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	// ルートシグネチャ
-	ID3D12RootSignature* rootSignature;
+	Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSignature;
 	// ルートシグネチャの設定
 	D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
@@ -427,10 +427,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	assert(SUCCEEDED(result));
 	rootSigBlob->Release();
 	// パイプラインにルートシグネチャをセット
-	pipelineDesc.pRootSignature = rootSignature;
+	pipelineDesc.pRootSignature = rootSignature.Get();
 
 	//パイプラインステートの生成
-	ID3D12PipelineState* pipelineState = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelineState = nullptr;
 	result = device->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
 
@@ -508,8 +508,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region  パイプラインステート設定
 
 		// パイプラインステートとルートシグネチャの設定コマンド
-		commandList->SetPipelineState(pipelineState);
-		commandList->SetGraphicsRootSignature(rootSignature);
+		commandList->SetPipelineState(pipelineState.Get());
+		commandList->SetGraphicsRootSignature(rootSignature.Get());
 
 #pragma endregion
 
