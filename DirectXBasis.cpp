@@ -137,8 +137,8 @@ void DirectXBasis::InitailizeCommand(){
 //スワップチェーンの初期化
 void DirectXBasis::InitailizeSwapchain(){
 
-	swapChainDesc.Width = 1280;
-	swapChainDesc.Height = 720;
+	swapChainDesc.Width = winApp->GetWindowWidth();
+	swapChainDesc.Height = winApp->GetWindowHeight();
 	swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // 色情報の書式
 	swapChainDesc.SampleDesc.Count = 1; // マルチサンプルしない
 	swapChainDesc.BufferUsage = DXGI_USAGE_BACK_BUFFER; // バックバッファ用
@@ -198,8 +198,8 @@ void DirectXBasis::InitailizeDepthBuffer(){
 	//深度バッファのリソース設定
 	D3D12_RESOURCE_DESC depthResourceDesc{};
 	depthResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	depthResourceDesc.Width = 1280;
-	depthResourceDesc.Height = 720;
+	depthResourceDesc.Width = winApp->GetWindowWidth();
+	depthResourceDesc.Height = winApp->GetWindowHeight();
 	depthResourceDesc.DepthOrArraySize = 1;
 	depthResourceDesc.Format = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 	depthResourceDesc.SampleDesc.Count = 1;
@@ -214,7 +214,7 @@ void DirectXBasis::InitailizeDepthBuffer(){
 	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 
 	//深度バッファの生成
-	ID3D12Resource* depthBuff = nullptr;
+	ComPtr<ID3D12Resource> depthBuff = nullptr;
 	result = device->CreateCommittedResource(
 		&depthHeapProp,
 		D3D12_HEAP_FLAG_NONE,
@@ -227,7 +227,7 @@ void DirectXBasis::InitailizeDepthBuffer(){
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1;
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-	ID3D12DescriptorHeap* dsvHeap = nullptr;
+	ComPtr<ID3D12DescriptorHeap> dsvHeap = nullptr;
 	result = device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
 
 	//深度ビュー作成
@@ -235,7 +235,7 @@ void DirectXBasis::InitailizeDepthBuffer(){
 	dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 	dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 	device->CreateDepthStencilView(
-		depthBuff,
+		depthBuff.Get(),
 		&dsvDesc,
 		dsvHeap->GetCPUDescriptorHandleForHeapStart());
 }
@@ -273,25 +273,23 @@ void DirectXBasis::PreDraw(){
 	//	commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 	//}
 
-	//縦横ゲッター欲しい
 	// ビューポート設定コマンド
 	D3D12_VIEWPORT viewport{};
-	viewport.Width = 1280;
-	viewport.Height = 720;
+	viewport.Width = winApp->GetWindowWidth();
+	viewport.Height = winApp->GetWindowHeight();
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
 	viewport.MinDepth = 0.0f;
 	viewport.MaxDepth = 1.0f;
 	// ビューポート設定コマンドを、コマンドリストに積む
 	commandList->RSSetViewports(1, &viewport);
-
-	//縦横ゲッター欲しい
+	
 	// シザー矩形
 	D3D12_RECT scissorRect{};
 	scissorRect.left = 0; // 切り抜き座標左
-	scissorRect.right = scissorRect.left + 1280; // 切り抜き座標右
+	scissorRect.right = scissorRect.left + winApp->GetWindowWidth(); // 切り抜き座標右
 	scissorRect.top = 0; // 切り抜き座標上
-	scissorRect.bottom = scissorRect.top + 720; // 切り抜き座標下
+	scissorRect.bottom = scissorRect.top + winApp->GetWindowHeight(); // 切り抜き座標下
 	// シザー矩形設定コマンドを、コマンドリストに積む
 	commandList->RSSetScissorRects(1, &scissorRect);
 }
