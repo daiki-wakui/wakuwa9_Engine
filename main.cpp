@@ -4,6 +4,7 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <cassert>
+#include <memory>
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
@@ -20,23 +21,25 @@ using namespace DirectX;
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//windowsAPIの生成クラス
-	WindowsApp* win = nullptr;
-	win = new WindowsApp();
+	std::unique_ptr<WindowsApp> windows;
+	WindowsApp* win = new WindowsApp();
 
 	//keyboradクラスの生成
-	KeyBoard* input_ = nullptr;
-	input_ = new KeyBoard();
+	std::unique_ptr<KeyBoard> keyboard;
+	KeyBoard* input_ = new KeyBoard();
 
 	//DirectXの基盤生成クラス
-	DirectXBasis* dxBasis = nullptr;
-	dxBasis = new DirectXBasis();
+	std::unique_ptr<DirectXBasis> DirectX;
+	DirectXBasis* dxBasis = new DirectXBasis();
 
 	//windowsAPI初期化
 	win->Initalize();
+	windows.reset(win);
 	MSG msg{};
 
 	//DirectX初期化
 	dxBasis->Initialize();
+	DirectX.reset(dxBasis);
 
 #pragma region  DirectX初期化処理
 
@@ -246,6 +249,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//keyborad初期化
 	input_->Initialize(win->GetHInstancee(), win->GetHwnd());
+	keyboard.reset(input_);
 
 #pragma region  描画初期化処理
 
@@ -612,9 +616,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//ウィンドウクラスを登録解除
 	win->Release();
-	//解放
-	delete win;
-	delete input_;
-	delete dxBasis;
+
 	return 0;
 }
