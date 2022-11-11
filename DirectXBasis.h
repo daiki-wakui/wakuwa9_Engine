@@ -59,5 +59,9 @@ public:
 	//描画後処理
 	void PostDraw();
 
+	//デバイス取得
+	ID3D12Device* GetDevice() const { return device.Get(); };
+	//コマンドリスト取得
+	ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); };
 };
 
