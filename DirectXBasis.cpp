@@ -6,6 +6,8 @@ void DirectXBasis::Initialize(WindowsApp* winApp){
 
 	this->winApp = winApp;
 
+	InitailizeFixFPS();
+
 	//デバイスの初期化
 	InitailizeDevice();
 	//コマンド関連の初期化
@@ -246,6 +248,42 @@ void DirectXBasis::InitailizeFance(){
 	result = device->CreateFence(fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 }
 
+//FPS固定初期化
+void DirectXBasis::InitailizeFixFPS(){
+	//システムタイマーの分解能を上げる
+	timeBeginPeriod(1);
+
+	// 現在時間を記録する
+	reference = std::chrono::steady_clock::now();
+}
+
+//FPS固定更新
+void DirectXBasis::UpdateFixFPS(){
+	// 1/60秒ぴったりの時間
+	const std::chrono::microseconds kMinTime(uint64_t(1000000.0f / 60.0f));
+
+	// 1/60秒よりわずかに短い時間
+	const std::chrono::microseconds kMinCheckTime(uint64_t(1000000.0 / 60.0f));
+
+	// 現在時間を取得する
+	std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+
+	// 前回記録からの経過時間を取得する
+	std::chrono::microseconds elapsed = std::chrono::duration_cast<std::chrono::microseconds>(now - reference);
+
+	// 1/60秒(よりわずかに短い時間) 経っていない場合
+	if (elapsed < kMinCheckTime) {
+		// 1/60秒経過するまで微小なスリープを繰り返す
+		while (std::chrono::steady_clock::now() - reference < kMinCheckTime) {
+			// 1マイクロ秒スリープ
+			std::this_thread::sleep_for(std::chrono::microseconds(1));
+		}
+	}
+
+	//現在の時間を記録する
+	reference = std::chrono::steady_clock::now();
+}
+
 //描画前
 void DirectXBasis::PreDraw(){
 
@@ -325,6 +363,10 @@ void DirectXBasis::PostDraw(){
 		WaitForSingleObject(event, INFINITE);
 		CloseHandle(event);
 	}
+
+	//FPS固定更新
+	UpdateFixFPS();
+
 	// キューをクリア
 	result = cmdAllocator->Reset();
 	assert(SUCCEEDED(result));

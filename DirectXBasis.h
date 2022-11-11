@@ -5,9 +5,12 @@
 #include <wrl.h>
 #include <cassert>
 #include <vector>
+#include <chrono>
+#include <thread>
 
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
+#pragma comment(lib,"winmm.lib")
 
 class DirectXBasis
 {
@@ -40,8 +43,13 @@ private:
 	ComPtr<ID3D12Fence> fence;
 	//フェンス値
 	UINT64 fenceVal = 0;
+
+	//時間記録(FPS固定用)
+	std::chrono::steady_clock::time_point reference;
+
 public:
 
+	//DirectXの基盤初期化関数
 	void Initialize(WindowsApp* winApp);
 	void InitailizeDevice();
 	void InitailizeCommand();
@@ -49,6 +57,12 @@ public:
 	void InitailizeRenderTargetView();
 	void InitailizeDepthBuffer();
 	void InitailizeFance();
+
+	//FPS固定初期化
+	void InitailizeFixFPS();
+
+	//FPS固定更新
+	void UpdateFixFPS();
 
 	//描画前処理
 	void PreDraw();
