@@ -29,16 +29,12 @@ private:
 
 	// デスクリプタヒープ
 	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
-
 	// スワップチェーン
 	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
-
 	// バックバッファ
 	std::vector<ComPtr<ID3D12Resource>> backBuffers;
 
-
 	D3D12_RESOURCE_BARRIER barrierDesc{};
-
 
 	// フェンスの生成
 	ComPtr<ID3D12Fence> fence;
