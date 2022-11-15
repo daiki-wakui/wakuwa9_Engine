@@ -100,14 +100,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 頂点データ
 	XMFLOAT3 vertices[] = {
 		{ -0.5f, -0.5f, 0.0f }, // 左下
-		{ +0.5f, -0.5f, 0.0f }, // 右下
-		{ -0.5f,  0.0f, 0.0f }, // 左中
-		{ +0.5f,  0.0f, 0.0f }, // 右中
 		{ -0.5f, +0.5f, 0.0f }, // 左上
+		{ +0.5f, -0.5f, 0.0f }, // 右下
 		{ +0.5f, +0.5f, 0.0f }, // 右上
 	};
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(XMFLOAT3) * _countof(vertices));
+
+#pragma endregion
+
+#pragma region  インデックスデータ
+
+	//インデックスデータ
+	uint16_t indices[] = {
+		0 , 1 , 2,	//三角形1つ目
+		1 , 2 , 3,	//三角形2つ目
+	};
 
 #pragma endregion
 
@@ -167,6 +175,59 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	vbView.SizeInBytes = sizeVB;
 	// 頂点1つ分のデータサイズ
 	vbView.StrideInBytes = sizeof(XMFLOAT3);
+
+#pragma endregion
+
+#pragma region  インデックスバッファの設定
+
+	//インデックスデータ全体のサイズ
+	UINT sizeIB = static_cast<UINT>(sizeof(uint16_t) * _countof(indices));
+
+	//リソース設定
+	resDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+	resDesc.Width = sizeIB;	//インデックス情報が入る分のサイズ
+	resDesc.Height = 1;
+	resDesc.DepthOrArraySize = 1;
+	resDesc.MipLevels = 1;
+	resDesc.SampleDesc.Count = 1;
+	resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+#pragma endregion
+
+#pragma region  インデックスバッファの生成
+
+	Microsoft::WRL::ComPtr<ID3D12Resource> indexBuff = nullptr;
+	result = dxBasis->GetDevice()->CreateCommittedResource(
+		&heapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&resDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&indexBuff));
+
+#pragma endregion
+
+#pragma region  インデックスバッファへのデータ転送
+
+	//インデックスバッファをマッピング
+	uint16_t* indexMap = nullptr;
+	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
+	//全インデックスに対して
+	for (int i = 0; i < _countof(indices); i++) {
+		indexMap[i] = indices[i];
+	}
+	//マッピング解除
+	indexBuff->Unmap(0, nullptr);
+
+#pragma endregion
+
+#pragma region  インデックスバッファビューの生成
+
+	//インデックスバッファビューの生成
+	D3D12_INDEX_BUFFER_VIEW ibView{};
+	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
+	ibView.Format = DXGI_FORMAT_R16_UINT;
+	ibView.SizeInBytes = sizeIB;
 
 #pragma endregion
 
@@ -244,6 +305,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region  グラフィックスパイプライン設定
 
+#pragma region  グラフィックスパイプラインに必要な設定
+
 	// グラフィックスパイプライン設定
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 
@@ -260,6 +323,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	pipelineDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE; // カリングしない
 	pipelineDesc.RasterizerState.FillMode = D3D12_FILL_MODE_SOLID; // ポリゴン内塗りつぶし
 	pipelineDesc.RasterizerState.DepthClipEnable = true; // 深度クリッピングを有効に
+
+#pragma endregion
 
 #pragma region  ブレンド設定
 
@@ -347,10 +412,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma endregion
 	
+#pragma region  パイプラインステート生成
+
 	//パイプラインステートの生成
 	Microsoft::WRL::ComPtr<ID3D12PipelineState> pipelineState = nullptr;
 	result = dxBasis->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
 	assert(SUCCEEDED(result));
+
+#pragma endregion
 
 #pragma endregion
 
@@ -378,16 +447,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		dxBasis->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
 
 		// プリミティブ形状の設定コマンド
-		dxBasis->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP); // 三角形ストリップ
+		dxBasis->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+
+		// 定数バッファビュー(CBV)の設定コマンド
+		dxBasis->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
 
 		// 頂点バッファビューの設定コマンド
 		dxBasis->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
 
-		//定数バッファビュー(CBV)の設定コマンド
-		dxBasis->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+		// インデックスバッファビューの設定コマンド
+		dxBasis->GetCommandList()->IASetIndexBuffer(&ibView);
 
 		// 描画コマンド
-		dxBasis->GetCommandList()->DrawInstanced(_countof(vertices), 1, 0, 0); // 全ての頂点を使って描画
+		dxBasis->GetCommandList()->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0); // 全ての頂点を使って描画
 
 		//描画後処理
 		dxBasis->PostDraw();
