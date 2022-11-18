@@ -10,5 +10,7 @@ public:
 	void Initialize(DirectXBasis* dxBasis);
 	void Update();
 	void Draw();
+
+	DirectXBasis* GetDxBasis() const { return dxBasis; };
 };
 
