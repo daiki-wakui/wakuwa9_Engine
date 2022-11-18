@@ -41,7 +41,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region  画像イメージデータ
 
-	const size_t textrueWight = 256;
+	/*const size_t textrueWight = 256;
 	const size_t textrueHeight = 256;
 
 	const size_t imageDataCount = textrueWight * textrueHeight;
@@ -53,7 +53,37 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		imageData[i].y = 0.0f;
 		imageData[i].z = 0.0f;
 		imageData[i].w = 1.0f;
+	}*/
+
+	TexMetadata metadata{};
+	ScratchImage scratchImg{};
+	//WICテクスチャのロード
+	result = LoadFromWICFile(
+		L"Resources/test.png",
+		WIC_FLAGS_NONE,
+		&metadata, scratchImg);
+
+#pragma endregion
+
+#pragma region  ミニマップの生成
+
+	ScratchImage mipChain{};
+	//ミニマップ生成
+	result = GenerateMipMaps(
+		scratchImg.GetImages(),
+		scratchImg.GetImageCount(),
+		scratchImg.GetMetadata(),
+		TEX_FILTER_DEFAULT,0,mipChain);
+	if (SUCCEEDED(result)) {
+		scratchImg = std::move(mipChain);
+		metadata = scratchImg.GetMetadata();
 	}
+
+#pragma endregion
+
+#pragma region  フォーマットを書き換える
+	//読み込んだディフューズテクスチャをSRGBとして扱う
+	metadata.format = MakeSRGB(metadata.format);
 
 #pragma endregion
 
@@ -68,11 +98,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//リソース設定
 	D3D12_RESOURCE_DESC textureResourceDesc{};
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	textureResourceDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	textureResourceDesc.Width = textrueWight;
-	textureResourceDesc.Height = textrueHeight;
-	textureResourceDesc.DepthOrArraySize = 1;
-	textureResourceDesc.MipLevels = 1;
+	textureResourceDesc.Format = metadata.format;
+	textureResourceDesc.Width = metadata.width;
+	textureResourceDesc.Height = (UINT)metadata.height;
+	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
+	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
 
@@ -93,16 +123,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region  テクスチャバッファへのデータ転送
 	//データ転送
-	result = texBuff->WriteToSubresource(
-		0,
-		nullptr,	//全領域コピー
-		imageData,	//元データアドレス
-		sizeof(XMFLOAT4) * textrueWight,	//1ライン
-		sizeof(XMFLOAT4) * imageDataCount	//全サイズ
-	);
-
-	//転送後元データ解放
-	delete[] imageData;
+	for (size_t i = 0; i < metadata.mipLevels; i++) {
+		const Image* img = scratchImg.GetImage(i, 0, 0);
+		result = texBuff->WriteToSubresource(
+			(UINT)i,
+			nullptr,
+			img->pixels,
+			(UINT)img->rowPitch,
+			(UINT)img->slicePitch
+		);
+		assert(SUCCEEDED(result));
+	}
 
 #pragma endregion
 
@@ -145,10 +176,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//シェーダリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	srvDesc.Format = textureResourceDesc.Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = 1;
+	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
 
 	//ハンドルの指す位置にシェーダリソースビュー作成
 	dxBasis->GetDevice()->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
@@ -216,7 +247,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region	定数バッファへのデータ転送
 
 	//値を書きこんで自動転送
-	constMapMaterial->color = XMFLOAT4(1, 0, 0, 0.5f);	//色変更
+	constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.5f);	//色変更
 
 #pragma endregion
 
