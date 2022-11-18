@@ -140,11 +140,15 @@
     <ClCompile Include="DirectXBasis.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="SpriteBasis.cpp" />
     <ClCompile Include="WindowsApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h" />
     <ClInclude Include="KeyBoard.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="SpriteBasis.h" />
     <ClInclude Include="WindowsApp.h" />
   </ItemGroup>
   <ItemGroup>
