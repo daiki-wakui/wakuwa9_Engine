@@ -3,6 +3,7 @@
 #include "DirectXBasis.h"
 #include <memory>
 #include <string>
+#include <DirectXTex.h>
 
 #include <DirectXMath.h>
 using namespace DirectX;
