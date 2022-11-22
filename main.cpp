@@ -40,18 +40,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	input_->Initialize(winApp->GetHInstancee(), winApp->GetHwnd());
 	keyboard.reset(input_);
 
+#pragma endregion	
+
+#pragma region  描画初期化処理
 	
+	Sprite* sprite = new Sprite();
+	sprite->Initialize(spBasis);
+
 	//スプライト共通部の初期化
 	spBasis->Initialize(dxBasis);
 	SpBasis.reset(spBasis);
 
-#pragma endregion	
-
-#pragma region  描画初期化処理
-
-	Sprite* sprite = new Sprite();
-	sprite->Initialize(spBasis);
-
+	
 
 #pragma endregion
 
@@ -66,6 +66,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		input_->Update();
 
 #pragma region  DirectX毎フレーム更新処理
+
+
 
 
 
