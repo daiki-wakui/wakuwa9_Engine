@@ -4,13 +4,7 @@
 #include "Sprite.h"
 #include "SpriteBasis.h"
 #include <memory>
-#include <string>
 #include <DirectXTex.h>
-
-#include <DirectXMath.h>
-using namespace DirectX;
-#include <d3dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
@@ -46,6 +40,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	input_->Initialize(winApp->GetHInstancee(), winApp->GetHwnd());
 	keyboard.reset(input_);
 
+	
 	//スプライト共通部の初期化
 	spBasis->Initialize(dxBasis);
 	SpBasis.reset(spBasis);
@@ -56,6 +51,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Sprite* sprite = new Sprite();
 	sprite->Initialize(spBasis);
+
 
 #pragma endregion
 
@@ -79,7 +75,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 描画前処理
 		dxBasis->PreDraw();
 
-
+		sprite->Draw();
 
 		//描画後処理
 		dxBasis->PostDraw();
@@ -87,6 +83,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 	//ウィンドウクラスを登録解除
 	winApp->Release();
-
+	delete sprite;
 	return 0;
 }
