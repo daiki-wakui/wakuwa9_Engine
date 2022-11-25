@@ -67,7 +67,7 @@ void Sprite::VertexData()
 #pragma region  頂点バッファの生成
 
 	// 頂点バッファの生成
-	ComPtr<ID3D12Resource> vertBuff = nullptr;
+	
 	result = spBasis->GetDxBasis()->GetDevice()->CreateCommittedResource(
 		&heapProp, // ヒープ設定
 		D3D12_HEAP_FLAG_NONE,

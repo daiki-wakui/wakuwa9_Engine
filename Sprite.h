@@ -14,6 +14,7 @@ private:
 
 	SpriteBasis* spBasis;
 
+	ComPtr<ID3D12Resource> vertBuff = nullptr;
 	// 頂点バッファビューの作成
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	UINT vertexSize;
