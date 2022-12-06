@@ -291,10 +291,27 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//左上を原点に設定
 	constMapTransform->mat = XMMatrixIdentity();
-	constMapTransform->mat.r[0].m128_f32[0] = 2.0f / winApp->GetWindowWidth();
-	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / winApp->GetWindowHeight();
-	constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
-	constMapTransform->mat.r[3].m128_f32[1] = 1.0f;
+
+	constMapTransform->mat = 
+		XMMatrixOrthographicOffCenterLH(
+			0.0f, winApp->GetWindowWidth(),
+			winApp->GetWindowHeight(), 0.0f,
+			0.0f, 1.0f);
+
+#pragma region	射影変換
+
+	//透視投影行列の計算
+	//射影変換行列(透視投影)
+	//XMMATRIX matProjection = XMMatrixPerspectiveFovLH(
+	//	XMConvertToRadians(45.0f),
+	//	(float)winApp->GetWindowWidth() / winApp->GetWindowHeight(),
+	//	0.1f, 1000.0f
+	//);
+
+	////定数バッファに転送
+	//constMapTransform->mat = matProjection;
+
+#pragma endregion
 
 #pragma endregion
 
@@ -315,6 +332,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{{ 100.0f, 100.0f, 0.0f },{ 1.0f , 1.0f }}, // 左下
 		{{ 100.0f,   0.0f, 0.0f },{ 1.0f , 0.0f }}, // 左下
 	};
+
+	//射影変換用
+	//Vertex vertices[] = {
+	//	{{ -50.0f, -50.0f, 50.0f },{ 0.0f , 1.0f }}, // 左下
+	//	{{ -50.0f,  50.0f, 50.0f },{ 0.0f , 0.0f }}, // 左下
+	//	{{  50.0f, -50.0f, 50.0f },{ 1.0f , 1.0f }}, // 左下
+	//	{{  50.0f,  50.0f, 50.0f },{ 1.0f , 0.0f }}, // 左下
+	//};
+
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 
