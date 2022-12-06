@@ -289,14 +289,40 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//値を書きこんで自動転送
 	constMapMaterial->color = XMFLOAT4(1.0f, 1.0f, 1.0f, 0.5f);	//色変更
 
-	//左上を原点に設定
+
+#pragma region	平行投影変換
+	//平行投影変換
 	constMapTransform->mat = XMMatrixIdentity();
 
-	constMapTransform->mat = 
+	XMMATRIX matProjection=
 		XMMatrixOrthographicOffCenterLH(
 			0.0f, winApp->GetWindowWidth(),
 			winApp->GetWindowHeight(), 0.0f,
 			0.0f, 1.0f);
+
+	XMMATRIX matWorld;
+	matWorld = XMMatrixIdentity();
+
+	XMMATRIX matScale;
+	matScale = XMMatrixScaling(1.0f, 1.0f, 1.0f);
+	matWorld *= matScale;
+
+	XMMATRIX matRot;
+	matRot = XMMatrixIdentity();
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(0.0f));	//Z 0度回転
+	matRot *= XMMatrixRotationX(XMConvertToRadians(0.0f));	//X 0度回転
+	matRot *= XMMatrixRotationY(XMConvertToRadians(0.0f));	//Y 0度回転
+	matWorld *= matRot;
+
+	XMMATRIX matTrans;
+	matTrans = XMMatrixTranslation(0.0f, 50.0f, 0.0f);
+	matWorld *= matTrans;
+
+	constMapTransform->mat = matWorld * matProjection;
+
+	XMFLOAT2 pos = { 0,0 };
+
+#pragma endregion
 
 #pragma region	射影変換
 
@@ -314,8 +340,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//XMFLOAT3 target = { 0, 0, 0 };
 	//XMFLOAT3 up = { 0, 1, 0 };
 	//matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
-
-	//
 
 	////定数バッファに転送
 	//constMapTransform->mat = matView * matProjection;
@@ -698,6 +722,28 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//keyborad更新処理
 		input_->Update();
+
+		pos.x = 0;
+		pos.y = 0;
+
+		if (input_->keyPush(DIK_D)) {
+			pos.x+=5;
+		}
+		if (input_->keyPush(DIK_A)) {
+			pos.x-=5;
+		}
+		if (input_->keyPush(DIK_S)) {
+			pos.y+=5;
+		}
+		if (input_->keyPush(DIK_W)) {
+			pos.y-=5;
+		}
+
+		XMMATRIX matTrans;
+		matTrans = XMMatrixTranslation(pos.x, pos.y, 0.0f);
+		matWorld *= matTrans;
+
+		constMapTransform->mat = matWorld * matProjection;
 
 		//05_04ビュー変換
 	
