@@ -308,8 +308,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//	0.1f, 1000.0f
 	//);
 
+	////ビュー変換行列
+	//XMMATRIX matView;
+	//XMFLOAT3 eye = { 50, 50, -100 };
+	//XMFLOAT3 target = { 0, 0, 0 };
+	//XMFLOAT3 up = { 0, 1, 0 };
+	//matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+
+	//
+
 	////定数バッファに転送
-	//constMapTransform->mat = matProjection;
+	//constMapTransform->mat = matView * matProjection;
+	//float angle = 0.0f;
 
 #pragma endregion
 
@@ -335,10 +345,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//射影変換用
 	//Vertex vertices[] = {
-	//	{{ -50.0f, -50.0f, 50.0f },{ 0.0f , 1.0f }}, // 左下
-	//	{{ -50.0f,  50.0f, 50.0f },{ 0.0f , 0.0f }}, // 左下
-	//	{{  50.0f, -50.0f, 50.0f },{ 1.0f , 1.0f }}, // 左下
-	//	{{  50.0f,  50.0f, 50.0f },{ 1.0f , 0.0f }}, // 左下
+	//	{{ -50.0f, -50.0f, 0.0f },{ 0.0f , 1.0f }}, // 左下
+	//	{{ -50.0f,  50.0f, 0.0f },{ 0.0f , 0.0f }}, // 左下
+	//	{{  50.0f, -50.0f, 0.0f },{ 1.0f , 1.0f }}, // 左下
+	//	{{  50.0f,  50.0f, 0.0f },{ 1.0f , 0.0f }}, // 左下
 	//};
 
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
@@ -688,6 +698,28 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//keyborad更新処理
 		input_->Update();
+
+		//05_04ビュー変換
+	
+		//if (input_->keyPush(DIK_D) || input_->keyPush(DIK_A)) {
+
+		//	if (input_->keyPush(DIK_D)) {
+		//		angle += XMConvertToRadians(1.0f);
+		//	}
+		//	else if (input_->keyPush(DIK_A)) {
+		//		angle -= XMConvertToRadians(1.0f);
+		//	}
+
+		//	//Y軸まわりに回転
+		//	eye.x = -100 * sinf(angle);
+		//	eye.z = -100 * cosf(angle);
+		//	matView = 
+		//		XMMatrixLookAtLH(
+		//			XMLoadFloat3(&eye),
+		//			XMLoadFloat3(&target),
+		//			XMLoadFloat3(&up));
+		//}
+		//constMapTransform->mat = matView * matProjection;
 
 #pragma region DirectX毎フレーム処理
 
