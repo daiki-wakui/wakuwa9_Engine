@@ -815,7 +815,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Object3D::PreDraw(dxBasis->GetCommandList());
 
-		//object3d->Draw();
+		object3d->Draw();
 
 		Object3D::PostDraw();
 

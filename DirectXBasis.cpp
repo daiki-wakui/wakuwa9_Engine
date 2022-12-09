@@ -216,7 +216,6 @@ void DirectXBasis::InitailizeDepthBuffer(){
 	depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;	//深度値フォーマット
 
 	//深度バッファの生成
-	ComPtr<ID3D12Resource> depthBuff = nullptr;
 	result = device->CreateCommittedResource(
 		&depthHeapProp,
 		D3D12_HEAP_FLAG_NONE,

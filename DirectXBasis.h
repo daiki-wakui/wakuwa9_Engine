@@ -45,6 +45,8 @@ private:
 	/*D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle;*/
 
+	ComPtr<ID3D12Resource> depthBuff = nullptr;
+
 	// フェンスの生成
 	ComPtr<ID3D12Fence> fence;
 	//フェンス値
