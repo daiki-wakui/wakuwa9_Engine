@@ -1,6 +1,7 @@
 #include "WindowsApp.h"
 #include "KeyBoard.h"
 #include "DirectXBasis.h"
+#include "Object3D.h"
 #include <memory>
 #include <string>
 #include <DirectXTex.h>
@@ -32,9 +33,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	dxBasis->Initialize(winApp);
 	DirectX.reset(dxBasis);
 
+	Object3D::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
+
 	//keyborad初期化
 	input_->Initialize(winApp->GetHInstancee(), winApp->GetHwnd());
 	keyboard.reset(input_);
+
+	
 
 #pragma region  描画初期化処理
 	HRESULT result;
@@ -713,12 +718,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma endregion
 
+	Object3D* object3d = Object3D::Create();
+
 	//ゲームループ
 	while (true) {
 		//×ボタンで終了メッセージがきたら
 		if (winApp->gameloopExit(msg) == true) {
 			break;	//ゲームループ終了
 		}
+		object3d->Update();
 
 		//keyborad更新処理
 		input_->Update();
@@ -804,12 +812,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 描画コマンド
 		dxBasis->GetCommandList()->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0); // 全ての頂点を使って描画
 
+
+		Object3D::PreDraw(dxBasis->GetCommandList());
+
+		//object3d->Draw();
+
+		Object3D::PostDraw();
+
 		//描画後処理
 		dxBasis->PostDraw();
+
+
+		
 #pragma endregion
 
 	}
 
+	delete object3d;
 	//ウィンドウクラスを登録解除
 	winApp->Release();
 

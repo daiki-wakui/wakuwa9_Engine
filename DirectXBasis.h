@@ -39,6 +39,12 @@ private:
 
 	D3D12_RESOURCE_BARRIER barrierDesc{};
 
+	ComPtr<ID3D12DescriptorHeap> dsvHeap = nullptr;
+	//ID3D12DescriptorHeap* dsvHeap = nullptr;
+
+	/*D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle;*/
+
 	// フェンスの生成
 	ComPtr<ID3D12Fence> fence;
 	//フェンス値

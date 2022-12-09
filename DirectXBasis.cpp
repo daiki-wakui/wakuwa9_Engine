@@ -229,7 +229,6 @@ void DirectXBasis::InitailizeDepthBuffer(){
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1;
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-	ComPtr<ID3D12DescriptorHeap> dsvHeap = nullptr;
 	result = device->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&dsvHeap));
 
 	//深度ビュー作成
@@ -297,19 +296,17 @@ void DirectXBasis::PreDraw(){
 	commandList->ResourceBarrier(1, &barrierDesc);
 
 	// 2.描画先の変更
-		// レンダーターゲットビューのハンドルを取得
+	// レンダーターゲットビューのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle = rtvHeap->GetCPUDescriptorHandleForHeapStart();
+	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dsvHeap->GetCPUDescriptorHandleForHeapStart();
 	rtvHandle.ptr += bbIndex * device->GetDescriptorHandleIncrementSize(rtvHeapDesc.Type);
-	commandList->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
+
+	commandList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
 
 	// 3.画面クリア R G B A
 	FLOAT clearColor[] = { 0.1f,0.25f, 0.5f,0.0f }; // 青っぽい色
 	commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-
-	//if (input_->keyPush(DIK_0)) {
-	//	FLOAT clearColor[] = { 0.1f,0.1f, 0.1f,0.0f }; // 青っぽい色
-	//	commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
-	//}
+	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
 	// ビューポート設定コマンド
 	D3D12_VIEWPORT viewport{};
