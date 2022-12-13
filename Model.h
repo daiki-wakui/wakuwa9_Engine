@@ -22,6 +22,17 @@ public: // サブクラス
 		DirectX::XMFLOAT2 uv;  // uv座標
 	};
 
+	//定数バッファ用データ構造体B1
+	struct ConstBufferDataB1
+	{
+		DirectX::XMFLOAT3 ambient;	//アンビエント係数
+		float pad1;			//パディング
+		DirectX::XMFLOAT3 diffuse;	//ディフューズ係数
+		float pad2;			//パディング
+		DirectX::XMFLOAT3 specular;	//スペキュラー係数
+		float alpha;		//アルファ
+	};
+
 	//マテリアル
 	struct Material
 	{
@@ -42,6 +53,8 @@ public: // サブクラス
 
 public:
 
+	
+
 	//OBJファイルから3Dモデルを読み込む
 	static Model* LoadFromObj();
 
@@ -55,6 +68,9 @@ public:
 	/// </summary>
 	void LoadTexture(const std::string& directoryPath, const std::string& filename);
 
+
+	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial);
+
 	static void SetDevice(ID3D12Device* device) { Model::device = device; };
 
 private:
@@ -62,7 +78,7 @@ private:
 	static ID3D12Device* device;
 
 	// デスクリプタサイズ
-	UINT descriptorHandleIncrementSize;
+	UINT descriptorHandleIncrementSize = 0;
 
 	// テクスチャバッファ
 	ComPtr<ID3D12Resource> texbuff;
@@ -74,6 +90,17 @@ private:
 	// シェーダリソースビューのハンドル(CPU)
 	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
 
+	// 頂点バッファ
+	ComPtr<ID3D12Resource> vertBuff;
+	// インデックスバッファ
+	ComPtr<ID3D12Resource> indexBuff;
+	// 頂点バッファビュー
+	D3D12_VERTEX_BUFFER_VIEW vbView;
+	// インデックスバッファビュー
+	D3D12_INDEX_BUFFER_VIEW ibView;
+	// マテリアル用定数バッファ
+	ComPtr<ID3D12Resource> constBuffB1; 
+
 	// 頂点データ配列
 	std::vector<VertexPosNormalUv> vertices;
 
@@ -84,5 +111,11 @@ private:
 	Material material;
 
 	void LoadFromOBJInternal();
+
+	//デスクリプタヒープの初期化
+	void InitializeDescriptorHeap();
+
+	//各種バッファの生成
+	void CreateBuffers();
 };
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Model.h"
+
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
@@ -26,18 +28,6 @@ public: // サブクラス
 		//XMFLOAT4 color;	// 色 (RGBA)
 		XMMATRIX mat;	// ３Ｄ変換行列
 	};
-
-	struct ConstBufferDataB1
-	{
-		XMFLOAT3 ambient;	//アンビエント係数
-		float pad1;			//パディング
-		XMFLOAT3 diffuse;	//ディフューズ係数
-		float pad2;			//パディング
-		XMFLOAT3 specular;	//スペキュラー係数
-		float alpha;		//アルファ
-	};
-
-	
 
 private: // 定数
 	static const int division = 50;					// 分割数
@@ -113,10 +103,7 @@ private: // 静的メンバ変数
 	// パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState> pipelinestate;
 	
-	// 頂点バッファ
-	static ComPtr<ID3D12Resource> vertBuff;
-	// インデックスバッファ
-	static ComPtr<ID3D12Resource> indexBuff;
+	
 	
 	
 	// ビュー行列
@@ -129,19 +116,13 @@ private: // 静的メンバ変数
 	static XMFLOAT3 target;
 	// 上方向ベクトル
 	static XMFLOAT3 up;
-	// 頂点バッファビュー
-	static D3D12_VERTEX_BUFFER_VIEW vbView;
-	// インデックスバッファビュー
-	static D3D12_INDEX_BUFFER_VIEW ibView;
+	
 
 
 	
 
 private:// 静的メンバ関数
-	/// <summary>
-	/// デスクリプタヒープの初期化
-	/// </summary>
-	static void InitializeDescriptorHeap();
+	
 
 	/// <summary>
 	/// カメラ初期化
@@ -194,8 +175,7 @@ public: // メンバ関数
 
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
-	ComPtr<ID3D12Resource> constBuffB1; // 定数バッファ
-
+	
 	// 色
 	XMFLOAT4 color = { 1,1,1,1 };
 	// ローカルスケール

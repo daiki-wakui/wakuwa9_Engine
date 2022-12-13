@@ -19,30 +19,14 @@ using namespace std;
 const float Object3D::radius = 5.0f;				// 底面の半径
 const float Object3D::prizmHeight = 8.0f;			// 柱の高さ
 ID3D12Device* Object3D::device = nullptr;
-UINT Object3D::descriptorHandleIncrementSize = 0;
 ID3D12GraphicsCommandList* Object3D::cmdList = nullptr;
 ComPtr<ID3D12RootSignature> Object3D::rootsignature;
 ComPtr<ID3D12PipelineState> Object3D::pipelinestate;
-ComPtr<ID3D12DescriptorHeap> Object3D::descHeap;
-ComPtr<ID3D12Resource> Object3D::vertBuff;
-ComPtr<ID3D12Resource> Object3D::indexBuff;
-ComPtr<ID3D12Resource> Object3D::texbuff;
-CD3DX12_CPU_DESCRIPTOR_HANDLE Object3D::cpuDescHandleSRV;
-CD3DX12_GPU_DESCRIPTOR_HANDLE Object3D::gpuDescHandleSRV;
 XMMATRIX Object3D::matView{};
 XMMATRIX Object3D::matProjection{};
 XMFLOAT3 Object3D::eye = { 0, 0, -50.0f };
 XMFLOAT3 Object3D::target = { 0, 0, 0 };
 XMFLOAT3 Object3D::up = { 0, 1, 0 };
-D3D12_VERTEX_BUFFER_VIEW Object3D::vbView{};
-D3D12_INDEX_BUFFER_VIEW Object3D::ibView{};
-
-//Object3d::VertexPosNormalUv Object3d::vertices[vertexCount];
-//unsigned short Object3d::indices[planeCount * 3];
-
-std::vector<Object3D::VertexPosNormalUv> Object3D::vertices;
-std::vector<unsigned short> Object3D::indices;
-Object3D::Material Object3D::material;
 
 void Object3D::StaticInitialize(ID3D12Device* device, int window_width, int window_height)
 {
@@ -51,8 +35,7 @@ void Object3D::StaticInitialize(ID3D12Device* device, int window_width, int wind
 
 	Object3D::device = device;
 
-	// デスクリプタヒープの初期化
-	InitializeDescriptorHeap();
+	Model::SetDevice(device);
 
 	// カメラ初期化
 	InitializeCamera(window_width, window_height);
@@ -137,25 +120,6 @@ void Object3D::CameraMoveVector(XMFLOAT3 move)
 
 	SetEye(eye_moved);
 	SetTarget(target_moved);
-}
-
-void Object3D::InitializeDescriptorHeap()
-{
-	HRESULT result = S_FALSE;
-
-	// デスクリプタヒープを生成	
-	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
-	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//シェーダから見えるように
-	descHeapDesc.NumDescriptors = 1; // シェーダーリソースビュー1つ
-	result = device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap));//生成
-	if (FAILED(result)) {
-		assert(0);
-	}
-
-	// デスクリプタサイズを取得
-	descriptorHandleIncrementSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-
 }
 
 void Object3D::InitializeCamera(int window_width, int window_height)
@@ -333,69 +297,6 @@ void Object3D::InitializeGraphicsPipeline()
 void Object3D::CreateModel()
 {
 
-	HRESULT result = S_FALSE;
-
-	//UINT sizeVB = static_cast<UINT>(sizeof(vertices));
-	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices.size());
-
-
-	// ヒーププロパティ
-	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-	// リソース設定
-	CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeVB);
-
-	// 頂点バッファ生成
-	result = device->CreateCommittedResource(
-		&heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
-		IID_PPV_ARGS(&vertBuff));
-	assert(SUCCEEDED(result));
-
-	// 頂点バッファへのデータ転送
-	VertexPosNormalUv* vertMap = nullptr;
-	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
-	if (SUCCEEDED(result)) {
-		//memcpy(vertMap, vertices, sizeof(vertices));
-		std::copy(vertices.begin(), vertices.end(), vertMap);
-		vertBuff->Unmap(0, nullptr);
-	}
-
-	// 頂点バッファビューの作成
-	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	//vbView.SizeInBytes = sizeof(vertices);
-	vbView.SizeInBytes = sizeVB;
-	vbView.StrideInBytes = sizeof(vertices[0]);
-
-	//UINT sizeIB = static_cast<UINT>(sizeof(indices));
-	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
-
-	// リソース設定
-	resourceDesc.Width = sizeIB;
-
-	// インデックスバッファ生成
-	result = device->CreateCommittedResource(
-		&heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
-		IID_PPV_ARGS(&indexBuff));
-
-	// インデックスバッファへのデータ転送
-	unsigned short* indexMap = nullptr;
-	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
-	if (SUCCEEDED(result)) {
-
-		//// 全インデックスに対して
-		//for (int i = 0; i < _countof(indices); i++)
-		//{
-		//	indexMap[i] = indices[i];	// インデックスをコピー
-		//}
-		std::copy(indices.begin(), indices.end(), indexMap);
-
-		indexBuff->Unmap(0, nullptr);
-	}
-
-	// インデックスバッファビューの作成
-	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
-	ibView.Format = DXGI_FORMAT_R16_UINT;
-	//ibView.SizeInBytes = sizeof(indices);
-	ibView.SizeInBytes = sizeIB;
 }
 
 void Object3D::UpdateViewMatrix()
@@ -424,14 +325,9 @@ bool Object3D::Initialize()
 		IID_PPV_ARGS(&constBuffB0));
 	assert(SUCCEEDED(result));
 
-	resourceDesc = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB1) + 0xff) & ~0xff);
+	
 
-	// 定数バッファの生成
-	result = device->CreateCommittedResource(
-		&heapProps, // アップロード可能
-		D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
-		IID_PPV_ARGS(&constBuffB1));
-	assert(SUCCEEDED(result));
+	
 
 	return true;
 }
@@ -468,13 +364,7 @@ void Object3D::Update()
 	constMap->mat = matWorld * matView * matProjection;	// 行列の合成
 	constBuffB0->Unmap(0, nullptr);
 
-	ConstBufferDataB1* constMap1 = nullptr;
-	result = constBuffB1->Map(0, nullptr, (void**)&constMap1);
-	constMap1->ambient = material.ambient;
-	constMap1->diffuse = material.diffuse;
-	constMap1->specular = material.specular;
-	constMap1->alpha = material.alpha;
-	constBuffB1->Unmap(0, nullptr);
+	
 }
 
 void Object3D::Draw()
@@ -483,14 +373,9 @@ void Object3D::Draw()
 	assert(device);
 	assert(Object3D::cmdList);
 
-	// 頂点バッファの設定
-	cmdList->IASetVertexBuffers(0, 1, &vbView);
-	// インデックスバッファの設定
-	cmdList->IASetIndexBuffer(&ibView);
+	
 
-	// デスクリプタヒープの配列
-	ID3D12DescriptorHeap* ppHeaps[] = { descHeap.Get() };
-	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+	
 
 	//// 定数バッファビューをセット
 	//cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
@@ -499,13 +384,10 @@ void Object3D::Draw()
 
 	// 定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
-	cmdList->SetGraphicsRootConstantBufferView(1, constBuffB1->GetGPUVirtualAddress());
+	
 
-	// シェーダリソースビューをセット
-	cmdList->SetGraphicsRootDescriptorTable(2, gpuDescHandleSRV);
+	
 
-	// 描画コマンド
-	//cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
-	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	
 }
 

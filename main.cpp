@@ -833,6 +833,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	}
 
+	delete model;
 	delete object3d;
 	//ウィンドウクラスを登録解除
 	winApp->Release();
