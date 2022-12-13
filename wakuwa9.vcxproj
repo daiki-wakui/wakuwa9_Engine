@@ -140,12 +140,14 @@
     <ClCompile Include="DirectXBasis.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="WindowsApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h" />
     <ClInclude Include="KeyBoard.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="WindowsApp.h" />
   </ItemGroup>

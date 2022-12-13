@@ -2,6 +2,8 @@
 #include "KeyBoard.h"
 #include "DirectXBasis.h"
 #include "Object3D.h"
+#include "Model.h"
+
 #include <memory>
 #include <string>
 #include <DirectXTex.h>
@@ -10,6 +12,7 @@
 using namespace DirectX;
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
+
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//windowsAPIÇÃê∂ê¨ÉNÉâÉX
@@ -717,6 +720,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 
 #pragma endregion
+
+	Model* model = Model::LoadFromObj();
 
 	Object3D* object3d = Object3D::Create();
 
