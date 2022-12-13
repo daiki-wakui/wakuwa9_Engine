@@ -56,7 +56,7 @@ public:
 	
 
 	//OBJファイルから3Dモデルを読み込む
-	static Model* LoadFromObj();
+	static Model* LoadFromObj(const std::string& modelname);
 
 	/// <summary>
 	/// マテリアル読み込み
@@ -110,7 +110,7 @@ private:
 	//マテリアル
 	Material material;
 
-	void LoadFromOBJInternal();
+	void LoadFromOBJInternal(const std::string& modelname);
 
 	//デスクリプタヒープの初期化
 	void InitializeDescriptorHeap();

@@ -373,21 +373,15 @@ void Object3D::Draw()
 	assert(device);
 	assert(Object3D::cmdList);
 
-	
-
-	
-
-	//// 定数バッファビューをセット
-	//cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
-	//// シェーダリソースビューをセット
-	//cmdList->SetGraphicsRootDescriptorTable(1, gpuDescHandleSRV);
+	//モデルの紐づけがない場合描画しない
+	if (model_ == nullptr) {
+		return;
+	}
 
 	// 定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 	
 
-	
-
-	
+	model_->Draw(cmdList, 1);
 }
 

@@ -721,9 +721,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma endregion
 
-	Model* model = Model::LoadFromObj();
+	//OBJからモデルを読み込む
+	Model* model = Model::LoadFromObj("boss");
+	Model* model2 = Model::LoadFromObj("world");
 
+	//3Dオブジェクト生成
 	Object3D* object3d = Object3D::Create();
+	Object3D* object3d2 = Object3D::Create();
+	Object3D* object3d3 = Object3D::Create();
+
+	//3Dオブジェクトに3Dモデルを紐づけ
+	object3d->SetModel(model);
+	object3d2->SetModel(model);
+	object3d3->SetModel(model2);
+
+	object3d->SetPosition({ -20,0,+5 });
+	object3d2->SetPosition({ +20,0,+5 });
 
 	//ゲームループ
 	while (true) {
@@ -732,6 +745,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;	//ゲームループ終了
 		}
 		object3d->Update();
+		object3d2->Update();
+		object3d3->Update();
 
 		//keyborad更新処理
 		input_->Update();
@@ -821,6 +836,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Object3D::PreDraw(dxBasis->GetCommandList());
 
 		object3d->Draw();
+		object3d2->Draw();
+		object3d3->Draw();
 
 		Object3D::PostDraw();
 
@@ -835,6 +852,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	delete model;
 	delete object3d;
+	delete object3d2;
+	delete object3d3;
 	//ウィンドウクラスを登録解除
 	winApp->Release();
 

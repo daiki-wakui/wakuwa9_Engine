@@ -25,7 +25,6 @@ public: // サブクラス
 	// 定数バッファ用データ構造体B0
 	struct ConstBufferDataB0
 	{
-		//XMFLOAT4 color;	// 色 (RGBA)
 		XMMATRIX mat;	// ３Ｄ変換行列
 	};
 
@@ -95,17 +94,12 @@ public: // 静的メンバ関数
 private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device* device;
-	
 	// コマンドリスト
 	static ID3D12GraphicsCommandList* cmdList;
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature;
 	// パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState> pipelinestate;
-	
-	
-	
-	
 	// ビュー行列
 	static XMMATRIX matView;
 	// 射影行列
@@ -116,10 +110,6 @@ private: // 静的メンバ変数
 	static XMFLOAT3 target;
 	// 上方向ベクトル
 	static XMFLOAT3 up;
-	
-
-
-	
 
 private:// 静的メンバ関数
 	
@@ -136,8 +126,6 @@ private:// 静的メンバ関数
 	/// </summary>
 	/// <returns>成否</returns>
 	static void InitializeGraphicsPipeline();
-
-	
 
 	/// <summary>
 	/// モデル作成
@@ -173,11 +161,17 @@ public: // メンバ関数
 	/// <param name="position">座標</param>
 	void SetPosition(const XMFLOAT3& position) { this->position = position; }
 
+	//setter
+	void SetModel(Model* model) { model_ = model; };
+
 private: // メンバ変数
-	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
-	
-	// 色
-	XMFLOAT4 color = { 1,1,1,1 };
+
+	//3Dモデル(借りてくる)
+	Model* model_ = nullptr;
+
+
+	// 行列用定数バッファ
+	ComPtr<ID3D12Resource> constBuffB0; 
 	// ローカルスケール
 	XMFLOAT3 scale = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角

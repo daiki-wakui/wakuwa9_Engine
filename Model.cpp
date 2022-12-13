@@ -15,7 +15,7 @@ using namespace std;
 
 ID3D12Device* Model::device = nullptr;
 
-Model* Model::LoadFromObj()
+Model* Model::LoadFromObj(const std::string& modelname)
 {
 	Model* model = new Model();
 
@@ -23,7 +23,7 @@ Model* Model::LoadFromObj()
 	model->InitializeDescriptorHeap();
 
 	//OBJファイルからデータを読み込む
-	model->LoadFromOBJInternal();
+	model->LoadFromOBJInternal(modelname);
 
 	//データを元にバッファ生成
 	model->CreateBuffers();
@@ -31,12 +31,11 @@ Model* Model::LoadFromObj()
 	return model;
 }
 
-void Model::LoadFromOBJInternal() {
+void Model::LoadFromOBJInternal(const std::string& modelname) {
+
 	//ファイルストリーム
 	std::ifstream file;
 	//.objファイルを開く
-	//file.open("Resources/triangle_tex/triangle_tex.obj");
-	const string modelname = "triangle_mat";
 	const string filename = modelname + ".obj";
 	const string directoryPath = "Resources/" + modelname + "/";
 	file.open(directoryPath + filename);
