@@ -67,10 +67,6 @@ void Model::LoadFromOBJInternal(const std::string& modelname) {
 			line_stream >> position.z;
 			//座標データに追加
 			positions.emplace_back(position);
-			//頂点データに追加
-			/*VertexPosNormalUv vertex{};
-			vertex.pos = position;
-			vertices.emplace_back(vertex);*/
 		}
 
 		//先頭文字列がvtならテクスチャ
@@ -119,7 +115,6 @@ void Model::LoadFromOBJInternal(const std::string& modelname) {
 				vertices.emplace_back(vertex);
 
 				//頂点インデックスに追加
-				//indices.emplace_back(indexPosition - 1);
 				indices.emplace_back((unsigned short)indices.size());
 
 			}
@@ -220,9 +215,6 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 	int iBufferSize = MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
 
 	// WICテクスチャのロード
-	/*result = LoadFromWICFile( L"Resources/tex1.png", WIC_FLAGS_NONE, &metadata, scratchImg);
-	assert(SUCCEEDED(result));*/
-
 	result = LoadFromWICFile(wfilepath, WIC_FLAGS_NONE, &metadata, scratchImg);
 	assert(SUCCEEDED(result));
 
@@ -311,9 +303,7 @@ void Model::InitializeDescriptorHeap()
 void Model::CreateBuffers() {
 	HRESULT result = S_FALSE;
 
-	//UINT sizeVB = static_cast<UINT>(sizeof(vertices));
 	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices.size());
-
 
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
@@ -337,11 +327,9 @@ void Model::CreateBuffers() {
 
 	// 頂点バッファビューの作成
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	//vbView.SizeInBytes = sizeof(vertices);
 	vbView.SizeInBytes = sizeVB;
 	vbView.StrideInBytes = sizeof(vertices[0]);
 
-	//UINT sizeIB = static_cast<UINT>(sizeof(indices));
 	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
 
 	// リソース設定
@@ -364,7 +352,6 @@ void Model::CreateBuffers() {
 	// インデックスバッファビューの作成
 	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R16_UINT;
-	//ibView.SizeInBytes = sizeof(indices);
 	ibView.SizeInBytes = sizeIB;
 
 
@@ -409,6 +396,5 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial
 	}
 	
 	// 描画コマンド
-	//cmdList->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0);
 	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }

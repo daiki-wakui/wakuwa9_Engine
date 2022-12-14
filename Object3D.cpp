@@ -70,7 +70,7 @@ void Object3D::PostDraw()
 	Object3D::cmdList = nullptr;
 }
 
-Object3D* Object3D::Create()
+Object3D* Object3D::Create(float scale)
 {
 	// 3Dオブジェクトのインスタンスを生成
 	Object3D* object3d = new Object3D();
@@ -85,7 +85,7 @@ Object3D* Object3D::Create()
 		return nullptr;
 	}
 
-	float scale_val = 5;
+	float scale_val = scale;
 	object3d->scale = { scale_val,scale_val,scale_val };
 
 	return object3d;
@@ -130,11 +130,7 @@ void Object3D::InitializeCamera(int window_width, int window_height)
 		XMLoadFloat3(&target),
 		XMLoadFloat3(&up));
 
-	// 平行投影による射影行列の生成
-	//constMap->mat = XMMatrixOrthographicOffCenterLH(
-	//	0, window_width,
-	//	window_height, 0,
-	//	0, 1);
+
 	// 透視投影による射影行列の生成
 	matProjection = XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(60.0f),
@@ -263,10 +259,6 @@ void Object3D::InitializeGraphicsPipeline()
 	descRangeSRV.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0); // t0 レジスタ
 
 	// ルートパラメータ
-	/*CD3DX12_ROOT_PARAMETER rootparams[2];
-	rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
-	rootparams[1].InitAsDescriptorTable(1, &descRangeSRV, D3D12_SHADER_VISIBILITY_ALL);*/
-
 	CD3DX12_ROOT_PARAMETER rootparams[3];
 	rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
 	rootparams[1].InitAsConstantBufferView(1, 0, D3D12_SHADER_VISIBILITY_ALL);

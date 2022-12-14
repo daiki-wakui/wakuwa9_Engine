@@ -59,7 +59,7 @@ public: // 静的メンバ関数
 	/// 3Dオブジェクト生成
 	/// </summary>
 	/// <returns></returns>
-	static Object3D* Create();
+	static Object3D* Create(float scale);
 
 	/// <summary>
 	/// 視点座標の取得
@@ -154,12 +154,14 @@ public: // メンバ関数
 	/// </summary>
 	/// <returns>座標</returns>
 	const XMFLOAT3& GetPosition() const { return position; }
+	const XMFLOAT3& GetRotation() const { return rotation; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
 	void SetPosition(const XMFLOAT3& position) { this->position = position; }
+	void SetRotation(const XMFLOAT3& rotation) { this->rotation = rotation; }
 
 	//setter
 	void SetModel(Model* model) { model_ = model; };

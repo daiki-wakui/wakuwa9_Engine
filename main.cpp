@@ -49,20 +49,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma region  画像イメージデータ
 
-	/*const size_t textrueWight = 256;
-	const size_t textrueHeight = 256;
-
-	const size_t imageDataCount = textrueWight * textrueHeight;
-
-	XMFLOAT4* imageData = new XMFLOAT4[imageDataCount];
-
-	for (size_t i = 0; i < imageDataCount; i++) {
-		imageData[i].x = 1.0f;
-		imageData[i].y = 0.0f;
-		imageData[i].z = 0.0f;
-		imageData[i].w = 1.0f;
-	}*/
-
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 	//WICテクスチャのロード
@@ -323,35 +309,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	matWorld *= matRot;
 
 	XMMATRIX matTrans;
-	matTrans = XMMatrixTranslation(0.0f, 50.0f, 0.0f);
+	matTrans = XMMatrixTranslation(0.0f, 0.0f, 0.0f);
 	matWorld *= matTrans;
 
 	constMapTransform->mat = matWorld * matProjection;
 
 	XMFLOAT2 pos = { 0,0 };
-
-#pragma endregion
-
-#pragma region	射影変換
-
-	//透視投影行列の計算
-	//射影変換行列(透視投影)
-	//XMMATRIX matProjection = XMMatrixPerspectiveFovLH(
-	//	XMConvertToRadians(45.0f),
-	//	(float)winApp->GetWindowWidth() / winApp->GetWindowHeight(),
-	//	0.1f, 1000.0f
-	//);
-
-	////ビュー変換行列
-	//XMMATRIX matView;
-	//XMFLOAT3 eye = { 50, 50, -100 };
-	//XMFLOAT3 target = { 0, 0, 0 };
-	//XMFLOAT3 up = { 0, 1, 0 };
-	//matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
-
-	////定数バッファに転送
-	//constMapTransform->mat = matView * matProjection;
-	//float angle = 0.0f;
 
 #pragma endregion
 
@@ -374,14 +337,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{{ 100.0f, 100.0f, 0.0f },{ 1.0f , 1.0f }}, // 左下
 		{{ 100.0f,   0.0f, 0.0f },{ 1.0f , 0.0f }}, // 左下
 	};
-
-	//射影変換用
-	//Vertex vertices[] = {
-	//	{{ -50.0f, -50.0f, 0.0f },{ 0.0f , 1.0f }}, // 左下
-	//	{{ -50.0f,  50.0f, 0.0f },{ 0.0f , 0.0f }}, // 左下
-	//	{{  50.0f, -50.0f, 0.0f },{ 1.0f , 1.0f }}, // 左下
-	//	{{  50.0f,  50.0f, 0.0f },{ 1.0f , 0.0f }}, // 左下
-	//};
 
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
@@ -726,9 +681,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Model* model2 = Model::LoadFromObj("world");
 
 	//3Dオブジェクト生成
-	Object3D* object3d = Object3D::Create();
-	Object3D* object3d2 = Object3D::Create();
-	Object3D* object3d3 = Object3D::Create();
+	Object3D* object3d = Object3D::Create(5.0f);
+	Object3D* object3d2 = Object3D::Create(5.0f);
+	Object3D* object3d3 = Object3D::Create(100.0f);
 
 	//3Dオブジェクトに3Dモデルを紐づけ
 	object3d->SetModel(model);
@@ -751,21 +706,40 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//keyborad更新処理
 		input_->Update();
 
-		pos.x = 0;
-		pos.y = 0;
+		XMFLOAT3 pos3d;
+		XMFLOAT3 pos3d2;
+
+		pos3d = object3d->GetRotation();
+		pos3d2 = object3d2->GetPosition();
 
 		if (input_->keyPush(DIK_D)) {
-			pos.x+=5;
+			pos3d.y++;
 		}
 		if (input_->keyPush(DIK_A)) {
-			pos.x-=5;
+			pos3d.y--;
 		}
 		if (input_->keyPush(DIK_S)) {
-			pos.y+=5;
+			pos3d.x--;
 		}
 		if (input_->keyPush(DIK_W)) {
-			pos.y-=5;
+			pos3d.x++;
 		}
+
+		if (input_->keyPush(DIK_RIGHT)) {
+			pos3d2.x++;
+		}
+		if (input_->keyPush(DIK_LEFT)) {
+			pos3d2.x--;
+		}
+		if (input_->keyPush(DIK_UP)) {
+			pos3d2.y++;
+		}
+		if (input_->keyPush(DIK_DOWN)) {
+			pos3d2.y--;
+		}
+
+		object3d->SetRotation(pos3d);
+		object3d2->SetPosition(pos3d2);
 
 		XMMATRIX matTrans;
 		matTrans = XMMatrixTranslation(pos.x, pos.y, 0.0f);
@@ -773,32 +747,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		constMapTransform->mat = matWorld * matProjection;
 
-		//05_04ビュー変換
-	
-		//if (input_->keyPush(DIK_D) || input_->keyPush(DIK_A)) {
-
-		//	if (input_->keyPush(DIK_D)) {
-		//		angle += XMConvertToRadians(1.0f);
-		//	}
-		//	else if (input_->keyPush(DIK_A)) {
-		//		angle -= XMConvertToRadians(1.0f);
-		//	}
-
-		//	//Y軸まわりに回転
-		//	eye.x = -100 * sinf(angle);
-		//	eye.z = -100 * cosf(angle);
-		//	matView = 
-		//		XMMatrixLookAtLH(
-		//			XMLoadFloat3(&eye),
-		//			XMLoadFloat3(&target),
-		//			XMLoadFloat3(&up));
-		//}
-		//constMapTransform->mat = matView * matProjection;
-
 #pragma region DirectX毎フレーム処理
 
 		// 描画前処理
 		dxBasis->PreDraw();
+
+		Object3D::PreDraw(dxBasis->GetCommandList());
+
+		object3d->Draw();
+		object3d2->Draw();
+		object3d3->Draw();
+
+		Object3D::PostDraw();
 
 		// パイプラインステート設定
 		dxBasis->GetCommandList()->SetPipelineState(pipelineState.Get());
@@ -833,13 +793,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		dxBasis->GetCommandList()->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0); // 全ての頂点を使って描画
 
 
-		Object3D::PreDraw(dxBasis->GetCommandList());
-
-		object3d->Draw();
-		object3d2->Draw();
-		object3d3->Draw();
-
-		Object3D::PostDraw();
+		
 
 		//描画後処理
 		dxBasis->PostDraw();
