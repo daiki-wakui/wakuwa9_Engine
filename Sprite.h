@@ -19,8 +19,17 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	UINT vertexSize;
 
+	//定数バッファの生成
+	ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
+
+	//定数バッファ用データ構造体(マテリアル)
+	struct ConstBufferDataMaterial {
+		XMFLOAT4 color;	//色(RGBA)
+	};
+
 public:
 	
+	void Create();
 
 	void Initialize(SpriteBasis* spBasis);
 	void Update();
