@@ -56,7 +56,7 @@ void Sprite::Draw()
 	spBasis->GetDxBasis()->GetCommandList()->SetGraphicsRootSignature(spBasis->GetRootSignature());
 
 	// プリミティブ形状の設定コマンド
-	spBasis->GetDxBasis()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	spBasis->GetDxBasis()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP); // 三角形リスト
 
 	// 頂点バッファビューの設定コマンド
 	spBasis->GetDxBasis()->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
@@ -76,8 +76,12 @@ void Sprite::VertexData()
 	// 頂点データ
 	XMFLOAT3 vertices[] = {
 	{ -0.5f, -0.5f, 0.0f }, // 左下
-	{ -0.5f, +0.5f, 0.0f }, // 左上
-	{ +0.5f, -0.5f, 0.0f }, // 右下
+		{ -0.5f, -0.5f, 0.0f }, // 左下
+		{ +0.5f, -0.5f, 0.0f }, // 右下
+		{ -0.5f,  0.0f, 0.0f }, // 左中
+		{ +0.5f,  0.0f, 0.0f }, // 右中
+		{ -0.5f, +0.5f, 0.0f }, // 左上
+		{ +0.5f, +0.5f, 0.0f }, // 右上
 	};
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(XMFLOAT3) * _countof(vertices));
