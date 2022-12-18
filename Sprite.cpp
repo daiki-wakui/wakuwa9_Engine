@@ -32,7 +32,7 @@ void Sprite::Create()
 	assert(SUCCEEDED(result));
 
 	//値を書きこんで自動転送
-	constMapMaterial->color = XMFLOAT4(1, 0, 0, 0.5f);	//色変更
+	constMapMaterial->color = XMFLOAT4(1, 1, 1, 0.5f);	//色変更
 }
 
 void Sprite::Initialize(SpriteBasis* spBasis)

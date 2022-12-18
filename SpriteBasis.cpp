@@ -1,5 +1,8 @@
 #include "SpriteBasis.h"
 
+using namespace DirectX;
+
+
 void SpriteBasis::Initialize(DirectXBasis* dxBasis)
 {
 	this->dxBasis = dxBasis;
@@ -191,19 +194,41 @@ void SpriteBasis::TextureData()
 {
 
 	//画像イメージデータ
-	const size_t textrueWight = 256;
-	const size_t textrueHeight = 256;
+	//const size_t textrueWight = 256;
+	//const size_t textrueHeight = 256;
 
-	const size_t imageDataCount = textrueWight * textrueHeight;
+	//const size_t imageDataCount = textrueWight * textrueHeight;
 
-	DirectX::XMFLOAT4* imageData = new DirectX::XMFLOAT4[imageDataCount];
+	//DirectX::XMFLOAT4* imageData = new DirectX::XMFLOAT4[imageDataCount];
 
-	for (size_t i = 0; i < imageDataCount; i++) {
-		imageData[i].x = 1.0f;
-		imageData[i].y = 0.0f;
-		imageData[i].z = 0.0f;
-		imageData[i].w = 1.0f;
+	//for (size_t i = 0; i < imageDataCount; i++) {
+	//	imageData[i].x = 1.0f;
+	//	imageData[i].y = 0.0f;
+	//	imageData[i].z = 0.0f;
+	//	imageData[i].w = 1.0f;
+	//}
+
+	TexMetadata metadata{};
+	ScratchImage scratchImg{};
+	//WICテクスチャのロード
+	result = LoadFromWICFile(
+		L"Resources/test.png",
+		WIC_FLAGS_NONE,
+		&metadata, scratchImg);
+
+	ScratchImage mipChain{};
+	//ミニマップ生成
+	result = GenerateMipMaps(
+		scratchImg.GetImages(),
+		scratchImg.GetImageCount(),
+		scratchImg.GetMetadata(),
+		TEX_FILTER_DEFAULT, 0, mipChain);
+	if (SUCCEEDED(result)) {
+		scratchImg = std::move(mipChain);
+		metadata = scratchImg.GetMetadata();
 	}
+		//読み込んだディフューズテクスチャをSRGBとして扱う
+		metadata.format = MakeSRGB(metadata.format);
 
 	//テクスチャバッファ設定
 	//ヒープ設定
@@ -215,11 +240,11 @@ void SpriteBasis::TextureData()
 	//リソース設定
 	D3D12_RESOURCE_DESC textureResourceDesc{};
 	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
-	textureResourceDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	textureResourceDesc.Width = textrueWight;
-	textureResourceDesc.Height = textrueHeight;
-	textureResourceDesc.DepthOrArraySize = 1;
-	textureResourceDesc.MipLevels = 1;
+	textureResourceDesc.Format = metadata.format;
+	textureResourceDesc.Width = metadata.width;
+	textureResourceDesc.Height = (UINT)metadata.height;
+	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
+	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
 	//テクスチャバッファ生成
@@ -231,17 +256,18 @@ void SpriteBasis::TextureData()
 		nullptr,
 		IID_PPV_ARGS(&texBuff));
 
-	//テクスチャバッファデータ転送
-	result = texBuff->WriteToSubresource(
-		0,
-		nullptr,	//全領域コピー
-		imageData,	//元データアドレス
-		sizeof(DirectX::XMFLOAT4) * textrueWight,	//1ライン
-		sizeof(DirectX::XMFLOAT4) * imageDataCount	//全サイズ
-	);
-
-	//転送後元データ解放
-	delete[] imageData;
+	//テクスチャバッファにデータ転送
+	for (size_t i = 0; i < metadata.mipLevels; i++) {
+		const Image* img = scratchImg.GetImage(i, 0, 0);
+		result = texBuff->WriteToSubresource(
+			(UINT)i,
+			nullptr,
+			img->pixels,
+			(UINT)img->rowPitch,
+			(UINT)img->slicePitch
+		);
+		assert(SUCCEEDED(result));
+	}
 
 	//テクスチャからどのように色を取り出すかの設定
 	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	//横繰り返し
@@ -272,10 +298,10 @@ void SpriteBasis::TextureData()
 
 	//シェーダリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	srvDesc.Format = textureResourceDesc.Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = 1;
+	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
 
 	//ハンドルの指す位置にシェーダリソースビュー作成
 	dxBasis->GetDevice()->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
