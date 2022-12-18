@@ -33,6 +33,12 @@ private:
 	//定数バッファの生成
 	ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
 
+	//頂点データ構造体
+	struct Vertex {
+		XMFLOAT3 pos;
+		XMFLOAT2 uv;
+	};
+
 	//定数バッファ用データ構造体(マテリアル)
 	struct ConstBufferDataMaterial {
 		XMFLOAT4 color;	//色(RGBA)
