@@ -3,6 +3,7 @@
 #include <string>
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
+#include <DirectXMath.h>
 
 class SpriteBasis
 {
@@ -15,6 +16,14 @@ private:
 
 	DirectXBasis* dxBasis = nullptr;
 
+	//テクスチャバッファ生成
+	ComPtr<ID3D12Resource> texBuff = nullptr;
+
+	//テクスチャサンプラーの設定
+	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
+
+	//デスクリプタレンジの設定
+	D3D12_DESCRIPTOR_RANGE descriptorRange{};
 
 public:
 	ID3DBlob* vsBlob = nullptr; // 頂点シェーダオブジェクト
@@ -23,11 +32,14 @@ public:
 
 	ComPtr<ID3D12RootSignature> rootSignature;
 	ComPtr<ID3D12PipelineState> pipelineState = nullptr;
+	ComPtr<ID3D12DescriptorHeap> srvHeap = nullptr;
 
 	void Initialize(DirectXBasis* dxBasis);
 	void Update();
 	void Draw();
 	void Setting();
+
+	void TextureData();
 
 	void LoadShader();
 
