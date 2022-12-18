@@ -19,6 +19,17 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	UINT vertexSize;
 
+
+	ComPtr<ID3D12Resource> indexBuff = nullptr;
+	//インデックスバッファビュー
+	D3D12_INDEX_BUFFER_VIEW ibView{};
+	UINT indexSize;
+
+	//ヒープ設定
+	D3D12_HEAP_PROPERTIES heapProp{};
+	//リソース設定
+	D3D12_RESOURCE_DESC resDesc{};
+
 	//定数バッファの生成
 	ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
 
@@ -36,5 +47,6 @@ public:
 	void Draw();
 
 	void VertexData();
+	void IndexData();
 };
 
