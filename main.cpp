@@ -56,7 +56,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	HRESULT result;
 
 	Sprite* sprite = new Sprite();
-	sprite->Initialize(spBasis);
+	sprite->Initialize(spBasis, winApp);
 
 	sprite->Create();
 

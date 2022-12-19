@@ -60,7 +60,7 @@ public:
 	
 	void Create();
 
-	void Initialize(SpriteBasis* spBasis);
+	void Initialize(SpriteBasis* spBasis, WindowsApp* winApp);
 	void Update();
 	void Draw();
 

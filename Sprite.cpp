@@ -64,16 +64,17 @@ void Sprite::Create()
 	constMapMaterial->color = XMFLOAT4(1, 1, 1, 0.5f);	//F•ÏX
 
 	//¶ã‚ðŒ´“_‚ÉÝ’è
-	constMapTransform->mat = XMMatrixIdentity();
-	constMapTransform->mat.r[0].m128_f32[0] = 2.0f / 1280;
-	constMapTransform->mat.r[1].m128_f32[1] = -2.0f / 720;
-	constMapTransform->mat.r[3].m128_f32[0] = -1.0f;
-	constMapTransform->mat.r[3].m128_f32[1] = 1.0f;
+	constMapTransform->mat =
+		XMMatrixOrthographicOffCenterLH(
+			0.0f, winApp->GetWindowWidth(),
+			winApp->GetWindowHeight(), 0.0f,
+			0.0f, 1.0f);
 }
 
-void Sprite::Initialize(SpriteBasis* spBasis)
+void Sprite::Initialize(SpriteBasis* spBasis, WindowsApp* winApp)
 {
 	this->spBasis = spBasis;
+	this->winApp = winApp;
 
 	VertexData();
 	IndexData();
