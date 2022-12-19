@@ -1,5 +1,6 @@
 #pragma once
 #include "SpriteBasis.h"
+#include "WindowsApp.h"
 #include <DirectXMath.h>
 using namespace DirectX;
 
@@ -12,6 +13,7 @@ public:
 private:
 	HRESULT result;
 
+	WindowsApp* winApp = nullptr;
 	SpriteBasis* spBasis;
 
 	ComPtr<ID3D12Resource> vertBuff = nullptr;
@@ -31,7 +33,10 @@ private:
 	D3D12_RESOURCE_DESC resDesc{};
 
 	//定数バッファの生成
+	//color
 	ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
+	//mat
+	ComPtr<ID3D12Resource> constBuffTransform = nullptr;
 
 	//頂点データ構造体
 	struct Vertex {
@@ -43,6 +48,13 @@ private:
 	struct ConstBufferDataMaterial {
 		XMFLOAT4 color;	//色(RGBA)
 	};
+
+	//定数バッファ用データ構造体(3D変換行列)
+	struct CounstBufferDataTransform {
+		XMMATRIX mat;	//3D変換行列
+	};
+
+	CounstBufferDataTransform* constMapTransform = nullptr;
 
 public:
 	
