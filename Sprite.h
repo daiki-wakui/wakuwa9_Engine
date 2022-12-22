@@ -58,7 +58,7 @@ private:
 
 public:
 	
-	void Create();
+	void Create(float x, float y);
 
 	void Initialize(SpriteBasis* spBasis, WindowsApp* winApp);
 	void Update();

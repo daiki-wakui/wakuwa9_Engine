@@ -1,7 +1,8 @@
 #include "Sprite.h"
 
-void Sprite::Create()
+void Sprite::Create(float x, float y)
 {
+
 	//ƒq[ƒvÝ’è(color)
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
 	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//GPU‚Ö‚Ì“]‘——p
@@ -64,11 +65,34 @@ void Sprite::Create()
 	constMapMaterial->color = XMFLOAT4(1, 1, 1, 0.5f);	//F•ÏX
 
 	//¶ã‚ðŒ´“_‚ÉÝ’è
-	constMapTransform->mat =
+	XMMATRIX matProjection =
 		XMMatrixOrthographicOffCenterLH(
 			0.0f, winApp->GetWindowWidth(),
 			winApp->GetWindowHeight(), 0.0f,
 			0.0f, 1.0f);
+
+	XMMATRIX matWorld;
+	matWorld = XMMatrixIdentity();
+
+	XMMATRIX matScale;
+	matScale = XMMatrixScaling(1.0f, 1.0f, 1.0f);
+	matWorld *= matScale;
+
+	XMMATRIX matRot;
+	matRot = XMMatrixIdentity();
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(0.0f));	//Z 0“x‰ñ“]
+	matRot *= XMMatrixRotationX(XMConvertToRadians(0.0f));	//X 0“x‰ñ“]
+	matRot *= XMMatrixRotationY(XMConvertToRadians(0.0f));	//Y 0“x‰ñ“]
+	matWorld *= matRot;
+
+	XMMATRIX matTrans;
+	matTrans = XMMatrixTranslation(x, y, 0.0f);
+	matWorld *= matTrans;
+
+	constMapTransform->mat = matWorld * matProjection;
+
+	XMFLOAT2 pos = { 0,0 };
+
 }
 
 void Sprite::Initialize(SpriteBasis* spBasis, WindowsApp* winApp)

@@ -58,7 +58,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Sprite* sprite = new Sprite();
 	sprite->Initialize(spBasis, winApp);
 
-	sprite->Create();
+	Sprite* sprite2 = new Sprite();
+	sprite2->Initialize(spBasis, winApp);
+
+	sprite->Create(0,0);
+	sprite2->Create(150, 50);
 
 #pragma endregion
 
@@ -75,9 +79,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region  DirectX毎フレーム更新処理
 
 
-
-
-
 #pragma endregion
 
 #pragma region DirectX毎フレーム描画処理
@@ -85,6 +86,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		dxBasis->PreDraw();
 
 		sprite->Draw();
+		sprite2->Draw();
 
 		//描画後処理
 		dxBasis->PostDraw();
