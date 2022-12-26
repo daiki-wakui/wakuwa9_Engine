@@ -58,12 +58,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Sprite* sprite = new Sprite();
 	sprite->Initialize(spBasis, winApp);
 
-	Sprite* sprite2 = new Sprite();
-	sprite2->Initialize(spBasis, winApp);
+	/*Sprite* sprite2 = new Sprite();
+	sprite2->Initialize(spBasis, winApp);*/
 
-	sprite->Create(0,0);
-	sprite2->Create(150, 50);
+	sprite->Create(150,150);
+	//sprite2->Create();
 
+
+	XMFLOAT2 posS = { 0,0 };
+	XMFLOAT2 sizeS = { 0,0 };
+	float speed = 1;
+	float angle = 0;
 #pragma endregion
 
 	//ゲームループ
@@ -77,7 +82,44 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		input_->Update();
 
 #pragma region  DirectX毎フレーム更新処理
+		
 
+		sizeS = sprite->GetSize();
+
+		posS.x = 0;
+		posS.y = 0;
+
+		angle = 0;
+
+		angle += 1;
+
+		if (input_->keyPush(DIK_D)) {
+			//posS.x += speed;
+			sizeS.x++;
+		}
+		else if (input_->keyPush(DIK_A)) {
+			//posS.x -= speed;
+			sizeS.x--;
+		}
+		if (input_->keyPush(DIK_W)) {
+			//posS.y -= speed;
+			sizeS.y++;
+		}
+		else if (input_->keyPush(DIK_S)) {
+			//posS.y += speed;
+			sizeS.y--;
+		}
+
+		
+
+		//sprite
+		//sprite->SetPosition(posS);
+		sprite->SetSize(sizeS);
+		//sprite->SetRotation(angle);
+		//sprite2->SetRotation(angle);
+
+		//sprite2->Update();
+		sprite->Update();
 
 #pragma endregion
 
@@ -86,7 +128,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		dxBasis->PreDraw();
 
 		sprite->Draw();
-		sprite2->Draw();
+		//sprite2->Draw();
 
 		//描画後処理
 		dxBasis->PostDraw();

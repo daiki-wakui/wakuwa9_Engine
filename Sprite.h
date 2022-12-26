@@ -4,6 +4,14 @@
 #include <DirectXMath.h>
 using namespace DirectX;
 
+enum VertexNumber
+{
+	LB,
+	LT,
+	RB,
+	RT,
+};
+
 class Sprite
 {
 public:
@@ -56,7 +64,32 @@ private:
 
 	CounstBufferDataTransform* constMapTransform = nullptr;
 
+	Vertex vertices[4];
+
+	XMMATRIX matWorld;
+	XMMATRIX matScale;
+	XMMATRIX matRot;
+	XMMATRIX matTrans;
+	XMMATRIX matProjection;
+
+	XMFLOAT2 position_ = { 0,0 };
+	float rotation_ = 0;
+	XMFLOAT2 size_ = { 100.0f,100.0f };
+	XMFLOAT2 anchorPoint_ = { 0.5f,0.5f };
+
 public:
+
+	const XMFLOAT2& GetPosition() const { return position_; };
+	void SetPosition(const XMFLOAT2& position) { position_ = position; };
+
+	const float GetRotation() const { return rotation_; };
+	void SetRotation(float rotation) { rotation_ = rotation; };
+
+	const XMFLOAT2& GetSize() const { return size_; };
+	void SetSize(const XMFLOAT2& size) { size_ = size; };
+
+	const XMFLOAT2& GetAncP() const { return anchorPoint_; };
+	void SetAncP(const XMFLOAT2& anchorPoint) { anchorPoint_ = anchorPoint; };
 	
 	void Create(float x, float y);
 

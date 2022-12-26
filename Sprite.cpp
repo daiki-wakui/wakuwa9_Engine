@@ -65,27 +65,23 @@ void Sprite::Create(float x, float y)
 	constMapMaterial->color = XMFLOAT4(1, 1, 1, 0.5f);	//色変更
 
 	//左上を原点に設定
-	XMMATRIX matProjection =
+	matProjection =
 		XMMatrixOrthographicOffCenterLH(
 			0.0f, winApp->GetWindowWidth(),
 			winApp->GetWindowHeight(), 0.0f,
 			0.0f, 1.0f);
-
-	XMMATRIX matWorld;
+	
 	matWorld = XMMatrixIdentity();
-
-	XMMATRIX matScale;
+	
 	matScale = XMMatrixScaling(1.0f, 1.0f, 1.0f);
 	matWorld *= matScale;
-
-	XMMATRIX matRot;
+	
 	matRot = XMMatrixIdentity();
 	matRot *= XMMatrixRotationZ(XMConvertToRadians(0.0f));	//Z 0度回転
 	matRot *= XMMatrixRotationX(XMConvertToRadians(0.0f));	//X 0度回転
 	matRot *= XMMatrixRotationY(XMConvertToRadians(0.0f));	//Y 0度回転
 	matWorld *= matRot;
 
-	XMMATRIX matTrans;
 	matTrans = XMMatrixTranslation(x, y, 0.0f);
 	matWorld *= matTrans;
 
@@ -106,6 +102,38 @@ void Sprite::Initialize(SpriteBasis* spBasis, WindowsApp* winApp)
 
 void Sprite::Update()
 {
+	float left = (0.0f - anchorPoint_.x) * size_.x;
+	float right = (1.0f - anchorPoint_.x) * size_.x;
+	float top = (0.0f - anchorPoint_.y) * size_.y;
+	float bottom = (1.0f - anchorPoint_.y) * size_.y;
+
+	vertices[LB].pos = { left ,bottom,0.0f };
+	vertices[LT].pos = { left ,top   ,0.0f };
+	vertices[RB].pos = { right,bottom,0.0f };
+	vertices[RT].pos = { right,top   ,0.0f };
+
+	//GPU上のバッファに対応した仮想メモリ
+	Vertex* vertMap = nullptr;
+	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
+	assert(SUCCEEDED(result));
+	//全頂点に対して
+	for (int i = 0; i < _countof(vertices); i++) {
+		vertMap[i] = vertices[i];
+	}
+	//繋がりを解除
+	vertBuff->Unmap(0, nullptr);
+
+
+	matRot = XMMatrixIdentity();
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation_));	//Z 0度回転
+	matRot *= XMMatrixRotationX(XMConvertToRadians(0));	//X 0度回転
+	matRot *= XMMatrixRotationY(XMConvertToRadians(0));	//Y 0度回転
+	matWorld *= matRot;
+
+	matTrans = XMMatrixTranslation(position_.x, position_.y, 0.0f);
+	matWorld *= matTrans;
+
+	constMapTransform->mat = matWorld * matProjection;
 
 }
 
@@ -150,12 +178,11 @@ void Sprite::VertexData()
 #pragma region  頂点データ
 
 	// 頂点データ
-	Vertex vertices[] = {
-		{{   0.0f, 100.0f, 0.0f },{ 0.0f , 1.0f }}, // 左下
-		{{   0.0f,   0.0f, 0.0f },{ 0.0f , 0.0f }}, // 左下
-		{{ 100.0f, 100.0f, 0.0f },{ 1.0f , 1.0f }}, // 左下
-		{{ 100.0f,   0.0f, 0.0f },{ 1.0f , 0.0f }}, // 左下
-	};
+	vertices[LB] = { {   0.0f, 100.0f, 0.0f },{ 0.0f , 1.0f } };
+	vertices[LT] = { {   0.0f, 0.0f, 0.0f }, { 0.0f , 0.0f } };
+	vertices[RB] = { { 100.0f, 100.0f, 0.0f },{ 1.0f , 1.0f } };
+	vertices[RT] = { { 100.0f,   0.0f, 0.0f },{ 1.0f , 0.0f } };
+
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices[0]) * _countof(vertices));
 
