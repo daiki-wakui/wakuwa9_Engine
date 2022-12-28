@@ -1,4 +1,7 @@
 #pragma once
+
+class Matrix4;
+
 class Vector3 {
 public:
 	float x;	//x¬•ª

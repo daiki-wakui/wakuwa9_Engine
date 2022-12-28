@@ -9,9 +9,6 @@ void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* in
 
 void Player::Update()
 {
-	XMFLOAT3 pos3d;
-	XMFLOAT3 pos3d2;
-
 	pos3d = playerObject_->GetRotation();
 	pos3d2 = playerObject_->GetPosition();
 

@@ -18,9 +18,9 @@ public:
 		float m30, float m31, float m32, float m33);
 
 	// 代入演算子オーバーロード
-	Matrix4& operator*=(const Matrix4& m2);
+	//Matrix4& operator*=(const Matrix4& m2);
 
-	Matrix4 operator*(const Matrix4& m2);
+	//Matrix4 operator*(const Matrix4& m2);
 
 	void ScaleSet(Vector3& v);
 	void RotXSet(float& x);
