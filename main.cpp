@@ -3,6 +3,7 @@
 #include "DirectXBasis.h"
 #include "Object3D.h"
 #include "Model.h"
+#include "Player.h"
 
 #include <memory>
 #include <string>
@@ -680,18 +681,32 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Model* model = Model::LoadFromObj("boss");
 	Model* model2 = Model::LoadFromObj("world");
 
+	Model* playerModel = Model::LoadFromObj("Cube");
+	Model* floorModel = Model::LoadFromObj("Floor");
+
 	//3Dオブジェクト生成
 	Object3D* object3d = Object3D::Create(5.0f);
 	Object3D* object3d2 = Object3D::Create(5.0f);
-	Object3D* object3d3 = Object3D::Create(100.0f);
+	Object3D* object3d3 = Object3D::Create(300.0f);
+
+	Object3D* playerObject = Object3D::Create(5.0f);
+	Object3D* floorObject = Object3D::Create(25.0f);
 
 	//3Dオブジェクトに3Dモデルを紐づけ
-	object3d->SetModel(model);
-	object3d2->SetModel(model);
 	object3d3->SetModel(model2);
 
-	object3d->SetPosition({ -20,0,+5 });
-	object3d2->SetPosition({ +20,0,+5 });
+	playerObject->SetModel(playerModel);
+	floorObject->SetModel(floorModel);
+
+	playerObject->SetPosition({ 0,0,-20 });
+	floorObject->SetPosition({ 0,-10,0 });
+
+	Object3D::CameraMoveVector({ 0.0f,20.0f,-30.0f });
+
+	float angle = 0.0f;
+
+	Player* player = new Player;
+	player->Initialize(playerModel, playerObject, input_);
 
 	//ゲームループ
 	while (true) {
@@ -699,47 +714,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (winApp->gameloopExit(msg) == true) {
 			break;	//ゲームループ終了
 		}
-		object3d->Update();
-		object3d2->Update();
+
 		object3d3->Update();
+
+		floorObject->Update();
+		playerObject->Update();
 
 		//keyborad更新処理
 		input_->Update();
 
-		XMFLOAT3 pos3d;
-		XMFLOAT3 pos3d2;
-
-		pos3d = object3d->GetRotation();
-		pos3d2 = object3d2->GetPosition();
-
-		if (input_->keyPush(DIK_D)) {
-			pos3d.y++;
-		}
-		if (input_->keyPush(DIK_A)) {
-			pos3d.y--;
-		}
-		if (input_->keyPush(DIK_S)) {
-			pos3d.x--;
-		}
-		if (input_->keyPush(DIK_W)) {
-			pos3d.x++;
-		}
-
-		if (input_->keyPush(DIK_RIGHT)) {
-			pos3d2.x++;
-		}
-		if (input_->keyPush(DIK_LEFT)) {
-			pos3d2.x--;
-		}
-		if (input_->keyPush(DIK_UP)) {
-			pos3d2.y++;
-		}
-		if (input_->keyPush(DIK_DOWN)) {
-			pos3d2.y--;
-		}
-
-		object3d->SetRotation(pos3d);
-		object3d2->SetPosition(pos3d2);
+		player->Update();
 
 		XMMATRIX matTrans;
 		matTrans = XMMatrixTranslation(pos.x, pos.y, 0.0f);
@@ -754,9 +738,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Object3D::PreDraw(dxBasis->GetCommandList());
 
-		object3d->Draw();
-		object3d2->Draw();
 		object3d3->Draw();
+
+		floorObject->Draw();
+		//playerObject->Draw();
+		player->Draw();
 
 		Object3D::PostDraw();
 
@@ -808,6 +794,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete object3d;
 	delete object3d2;
 	delete object3d3;
+	delete player;
+
 	//ウィンドウクラスを登録解除
 	winApp->Release();
 
