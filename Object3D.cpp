@@ -70,7 +70,7 @@ void Object3D::PostDraw()
 	Object3D::cmdList = nullptr;
 }
 
-Object3D* Object3D::Create(float scale)
+Object3D* Object3D::Create(Model* model, XMFLOAT3 scale)
 {
 	// 3Dオブジェクトのインスタンスを生成
 	Object3D* object3d = new Object3D();
@@ -85,8 +85,9 @@ Object3D* Object3D::Create(float scale)
 		return nullptr;
 	}
 
-	float scale_val = scale;
-	object3d->scale = { scale_val,scale_val,scale_val };
+	object3d->scale = { scale.x,scale.y,scale.z };
+
+	object3d->SetModel(model);
 
 	return object3d;
 }

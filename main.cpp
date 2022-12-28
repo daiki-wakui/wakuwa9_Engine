@@ -684,22 +684,32 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Model* playerModel = Model::LoadFromObj("Cube");
 	Model* floorModel = Model::LoadFromObj("Floor");
 
+	Model* fieldBlock = Model::LoadFromObj("bobj");
+	Model* fieldBlock2 = Model::LoadFromObj("aobj");
+
 	//3Dオブジェクト生成
-	Object3D* object3d = Object3D::Create(5.0f);
-	Object3D* object3d2 = Object3D::Create(5.0f);
-	Object3D* object3d3 = Object3D::Create(300.0f);
+	Object3D* object3d3 = Object3D::Create(model2,{ (500.0f),(500.0f),(500.0f) });
 
-	Object3D* playerObject = Object3D::Create(5.0f);
-	Object3D* floorObject = Object3D::Create(25.0f);
+	Object3D* playerObject = Object3D::Create(playerModel, { (5.0f),(5.0f),(5.0f) });
+	Object3D* floorObject = Object3D::Create(floorModel, { (25.0f),(25.0f),(25.0f) });
+	Object3D* fieldblock = Object3D::Create(fieldBlock, { (10.0f),(10.0f),(10.0f) });
+	Object3D* fieldblock2 = Object3D::Create(fieldBlock, { (15.0f),(10.0f),(10.0f) });
+	Object3D* fieldblock3 = Object3D::Create(fieldBlock, { (10.0f),(20.0f),(10.0f) });
+	Object3D* fieldblock4 = Object3D::Create(fieldBlock2, { (10.0f),(10.0f),(10.0f) });
+	Object3D* fieldblock5 = Object3D::Create(fieldBlock2, { (15.0f),(15.0f),(15.0f) });
 
-	//3Dオブジェクトに3Dモデルを紐づけ
-	object3d3->SetModel(model2);
-
-	playerObject->SetModel(playerModel);
-	floorObject->SetModel(floorModel);
 
 	playerObject->SetPosition({ 0,0,-20 });
 	floorObject->SetPosition({ 0,-10,0 });
+
+	fieldblock->SetPosition({ -40,40,300 });
+	fieldblock2->SetPosition({ 150,20,300 });
+	fieldblock3->SetPosition({ -150,80,300 });
+	fieldblock4->SetPosition({ 30,100,300 });
+	fieldblock5->SetPosition({ -100,200,300 });
+
+	fieldblock4->SetRotation({ 0,90,0 });
+	fieldblock5->SetRotation({ 0,-90,0 });
 
 	Object3D::CameraMoveVector({ 0.0f,20.0f,-30.0f });
 
@@ -719,6 +729,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		floorObject->Update();
 		playerObject->Update();
+
+		fieldblock->Update();
+		fieldblock2->Update();
+		fieldblock3->Update();
+		fieldblock4->Update();
+		fieldblock5->Update();
 
 		//keyborad更新処理
 		input_->Update();
@@ -741,6 +757,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d3->Draw();
 
 		floorObject->Draw();
+
+		fieldblock->Draw();
+		fieldblock2->Draw();
+		fieldblock3->Draw();
+		fieldblock4->Draw();
+		fieldblock5->Draw();
+
 		//playerObject->Draw();
 		player->Draw();
 
@@ -791,8 +814,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 	delete model;
-	delete object3d;
-	delete object3d2;
 	delete object3d3;
 	delete player;
 
