@@ -14,6 +14,9 @@ private:
 
 	XMFLOAT3 pos3d;
 	XMFLOAT3 pos3d2;
+
+	float dashPower = 10.0f;
+	bool isStep = false;
 public:
 
 	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input);
