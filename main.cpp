@@ -698,6 +698,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Object3D* fieldblock4 = Object3D::Create(fieldBlock2, { (10.0f),(10.0f),(10.0f) });
 	Object3D* fieldblock5 = Object3D::Create(fieldBlock2, { (15.0f),(15.0f),(15.0f) });
 
+	Object3D* fieldblock6 = Object3D::Create(fieldBlock, { (10.0f),(10.0f),(10.0f) });
+	Object3D* fieldblock7 = Object3D::Create(fieldBlock, { (15.0f),(10.0f),(10.0f) });
+	Object3D* fieldblock8 = Object3D::Create(fieldBlock, { (10.0f),(20.0f),(10.0f) });
+	Object3D* fieldblock9 = Object3D::Create(fieldBlock2, { (10.0f),(10.0f),(10.0f) });
+	Object3D* fieldblock10 = Object3D::Create(fieldBlock2, { (15.0f),(15.0f),(15.0f) });
+
+	Object3D* fieldblock11 = Object3D::Create(fieldBlock, { (10.0f),(10.0f),(10.0f) });
+	Object3D* fieldblock12 = Object3D::Create(fieldBlock, { (15.0f),(10.0f),(10.0f) });
+	Object3D* fieldblock13 = Object3D::Create(fieldBlock, { (10.0f),(20.0f),(10.0f) });
+	Object3D* fieldblock14 = Object3D::Create(fieldBlock2, { (10.0f),(10.0f),(10.0f) });
+	Object3D* fieldblock15 = Object3D::Create(fieldBlock2, { (15.0f),(15.0f),(15.0f) });
 
 	playerObject->SetPosition({ 0,0,-20 });
 	floorObject->SetPosition({ 0,-10,0 });
@@ -708,8 +719,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	fieldblock4->SetPosition({ 30,100,300 });
 	fieldblock5->SetPosition({ -100,200,300 });
 
+	fieldblock6->SetPosition({ 300,40,120 });
+	fieldblock7->SetPosition({ 300,20,0 });
+	fieldblock8->SetPosition({ 300,80,-50 });
+	fieldblock9->SetPosition({ 270,100,280 });
+	fieldblock10->SetPosition({ 300,150,200 });
+
+	fieldblock11->SetPosition({ -300,40,200 });
+	fieldblock12->SetPosition({ -300,120,280 });
+	fieldblock13->SetPosition({ -300,80,-20 });
+	fieldblock14->SetPosition({ -250,20,-100 });
+	fieldblock15->SetPosition({ -350,150,150 });
+
+
 	fieldblock4->SetRotation({ 0,90,0 });
 	fieldblock5->SetRotation({ 0,-90,0 });
+	fieldblock9->SetRotation({ 0,90,0 });
+	fieldblock14->SetRotation({ 0,-90,0 });
 
 	Object3D::CameraMoveVector({ 0.0f,20.0f,-30.0f });
 
@@ -735,6 +761,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		fieldblock3->Update();
 		fieldblock4->Update();
 		fieldblock5->Update();
+		fieldblock6->Update();
+		fieldblock7->Update();
+		fieldblock8->Update();
+		fieldblock9->Update();
+		fieldblock10->Update();
+		fieldblock11->Update();
+		fieldblock12->Update();
+		fieldblock13->Update();
+		fieldblock14->Update();
+		fieldblock15->Update();
 
 		//keyborad更新処理
 		input_->Update();
@@ -763,6 +799,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		fieldblock3->Draw();
 		fieldblock4->Draw();
 		fieldblock5->Draw();
+		fieldblock6->Draw();
+		fieldblock7->Draw();
+		fieldblock8->Draw();
+		fieldblock9->Draw();
+		fieldblock10->Draw();
+		fieldblock11->Draw();
+		fieldblock12->Draw();
+		fieldblock13->Draw();
+		fieldblock14->Draw();
+		fieldblock15->Draw();
 
 		//playerObject->Draw();
 		player->Draw();
@@ -814,8 +860,31 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	}
 
 	delete model;
+	delete model2;
+	delete playerModel;
+	delete floorModel;
+	delete fieldBlock;
+	delete fieldBlock2;
+
+	delete floorObject;
+	delete playerObject;
 	delete object3d3;
 	delete player;
+	delete fieldblock;
+	delete fieldblock2;
+	delete fieldblock3;
+	delete fieldblock4;
+	delete fieldblock5;
+	delete fieldblock6;
+	delete fieldblock7;
+	delete fieldblock8;
+	delete fieldblock9;
+	delete fieldblock10;
+	delete fieldblock11;
+	delete fieldblock12;
+	delete fieldblock13;
+	delete fieldblock14;
+	delete fieldblock15;
 
 	//ウィンドウクラスを登録解除
 	winApp->Release();
