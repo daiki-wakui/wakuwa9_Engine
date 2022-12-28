@@ -37,7 +37,7 @@ void Model::LoadFromOBJInternal(const std::string& modelname) {
 	std::ifstream file;
 	//.objファイルを開く
 	const string filename = modelname + ".obj";
-	const string directoryPath = "Resources/" + modelname + "/";
+	const string directoryPath = "Resources/obj/" + modelname + "/";
 	file.open(directoryPath + filename);
 
 	//ファイルオープン失敗をチェック
