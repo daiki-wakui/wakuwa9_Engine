@@ -5,6 +5,8 @@ void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* in
 	playerModel_ = playerModel;
 	playerObject_ = playerObject;
 	input_ = input;
+
+	bullets_.clear();
 }
 
 void Player::Update()
@@ -116,7 +118,7 @@ void Player::Update()
 		newBullet->Initialize(pos3d2, velocity);
 		bullets_.push_back(std::move(newBullet));
 
-		coolTime = 3;
+		coolTime = 5;
 	}
 
 	//弾の更新処理
@@ -127,7 +129,7 @@ void Player::Update()
 	//デスフラグが立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
 		return bullet->IsDead();
-		});
+	});
 }
 
 void Player::Draw()
