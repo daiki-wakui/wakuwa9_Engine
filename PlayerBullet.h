@@ -21,7 +21,7 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	void Initialize(DirectX::XMFLOAT3 pos);
+	void Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity);
 	void Update();
 	void Draw();
 };

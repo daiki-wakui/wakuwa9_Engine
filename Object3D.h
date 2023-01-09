@@ -8,6 +8,7 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include <string>
+#include "Vector3.h"
 
 class Object3D
 {
@@ -90,6 +91,7 @@ public: // 静的メンバ関数
 	/// </summary>
 	/// <param name="move">移動量</param>
 	static void CameraMoveVector(XMFLOAT3 move);
+	static void CameraEyeMoveVector(Vector3 eye);
 
 private: // 静的メンバ変数
 	// デバイス
@@ -155,6 +157,7 @@ public: // メンバ関数
 	/// <returns>座標</returns>
 	const XMFLOAT3& GetPosition() const { return position; }
 	const XMFLOAT3& GetRotation() const { return rotation; }
+	const XMMATRIX& GetMatrix() const { return matWorld; };
 
 	/// <summary>
 	/// 座標の設定
@@ -166,6 +169,8 @@ public: // メンバ関数
 	//setter
 	void SetModel(Model* model) { model_ = model; };
 
+	// ローカルワールド変換行列
+	XMMATRIX matWorld;
 private: // メンバ変数
 
 	//3Dモデル(借りてくる)
@@ -180,8 +185,7 @@ private: // メンバ変数
 	XMFLOAT3 rotation = { 0,0,0 };
 	// ローカル座標
 	XMFLOAT3 position = { 0,0,0 };
-	// ローカルワールド変換行列
-	XMMATRIX matWorld;
+	
 	// 親オブジェクト
 	Object3D* parent = nullptr;
 

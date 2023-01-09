@@ -123,6 +123,25 @@ void Object3D::CameraMoveVector(XMFLOAT3 move)
 	SetTarget(target_moved);
 }
 
+void Object3D::CameraEyeMoveVector(Vector3 eye)
+{
+	XMFLOAT3 eye_ = GetEye();
+	Vector3 VecEye_;
+	VecEye_.x = eye_.x;
+	//VecEye_.y = eye_.y;
+	//VecEye_.z = eye_.z;
+
+	VecEye_.x += eye.x;
+	//VecEye_.y += eye.y;
+	//VecEye_.z += eye.z;
+
+	eye_.x = VecEye_.x;
+	//eye_.y = VecEye_.y;
+	//eye_.z = VecEye_.z;
+
+	SetEye(eye_);
+}
+
 void Object3D::InitializeCamera(int window_width, int window_height)
 {
 	// ÉrÉÖÅ[çsóÒÇÃê∂ê¨

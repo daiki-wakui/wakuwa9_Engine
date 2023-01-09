@@ -1,4 +1,5 @@
 #pragma once
+#include <DirectXMath.h>
 
 class Matrix4;
 
@@ -23,7 +24,7 @@ public:
 	const Vector3 lerp(const Vector3& start, const Vector3& end, const float t);
 
 	//4行列との掛け算
-	//void multiplyMat4(Matrix4& mat);
+	void multiplyMat4(DirectX::XMMATRIX& mat);
 
 	//単項演算子オーバーロード
 	Vector3 operator+() const;

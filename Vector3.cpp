@@ -48,6 +48,17 @@ const Vector3 Vector3::lerp(const Vector3& start, const Vector3& end, const floa
 	return start * (1.0f - t) + end * t;
 }
 
+void Vector3::multiplyMat4(DirectX::XMMATRIX& mat)
+{
+	x = x * mat.r[0].m128_f32[0] + y * mat.r[1].m128_f32[0] + z * mat.r[2].m128_f32[0];
+	y = x * mat.r[0].m128_f32[1] + y * mat.r[1].m128_f32[1] + z * mat.r[2].m128_f32[1];
+	z = x * mat.r[0].m128_f32[2] + y * mat.r[1].m128_f32[2] + z * mat.r[2].m128_f32[2];
+
+	/*x = x * mat.m[0][0] + y * mat.m[1][0] + z * mat.m[2][0];
+	y = x * mat.m[0][1] + y * mat.m[1][1] + z * mat.m[2][1];
+	z = x * mat.m[0][2] + y * mat.m[1][2] + z * mat.m[2][2];*/
+}
+
 ////単項演算子オーバーロード////
 Vector3 Vector3::operator+()const {
 	return *this;

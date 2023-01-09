@@ -9,17 +9,9 @@ void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* in
 
 void Player::Update()
 {
-	coolTime--;
-
-	if (coolTime < 0) {
-		//’e‚Ì¶¬‚Æ‰Šú‰»
-		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(pos3d2);
-		bullets_.push_back(std::move(newBullet));
-
-		coolTime = 3;
-	}
-
+	Vector3 CameraVec = { 0,0,0 };
+	Vector3 CameraRot = { 0,0,0 };
+	Vector3 tmpVecY = { 0,1,0 };
 
 	if (input_->keyInstantPush(DIK_SPACE) && isStep == false) {
 		isStep = true;
@@ -32,12 +24,10 @@ void Player::Update()
 	pos3d = playerObject_->GetRotation();
 	pos3d2 = playerObject_->GetPosition();
 
-	if (input_->keyPush(DIK_A)) {
-		pos3d.y++;
-	}
-	if (input_->keyPush(DIK_D)) {
-		pos3d.y--;
-	}
+	CameraVec.x = pos3d.x - pos3d2.x;
+	CameraVec.z = pos3d.z - pos3d2.z;
+	CameraVec.normalize();
+	CameraRot = tmpVecY.cross(CameraVec);
 
 	
 
@@ -82,10 +72,52 @@ void Player::Update()
 		}
 	}
 
+	if (input_->keyPush(DIK_D)) {
+
+
+		if (pos3d.y >= 18.0f) {
+			pos3d.y = 18.0f;
+		}
+		else {
+			pos3d.y++;
+			Object3D::CameraEyeMoveVector(-CameraRot);
+		}
+	}
+	if (input_->keyPush(DIK_A)) {
+
+
+		if (pos3d.y <= -18.0f) {
+			pos3d.y = -18.0f;
+		}
+		else {
+			pos3d.y--;
+			Object3D::CameraEyeMoveVector(CameraRot);
+		}
+	}
+
 	playerObject_->SetRotation(pos3d);
 	playerObject_->SetPosition(pos3d2);
 
 	playerObject_->Update();
+
+	coolTime--;
+
+	if (coolTime < 0) {
+		//’e‚Ì‘¬“x
+		const float kBulletSpeed = 2.0f;
+		Vector3 velocity(0, 0, kBulletSpeed);
+
+		velocity.multiplyMat4(playerObject_->matWorld);
+		velocity.normalize();
+		velocity *= kBulletSpeed;
+
+		//’e‚Ì¶¬‚Æ‰Šú‰»
+		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+		newBullet->Initialize(pos3d2, velocity);
+		bullets_.push_back(std::move(newBullet));
+
+		coolTime = 3;
+	}
 
 	//’e‚ÌXVˆ—
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
