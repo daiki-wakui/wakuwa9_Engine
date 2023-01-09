@@ -13,6 +13,153 @@ using namespace DirectX;
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 
+#include <xaudio2.h>
+#pragma comment (lib,"xaudio2.lib")
+#include <fstream>
+#include <wrl.h>
+
+//チャンクヘッダ
+struct ChunkHeader
+{
+	char id[4];	//チャンクごとのid
+	int32_t size;	//チャンクサイズ
+};
+
+//RIFFヘッダチャンク
+struct RiffHeader
+{
+	ChunkHeader chunk;	//RIFF
+	char type[4];	//WAVE
+};
+
+//FMTチャンク
+struct FormatChunk
+{
+	ChunkHeader chunk;	//fmt
+	WAVEFORMATEX fmt;	//波形フォーマット
+};
+
+//音声データ
+struct SoundData
+{
+	//波形フォーマット
+	WAVEFORMATEX wfex;
+	//バッファの先頭アドレス
+	BYTE* pBuffer;
+	//バッファのサイズ
+	unsigned int bufferSize;
+
+	IXAudio2SourceVoice* pSoundVoice_;
+};
+
+SoundData SoundLoadWave(const char* filename) {
+	HRESULT result;
+
+	//ファイルオープン
+	//ファイル入力ストリームのインスタンス
+	std::ifstream file;
+
+	//.wavファイルをバイナリモードで開く
+	file.open(filename, std::ios_base::binary);
+	//ファイルオープン失敗をチェック
+	assert(file.is_open());
+
+	//wav読み込み
+	//RIFFヘッダーの読み込み
+	RiffHeader riff;
+	file.read((char*)&riff, sizeof(riff));
+
+	//ファイルがRIFFかチェック
+	if (strncmp(riff.chunk.id, "RIFF", 4) != 0) {
+		assert(0);
+	}
+	//タイプがWAVEかチェック
+	if (strncmp(riff.type, "WAVE", 4) != 0) {
+		assert(0);
+	}
+
+	//Formatチャンクの読み込み
+	FormatChunk format = {};
+	//チャンクヘッダーの確認
+	file.read((char*)&format, sizeof(ChunkHeader));
+	/*if (strncmp(format.chunk.id, "fmt", 4) != 0) {
+		assert(0);
+	}*/
+	//チャンク本体の読み込み
+	assert(format.chunk.size <= sizeof(format.fmt));
+	file.read((char*)&format.fmt, format.chunk.size);
+
+	//Dataチャンクの読み込み
+	ChunkHeader data;
+	file.read((char*)&data, sizeof(data));
+
+	//JUNKチャンクを検出した場合
+	if (strncmp(data.id, "JUNK", 4) == 0) {
+		//読み込み位置をJUNKチャンクの終わりまで進める
+		file.seekg(data.size, std::ios_base::cur);
+		//再読み込み
+		file.read((char*)&data, sizeof(data));
+	}
+
+	if (strncmp(data.id, "data", 4) != 0) {
+		assert(0);
+	}
+
+	//Dataチャンクのデータ部(波形データ)の読み込み
+	char* pBuffer = new char[data.size];
+	file.read(pBuffer, data.size);
+
+	//ファイルクローズ
+	file.close();
+
+	//読み込んだ音声データをretrun
+	SoundData soundData = {};
+
+	soundData.wfex = format.fmt;
+	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
+	soundData.bufferSize = data.size;
+
+	return soundData;
+}
+
+//音声データ解放
+void SoundUnload(SoundData* soundData) {
+	//バッファのメモリを解放
+	delete[] soundData->pBuffer;
+
+	soundData->pBuffer = 0;
+	soundData->bufferSize = 0;
+	soundData->wfex = {};
+}
+
+//音声再生
+void SoundPlayWave(IXAudio2* xAudio2, SoundData& soundData) {
+	HRESULT result;
+
+	//波形フォーマットを元にSourceVoiceの生成
+	IXAudio2SourceVoice* pSoundVoice = nullptr;
+	result = xAudio2->CreateSourceVoice(&pSoundVoice, &soundData.wfex);
+	assert(SUCCEEDED(result));
+
+	//再生する波形データの設定
+	XAUDIO2_BUFFER buf{};
+	buf.pAudioData = soundData.pBuffer;
+	buf.AudioBytes = soundData.bufferSize;
+	buf.Flags = XAUDIO2_END_OF_STREAM;
+
+	soundData.pSoundVoice_ = pSoundVoice;
+
+	//波形データの再生
+	result = pSoundVoice->SubmitSourceBuffer(&buf);
+	result = pSoundVoice->Start();
+
+	//
+}
+
+void SoundStopWAVE(IXAudio2* xAudio2, const SoundData& soundData) {
+	soundData.pSoundVoice_->Stop();
+}
+
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//windowsAPIの生成クラス
@@ -32,9 +179,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	windows.reset(winApp);
 	MSG msg{};
 
+	Microsoft::WRL::ComPtr<IXAudio2> xAudio2;
+	IXAudio2MasteringVoice* masterVoice;
+
 	//DirectX初期化
 	dxBasis->Initialize(winApp);
 	DirectX.reset(dxBasis);
+
+	HRESULT result = S_FALSE;
+	//オーディオ初期化
+	result = XAudio2Create(&xAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);
+	result = xAudio2->CreateMasteringVoice(&masterVoice);
 
 	Object3D::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
 
@@ -45,7 +200,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	
 
 #pragma region  描画初期化処理
-	HRESULT result;
+	//HRESULT result;
 
 #pragma region  画像イメージデータ
 
@@ -693,12 +848,31 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	object3d->SetPosition({ -20,0,+5 });
 	object3d2->SetPosition({ +20,0,+5 });
 
+	SoundData soundData1 = SoundLoadWave("Resources/PerituneMaterial.wav");
+	SoundData soundData2 = SoundLoadWave("Resources/Hit.wav");
+
+	int scene = 0;
+
 	//ゲームループ
 	while (true) {
 		//×ボタンで終了メッセージがきたら
 		if (winApp->gameloopExit(msg) == true) {
 			break;	//ゲームループ終了
 		}
+		if (input_->keyInstantPush(DIK_1) && scene == 0) {
+			SoundPlayWave(xAudio2.Get(), soundData1);
+			scene = 1;
+		}
+
+		if (input_->keyInstantPush(DIK_2)) {
+			SoundStopWAVE(xAudio2.Get(), soundData1);
+			scene = 0;
+		}
+
+		if (input_->keyInstantPush(DIK_3)) {
+			SoundPlayWave(xAudio2.Get(), soundData2);
+		}
+
 		object3d->Update();
 		object3d2->Update();
 		object3d3->Update();
@@ -803,6 +977,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 
 	}
+
+	xAudio2.Reset();
+	SoundUnload(&soundData1);
+	SoundUnload(&soundData2);
 
 	delete model;
 	delete object3d;
