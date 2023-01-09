@@ -9,6 +9,18 @@ void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* in
 
 void Player::Update()
 {
+	coolTime--;
+
+	if (coolTime < 0) {
+		//弾の生成と初期化
+		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+		newBullet->Initialize(pos3d2);
+		bullets_.push_back(std::move(newBullet));
+
+		coolTime = 3;
+	}
+
+
 	if (input_->keyInstantPush(DIK_SPACE) && isStep == false) {
 		isStep = true;
 		dashPower = 10.0f;
@@ -74,9 +86,23 @@ void Player::Update()
 	playerObject_->SetPosition(pos3d2);
 
 	playerObject_->Update();
+
+	//弾の更新処理
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
+		bullet->Update();
+	}
+
+	//デスフラグが立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+		return bullet->IsDead();
+		});
 }
 
 void Player::Draw()
 {
 	playerObject_->Draw();
+
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
+		bullet->Draw();
+	}
 }

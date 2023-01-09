@@ -7,14 +7,22 @@ class PlayerBullet
 {
 private:
 
-	Model* model = nullptr;
+	Model* bulletModel = nullptr;
+	Object3D* bulletObject_;
 	Vector3 velocity_;
+
+	Vector3 pos_;
+	DirectX::XMFLOAT3 tPos_;
 
 	static const int32_t kLifeTime = 60 * 5;
 	int32_t deathTimer_ = kLifeTime;
 	bool isDead_ = false;
 public:
 
+	bool IsDead() const { return isDead_; }
 
+	void Initialize(DirectX::XMFLOAT3 pos);
+	void Update();
+	void Draw();
 };
 
