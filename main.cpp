@@ -46,7 +46,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	input_->Initialize(winApp->GetHInstancee(), winApp->GetHwnd());
 	keyboard.reset(input_);
 
-	spBasis->Initialize(dxBasis);
+	spBasis->Initialize(dxBasis,0);
 	SpBasis.reset(spBasis);
 
 #pragma endregion	

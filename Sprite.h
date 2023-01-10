@@ -77,7 +77,13 @@ private:
 	XMFLOAT2 size_ = { 100.0f,100.0f };
 	XMFLOAT2 anchorPoint_ = { 0.5f,0.5f };
 
+	//テクスチャ番号
+	uint32_t textureIndex_ = 0;
+
 public:
+
+	const uint32_t& GetTexIndex() const { return textureIndex_; };
+	void SetTexIndex(const uint32_t& textureIndex) { textureIndex_ = textureIndex; };
 
 	const XMFLOAT2& GetPosition() const { return position_; };
 	void SetPosition(const XMFLOAT2& position) { position_ = position; };
@@ -99,5 +105,7 @@ public:
 
 	void VertexData();
 	void IndexData();
+
+
 };
 

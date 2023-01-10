@@ -62,7 +62,7 @@ void Sprite::Create(float x, float y)
 	assert(SUCCEEDED(result));
 
 	//値を書きこんで自動転送
-	constMapMaterial->color = XMFLOAT4(1, 1, 1, 0.5f);	//色変更
+	constMapMaterial->color = XMFLOAT4(1, 1, 1, 1);	//色変更
 
 	//左上を原点に設定
 	matProjection =
@@ -139,25 +139,10 @@ void Sprite::Update()
 
 void Sprite::Draw()
 {
-	// パイプラインステート設定
-	spBasis->GetDxBasis()->GetCommandList()->SetPipelineState(spBasis->GetPipelineState());
-
-	// ルートシグネチャの設定コマンド
-	spBasis->GetDxBasis()->GetCommandList()->SetGraphicsRootSignature(spBasis->GetRootSignature());
-
-	spBasis->GetDxBasis()->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+	spBasis->SetTextureCommands(textureIndex_);
 
 	// 定数バッファビュー(CBV)の設定コマンド
 	spBasis->GetDxBasis()->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
-	
-
-	//デスクリプタヒープの配列をセットするコマンド
-	ID3D12DescriptorHeap* ppHeaps[] = { spBasis->srvHeap.Get() };
-	spBasis->GetDxBasis()->GetCommandList()->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-	//SRVヒープの先頭アドレスを取得
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = spBasis->srvHeap->GetGPUDescriptorHandleForHeapStart();
-	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	spBasis->GetDxBasis()->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 
 	//定数バッファビュー(CBV)の設定コマンド
 	spBasis->GetDxBasis()->GetCommandList()->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
