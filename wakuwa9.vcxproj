@@ -142,6 +142,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object3D.cpp" />
+    <ClCompile Include="SpriteB.cpp" />
     <ClCompile Include="WindowsApp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -149,9 +150,22 @@
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object3D.h" />
+    <ClInclude Include="SpriteB.h" />
     <ClInclude Include="WindowsApp.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\..\CG3：GPU\KamataEngineAL4CG3_v2\KamataEngineAL4CG3_v2\DirectXGame\Resources\shaders\SpritePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\..\CG3：GPU\KamataEngineAL4CG3_v2\KamataEngineAL4CG3_v2\DirectXGame\Resources\shaders\SpriteVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
@@ -182,6 +196,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\CG3：GPU\KamataEngineAL4CG3_v2\KamataEngineAL4CG3_v2\DirectXGame\Resources\shaders\SpriteShaderHeader.hlsli" />
     <None Include="Resources\shaders\Basic.hlsli" />
     <None Include="Resources\shaders\OBJShaderHeader.hlsli" />
   </ItemGroup>
