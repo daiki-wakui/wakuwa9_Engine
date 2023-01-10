@@ -34,3 +34,14 @@ void PlayerBullet::Draw()
 {
 	bulletObject_->Draw();
 }
+
+DirectX::XMFLOAT3 PlayerBullet::GetWorldPos()
+{
+	DirectX::XMFLOAT3 worldPos;
+
+	worldPos.x = tPos_.x;
+	worldPos.y = tPos_.y;
+	worldPos.z = tPos_.z;
+
+	return worldPos;
+}

@@ -16,13 +16,16 @@ private:
 
 	static const int32_t kLifeTime = 60 * 5;
 	int32_t deathTimer_ = kLifeTime;
-	bool isDead_ = false;
+	
 public:
+	bool isDead_ = false;
 
 	bool IsDead() const { return isDead_; }
 
 	void Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity);
 	void Update();
 	void Draw();
+
+	DirectX::XMFLOAT3 GetWorldPos();
 };
 

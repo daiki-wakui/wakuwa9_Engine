@@ -4,6 +4,7 @@
 #include "Object3D.h"
 #include "Model.h"
 #include "Player.h"
+#include "Enemy.h"
 
 #include <memory>
 #include <string>
@@ -14,6 +15,7 @@ using namespace DirectX;
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 
+void AllCollision();
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//windowsAPIの生成クラス
@@ -687,8 +689,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Model* fieldBlock = Model::LoadFromObj("bobj");
 	Model* fieldBlock2 = Model::LoadFromObj("aobj");
 
+#pragma region  オブジェクト生成
 	//3Dオブジェクト生成
-	Object3D* object3d3 = Object3D::Create(model2,{ (500.0f),(500.0f),(500.0f) });
+	Object3D* object3d3 = Object3D::Create(model2, { (500.0f),(500.0f),(500.0f) });
+
+	Object3D* enemyObject = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
+	Object3D* enemyObject2 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
+	Object3D* enemyObject3 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
+
 
 	Object3D* playerObject = Object3D::Create(playerModel, { (5.0f),(5.0f),(5.0f) });
 	Object3D* floorObject = Object3D::Create(floorModel, { (25.0f),(25.0f),(25.0f) });
@@ -736,6 +744,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	fieldblock5->SetRotation({ 0,-90,0 });
 	fieldblock9->SetRotation({ 0,90,0 });
 	fieldblock14->SetRotation({ 0,-90,0 });
+#pragma endregion
 
 	Object3D::CameraMoveVector({ 0.0f,20.0f,-30.0f });
 
@@ -744,6 +753,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Player* player = new Player;
 	player->Initialize(playerModel, playerObject, input_);
 
+	Enemy* enemy[3];
+
+	for (int i = 0; i < 3; i++) {
+		enemy[i] = new Enemy;
+	}
+
+	enemy[0]->Initialize(enemyObject, {-50,0,100});
+	enemy[1]->Initialize(enemyObject2, { 0,0,100 });
+	enemy[2]->Initialize(enemyObject3, { 50,0,100 });
+
+	int isPop = 0;
+
 	//ゲームループ
 	while (true) {
 		//×ボタンで終了メッセージがきたら
@@ -751,10 +772,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;	//ゲームループ終了
 		}
 
+#pragma region  オブジェクト更新処理
+
 		object3d3->Update();
 
 		floorObject->Update();
-		playerObject->Update();
 
 		fieldblock->Update();
 		fieldblock2->Update();
@@ -776,12 +798,50 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		input_->Update();
 
 		player->Update();
+		
+		for (int i = 0; i < 3; i++) {
+			enemy[i]->Update();
+		}
+
+#pragma endregion
 
 		XMMATRIX matTrans;
 		matTrans = XMMatrixTranslation(pos.x, pos.y, 0.0f);
 		matWorld *= matTrans;
 
 		constMapTransform->mat = matWorld * matProjection;
+
+#pragma region  当たり判定
+		XMFLOAT3 posA, posB;
+
+		//自弾リストの取得
+		const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullets();
+
+		for (int i = 0; i < 3; i++) {
+			posA = enemy[i]->GetWorldPos();
+
+			for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+				//敵弾の座標
+				posB = bullet->GetWorldPos();
+
+				//AとBの距離
+				float r1 = 7.0f;	//敵のスケール
+				float r2 = 1.0f;	//弾のスケール
+				float r = r1 + r2;
+
+				XMFLOAT3 dis;
+				dis.x = posB.x - posA.x;
+				dis.y = posB.y - posA.y;
+				dis.z = posB.z - posA.z;
+
+
+				if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
+					bullet->isDead_ = true;
+				}
+			}
+		}
+
+#pragma endregion
 
 #pragma region DirectX毎フレーム処理
 
@@ -790,6 +850,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Object3D::PreDraw(dxBasis->GetCommandList());
 
+#pragma region  3Dモデル描画処理
 		object3d3->Draw();
 
 		floorObject->Draw();
@@ -812,6 +873,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//playerObject->Draw();
 		player->Draw();
+		for (int i = 0; i < 3; i++) {
+			enemy[i]->Draw();
+		}
+#pragma endregion
+
+		
 
 		Object3D::PostDraw();
 
@@ -866,6 +933,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete fieldBlock;
 	delete fieldBlock2;
 
+	delete enemyObject;
+	delete enemyObject2;
+	delete enemyObject3;
+
 	delete floorObject;
 	delete playerObject;
 	delete object3d3;
@@ -890,4 +961,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	winApp->Release();
 
 	return 0;
+}
+
+void AllCollision()
+{
+	
 }

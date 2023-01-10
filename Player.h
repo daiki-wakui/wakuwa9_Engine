@@ -33,6 +33,9 @@ public:
 	void Update();
 	void Draw();
 
-	void Move();
+	//’eƒŠƒXƒg‚ðŽæ“¾
+	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
+
+	//XMFLOAT3 GetWorldPos();
 };
 
