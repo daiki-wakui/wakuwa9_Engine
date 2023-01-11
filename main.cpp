@@ -923,6 +923,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	int isPlayerDamege = 0;
 	int invincibleTime = 0;
+	int invincible = 0;
 
 
 	std::list<std::unique_ptr<Enemy>> enemys_;
@@ -1042,6 +1043,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			//
 			//–³“GŽžŠÔ
+			if (player->GetIsStep() == true) {
+				invincible = true;
+			}
+			else {
+				invincible = false;
+			}
+
 			if (isPlayerDamege == 1) {
 				invincibleTime++;
 
@@ -1122,8 +1130,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					dis.z = posB.z - posA.z;
 
 					if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
-						bullet->isDead_ = true;
-						if (isPlayerDamege == 0) {
+						
+						if (isPlayerDamege == 0 && invincible == 0) {
+							bullet->isDead_ = true;
 							isPlayerDamege = 1;
 							player->OnCollision();
 							SoundPlayWave(xAudio2.Get(), soundData2);

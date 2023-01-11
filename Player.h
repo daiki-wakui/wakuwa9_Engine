@@ -37,6 +37,7 @@ public:
 
 	void OnCollision();
 	bool IsDead() const { return isDead; }
+	bool GetIsStep() const { return isStep; }
 
 	//’eƒŠƒXƒg‚ğæ“¾
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
