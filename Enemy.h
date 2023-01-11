@@ -13,11 +13,17 @@ private:
 
 	XMFLOAT3 pos_;
 
+	bool isAlive = true;
+
+	int HP = 3;
+
 public:
 
 	void Initialize(Object3D* enemyObject,XMFLOAT3 pos);
 	void Update();
 	void Draw();
+
+	void OnCollision();
 
 	XMFLOAT3 GetWorldPos();
 };

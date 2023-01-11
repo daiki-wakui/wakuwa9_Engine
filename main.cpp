@@ -20,6 +20,9 @@ using namespace DirectX;
 #include <fstream>
 #include <wrl.h>
 
+#include <memory>
+#include <list>
+
 //É`ÉÉÉìÉNÉwÉbÉ_
 struct ChunkHeader
 {
@@ -917,15 +920,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Player* player = new Player;
 	player->Initialize(playerModel, playerObject, input_);
 
-	Enemy* enemy[3];
 
-	for (int i = 0; i < 3; i++) {
-		enemy[i] = new Enemy;
-	}
-
-	enemy[0]->Initialize(enemyObject, {-50,0,100});
-	enemy[1]->Initialize(enemyObject2, { 0,0,100 });
-	enemy[2]->Initialize(enemyObject3, { 50,0,100 });
+	std::list<std::unique_ptr<Enemy>> enemys_;
+	//Enemy* enemy[3];
 
 	int isPop = 0;
 
@@ -986,6 +983,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		if (scene == 1) {
 
+			if (isPop == 0) {
+				std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+				std::unique_ptr<Enemy> newEnemy2 = std::make_unique<Enemy>();
+				std::unique_ptr<Enemy> newEnemy3 = std::make_unique<Enemy>();
+
+				newEnemy->Initialize(enemyObject, { -50,0,100 });
+				newEnemy2->Initialize(enemyObject2, { 0,0,100 });
+				newEnemy3->Initialize(enemyObject3, { 50,0,100 });
+
+				//ìGÇìoò^Ç∑ÇÈ
+				enemys_.push_back(std::move(newEnemy));
+				enemys_.push_back(std::move(newEnemy2));
+				enemys_.push_back(std::move(newEnemy3));
+				isPop++;
+			}
+
 			floorObject->Update();
 
 			fieldblock->Update();
@@ -1006,8 +1019,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			player->Update();
 
-			for (int i = 0; i < 3; i++) {
-				enemy[i]->Update();
+			//ìGÇÃìÆÇ´
+			for (std::unique_ptr<Enemy>& enemy : enemys_) {
+				enemy->Update();
 			}
 		}
 		
@@ -1045,8 +1059,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//é©íeÉäÉXÉgÇÃéÊìæ
 		const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullets();
 
-		for (int i = 0; i < 3; i++) {
-			posA = enemy[i]->GetWorldPos();
+		for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+			posA = enemy->GetWorldPos();
 
 			for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
 				//ìGíeÇÃç¿ïW
@@ -1065,6 +1079,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 				if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
 					bullet->isDead_ = true;
+					enemy->OnCollision();
 				}
 			}
 		}
@@ -1118,9 +1133,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			//playerObject->Draw();
 			player->Draw();
-			for (int i = 0; i < 3; i++) {
-				enemy[i]->Draw();
+
+			for (std::unique_ptr<Enemy>& enemy : enemys_) {
+				enemy->Draw();
 			}
+
+			/*for (int i = 0; i < 3; i++) {
+				enemy[i]->Draw();
+			}*/
 #pragma endregion
 
 			Object3D::PostDraw();
