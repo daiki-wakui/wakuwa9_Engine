@@ -25,12 +25,11 @@ private:
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 	int coolTime = 7;
 
-	int HP = 5;
-	bool isDead = false;
-
 	bool isMove = false;
 
 public:
+	int HP = 5;
+	bool isDead = false;
 
 	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input);
 	void Update();
@@ -38,6 +37,7 @@ public:
 
 	int GetCoolTime() const { return coolTime; };
 
+	void clear();
 	void OnCollision();
 	bool IsDead() const { return isDead; }
 	bool GetIsStep() const { return isStep; }

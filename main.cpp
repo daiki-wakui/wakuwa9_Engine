@@ -165,9 +165,6 @@ void SoundStopWAVE(IXAudio2* xAudio2, const SoundData& soundData) {
 	soundData.pSoundVoice_->Stop();
 }
 
-
-void AllCollision();
-
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//windowsAPIの生成クラス
 	std::unique_ptr<WindowsApp> windows;
@@ -954,6 +951,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (scene == 0) {
 			if (input_->keyInstantPush(DIK_SPACE)) {
 				scene = 1;
+				player->HP = 5;
+				player->isDead = false;
+				playerObject->SetPosition({ 0,0,-20 });
+				playerObject->SetRotation({ 0,0,0 });
+				Object3D::SetCamera();
+				enemys_.clear();
+				player->clear();
+				wave = 0;
+				isPop = 0;
+				knockDownNum = 0;
+				popCoolTime = 0;
+				isPlayerDamege = 0;
+				invincibleTime = 0;
+				invincible = 0;
 			}
 		}
 		//ゲームシーン
@@ -965,7 +976,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//ゲームオーバー
 		else if (scene == 2) {
 			if (input_->keyInstantPush(DIK_SPACE)) {
-				scene = 3;
+				scene = 1;
+				player->HP = 5;
+				player->isDead = false;
+				playerObject->SetPosition({ 0,0,-20 });
+				playerObject->SetRotation({ 0,0,0 });
+				Object3D::SetCamera();
+				enemys_.clear();
+				player->clear();
+				wave = 0;
+				isPop = 0;
+				knockDownNum = 0;
+				popCoolTime = 0;
+				isPlayerDamege = 0;
+				invincibleTime = 0;
+				invincible = 0;
 			}
 		}
 		//ゲームクリア
@@ -1236,7 +1261,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			//発射SE
 			if (player->GetCoolTime() == 0) {
-				//SoundPlayWave(xAudio2.Get(), soundData4);
+				SoundPlayWave(xAudio2.Get(), soundData4);
 			}
 
 			if (player->GetIsStep() == true && input_->keyInstantPush(DIK_W)) {
@@ -1567,9 +1592,4 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	winApp->Release();
 
 	return 0;
-}
-
-void AllCollision()
-{
-	
 }

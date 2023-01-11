@@ -9,6 +9,10 @@ void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* in
 	bullets_.clear();
 }
 
+void Player::clear() {
+	bullets_.clear();
+}
+
 void Player::Update()
 {
 	const float MoveLimitX = 148.0f;
