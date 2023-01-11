@@ -1,9 +1,10 @@
 #include "Enemy.h"
 
-void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos)
+void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player)
 {
 	enemyObject_ = enemyObject;
 	pos_ = pos;
+	player_ = player;
 
 	bullets_.clear();
 }
@@ -13,7 +14,18 @@ void Enemy::Update()
 	coolTime--;
 
 	if (coolTime == 0) {
-		Vector3 velocity(0, 0, 0);
+		playerPos = player_->GetWorldPos();
+		enemyPos = GetWorldPos();
+
+		differenceVec.x = enemyPos.x - playerPos.x;
+		differenceVec.y = enemyPos.y - playerPos.y;
+		differenceVec.z = enemyPos.z - playerPos.z;
+		differenceVec.normalize();
+
+		const float kBulletSpeed = -1.0f;
+		Vector3 velocity(differenceVec);
+
+		velocity.multiplyMat4(enemyObject_->matWorld);
 
 		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 		newBullet->Initialize(pos_, velocity);

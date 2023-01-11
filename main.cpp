@@ -1001,9 +1001,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				std::unique_ptr<Enemy> newEnemy2 = std::make_unique<Enemy>();
 				std::unique_ptr<Enemy> newEnemy3 = std::make_unique<Enemy>();
 
-				newEnemy->Initialize(enemyObject, { -50,0,100 });
-				newEnemy2->Initialize(enemyObject2, { 0,0,100 });
-				newEnemy3->Initialize(enemyObject3, { 50,0,100 });
+				newEnemy->Initialize(enemyObject, { -50,0,100 },player);
+				newEnemy2->Initialize(enemyObject2, { 0,0,100 },player);
+				newEnemy3->Initialize(enemyObject3, { 50,0,100 },player);
 
 				//“G‚ð“o˜^‚·‚é
 				enemys_.push_back(std::move(newEnemy));

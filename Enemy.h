@@ -5,6 +5,7 @@
 #include <memory>
 #include <list>
 #include "EnemyBullet.h"
+#include "Player.h"
 
 class Enemy
 {
@@ -13,6 +14,11 @@ private:
 	KeyBoard* input_;
 
 	XMFLOAT3 pos_;
+
+	Player* player_ = nullptr;
+	XMFLOAT3 playerPos;
+	XMFLOAT3 enemyPos;
+	Vector3	differenceVec;
 
 	bool isDead = false;
 
@@ -24,7 +30,7 @@ private:
 
 public:
 
-	void Initialize(Object3D* enemyObject,XMFLOAT3 pos);
+	void Initialize(Object3D* enemyObject,XMFLOAT3 pos, Player* player);
 	void Update();
 	void Draw();
 

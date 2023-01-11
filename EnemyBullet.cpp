@@ -13,9 +13,11 @@ void EnemyBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity)
 
 void EnemyBullet::Update()
 {
-	//tPos_.x += velocity_.x;
-	//tPos_.y += velocity_.y;
-	tPos_.z--;
+	tPos_.x -= velocity_.x/5;
+	tPos_.y -= velocity_.y/5;
+	tPos_.z -= velocity_.z/5;
+	
+	//tPos_.z--;
 	bulletObject_->SetPosition(tPos_);
 
 	bulletObject_->Update();
