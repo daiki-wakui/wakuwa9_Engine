@@ -929,6 +929,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	int isPop = 0;
 
+	int scene = 0;
+
 	//ゲームループ
 	while (true) {
 		//×ボタンで終了メッセージがきたら
@@ -936,7 +938,30 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;	//ゲームループ終了
 		}
 
-		if (PlayBGM == 0 && ChangeBGM == 0) {
+		//-----ここから更新処理-----//
+		//シーン切り替え
+		if (scene == 0) {
+			if (input_->keyInstantPush(DIK_SPACE)) {
+				scene = 1;
+			}
+		}
+		else if (scene == 1) {
+			if (input_->keyInstantPush(DIK_SPACE)) {
+				scene = 2;
+			}
+		}
+		else if (scene == 2) {
+			if (input_->keyInstantPush(DIK_SPACE)) {
+				scene = 3;
+			}
+		}
+		else if (scene == 3) {
+			if (input_->keyInstantPush(DIK_SPACE)) {
+				scene = 0;
+			}
+		}
+
+		/*if (PlayBGM == 0 && ChangeBGM == 0) {
 			SoundPlayWave(xAudio2.Get(), soundData1);
 			PlayBGM = 1;
 		}
@@ -951,38 +976,43 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			PlayBGM = 0;
 			ChangeBGM = 1;
-		}
-
-#pragma region  オブジェクト更新処理
-
-		object3d3->Update();
-
-		floorObject->Update();
-
-		fieldblock->Update();
-		fieldblock2->Update();
-		fieldblock3->Update();
-		fieldblock4->Update();
-		fieldblock5->Update();
-		fieldblock6->Update();
-		fieldblock7->Update();
-		fieldblock8->Update();
-		fieldblock9->Update();
-		fieldblock10->Update();
-		fieldblock11->Update();
-		fieldblock12->Update();
-		fieldblock13->Update();
-		fieldblock14->Update();
-		fieldblock15->Update();
+		}*/
 
 		//keyborad更新処理
 		input_->Update();
 
-		player->Update();
-		
-		for (int i = 0; i < 3; i++) {
-			enemy[i]->Update();
+#pragma region  オブジェクト更新処理
+		object3d3->Update();
+
+		if (scene == 1) {
+
+			floorObject->Update();
+
+			fieldblock->Update();
+			fieldblock2->Update();
+			fieldblock3->Update();
+			fieldblock4->Update();
+			fieldblock5->Update();
+			fieldblock6->Update();
+			fieldblock7->Update();
+			fieldblock8->Update();
+			fieldblock9->Update();
+			fieldblock10->Update();
+			fieldblock11->Update();
+			fieldblock12->Update();
+			fieldblock13->Update();
+			fieldblock14->Update();
+			fieldblock15->Update();
+
+			player->Update();
+
+			for (int i = 0; i < 3; i++) {
+				enemy[i]->Update();
+			}
 		}
+		
+
+		
 
 #pragma endregion
 
@@ -1024,87 +1054,125 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma endregion
 
+		//ここから描画処理
+
+		if (scene == 0) {
+			// 描画前処理
+			dxBasis->PreDraw();
+
+			Object3D::PreDraw(dxBasis->GetCommandList());
+
+			//天球
+			object3d3->Draw();
+
+			Object3D::PostDraw();
+
+			//描画後処理
+			dxBasis->PostDraw();
+		}
+		else if (scene == 1) {
 #pragma region DirectX毎フレーム処理
 
+			// 描画前処理
+			dxBasis->PreDraw();
+
+			Object3D::PreDraw(dxBasis->GetCommandList());
+
+#pragma region  3Dモデル描画処理
+			object3d3->Draw();
+
+			floorObject->Draw();
+
+			fieldblock->Draw();
+			fieldblock2->Draw();
+			fieldblock3->Draw();
+			fieldblock4->Draw();
+			fieldblock5->Draw();
+			fieldblock6->Draw();
+			fieldblock7->Draw();
+			fieldblock8->Draw();
+			fieldblock9->Draw();
+			fieldblock10->Draw();
+			fieldblock11->Draw();
+			fieldblock12->Draw();
+			fieldblock13->Draw();
+			fieldblock14->Draw();
+			fieldblock15->Draw();
+
+			//playerObject->Draw();
+			player->Draw();
+			for (int i = 0; i < 3; i++) {
+				enemy[i]->Draw();
+			}
+#pragma endregion
+
+			Object3D::PostDraw();
+
+			// パイプラインステート設定
+			dxBasis->GetCommandList()->SetPipelineState(pipelineState.Get());
+
+			// ルートシグネチャの設定コマンド
+			dxBasis->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
+
+			// プリミティブ形状の設定コマンド
+			dxBasis->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
+
+			// 定数バッファビュー(CBV)の設定コマンド
+			dxBasis->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
+
+			//デスクリプタヒープの配列をセットするコマンド
+			ID3D12DescriptorHeap* ppHeaps[] = { srvHeap.Get() };
+			dxBasis->GetCommandList()->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+			//SRVヒープの先頭アドレスを取得
+			D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
+			//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
+			dxBasis->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
+
+			//定数バッファビュー(CBV)の設定コマンド
+			dxBasis->GetCommandList()->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
+
+			// 頂点バッファビューの設定コマンド
+			dxBasis->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
+
+			// インデックスバッファビューの設定コマンド
+			dxBasis->GetCommandList()->IASetIndexBuffer(&ibView);
+
+			// 描画コマンド
+			dxBasis->GetCommandList()->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0); // 全ての頂点を使って描画
+
+			//描画後処理
+			dxBasis->PostDraw();
+
+#pragma endregion
+		}
+		else if (scene == 2) {
+			// 描画前処理
+			dxBasis->PreDraw();
+
+			Object3D::PreDraw(dxBasis->GetCommandList());
+
+			//天球
+			object3d3->Draw();
+
+			Object3D::PostDraw();
+
+			//描画後処理
+			dxBasis->PostDraw();
+		}
+		else if (scene == 3) {
 		// 描画前処理
 		dxBasis->PreDraw();
 
 		Object3D::PreDraw(dxBasis->GetCommandList());
 
-#pragma region  3Dモデル描画処理
+		//天球
 		object3d3->Draw();
-
-		floorObject->Draw();
-
-		fieldblock->Draw();
-		fieldblock2->Draw();
-		fieldblock3->Draw();
-		fieldblock4->Draw();
-		fieldblock5->Draw();
-		fieldblock6->Draw();
-		fieldblock7->Draw();
-		fieldblock8->Draw();
-		fieldblock9->Draw();
-		fieldblock10->Draw();
-		fieldblock11->Draw();
-		fieldblock12->Draw();
-		fieldblock13->Draw();
-		fieldblock14->Draw();
-		fieldblock15->Draw();
-
-		//playerObject->Draw();
-		player->Draw();
-		for (int i = 0; i < 3; i++) {
-			enemy[i]->Draw();
-		}
-#pragma endregion
-
-		
 
 		Object3D::PostDraw();
 
-		// パイプラインステート設定
-		dxBasis->GetCommandList()->SetPipelineState(pipelineState.Get());
-
-		// ルートシグネチャの設定コマンド
-		dxBasis->GetCommandList()->SetGraphicsRootSignature(rootSignature.Get());
-
-		// プリミティブ形状の設定コマンド
-		dxBasis->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST); // 三角形リスト
-
-		// 定数バッファビュー(CBV)の設定コマンド
-		dxBasis->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
-
-		//デスクリプタヒープの配列をセットするコマンド
-		ID3D12DescriptorHeap* ppHeaps[] = { srvHeap.Get()};
-		dxBasis->GetCommandList()->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
-		//SRVヒープの先頭アドレスを取得
-		D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = srvHeap->GetGPUDescriptorHandleForHeapStart();
-		//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-		dxBasis->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
-
-		//定数バッファビュー(CBV)の設定コマンド
-		dxBasis->GetCommandList()->SetGraphicsRootConstantBufferView(2, constBuffTransform->GetGPUVirtualAddress());
-
-		// 頂点バッファビューの設定コマンド
-		dxBasis->GetCommandList()->IASetVertexBuffers(0, 1, &vbView);
-
-		// インデックスバッファビューの設定コマンド
-		dxBasis->GetCommandList()->IASetIndexBuffer(&ibView);
-
-		// 描画コマンド
-		dxBasis->GetCommandList()->DrawIndexedInstanced(_countof(indices), 1, 0, 0, 0); // 全ての頂点を使って描画
-
-
-		
-
 		//描画後処理
 		dxBasis->PostDraw();
-
-
-		
-#pragma endregion
-
+		}
 	}
 
 	delete model;

@@ -15,7 +15,7 @@ void Player::Update()
 	Vector3 CameraRot = { 0,0,0 };
 	Vector3 tmpVecY = { 0,1,0 };
 
-	if (input_->keyInstantPush(DIK_SPACE) && isStep == false) {
+	if (input_->keyInstantPush(DIK_W) && isStep == false) {
 		isStep = true;
 		dashPower = 10.0f;
 	}
