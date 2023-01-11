@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="DirectXBasis.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix4.cpp" />
@@ -152,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="DirectXBasis.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Matrix4.h" />
     <ClInclude Include="Model.h" />

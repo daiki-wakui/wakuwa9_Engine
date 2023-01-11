@@ -149,24 +149,24 @@ void Player::Update()
 
 	playerObject_->Update();
 
-	coolTime--;
+	//coolTime--;
 
-	if (coolTime < 0) {
-		//’e‚Ì‘¬“x
-		const float kBulletSpeed = 2.0f;
-		Vector3 velocity(0, 0, kBulletSpeed);
+	//if (coolTime < 0) {
+	//	//’e‚Ì‘¬“x
+	//	const float kBulletSpeed = 2.0f;
+	//	Vector3 velocity(0, 0, kBulletSpeed);
 
-		velocity.multiplyMat4(playerObject_->matWorld);
-		velocity.normalize();
-		velocity *= kBulletSpeed;
+	//	velocity.multiplyMat4(playerObject_->matWorld);
+	//	velocity.normalize();
+	//	velocity *= kBulletSpeed;
 
-		//’e‚Ì¶¬‚Æ‰Šú‰»
-		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(pos3d2, velocity);
-		bullets_.push_back(std::move(newBullet));
+	//	//’e‚Ì¶¬‚Æ‰Šú‰»
+	//	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+	//	newBullet->Initialize(pos3d2, velocity);
+	//	bullets_.push_back(std::move(newBullet));
 
-		coolTime = 8;
-	}
+	//	coolTime = 8;
+	//}
 
 	//’e‚ÌXVˆ—
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
@@ -195,4 +195,15 @@ void Player::OnCollision()
 	if (HP <= 0) {
 		isDead = true;
 	}
+}
+
+DirectX::XMFLOAT3 Player::GetWorldPos()
+{
+	DirectX::XMFLOAT3 worldPos;
+
+	worldPos.x = pos3d2.x;
+	worldPos.y = pos3d2.y;
+	worldPos.z = pos3d2.z;
+
+	return worldPos;
 }

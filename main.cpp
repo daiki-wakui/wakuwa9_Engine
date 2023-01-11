@@ -1082,36 +1082,67 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		constMapTransform->mat = matWorld * matProjection;
 
 #pragma region  当たり判定
-		XMFLOAT3 posA, posB;
 
-		//自弾リストの取得
-		const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullets();
+		if (scene == 1) {
+			XMFLOAT3 posA, posB;
 
-		for (const std::unique_ptr<Enemy>& enemy : enemys_) {
-			posA = enemy->GetWorldPos();
+			//自弾リストの取得
+			const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player->GetBullets();
 
-			for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
-				//敵弾の座標
-				posB = bullet->GetWorldPos();
+			posA = player->GetWorldPos();
 
-				//AとBの距離
-				float r1 = 7.0f;	//敵のスケール
-				float r2 = 1.0f;	//弾のスケール
-				float r = r1 + r2;
+			//自機と敵の弾の当たり判定
+			for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+				for (const std::unique_ptr<EnemyBullet>& bullet : enemy->GetBullets()) {
+					//敵弾の座標
+					posB = bullet->GetWorldPos();
 
-				XMFLOAT3 dis;
-				dis.x = posB.x - posA.x;
-				dis.y = posB.y - posA.y;
-				dis.z = posB.z - posA.z;
+					//AとBの距離
+					float r1 = 7.0f;	//敵のスケール
+					float r2 = 1.0f;	//弾のスケール
+					float r = r1 + r2;
+
+					XMFLOAT3 dis;
+					dis.x = posB.x - posA.x;
+					dis.y = posB.y - posA.y;
+					dis.z = posB.z - posA.z;
+
+					if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
+						bullet->isDead_ = true;
+						player->OnCollision();
+						SoundPlayWave(xAudio2.Get(), soundData2);
+					}
+				}
+			}
+
+			for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+				posA = enemy->GetWorldPos();
+
+				//自機の弾と敵の当たり判定
+				for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+					//自弾の座標
+					posB = bullet->GetWorldPos();
+
+					//AとBの距離
+					float r1 = 7.0f;	//敵のスケール
+					float r2 = 1.0f;	//弾のスケール
+					float r = r1 + r2;
+
+					XMFLOAT3 dis;
+					dis.x = posB.x - posA.x;
+					dis.y = posB.y - posA.y;
+					dis.z = posB.z - posA.z;
 
 
-				if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
-					bullet->isDead_ = true;
-					enemy->OnCollision();
-					SoundPlayWave(xAudio2.Get(), soundData2);
+					if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
+						bullet->isDead_ = true;
+						enemy->OnCollision();
+						SoundPlayWave(xAudio2.Get(), soundData2);
+					}
 				}
 			}
 		}
+		
 
 #pragma endregion
 

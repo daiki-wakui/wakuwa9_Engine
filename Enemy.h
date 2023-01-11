@@ -4,6 +4,7 @@
 #include "KeyBoard.h"
 #include <memory>
 #include <list>
+#include "EnemyBullet.h"
 
 class Enemy
 {
@@ -17,6 +18,10 @@ private:
 
 	int HP = 3;
 
+	int coolTime = 10;
+
+	std::list<std::unique_ptr<EnemyBullet>> bullets_;
+
 public:
 
 	void Initialize(Object3D* enemyObject,XMFLOAT3 pos);
@@ -28,5 +33,8 @@ public:
 	void OnCollision();
 
 	XMFLOAT3 GetWorldPos();
+
+	//’eƒŠƒXƒg‚ðŽæ“¾
+	const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
 };
 
