@@ -18,7 +18,7 @@ private:
 	XMFLOAT3 pos3d;
 	XMFLOAT3 pos3d2;
 
-	float dashPower = 10.0f;
+	float dashPower = 5.0f;
 	bool isStep = false;
 
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
