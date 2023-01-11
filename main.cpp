@@ -921,6 +921,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Player* player = new Player;
 	player->Initialize(playerModel, playerObject, input_);
 
+	int isPlayerDamege = 0;
+	int invincibleTime = 0;
+
 
 	std::list<std::unique_ptr<Enemy>> enemys_;
 	//Enemy* enemy[3];
@@ -1037,6 +1040,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				//SoundPlayWave(xAudio2.Get(), soundData4);
 			}
 
+			//
+			//–³“GŽžŠÔ
+			if (isPlayerDamege == 1) {
+				invincibleTime++;
+
+				if (invincibleTime >= 100) {
+					isPlayerDamege = 0;
+					invincibleTime = 0;
+				}
+			}
+
 			//enemy‚ÌŽ€–Sƒtƒ‰ƒO
 			enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
 				return enemy->IsDead();
@@ -1109,8 +1123,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
 						bullet->isDead_ = true;
-						player->OnCollision();
-						SoundPlayWave(xAudio2.Get(), soundData2);
+						if (isPlayerDamege == 0) {
+							isPlayerDamege = 1;
+							player->OnCollision();
+							SoundPlayWave(xAudio2.Get(), soundData2);
+						}
 					}
 				}
 			}
