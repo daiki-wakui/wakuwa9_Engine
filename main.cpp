@@ -842,6 +842,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SoundData soundData1 = SoundLoadWave("Resources/Sound/PerituneMaterial.wav");
 	SoundData soundData2 = SoundLoadWave("Resources/Sound/Hit.wav");
 	SoundData soundData3 = SoundLoadWave("Resources/Sound/Electric Wild.wav");
+	SoundData soundData4 = SoundLoadWave("Resources/Sound/Shot.wav");
 
 	int PlayBGM = 0;
 	int ChangeBGM = 0;
@@ -937,21 +938,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//-----ここから更新処理-----//
 		//シーン切り替え
+		//タイトル
 		if (scene == 0) {
 			if (input_->keyInstantPush(DIK_SPACE)) {
 				scene = 1;
 			}
 		}
+		//ゲームシーン
 		else if (scene == 1) {
 			if (input_->keyInstantPush(DIK_SPACE)) {
 				scene = 2;
 			}
 		}
+		//ゲームオーバー
 		else if (scene == 2) {
 			if (input_->keyInstantPush(DIK_SPACE)) {
 				scene = 3;
 			}
 		}
+		//ゲームクリア
 		else if (scene == 3) {
 			if (input_->keyInstantPush(DIK_SPACE)) {
 				scene = 0;
@@ -982,6 +987,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d3->Update();
 
 		if (scene == 1) {
+
+			if (input_->keyInstantPush(DIK_K)) {
+				player->OnCollision();
+			}
+
+			if (player->IsDead() == true) {
+				scene = 2;
+			}
 
 			if (isPop == 0) {
 				std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
@@ -1019,6 +1032,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			player->Update();
 
+			//発射SE
+			if (player->GetCoolTime() == 0) {
+				//SoundPlayWave(xAudio2.Get(), soundData4);
+			}
+
+			//enemyの死亡フラグ
+			enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
+				return enemy->IsDead();
+			});
+
 			//敵の動き
 			for (std::unique_ptr<Enemy>& enemy : enemys_) {
 				enemy->Update();
@@ -1042,6 +1065,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			fieldblock13->Update();
 			fieldblock14->Update();
 			fieldblock15->Update();
+
+			//敵の動き
+			for (std::unique_ptr<Enemy>& enemy : enemys_) {
+				enemy->Update();
+			}
 		}
 		
 
@@ -1080,6 +1108,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
 					bullet->isDead_ = true;
 					enemy->OnCollision();
+					SoundPlayWave(xAudio2.Get(), soundData2);
 				}
 			}
 		}
@@ -1209,6 +1238,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			fieldblock14->Draw();
 			fieldblock15->Draw();
 
+			for (std::unique_ptr<Enemy>& enemy : enemys_) {
+				enemy->Draw();
+			}
+
 			Object3D::PostDraw();
 
 			//描画後処理
@@ -1263,6 +1296,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	xAudio2.Reset();
 	SoundUnload(&soundData1);
+	SoundUnload(&soundData2);
+	SoundUnload(&soundData3);
+	SoundUnload(&soundData4);
 
 	//ウィンドウクラスを登録解除
 	winApp->Release();

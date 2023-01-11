@@ -13,7 +13,7 @@ private:
 
 	XMFLOAT3 pos_;
 
-	bool isAlive = true;
+	bool isDead = false;
 
 	int HP = 3;
 
@@ -22,6 +22,8 @@ public:
 	void Initialize(Object3D* enemyObject,XMFLOAT3 pos);
 	void Update();
 	void Draw();
+
+	bool IsDead() const { return isDead; }
 
 	void OnCollision();
 

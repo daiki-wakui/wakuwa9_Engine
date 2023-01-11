@@ -118,7 +118,7 @@ void Player::Update()
 		newBullet->Initialize(pos3d2, velocity);
 		bullets_.push_back(std::move(newBullet));
 
-		coolTime = 5;
+		coolTime = 8;
 	}
 
 	//’e‚ÌXVˆ—
@@ -138,5 +138,14 @@ void Player::Draw()
 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
 		bullet->Draw();
+	}
+}
+
+void Player::OnCollision()
+{
+	HP--;
+
+	if (HP <= 0) {
+		isDead = true;
 	}
 }

@@ -23,7 +23,7 @@ void Enemy::OnCollision()
 	HP--;
 
 	if (HP <= 0) {
-		isAlive = false;
+		isDead = true;
 	}
 }
 
