@@ -28,16 +28,17 @@ void Player::Update()
 
 	pos3d = playerObject_->GetRotation();
 	pos3d2 = playerObject_->GetPosition();
+	eye = playerObject_->GetEye();
 
-	CameraVec.x = pos3d.x - pos3d2.x;
-	CameraVec.z = pos3d.z - pos3d2.z;
+	CameraVec.x = eye.x - pos3d2.x;
+	CameraVec.z = eye.z - pos3d2.z;
 	CameraVec.normalize();
 	CameraRot = tmpVecY.cross(CameraVec);
 
-	
+	isMove = 0;
 
 	if (input_->keyPush(DIK_RIGHT)) {
-
+		
 		if (pos3d2.x >= MoveLimitX-20) {
 			isStep = false;
 		}
@@ -57,7 +58,7 @@ void Player::Update()
 		}
 	}
 	if (input_->keyPush(DIK_LEFT)) {
-
+		
 		if (pos3d2.x <= -MoveLimitX + 20) {
 			isStep = false;
 		}
@@ -78,7 +79,7 @@ void Player::Update()
 		
 	}
 	if (input_->keyPush(DIK_UP)) {
-
+		
 		if (pos3d2.z >= MoveLimitZ - 20) {
 			isStep = false;
 		}
@@ -99,7 +100,7 @@ void Player::Update()
 		
 	}
 	if (input_->keyPush(DIK_DOWN)) {
-
+		
 		if (pos3d2.z <= (-MoveLimitZ - 20) + 20) {
 			isStep = false;
 		}
@@ -119,54 +120,54 @@ void Player::Update()
 		}
 	}
 
-	if (input_->keyPush(DIK_D)) {
+	if (isMove == 0) {
+		if (input_->keyPush(DIK_D)) {
 
 
-		if (pos3d.y >= 18.0f) {
-			pos3d.y = 18.0f;
+			if (pos3d.y >= 18.0f) {
+				pos3d.y = 18.0f;
+			}
+			else {
+				pos3d.y++;
+				Object3D::CameraEyeMoveVector(CameraRot);
+			}
 		}
-		else {
-			pos3d.y++;
-			Object3D::CameraEyeMoveVector(-CameraRot);
+		if (input_->keyPush(DIK_A)) {
+
+
+			if (pos3d.y <= -18.0f) {
+				pos3d.y = -18.0f;
+			}
+			else {
+				pos3d.y--;
+				Object3D::CameraEyeMoveVector(-CameraRot);
+			}
 		}
 	}
-	if (input_->keyPush(DIK_A)) {
-
-
-		if (pos3d.y <= -18.0f) {
-			pos3d.y = -18.0f;
-		}
-		else {
-			pos3d.y--;
-			Object3D::CameraEyeMoveVector(CameraRot);
-		}
-	}
-
-	
 
 	playerObject_->SetRotation(pos3d);
 	playerObject_->SetPosition(pos3d2);
 
 	playerObject_->Update();
 
-	//coolTime--;
+	coolTime--;
 
-	//if (coolTime < 0) {
-	//	//’e‚Ì‘¬“x
-	//	const float kBulletSpeed = 2.0f;
-	//	Vector3 velocity(0, 0, kBulletSpeed);
+	if (coolTime < 0) {
+		//’e‚Ì‘¬“x
+		const float kBulletSpeed = 2.0f;
+		Vector3 velocity(0, 0, kBulletSpeed);
 
-	//	velocity.multiplyMat4(playerObject_->matWorld);
-	//	velocity.normalize();
-	//	velocity *= kBulletSpeed;
+		velocity.multiplyMat4(playerObject_->matWorld);
+		velocity.normalize();
+		velocity *= kBulletSpeed;
 
-	//	//’e‚Ì¶¬‚Æ‰Šú‰»
-	//	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-	//	newBullet->Initialize(pos3d2, velocity);
-	//	bullets_.push_back(std::move(newBullet));
+		//’e‚Ì¶¬‚Æ‰Šú‰»
+		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+		newBullet->Initialize(pos3d2, velocity);
+		bullets_.push_back(std::move(newBullet));
 
-	//	coolTime = 8;
-	//}
+		coolTime = 8;
+	}
 
 	//’e‚ÌXVˆ—
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {

@@ -129,15 +129,15 @@ void Object3D::CameraEyeMoveVector(Vector3 eye)
 	Vector3 VecEye_;
 	VecEye_.x = eye_.x;
 	//VecEye_.y = eye_.y;
-	//VecEye_.z = eye_.z;
+	VecEye_.z = eye_.z;
 
 	VecEye_.x += eye.x;
 	//VecEye_.y += eye.y;
-	//VecEye_.z += eye.z;
+	VecEye_.z += eye.z;
 
 	eye_.x = VecEye_.x;
 	//eye_.y = VecEye_.y;
-	//eye_.z = VecEye_.z;
+	eye_.z = VecEye_.z;
 
 	SetEye(eye_);
 }

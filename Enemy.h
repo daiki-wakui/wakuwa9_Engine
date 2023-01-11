@@ -30,7 +30,7 @@ private:
 
 public:
 
-	void Initialize(Object3D* enemyObject,XMFLOAT3 pos, Player* player);
+	void Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int hp = 3);
 	void Update();
 	void Draw();
 

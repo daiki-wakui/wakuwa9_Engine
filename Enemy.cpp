@@ -1,10 +1,11 @@
 #include "Enemy.h"
 
-void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player)
+void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int hp)
 {
 	enemyObject_ = enemyObject;
 	pos_ = pos;
 	player_ = player;
+	HP = hp;
 
 	bullets_.clear();
 }

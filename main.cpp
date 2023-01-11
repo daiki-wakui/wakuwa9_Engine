@@ -843,6 +843,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SoundData soundData2 = SoundLoadWave("Resources/Sound/Hit.wav");
 	SoundData soundData3 = SoundLoadWave("Resources/Sound/Electric Wild.wav");
 	SoundData soundData4 = SoundLoadWave("Resources/Sound/Shot.wav");
+	SoundData soundData5 = SoundLoadWave("Resources/Sound/damage.wav");
+	SoundData soundData6 = SoundLoadWave("Resources/Sound/dash.wav");
 
 	int PlayBGM = 0;
 	int ChangeBGM = 0;
@@ -864,6 +866,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Object3D* enemyObject = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
 	Object3D* enemyObject2 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
 	Object3D* enemyObject3 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
+
+	Object3D* enemyObject4 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
+	Object3D* enemyObject5 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
+	Object3D* enemyObject6 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
+	Object3D* enemyObject7 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
 
 
 	Object3D* playerObject = Object3D::Create(playerModel, { (5.0f),(5.0f),(5.0f) });
@@ -925,13 +932,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int invincibleTime = 0;
 	int invincible = 0;
 
-
+	int wave = 0;
 	std::list<std::unique_ptr<Enemy>> enemys_;
-	//Enemy* enemy[3];
 
 	int isPop = 0;
-
 	int scene = 0;
+	int knockDownNum = 0;
+	int popCoolTime = 0;
+	XMFLOAT3 domeRot={};
 
 	//ÉQÅ[ÉÄÉãÅ[Év
 	while (true) {
@@ -988,6 +996,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		input_->Update();
 
 #pragma region  ÉIÉuÉWÉFÉNÉgçXêVèàóù
+
+		/*if (isPlayerDamege == 1) {
+			domeRot = object3d3->GetRotation();
+
+			domeRot.y += 50;
+
+			object3d3->SetRotation(domeRot);
+		}*/
+
 		object3d3->Update();
 
 		if (scene == 1) {
@@ -1000,21 +1017,202 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				scene = 2;
 			}
 
-			if (isPop == 0) {
-				std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
-				std::unique_ptr<Enemy> newEnemy2 = std::make_unique<Enemy>();
-				std::unique_ptr<Enemy> newEnemy3 = std::make_unique<Enemy>();
+#pragma region  ÉEÉFÅ[Éuä«óù
 
-				newEnemy->Initialize(enemyObject, { -50,0,100 },player);
-				newEnemy2->Initialize(enemyObject2, { 0,0,100 },player);
-				newEnemy3->Initialize(enemyObject3, { 50,0,100 },player);
+			//É`ÉÖÅ[ÉgÉäÉAÉã
+			if (wave == 0) {
+				if (isPop == 0) {
+					std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+					std::unique_ptr<Enemy> newEnemy2 = std::make_unique<Enemy>();
+					std::unique_ptr<Enemy> newEnemy3 = std::make_unique<Enemy>();
 
-				//ìGÇìoò^Ç∑ÇÈ
-				enemys_.push_back(std::move(newEnemy));
-				enemys_.push_back(std::move(newEnemy2));
-				enemys_.push_back(std::move(newEnemy3));
-				isPop++;
+					newEnemy->Initialize(enemyObject, { -70,0,100 }, player);
+					newEnemy2->Initialize(enemyObject2, { 0,0,100 }, player);
+					newEnemy3->Initialize(enemyObject3, { 70,0,100 }, player);
+
+					//ìGÇìoò^Ç∑ÇÈ
+					enemys_.push_back(std::move(newEnemy));
+					enemys_.push_back(std::move(newEnemy2));
+					enemys_.push_back(std::move(newEnemy3));
+					isPop++;
+				}
+
+				if (knockDownNum == 3) {
+					wave++;
+					knockDownNum = 0;
+					isPop = 0;
+				}
 			}
+
+			//ÉEÉFÅ[Éu1
+			if (wave == 1) {
+				popCoolTime++;
+
+				if (popCoolTime >= 300) {
+					if (isPop == 0) {
+						std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+						std::unique_ptr<Enemy> newEnemy2 = std::make_unique<Enemy>();
+						std::unique_ptr<Enemy> newEnemy3 = std::make_unique<Enemy>();
+
+						newEnemy->Initialize(enemyObject, { -70,0,50 }, player);
+						newEnemy2->Initialize(enemyObject2, { 0,0,100 }, player);
+						newEnemy3->Initialize(enemyObject3, { 70,0,50 }, player);
+
+						//ìGÇìoò^Ç∑ÇÈ
+						enemys_.push_back(std::move(newEnemy));
+						enemys_.push_back(std::move(newEnemy2));
+						enemys_.push_back(std::move(newEnemy3));
+						popCoolTime = 0;
+						isPop = 1;
+					}
+				}
+
+				if (popCoolTime >= 100) {
+					if (isPop == 1) {
+						std::unique_ptr<Enemy> newEnemy4 = std::make_unique<Enemy>();
+						std::unique_ptr<Enemy> newEnemy5 = std::make_unique<Enemy>();
+						std::unique_ptr<Enemy> newEnemy6 = std::make_unique<Enemy>();
+
+						newEnemy4->Initialize(enemyObject4, { -90,0,100 }, player);
+						newEnemy5->Initialize(enemyObject5, { 0,0,50 }, player);
+						newEnemy6->Initialize(enemyObject6, { 90,0,100 }, player);
+
+						//ìGÇìoò^Ç∑ÇÈ
+						enemys_.push_back(std::move(newEnemy4));
+						enemys_.push_back(std::move(newEnemy5));
+						enemys_.push_back(std::move(newEnemy6));
+						isPop++;
+					}
+				}
+
+				//ëSïîì|ÇµÇΩÇÁ
+				if (knockDownNum == 6) {
+					wave++;
+					knockDownNum = 0;
+					popCoolTime = 0;
+					isPop = 0;
+				}
+			}
+
+			//ÉEÉFÅ[Éu2
+			if (wave == 2) {
+				popCoolTime++;
+
+				if (popCoolTime >= 300 && isPop == 0) {
+					std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+					std::unique_ptr<Enemy> newEnemy2 = std::make_unique<Enemy>();
+					std::unique_ptr<Enemy> newEnemy3 = std::make_unique<Enemy>();
+					std::unique_ptr<Enemy> newEnemy4 = std::make_unique<Enemy>();
+					std::unique_ptr<Enemy> newEnemy5 = std::make_unique<Enemy>();
+					std::unique_ptr<Enemy> newEnemy6 = std::make_unique<Enemy>();
+
+					newEnemy->Initialize(enemyObject, { -70,0,20 }, player);
+					newEnemy2->Initialize(enemyObject2, { -50,0,60 }, player);
+					newEnemy3->Initialize(enemyObject3, { -20,0,100 }, player);
+					newEnemy4->Initialize(enemyObject4, { 20,0,100 }, player);
+					newEnemy5->Initialize(enemyObject5, { 50,0,60 }, player);
+					newEnemy6->Initialize(enemyObject6, { 70,0,20 }, player);
+
+					//ìGÇìoò^Ç∑ÇÈ
+					enemys_.push_back(std::move(newEnemy));
+					enemys_.push_back(std::move(newEnemy2));
+					enemys_.push_back(std::move(newEnemy3));
+					enemys_.push_back(std::move(newEnemy4));
+					enemys_.push_back(std::move(newEnemy5));
+					enemys_.push_back(std::move(newEnemy6));
+
+					isPop++;
+				}
+
+				//ëSïîì|ÇµÇΩÇÁ
+				if (knockDownNum == 6) {
+					wave++;
+					knockDownNum = 0;
+					popCoolTime = 0;
+					isPop = 0;
+				}
+			}
+
+			//ÉEÉFÅ[Éu3
+			if (wave == 3) {
+				popCoolTime++;
+
+				if (popCoolTime >= 300 && isPop == 0) {
+					std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+
+					newEnemy->Initialize(enemyObject, { -70,0,0 }, player);
+					//ìGÇìoò^Ç∑ÇÈ
+					enemys_.push_back(std::move(newEnemy));
+					popCoolTime = 0;
+					isPop++;
+				}
+
+				if (popCoolTime >= 50 && isPop == 1) {
+					std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+
+					newEnemy->Initialize(enemyObject2, { 70,0,30 }, player);
+					//ìGÇìoò^Ç∑ÇÈ
+					enemys_.push_back(std::move(newEnemy));
+					popCoolTime = 0;
+					isPop++;
+				}
+
+				if (popCoolTime >= 50 && isPop == 2) {
+					std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+
+					newEnemy->Initialize(enemyObject3, { -50,0,60 }, player);
+					//ìGÇìoò^Ç∑ÇÈ
+					enemys_.push_back(std::move(newEnemy));
+					popCoolTime = 0;
+					isPop++;
+				}
+
+				if (popCoolTime >= 50 && isPop == 3) {
+					std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+
+					newEnemy->Initialize(enemyObject4, { 50,0,90 }, player);
+					//ìGÇìoò^Ç∑ÇÈ
+					enemys_.push_back(std::move(newEnemy));
+					popCoolTime = 0;
+					isPop++;
+				}
+
+				if (popCoolTime >= 50 && isPop == 4) {
+					std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+
+					newEnemy->Initialize(enemyObject5, { -20,0,120 }, player);
+					//ìGÇìoò^Ç∑ÇÈ
+					enemys_.push_back(std::move(newEnemy));
+					popCoolTime = 0;
+					isPop++;
+				}
+
+				if (popCoolTime >= 50 && isPop == 5) {
+					std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+
+					newEnemy->Initialize(enemyObject6, { 20,0,120 }, player);
+					//ìGÇìoò^Ç∑ÇÈ
+					enemys_.push_back(std::move(newEnemy));
+					popCoolTime = 0;
+					isPop++;
+				}
+
+				if (popCoolTime >= 300 && isPop == 6 && knockDownNum == 6) {
+					std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+
+					newEnemy->Initialize(enemyObject7, { 0,0,100 }, player,15);
+					//ìGÇìoò^Ç∑ÇÈ
+					enemys_.push_back(std::move(newEnemy));
+					popCoolTime = 0;
+					isPop++;
+				}
+
+				if (knockDownNum == 7) {
+					scene = 3;
+				}
+			}
+
+#pragma endregion
 
 			floorObject->Update();
 
@@ -1039,6 +1237,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//î≠éÀSE
 			if (player->GetCoolTime() == 0) {
 				//SoundPlayWave(xAudio2.Get(), soundData4);
+			}
+
+			if (player->GetIsStep() == true && input_->keyInstantPush(DIK_W)) {
+				SoundPlayWave(xAudio2.Get(), soundData6);
 			}
 
 			//
@@ -1135,7 +1337,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 							bullet->isDead_ = true;
 							isPlayerDamege = 1;
 							player->OnCollision();
-							SoundPlayWave(xAudio2.Get(), soundData2);
+							SoundPlayWave(xAudio2.Get(), soundData5);
 						}
 					}
 				}
@@ -1163,6 +1365,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
 						bullet->isDead_ = true;
 						enemy->OnCollision();
+
+						if (enemy->IsDead() == true) {
+							knockDownNum++;
+						}
 						SoundPlayWave(xAudio2.Get(), soundData2);
 					}
 				}

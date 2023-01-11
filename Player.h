@@ -17,6 +17,7 @@ private:
 
 	XMFLOAT3 pos3d;
 	XMFLOAT3 pos3d2;
+	XMFLOAT3 eye;
 
 	float dashPower = 5.0f;
 	bool isStep = false;
@@ -26,6 +27,8 @@ private:
 
 	int HP = 5;
 	bool isDead = false;
+
+	bool isMove = false;
 
 public:
 
