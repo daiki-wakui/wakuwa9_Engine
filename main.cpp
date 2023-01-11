@@ -1011,7 +1011,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 		
-
+		if (scene == 2) {
+			floorObject->Update();
+			fieldblock->Update();
+			fieldblock2->Update();
+			fieldblock3->Update();
+			fieldblock4->Update();
+			fieldblock5->Update();
+			fieldblock6->Update();
+			fieldblock7->Update();
+			fieldblock8->Update();
+			fieldblock9->Update();
+			fieldblock10->Update();
+			fieldblock11->Update();
+			fieldblock12->Update();
+			fieldblock13->Update();
+			fieldblock14->Update();
+			fieldblock15->Update();
+		}
 		
 
 #pragma endregion
@@ -1153,6 +1170,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			//“V‹…
 			object3d3->Draw();
+
+			floorObject->Draw();
+
+			fieldblock->Draw();
+			fieldblock2->Draw();
+			fieldblock3->Draw();
+			fieldblock4->Draw();
+			fieldblock5->Draw();
+			fieldblock6->Draw();
+			fieldblock7->Draw();
+			fieldblock8->Draw();
+			fieldblock9->Draw();
+			fieldblock10->Draw();
+			fieldblock11->Draw();
+			fieldblock12->Draw();
+			fieldblock13->Draw();
+			fieldblock14->Draw();
+			fieldblock15->Draw();
 
 			Object3D::PostDraw();
 
