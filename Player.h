@@ -14,6 +14,8 @@ private:
 	Object3D* playerObject_;
 	KeyBoard* input_;
 
+	Model* hpModel_;
+	Object3D* hpObj_[5];
 
 	XMFLOAT3 pos3d;
 	XMFLOAT3 pos3d2;

@@ -6,6 +6,12 @@ void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* in
 	playerObject_ = playerObject;
 	input_ = input;
 
+	hpModel_ = Model::LoadFromObj("Cube");
+
+	for (int i = 0; i < 5; i++) {
+		hpObj_[i] = Object3D::Create(hpModel_, {(1.0f),(1.0f),(1.0f)});
+	}
+
 	bullets_.clear();
 }
 
@@ -152,6 +158,31 @@ void Player::Update()
 	playerObject_->SetRotation(pos3d);
 	playerObject_->SetPosition(pos3d2);
 
+	XMFLOAT3 lifePos[5];
+
+	for (int i = 0; i < 5; i++) {
+		lifePos[i] = pos3d2;
+	}
+
+	lifePos[0].x -= 10;
+	lifePos[0].y += 10;
+
+	lifePos[1].x -= 5;
+	lifePos[1].y += 10;
+
+	lifePos[2].y += 10;
+
+	lifePos[3].x += 5;
+	lifePos[3].y += 10;
+
+	lifePos[4].x += 10;
+	lifePos[4].y += 10;
+
+	for (int i = 0; i < 5; i++) {
+		hpObj_[i]->SetPosition(lifePos[i]);
+		hpObj_[i]->Update();
+	}
+
 	playerObject_->Update();
 
 	coolTime--;
@@ -187,6 +218,10 @@ void Player::Update()
 void Player::Draw()
 {
 	playerObject_->Draw();
+
+	for (int i = 0; i < HP; i++) {
+		hpObj_[i]->Draw();
+	}
 
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
 		bullet->Draw();
