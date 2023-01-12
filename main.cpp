@@ -851,10 +851,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Model* model2 = Model::LoadFromObj("world");
 
 	Model* playerModel = Model::LoadFromObj("Cube");
+	//Model* playerBulletModel = Model::LoadFromObj("playerBullet");
 	Model* floorModel = Model::LoadFromObj("Floor");
 
 	Model* fieldBlock = Model::LoadFromObj("bobj");
 	Model* fieldBlock2 = Model::LoadFromObj("aobj");
+
+	Model* playerModel_ = Model::LoadFromObj("player");
+	Model* podModel_ = Model::LoadFromObj("pad");
+	Model* enemyModel_ = Model::LoadFromObj("enemy");
 
 	Model* UIModel[13];
 	UIModel[0] = Model::LoadFromObj("gameover");
@@ -888,17 +893,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//3Dオブジェクト生成
 	Object3D* object3d3 = Object3D::Create(model2, { (500.0f),(500.0f),(500.0f) });
 
-	Object3D* enemyObject = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
-	Object3D* enemyObject2 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
-	Object3D* enemyObject3 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
+	Object3D* enemyObject = Object3D::Create(enemyModel_, { (7.0f),(7.0f),(7.0f) });
+	Object3D* enemyObject2 = Object3D::Create(enemyModel_, { (7.0f),(7.0f),(7.0f) });
+	Object3D* enemyObject3 = Object3D::Create(enemyModel_, { (7.0f),(7.0f),(7.0f) });
 
-	Object3D* enemyObject4 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
-	Object3D* enemyObject5 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
-	Object3D* enemyObject6 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
-	Object3D* enemyObject7 = Object3D::Create(playerModel, { (7.0f),(7.0f),(7.0f) });
+	Object3D* enemyObject4 = Object3D::Create(enemyModel_, { (7.0f),(7.0f),(7.0f) });
+	Object3D* enemyObject5 = Object3D::Create(enemyModel_, { (7.0f),(7.0f),(7.0f) });
+	Object3D* enemyObject6 = Object3D::Create(enemyModel_, { (7.0f),(7.0f),(7.0f) });
+	Object3D* enemyObject7 = Object3D::Create(enemyModel_, { (7.0f),(7.0f),(7.0f) });
 
 
-	Object3D* playerObject = Object3D::Create(playerModel, { (5.0f),(5.0f),(5.0f) });
+	Object3D* playerObject = Object3D::Create(playerModel_, { (2.0f),(2.0f),(2.0f) });
+	Object3D* podObject = Object3D::Create(podModel_, { (2),(2),(2) });
+
 	Object3D* floorObject = Object3D::Create(floorModel, { (25.0f),(25.0f),(25.0f) });
 	Object3D* fieldblock = Object3D::Create(fieldBlock, { (10.0f),(10.0f),(10.0f) });
 	Object3D* fieldblock2 = Object3D::Create(fieldBlock, { (15.0f),(10.0f),(10.0f) });
@@ -951,7 +958,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	float angle = 0.0f;
 
 	Player* player = new Player;
-	player->Initialize(playerModel, playerObject, input_);
+	player->Initialize(playerModel_, playerObject, input_, podObject);
 
 	int isPlayerDamege = 0;
 	int invincibleTime = 0;
@@ -1059,12 +1066,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}*/
 
 		if (scene == 0) {
-			UI->Update();
-			UI2->Update();
-
-			clearUI->Update();
-			
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 13; i++) {
 				UIobj[i]->Update();
 			}
 		}

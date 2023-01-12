@@ -5,7 +5,7 @@ void EnemyBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity)
 	tPos_ = pos;
 	velocity_ = velocity;
 
-	bulletModel = Model::LoadFromObj("Cube");
+	bulletModel = Model::LoadFromObj("enemyBullet");
 	bulletObject_ = Object3D::Create(bulletModel, { (1.0f),(1.0f),(1.0f) });
 
 	bulletObject_->SetPosition(tPos_);

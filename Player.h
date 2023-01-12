@@ -12,6 +12,7 @@ private:
 
 	Model* playerModel_;
 	Object3D* playerObject_;
+	Object3D* podObject_;
 	KeyBoard* input_;
 
 	Model* hpModel_;
@@ -19,6 +20,7 @@ private:
 
 	XMFLOAT3 pos3d;
 	XMFLOAT3 pos3d2;
+	XMFLOAT3 posPod;
 	XMFLOAT3 eye;
 
 	float dashPower = 5.0f;
@@ -33,7 +35,7 @@ public:
 	int HP = 5;
 	bool isDead = false;
 
-	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input);
+	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input,Object3D* podObject);
 	void Update();
 	void Draw();
 
