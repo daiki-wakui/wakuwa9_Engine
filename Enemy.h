@@ -28,10 +28,12 @@ private:
 
 	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 
+	int pattern_;
+
 public:
 
-	void Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int hp = 3);
-	void Update();
+	void Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int hp = 3, int pattern = 1);
+	void Update(int &wave);
 	void Draw();
 
 	bool IsDead() const { return isDead; }

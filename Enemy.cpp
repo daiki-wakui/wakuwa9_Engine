@@ -1,6 +1,6 @@
 #include "Enemy.h"
 
-void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int hp)
+void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int hp,int pattern)
 {
 	enemyObject_ = enemyObject;
 	pos_ = pos;
@@ -8,35 +8,40 @@ void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int 
 	player_ = player;
 	HP = hp;
 
+	pattern_ = pattern;
+
 	bullets_.clear();
 }
 
-void Enemy::Update()
+void Enemy::Update(int& wave)
 {
-	coolTime--;
+	if (wave != 0) {
+		coolTime--;
 
-	if (coolTime == 0) {
-		playerPos = player_->GetWorldPos();
-		enemyPos = GetWorldPos();
+		if (coolTime == 0) {
+			playerPos = player_->GetWorldPos();
+			enemyPos = GetWorldPos();
 
-		differenceVec.x = enemyPos.x - playerPos.x;
-		differenceVec.y = enemyPos.y - playerPos.y;
-		differenceVec.z = enemyPos.z - playerPos.z;
-		differenceVec.normalize();
+			differenceVec.x = enemyPos.x - playerPos.x;
+			differenceVec.y = enemyPos.y - playerPos.y;
+			differenceVec.z = enemyPos.z - playerPos.z;
+			differenceVec.normalize();
 
-		const float kBulletSpeed = -1.0f;
-		Vector3 velocity(differenceVec);
+			const float kBulletSpeed = -1.0f;
+			Vector3 velocity(differenceVec);
 
-		velocity.multiplyMat4(enemyObject_->matWorld);
+			velocity.multiplyMat4(enemyObject_->matWorld);
 
-		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-		newBullet->Initialize(pos_, velocity);
+			std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+			newBullet->Initialize(pos_, velocity);
 
-		//’e‚ğ“o˜^‚·‚é
-		bullets_.push_back(std::move(newBullet));
+			//’e‚ğ“o˜^‚·‚é
+			bullets_.push_back(std::move(newBullet));
 
-		coolTime = 50;
+			coolTime = 50;
+		}
 	}
+	
 
 
 	//ƒfƒXƒtƒ‰ƒO‚ª—§‚Á‚½’e‚ğíœ
