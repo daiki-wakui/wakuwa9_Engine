@@ -803,6 +803,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		if (scene == 3) {
+			UIobj[5]->SetPosition({ -50,0,300 });
+
 			UIobj[12]->Update();
 			UIobj[5]->Update();
 		}
