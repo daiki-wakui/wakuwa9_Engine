@@ -856,15 +856,34 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Model* fieldBlock = Model::LoadFromObj("bobj");
 	Model* fieldBlock2 = Model::LoadFromObj("aobj");
 
-	Model* autoModel = Model::LoadFromObj("auto");
-	Model* titleModel = Model::LoadFromObj("buster");
+	Model* UIModel[13];
+	UIModel[0] = Model::LoadFromObj("gameover");
+	UIModel[1] = Model::LoadFromObj("kaihi");
+	UIModel[2] = Model::LoadFromObj("move");
+
+	UIModel[3] = Model::LoadFromObj("rot");
+	UIModel[4] = Model::LoadFromObj("spaceStart");
+	UIModel[5] = Model::LoadFromObj("spaceTitle");
+	UIModel[6] = Model::LoadFromObj("wave13");
+	UIModel[7] = Model::LoadFromObj("wave23");
+	UIModel[8] = Model::LoadFromObj("wave33");
+	UIModel[9] = Model::LoadFromObj("retry");
+	UIModel[10] = Model::LoadFromObj("auto");
+	UIModel[11] = Model::LoadFromObj("buster");
+	UIModel[12] = Model::LoadFromObj("gameclear");
 
 #pragma region  オブジェクト生成
-	Object3D* UI = Object3D::Create(autoModel, { 3.0f,3.0f,3.0f });
-	UI->SetPosition({ -40,20,50 });
-	Object3D* UI2 = Object3D::Create(titleModel, { 3.0f,3.0f,3.0f });
-	UI2->SetPosition({ 30,10,25 });
 
+	//UI
+	Object3D* UIobj[13];
+
+	for (int i = 0; i < 13; i++) {
+		UIobj[i] = Object3D::Create(UIModel[i], { 3,3,3 });
+	}
+
+	//タイトルのUI
+	UIobj[10]->SetPosition({ -40,20,50 });
+	UIobj[11]->SetPosition({ 30,10,25 });
 
 	//3Dオブジェクト生成
 	Object3D* object3d3 = Object3D::Create(model2, { (500.0f),(500.0f),(500.0f) });
@@ -1042,6 +1061,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (scene == 0) {
 			UI->Update();
 			UI2->Update();
+
+			clearUI->Update();
+			
+			for (int i = 0; i < 10; i++) {
+				UIobj[i]->Update();
+			}
 		}
 
 		object3d3->Update();
@@ -1428,8 +1453,25 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//天球
 			object3d3->Draw();
 
-			UI->Draw();
-			UI2->Draw();
+			//UI->Draw();
+			//UI2->Draw();
+
+			//clearUI->Draw();
+			//UIobj[0]->Draw();
+			//UIobj[1]->Draw();
+			//UIobj[2]->Draw();
+
+			//UIobj[3]->Draw();
+			//UIobj[4]->Draw();
+
+			//UIobj[5]->Draw();
+			//UIobj[6]->Draw();
+			//UIobj[7]->Draw();
+			//UIobj[8]->Draw();
+			UIobj[9]->Draw();
+			for (int i = 0; i < 11; i++) {
+				
+			}
 
 			Object3D::PostDraw();
 
