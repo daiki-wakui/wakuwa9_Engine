@@ -47,6 +47,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	keyboard.reset(input_);
 
 	spBasis->Initialize(dxBasis);
+	spBasis->TextureData(L"Resources/001.png");
+	spBasis->TextureSetting();
+
 	SpBasis.reset(spBasis);
 
 #pragma endregion	

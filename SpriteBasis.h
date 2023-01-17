@@ -36,11 +36,13 @@ public:
 	ComPtr<ID3D12DescriptorHeap> srvHeap = nullptr;
 
 	void Initialize(DirectXBasis* dxBasis);
+	void TextureSetting();
 	void Update();
 	void Draw();
 	void Setting();
 
-	void TextureData();
+	void TextureData(const wchar_t *name);
+	
 
 	void LoadShader();
 

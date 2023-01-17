@@ -7,7 +7,12 @@ void SpriteBasis::Initialize(DirectXBasis* dxBasis)
 {
 	this->dxBasis = dxBasis;
 
-	TextureData();
+	//TextureData();
+	
+}
+
+void SpriteBasis::TextureSetting()
+{
 	LoadShader();
 	Setting();
 }
@@ -196,7 +201,7 @@ void SpriteBasis::Setting() {
 #pragma endregion
 }
 
-void SpriteBasis::TextureData()
+void SpriteBasis::TextureData(const wchar_t* name)
 {
 
 	//画像イメージデータ
@@ -218,7 +223,7 @@ void SpriteBasis::TextureData()
 	ScratchImage scratchImg{};
 	//WICテクスチャのロード
 	result = LoadFromWICFile(
-		L"Resources/test.png",
+		name,
 		WIC_FLAGS_NONE,
 		&metadata, scratchImg);
 
