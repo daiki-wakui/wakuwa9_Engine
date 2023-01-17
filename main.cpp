@@ -46,7 +46,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	input_->Initialize(winApp->GetHInstancee(), winApp->GetHwnd());
 	keyboard.reset(input_);
 
+<<<<<<< HEAD
 	spBasis->Initialize(dxBasis,0);
+=======
+	spBasis->Initialize(dxBasis);
+	spBasis->TextureData(L"Resources/test.png");
+	spBasis->TextrueSetting();
+
+>>>>>>> mainでファイル持E��して描画
 	SpBasis.reset(spBasis);
 
 #pragma endregion	

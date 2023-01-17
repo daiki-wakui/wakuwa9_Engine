@@ -44,12 +44,17 @@ public:
 	ComPtr<ID3D12PipelineState> pipelineState = nullptr;
 	ComPtr<ID3D12DescriptorHeap> srvHeap = nullptr;
 
+<<<<<<< HEAD
 	void Initialize(DirectXBasis* dxBasis, uint32_t index);
+=======
+	void Initialize(DirectXBasis* dxBasis);
+	void TextrueSetting();
+>>>>>>> mainでファイル持E��して描画
 	void Update();
 	void Draw();
 	void Setting();
 
-	void TextureData();
+	void TextureData(const wchar_t *name);
 
 	void LoadShader();
 

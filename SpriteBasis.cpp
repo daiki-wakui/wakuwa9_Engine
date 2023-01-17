@@ -7,9 +7,15 @@ std::string SpriteBasis::kDefaultTextureDirectoryPath = "Resources/";
 void SpriteBasis::Initialize(DirectXBasis* dxBasis,uint32_t index)
 {
 	this->dxBasis = dxBasis;
+}
 
+<<<<<<< HEAD
 	LoadTexture(index, L"Resourse/test.png");
 
+=======
+void SpriteBasis::TextrueSetting()
+{
+>>>>>>> main縺ｧ繝輔ぃ繧､繝ｫ謖・ｮ壹＠縺ｦ謠冗判
 	//TextureData();
 	LoadShader();
 	Setting();
@@ -331,7 +337,7 @@ void SpriteBasis::Setting() {
 #pragma endregion
 }
 
-void SpriteBasis::TextureData()
+void SpriteBasis::TextureData(const wchar_t* name)
 {
 
 	//画像イメージデータ
@@ -349,5 +355,89 @@ void SpriteBasis::TextureData()
 	//	imageData[i].w = 1.0f;
 	//}
 
+<<<<<<< HEAD
+=======
+	TexMetadata metadata{};
+	ScratchImage scratchImg{};
+	//WICテクスチャのロード
+	result = LoadFromWICFile(
+		name,
+		WIC_FLAGS_NONE,
+		&metadata, scratchImg);
+
+	ScratchImage mipChain{};
+	//ミニマップ生成
+	result = GenerateMipMaps(
+		scratchImg.GetImages(),
+		scratchImg.GetImageCount(),
+		scratchImg.GetMetadata(),
+		TEX_FILTER_DEFAULT, 0, mipChain);
+	if (SUCCEEDED(result)) {
+		scratchImg = std::move(mipChain);
+		metadata = scratchImg.GetMetadata();
+	}
+		//読み込んだディフューズテクスチャをSRGBとして扱う
+		metadata.format = MakeSRGB(metadata.format);
+
+	//テクスチャバッファ設定
+	//ヒープ設定
+	D3D12_HEAP_PROPERTIES textureHeapProp{};
+	textureHeapProp.Type = D3D12_HEAP_TYPE_CUSTOM;
+	textureHeapProp.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	textureHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
+
+	//リソース設定
+	D3D12_RESOURCE_DESC textureResourceDesc{};
+	textureResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	textureResourceDesc.Format = metadata.format;
+	textureResourceDesc.Width = metadata.width;
+	textureResourceDesc.Height = (UINT)metadata.height;
+	textureResourceDesc.DepthOrArraySize = (UINT16)metadata.arraySize;
+	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
+	textureResourceDesc.SampleDesc.Count = 1;
+
+	//テクスチャバッファ生成
+	result = dxBasis->GetDevice()->CreateCommittedResource(
+		&textureHeapProp,
+		D3D12_HEAP_FLAG_NONE,
+		&textureResourceDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&texBuff));
+
+	//テクスチャバッファにデータ転送
+	for (size_t i = 0; i < metadata.mipLevels; i++) {
+		const Image* img = scratchImg.GetImage(i, 0, 0);
+		result = texBuff->WriteToSubresource(
+			(UINT)i,
+			nullptr,
+			img->pixels,
+			(UINT)img->rowPitch,
+			(UINT)img->slicePitch
+		);
+		assert(SUCCEEDED(result));
+	}
+
+	//テクスチャからどのように色を取り出すかの設定
+	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	//横繰り返し
+	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	//縦繰り返し
+	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	//奥行繰り返し
+	samplerDesc.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
+	samplerDesc.Filter = D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
+	samplerDesc.MaxLOD = D3D12_FLOAT32_MAX;	//ミニマップ最大値
+	samplerDesc.MinLOD = 0.0f;	//ミニマップ最小値
+	samplerDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+
+	//デスクリプタヒープ生成
+	//SRVの最大個数
+	const size_t kMaxSRVCount = 2056;
+
+	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
+	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	srvHeapDesc.NumDescriptors = kMaxSRVCount;
+
+>>>>>>> main縺ｧ繝輔ぃ繧､繝ｫ謖・ｮ壹＠縺ｦ謠冗判
 	
 }
