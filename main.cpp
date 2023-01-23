@@ -680,17 +680,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Model* model = Model::LoadFromObj("sphere");
 	Model* model3 = Model::LoadFromObj("floor");
 	Model* model2 = Model::LoadFromObj("world");
+	Model* model4 = Model::LoadFromObj("player");
 
 	//3Dオブジェクト生成
 	Object3D* object3d = Object3D::Create(5.0f);
-	Object3D* object3d2 = Object3D::Create(5.0f);
+	Object3D* object3d2 = Object3D::Create(2.0f);
 	Object3D* object3d3 = Object3D::Create(100.0f);
 
 	Object3D* objectFloor = Object3D::Create(5.0f);
 
 	//3Dオブジェクトに3Dモデルを紐づけ
 	object3d->SetModel(model);
-	object3d2->SetModel(model);
+	object3d2->SetModel(model4);
 	object3d3->SetModel(model2);
 
 	object3d->SetPosition({ -20,0,+5 });
