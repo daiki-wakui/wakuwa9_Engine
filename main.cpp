@@ -694,8 +694,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	object3d2->SetModel(model4);
 	object3d3->SetModel(model2);
 
-	object3d->SetPosition({ -20,0,+5 });
-	object3d2->SetPosition({ +20,0,+5 });
+	object3d->SetPosition({ -10,0,+5 });
+	object3d2->SetPosition({ +10,0,+5 });
 
 	objectFloor->SetModel(model3);
 	objectFloor->SetPosition({ 0,-10,0 });
