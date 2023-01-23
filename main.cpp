@@ -765,8 +765,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		object3d->Draw();
 		object3d2->Draw();
-		//object3d3->Draw();
-		//objectFloor->Draw();
+		object3d3->Draw();
+		objectFloor->Draw();
 
 		Object3D::PostDraw();
 
