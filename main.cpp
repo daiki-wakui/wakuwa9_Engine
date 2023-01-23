@@ -747,6 +747,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		object3d->SetRotation(pos3d);
+		object3d2->SetRotation(pos3d);
 		object3d2->SetPosition(pos3d2);
 
 		XMMATRIX matTrans;
