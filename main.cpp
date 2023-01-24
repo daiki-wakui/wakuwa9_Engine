@@ -47,7 +47,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	keyboard.reset(input_);
 
 	spBasis->Initialize(dxBasis);
-	spBasis->TextureData(L"Resources/001.png");
+	int tex1 = 0;
+	int tex2 = 0;
+	int tex3 = 0;
+	int tex4 = 0;
+
+	tex1 = spBasis->TextureData(L"Resources/001.png");
+	tex2 = spBasis->TextureData(L"Resources/test.png");
+	tex3 = spBasis->TextureData(L"Resources/title.png");
+	tex4 = spBasis->TextureData(L"Resources/kosi.png");
+
 	spBasis->TextureSetting();
 
 	SpBasis.reset(spBasis);
@@ -61,12 +70,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Sprite* sprite = new Sprite();
 	sprite->Initialize(spBasis, winApp);
 
-	/*Sprite* sprite2 = new Sprite();
-	sprite2->Initialize(spBasis, winApp);*/
+	Sprite* sprite2 = new Sprite();
+	sprite2->Initialize(spBasis, winApp);
+
+	Sprite* sprite3 = new Sprite();
+	sprite3->Initialize(spBasis, winApp);
+
+	Sprite* sprite4 = new Sprite();
+	sprite4->Initialize(spBasis, winApp);
 
 	sprite->Create(150,150);
-	//sprite2->Create();
-
+	sprite2->Create(50, 50);
+	sprite3->Create(200, 200);
+	sprite4->Create(300, 300);
 
 	XMFLOAT2 posS = { 0,0 };
 	XMFLOAT2 sizeS = { 0,0 };
@@ -121,8 +137,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//sprite->SetRotation(angle);
 		//sprite2->SetRotation(angle);
 
-		//sprite2->Update();
+		sprite2->Update();
 		sprite->Update();
+		sprite3->Update();
+		sprite4->Update();
 
 #pragma endregion
 
@@ -130,8 +148,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// •`‰æ‘Oˆ—
 		dxBasis->PreDraw();
 
-		sprite->Draw();
-		//sprite2->Draw();
+		sprite->Draw(tex1);
+		sprite2->Draw(tex2);
+		sprite3->Draw(tex3);
+		sprite4->Draw(tex4);
 
 		//•`‰æŒãˆ—
 		dxBasis->PostDraw();

@@ -137,7 +137,7 @@ void Sprite::Update()
 
 }
 
-void Sprite::Draw()
+void Sprite::Draw(int texNum)
 {
 	// パイプラインステート設定
 	spBasis->GetDxBasis()->GetCommandList()->SetPipelineState(spBasis->GetPipelineState());
@@ -149,13 +149,15 @@ void Sprite::Draw()
 
 	// 定数バッファビュー(CBV)の設定コマンド
 	spBasis->GetDxBasis()->GetCommandList()->SetGraphicsRootConstantBufferView(0, constBuffMaterial->GetGPUVirtualAddress());
-	
 
 	//デスクリプタヒープの配列をセットするコマンド
 	ID3D12DescriptorHeap* ppHeaps[] = { spBasis->srvHeap.Get() };
 	spBasis->GetDxBasis()->GetCommandList()->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
+
 	//SRVヒープの先頭アドレスを取得
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle = spBasis->srvHeap->GetGPUDescriptorHandleForHeapStart();
+	srvGpuHandle = spBasis->srvHeap->GetGPUDescriptorHandleForHeapStart();
+	srvGpuHandle.ptr += spBasis->GetincrementSize() * texNum;
+
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
 	spBasis->GetDxBasis()->GetCommandList()->SetGraphicsRootDescriptorTable(1, srvGpuHandle);
 

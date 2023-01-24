@@ -29,6 +29,7 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vbView{};
 	UINT vertexSize;
 
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
 
 	ComPtr<ID3D12Resource> indexBuff = nullptr;
 	//インデックスバッファビュー
@@ -95,7 +96,7 @@ public:
 
 	void Initialize(SpriteBasis* spBasis, WindowsApp* winApp);
 	void Update();
-	void Draw();
+	void Draw(int texNum);
 
 	void VertexData();
 	void IndexData();

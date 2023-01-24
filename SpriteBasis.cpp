@@ -7,8 +7,14 @@ void SpriteBasis::Initialize(DirectXBasis* dxBasis)
 {
 	this->dxBasis = dxBasis;
 
-	//TextureData();
-	
+	//デスクリプタヒープ生成
+	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
+	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+	srvHeapDesc.NumDescriptors = kMaxSRVCount;
+
+	result = dxBasis->GetDevice()->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
+	assert(SUCCEEDED(result));
 }
 
 void SpriteBasis::TextureSetting()
@@ -201,23 +207,9 @@ void SpriteBasis::Setting() {
 #pragma endregion
 }
 
-void SpriteBasis::TextureData(const wchar_t* name)
+int SpriteBasis::TextureData(const wchar_t* name)
 {
-
-	//画像イメージデータ
-	//const size_t textrueWight = 256;
-	//const size_t textrueHeight = 256;
-
-	//const size_t imageDataCount = textrueWight * textrueHeight;
-
-	//DirectX::XMFLOAT4* imageData = new DirectX::XMFLOAT4[imageDataCount];
-
-	//for (size_t i = 0; i < imageDataCount; i++) {
-	//	imageData[i].x = 1.0f;
-	//	imageData[i].y = 0.0f;
-	//	imageData[i].z = 0.0f;
-	//	imageData[i].w = 1.0f;
-	//}
+	texNum++;
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
@@ -234,12 +226,14 @@ void SpriteBasis::TextureData(const wchar_t* name)
 		scratchImg.GetImageCount(),
 		scratchImg.GetMetadata(),
 		TEX_FILTER_DEFAULT, 0, mipChain);
+
 	if (SUCCEEDED(result)) {
 		scratchImg = std::move(mipChain);
 		metadata = scratchImg.GetMetadata();
 	}
-		//読み込んだディフューズテクスチャをSRGBとして扱う
-		metadata.format = MakeSRGB(metadata.format);
+
+	//読み込んだディフューズテクスチャをSRGBとして扱う
+	metadata.format = MakeSRGB(metadata.format);
 
 	//テクスチャバッファ設定
 	//ヒープ設定
@@ -258,6 +252,8 @@ void SpriteBasis::TextureData(const wchar_t* name)
 	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
+	int buffIndex = texNum;
+
 	//テクスチャバッファ生成
 	result = dxBasis->GetDevice()->CreateCommittedResource(
 		&textureHeapProp,
@@ -265,12 +261,14 @@ void SpriteBasis::TextureData(const wchar_t* name)
 		&textureResourceDesc,
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
-		IID_PPV_ARGS(&texBuff));
+		IID_PPV_ARGS(&textrueBuffers_[buffIndex]));
 
 	//テクスチャバッファにデータ転送
 	for (size_t i = 0; i < metadata.mipLevels; i++) {
+
 		const Image* img = scratchImg.GetImage(i, 0, 0);
-		result = texBuff->WriteToSubresource(
+
+		result = textrueBuffers_[buffIndex]->WriteToSubresource(
 			(UINT)i,
 			nullptr,
 			img->pixels,
@@ -291,21 +289,12 @@ void SpriteBasis::TextureData(const wchar_t* name)
 	samplerDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
 	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
-	//デスクリプタヒープ生成
-	//SRVの最大個数
-	const size_t kMaxSRVCount = 2056;
-
-	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
-	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	srvHeapDesc.NumDescriptors = kMaxSRVCount;
-
 	
-	result = dxBasis->GetDevice()->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
-	assert(SUCCEEDED(result));
 
-	//SRVヒープの先頭アドレスを取得
+	//SRVヒープの先頭アドレスを取得してtexNum分進める
+	incrementSize = dxBasis->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
+	srvHandle.ptr += incrementSize * texNum;
 
 	//シェーダリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
@@ -315,11 +304,13 @@ void SpriteBasis::TextureData(const wchar_t* name)
 	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
 
 	//ハンドルの指す位置にシェーダリソースビュー作成
-	dxBasis->GetDevice()->CreateShaderResourceView(texBuff.Get(), &srvDesc, srvHandle);
+	dxBasis->GetDevice()->CreateShaderResourceView(textrueBuffers_[buffIndex].Get(), &srvDesc, srvHandle);
 
 	//デスクリプタレンジの設定
 	descriptorRange.NumDescriptors = 1;
 	descriptorRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
 	descriptorRange.BaseShaderRegister = 0;	//テクスチャレジスタ0番
 	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	return texNum;
 }
