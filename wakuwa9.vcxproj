@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CollisonPrimitive.cpp" />
     <ClCompile Include="DirectXBasis.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="main.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="WindowsApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CollisonPrimitive.h" />
     <ClInclude Include="DirectXBasis.h" />
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Model.h" />
