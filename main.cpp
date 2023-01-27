@@ -681,9 +681,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Model* model3 = Model::LoadFromObj("floor");
 	Model* model2 = Model::LoadFromObj("world");
 	Model* model4 = Model::LoadFromObj("player");
+	Model* modelHit = Model::LoadFromObj("sphere2");
 
 	//3Dオブジェクト生成
 	Object3D* object3d = Object3D::Create(5.0f);
+	Object3D* objectHit = Object3D::Create(5.0f);
 	Object3D* object3d2 = Object3D::Create(2.0f);
 	Object3D* object3d3 = Object3D::Create(100.0f);
 
@@ -700,6 +702,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	objectFloor->SetModel(model3);
 	objectFloor->SetPosition({ 0,-10,0 });
 
+	objectHit->SetModel(modelHit);
+
 	//ゲームループ
 	while (true) {
 		//×ボタンで終了メッセージがきたら
@@ -710,6 +714,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d2->Update();
 		object3d3->Update();
 		objectFloor->Update();
+		objectHit->Update();
 
 		//keyborad更新処理
 		input_->Update();
@@ -718,7 +723,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		XMFLOAT3 pos3d2;
 
 		pos3d = object3d->GetRotation();
-		pos3d2 = object3d2->GetPosition();
+		pos3d2 = object3d->GetPosition();
 
 		if (input_->keyPush(DIK_D)) {
 			pos3d.y++;
@@ -747,7 +752,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		object3d->SetRotation(pos3d);
-		object3d2->SetPosition(pos3d2);
+		object3d->SetPosition(pos3d2);
+		objectHit->SetPosition(pos3d2);
 
 		XMMATRIX matTrans;
 		matTrans = XMMatrixTranslation(pos.x, pos.y, 0.0f);
@@ -766,6 +772,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d2->Draw();
 		object3d3->Draw();
 		objectFloor->Draw();
+		objectHit->Draw();
 
 		Object3D::PostDraw();
 
