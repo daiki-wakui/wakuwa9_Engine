@@ -720,8 +720,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		pos3d = object3d->GetRotation();
 		pos3d2 = object3d2->GetPosition();
 
+		pos3d.y++;
+
 		if (input_->keyPush(DIK_D)) {
-			pos3d.y++;
+		
 		}
 		if (input_->keyPush(DIK_A)) {
 			pos3d.y--;
