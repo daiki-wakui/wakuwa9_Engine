@@ -3,6 +3,7 @@
 #include "DirectXBasis.h"
 #include "Object3D.h"
 #include "Model.h"
+#include "Light.h"
 
 #include <memory>
 #include <string>
@@ -38,11 +39,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Object3D::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
 
+	Light::StaticInitalize(dxBasis->GetDevice());
+
 	//keyborad初期化
 	input_->Initialize(winApp->GetHInstancee(), winApp->GetHwnd());
 	keyboard.reset(input_);
 
-	
+	Light* light = nullptr;
+
+	//ライト生成
+	light = Light::Creare();
+	//ライトの色を設定
+	light->SetLightColor({ 1,1,1 });
+	//3Dオブジェクトにライトをセット
+	Object3D::SetLight(light);
 
 #pragma region  描画初期化処理
 	HRESULT result;
@@ -714,6 +724,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//keyborad更新処理
 		input_->Update();
 
+		light->Update();
+
+		//光線方向初期化				  上 奥
+		static XMVECTOR lightDir = { 0,1,5,0 };
+
+		if (input_->keyPush(DIK_Y)) {
+			lightDir.m128_f32[1] += 1.0f;
+		}
+		else if (input_->keyPush(DIK_H)) {
+			lightDir.m128_f32[1] -= 1.0f;
+		}
+		if (input_->keyPush(DIK_J)) {
+			lightDir.m128_f32[0] += 1.0f;
+		}
+		else if (input_->keyPush(DIK_G)) {
+			lightDir.m128_f32[0] -= 1.0f;
+		}
+
+		light->SetLightDir(lightDir);
+
 		XMFLOAT3 pos3d;
 		XMFLOAT3 pos3d2;
 
@@ -816,6 +846,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	}
 
+	delete light;
 	delete model;
 	delete object3d;
 	delete object3d2;

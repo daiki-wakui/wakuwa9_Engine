@@ -1,6 +1,9 @@
 cbuffer cbuff0 : register(b0)
 {
-	matrix mat;//3D変換行列
+	//matrix mat; // ３Ｄ変換行列
+	matrix viewproj;	//ビュープロジェクション行列
+	matrix world;	//ワールド行列
+	float3 cameraPos;	//カメラ座標(ワールド座標)
 };
 
 cbuffer cbuff1 : register(b1)
@@ -11,6 +14,11 @@ cbuffer cbuff1 : register(b1)
 	float m_alpha : packoffset(c2.w);	//アルファ
 };
 
+cbuffer cbuff2 : register(b2)
+{
+	float3 lightv;	//ライトへの方向の単位ベクトル
+	float3 lightcolor;	//ライトの色(RGB)
+}
 
 struct VSOutput
 {
