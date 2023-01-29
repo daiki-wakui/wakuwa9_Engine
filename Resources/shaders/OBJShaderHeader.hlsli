@@ -23,10 +23,22 @@ struct DirLight
 	uint active;
 };
 
+//点光源の数
+static const int POINTLIGHT_NUM = 3;
+
+struct PointLight
+{
+	float3 lightpos;    // ライト座標
+	float3 lightcolor;    // ライトの色(RGB)
+	float3 lightatten;	//ライト距離減衰係数
+	uint active;
+};
+
 cbuffer cbuff2 : register(b2)
 {
 	float3 ambientColor;
 	DirLight dirLights[DIRLIGHT_NUM];
+	PointLight pointLights[POINTLIGHT_NUM];
 }
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体

@@ -20,6 +20,7 @@ float4 main(VSOutput input) : SV_TARGET
 	float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 
 	for (int i = 0; i < DIRLIGHT_NUM; i++) {
+
 		if (dirLights[i].active) {
 			// ライトに向かうベクトルと法線の内積
 			float3 dotlightnormal = dot(dirLights[i].lightv, input.normal);
@@ -32,6 +33,32 @@ float4 main(VSOutput input) : SV_TARGET
 
 			// 全て加算する
 			shadecolor.rgb += (diffuse + specular) * dirLights[i].lightcolor;
+		}
+	}
+
+	for (int i = 0; i < POINTLIGHT_NUM; i++) {
+
+		if (pointLights[i].active) {
+			float3 lightv = pointLights[i].lightpos - input.worldpos.xyz;
+
+			float d = length(lightv);
+
+			lightv = normalize(lightv);
+
+			float atten = 1.0f / 
+				(pointLights[i].lightatten.x +
+				pointLights[i].lightatten.y * d +
+				pointLights[i].lightatten.z * d * d);
+
+			float3 dotlightnormal = dot(lightv, input.normal);
+
+			float3 reflect = normalize(-lightv + 2 * dotlightnormal * input.normal);
+
+			float3 diffuse = dotlightnormal * m_diffuse;
+
+			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
+
+			shadecolor.rgb += atten * (diffuse + specular) * pointLights[i].lightcolor;
 		}
 	}
 

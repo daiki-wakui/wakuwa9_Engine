@@ -55,6 +55,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//3Dオブジェクトにライトをセット
 	Object3D::SetLightGroup(lightGroup);
 
+	//平行光源
 	float ambientColor0[3] = { 1,1,1 };
 
 	float lightDir0[3] = { 0,0,1 };
@@ -65,6 +66,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	float lightDir2[3] = { 1,0,0 };
 	float lightColor2[3] = { 0,0,1 };
+
+	//点光源
+	float pointLightPos[3] = { 0,0,0 };
+	float pointLightColor[3] = { 1,1,1 };
+	float pointLightAtten[3] = { 0.3f,0.1f,0.1f };
+
+	lightGroup->SetDirLightActive(0, false);
+	lightGroup->SetDirLightActive(1, false);
+	lightGroup->SetDirLightActive(2, false);
+	lightGroup->SetPointLightActive(0, true);
+	pointLightPos[0] = 0.5f;
+	pointLightPos[1] = 1.0f;
+	pointLightPos[2] = 0.0f;
 
 #pragma region  描画初期化処理
 	HRESULT result;
@@ -755,8 +769,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			lightDir.m128_f32[0] -= 1.0f;
 		}
 
-		//light->SetLightDir(lightDir);
-		lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
+		
+		/*lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
 
 		lightGroup->SetDirLightDir(0, XMVECTOR({ lightDir0[0],lightDir0[1],lightDir0[2],0 }));
 		lightGroup->SetDirLightColor(0, XMFLOAT3(lightColor0));
@@ -765,7 +779,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		lightGroup->SetDirLightColor(1, XMFLOAT3(lightColor1));
 
 		lightGroup->SetDirLightDir(2, XMVECTOR({ lightDir2[0],lightDir2[1],lightDir2[2],0 }));
-		lightGroup->SetDirLightColor(2, XMFLOAT3(lightColor2));
+		lightGroup->SetDirLightColor(2, XMFLOAT3(lightColor2));*/
+
+		lightGroup->SetPointLightPos(0, XMFLOAT3(pointLightPos));
+		lightGroup->SetPointLightColor(0, XMFLOAT3(pointLightColor));
+		lightGroup->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
 
 
 		XMFLOAT3 pos3d;

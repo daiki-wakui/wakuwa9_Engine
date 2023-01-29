@@ -7,6 +7,7 @@
 #include <d3dx12.h>
 
 #include "DirectionalLight.h"
+#include "PointLight.h"
 
 //ライト
 class LightGroup
@@ -25,6 +26,7 @@ private:// エイリアス
 
 public: //定数
 	static const int DirLightNum = 3;
+	static const int PointLightNum = 3;
 
 public: //サブクラス
 
@@ -36,6 +38,8 @@ public: //サブクラス
 		float pad1;
 		//平行光源用
 		DirectionalLight::ConstBufferData dirLights[DirLightNum];
+		//点光源用
+		PointLight::ConstBufferData pointLights[PointLightNum];
 	};
 
 public: // 静的メンバ関数
@@ -84,6 +88,15 @@ public: //メンバ関数
 	//平行光源のライト色をセット
 	void SetDirLightColor(int index, const XMFLOAT3& lightcolor);
 
+	//点光源
+	void SetPointLightActive(int index, bool active);
+
+	void SetPointLightPos(int index, const XMFLOAT3& lightpos);
+
+	void SetPointLightColor(int index, const XMFLOAT3& lightcolor);
+
+	void SetPointLightAtten(int index, const XMFLOAT3& lightatten);
+
 private: //メンバ変数
 
 	//定数バッファ
@@ -94,6 +107,9 @@ private: //メンバ変数
 
 	//平行光源の配列
 	DirectionalLight dirLights[DirLightNum];
+
+	//点光源の配列
+	PointLight pointLights[PointLightNum];
 
 	//ダーティフラグ
 	bool dirty = false;
