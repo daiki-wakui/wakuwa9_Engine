@@ -8,7 +8,7 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include <string>
-#include "Light.h"
+#include "DirectionalLight.h"
 
 class Object3D
 {
@@ -99,7 +99,7 @@ public: // 静的メンバ関数
 	/// <summary>
 	/// ライトのセット
 	/// </summary>
-	static void SetLight(Light* light) {
+	static void SetLight(DirectionalLight* light) {
 		Object3D::light = light;
 	}
 
@@ -124,7 +124,7 @@ private: // 静的メンバ変数
 	static XMFLOAT3 up;
 
 	//ライト
-	static Light* light;
+	static DirectionalLight* light;
 
 private:// 静的メンバ関数
 	

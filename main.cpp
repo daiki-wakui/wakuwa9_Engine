@@ -3,7 +3,7 @@
 #include "DirectXBasis.h"
 #include "Object3D.h"
 #include "Model.h"
-#include "Light.h"
+#include "DirectionalLight.h"
 
 #include <memory>
 #include <string>
@@ -39,16 +39,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Object3D::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
 
-	Light::StaticInitalize(dxBasis->GetDevice());
+	DirectionalLight::StaticInitalize(dxBasis->GetDevice());
 
 	//keyborad初期化
 	input_->Initialize(winApp->GetHInstancee(), winApp->GetHwnd());
 	keyboard.reset(input_);
 
-	Light* light = nullptr;
+	DirectionalLight* light = nullptr;
 
 	//ライト生成
-	light = Light::Creare();
+	light = DirectionalLight::Creare();
 	//ライトの色を設定
 	light->SetLightColor({ 1,1,1 });
 	//3Dオブジェクトにライトをセット

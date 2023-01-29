@@ -5,7 +5,7 @@
 #include <assert.h>
 #include <wrl.h>
 
-class Light
+class DirectionalLight
 {
 private:
 	// Microsoft::WRL::を省略
@@ -47,7 +47,7 @@ public://静的メンバ関数
 	//静的初期化
 	static void StaticInitalize(ID3D12Device* device);
 
-	static Light* Creare();
+	static DirectionalLight* Creare();
 
 public://メンバ関数
 

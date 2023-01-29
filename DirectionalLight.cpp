@@ -1,31 +1,31 @@
-#include "Light.h"
+#include "DirectionalLight.h"
 
 using namespace DirectX;
 
 //静的メンバ変数の実態
-ID3D12Device* Light::device = nullptr;
+ID3D12Device* DirectionalLight::device = nullptr;
 
-void Light::StaticInitalize(ID3D12Device* device)
+void DirectionalLight::StaticInitalize(ID3D12Device* device)
 {
 	//再初期化チェック
-	assert(!Light::device);
+	assert(!DirectionalLight::device);
 	//nullptrチェック
 	assert(device);
 	//静的メンバ変数のセット
-	Light::device = device;
+	DirectionalLight::device = device;
 }
 
-Light* Light::Creare()
+DirectionalLight* DirectionalLight::Creare()
 {
 	//3Dオブジェクトのインスタンスを生成
-	Light* instance = new Light();
+	DirectionalLight* instance = new DirectionalLight();
 	//初期化
 	instance->Initalize();
 	//生成したインスタンスを返す
 	return instance;
 }
 
-void Light::Initalize()
+void DirectionalLight::Initalize()
 {
 	//ヒープ設定
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
@@ -68,7 +68,7 @@ void Light::Initalize()
 	TransferConstBuffer();
 }
 
-void Light::Update()
+void DirectionalLight::Update()
 {
 	//値の更新があったときだけ定数バッファに転送する
 	if (dirty == true) {
@@ -77,14 +77,14 @@ void Light::Update()
 	}
 }
 
-void Light::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex)
+void DirectionalLight::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex)
 {
 	//定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(rootParameterIndex,
 		constBuff->GetGPUVirtualAddress());
 }
 
-void Light::TransferConstBuffer()
+void DirectionalLight::TransferConstBuffer()
 {
 	HRESULT result;
 	//定数バッファへデータ転送
@@ -97,14 +97,14 @@ void Light::TransferConstBuffer()
 	}
 }
 
-void Light::SetLightDir(const XMVECTOR& lightdir)
+void DirectionalLight::SetLightDir(const XMVECTOR& lightdir)
 {
 	//正規化してセット
 	this->lightdir = XMVector3Normalize(lightdir);
 	dirty = true;
 }
 
-void Light::SetLightColor(const XMFLOAT3& lightcolor)
+void DirectionalLight::SetLightColor(const XMFLOAT3& lightcolor)
 {
 	this->lightcolor = lightcolor;
 	dirty = true;

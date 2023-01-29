@@ -28,7 +28,7 @@ XMFLOAT3 Object3D::eye = { 0, 20, -60.0f };
 XMFLOAT3 Object3D::target = { 0, 0, 0 };
 XMFLOAT3 Object3D::up = { 0, 1, 0 };
 
-Light* Object3D::light = nullptr;
+DirectionalLight* Object3D::light = nullptr;
 
 void Object3D::StaticInitialize(ID3D12Device* device, int window_width, int window_height)
 {
