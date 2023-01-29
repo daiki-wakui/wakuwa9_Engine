@@ -677,7 +677,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 
 	//OBJÇ©ÇÁÉÇÉfÉãÇì«Ç›çûÇﬁ
-	Model* model = Model::LoadFromObj("sphere");
+	Model* model = Model::LoadFromObj("sphere",true);
 	Model* model3 = Model::LoadFromObj("floor");
 	Model* model2 = Model::LoadFromObj("world");
 	Model* model4 = Model::LoadFromObj("player");

@@ -6,6 +6,7 @@
 #include <d3d12.h>
 #include <d3dx12.h>
 #include <wrl.h>
+#include <unordered_map>
 
 class Model
 {
@@ -56,7 +57,7 @@ public:
 	
 
 	//OBJファイルから3Dモデルを読み込む
-	static Model* LoadFromObj(const std::string& modelname);
+	static Model* LoadFromObj(const std::string& modelname, bool smoothing = false);
 
 	/// <summary>
 	/// マテリアル読み込み
@@ -107,10 +108,23 @@ private:
 	// 頂点インデックス配列
 	std::vector<unsigned short> indices;
 
+	//頂点法線スムージング用データ
+	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;
+
+	
+    // 頂点データの数を取得
+	inline size_t GetVertexCount() { return vertices.size(); }
+
+    // エッジ平面化データの追加
+	void AddSmoothData(unsigned short indexPosition, unsigned short indexVertex);
+
+	//平面化された頂点法線の計算
+	void CalculateSmoothedVertexNormals();
+
 	//マテリアル
 	Material material;
 
-	void LoadFromOBJInternal(const std::string& modelname);
+	void LoadFromOBJInternal(const std::string& modelname,bool smoothing);
 
 	//デスクリプタヒープの初期化
 	void InitializeDescriptorHeap();
