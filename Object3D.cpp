@@ -28,7 +28,8 @@ XMFLOAT3 Object3D::eye = { 0, 20, -60.0f };
 XMFLOAT3 Object3D::target = { 0, 0, 0 };
 XMFLOAT3 Object3D::up = { 0, 1, 0 };
 
-DirectionalLight* Object3D::light = nullptr;
+//DirectionalLight* Object3D::light = nullptr;
+LightGroup* Object3D::lightGroup = nullptr;
 
 void Object3D::StaticInitialize(ID3D12Device* device, int window_width, int window_height)
 {
@@ -379,7 +380,8 @@ void Object3D::Draw()
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 	
 	//ƒ‰ƒCƒg‚Ì•`‰æ
-	light->Draw(cmdList, 3);
+	//light->Draw(cmdList, 3);
+	lightGroup->Draw(cmdList, 3);
 
 	model_->Draw(cmdList, 1);
 }

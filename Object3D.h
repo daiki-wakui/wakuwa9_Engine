@@ -9,6 +9,7 @@
 #include <d3dx12.h>
 #include <string>
 #include "DirectionalLight.h"
+#include "LightGroup.h"
 
 class Object3D
 {
@@ -99,8 +100,12 @@ public: // 静的メンバ関数
 	/// <summary>
 	/// ライトのセット
 	/// </summary>
-	static void SetLight(DirectionalLight* light) {
+	/*static void SetLight(DirectionalLight* light) {
 		Object3D::light = light;
+	}*/
+
+	static void SetLightGroup(LightGroup* lightGroup) {
+		Object3D::lightGroup = lightGroup;
 	}
 
 private: // 静的メンバ変数
@@ -124,7 +129,8 @@ private: // 静的メンバ変数
 	static XMFLOAT3 up;
 
 	//ライト
-	static DirectionalLight* light;
+	//static DirectionalLight* light;
+	static LightGroup* lightGroup;
 
 private:// 静的メンバ関数
 	

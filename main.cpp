@@ -4,6 +4,7 @@
 #include "Object3D.h"
 #include "Model.h"
 #include "DirectionalLight.h"
+#include "LightGroup.h"
 
 #include <memory>
 #include <string>
@@ -39,20 +40,31 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Object3D::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
 
-	DirectionalLight::StaticInitalize(dxBasis->GetDevice());
+	//DirectionalLight::StaticInitalize(dxBasis->GetDevice());
+	LightGroup::StaticInitialize(dxBasis->GetDevice());
 
 	//keyborad初期化
 	input_->Initialize(winApp->GetHInstancee(), winApp->GetHwnd());
 	keyboard.reset(input_);
 
-	DirectionalLight* light = nullptr;
+	//DirectionalLight* light = nullptr;
+	LightGroup* lightGroup = nullptr;
 
 	//ライト生成
-	light = DirectionalLight::Creare();
-	//ライトの色を設定
-	light->SetLightColor({ 1,1,1 });
+	lightGroup = LightGroup::Create();
 	//3Dオブジェクトにライトをセット
-	Object3D::SetLight(light);
+	Object3D::SetLightGroup(lightGroup);
+
+	float ambientColor0[3] = { 1,1,1 };
+
+	float lightDir0[3] = { 0,0,1 };
+	float lightColor0[3] = { 1,0,0 };
+
+	float lightDir1[3] = { 0,1,0 };
+	float lightColor1[3] = { 0,1,0 };
+
+	float lightDir2[3] = { 1,0,0 };
+	float lightColor2[3] = { 0,0,1 };
 
 #pragma region  描画初期化処理
 	HRESULT result;
@@ -724,7 +736,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//keyborad更新処理
 		input_->Update();
 
-		light->Update();
+		//light->Update();
+		lightGroup->Update();
 
 		//光線方向初期化				  上 奥
 		static XMVECTOR lightDir = { 0,1,5,0 };
@@ -742,7 +755,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			lightDir.m128_f32[0] -= 1.0f;
 		}
 
-		light->SetLightDir(lightDir);
+		//light->SetLightDir(lightDir);
+		lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
+
+		lightGroup->SetDirLightDir(0, XMVECTOR({ lightDir0[0],lightDir0[1],lightDir0[2],0 }));
+		lightGroup->SetDirLightColor(0, XMFLOAT3(lightColor0));
+
+		lightGroup->SetDirLightDir(1, XMVECTOR({ lightDir1[0],lightDir1[1],lightDir1[2],0 }));
+		lightGroup->SetDirLightColor(1, XMFLOAT3(lightColor1));
+
+		lightGroup->SetDirLightDir(2, XMVECTOR({ lightDir2[0],lightDir2[1],lightDir2[2],0 }));
+		lightGroup->SetDirLightColor(2, XMFLOAT3(lightColor2));
+
 
 		XMFLOAT3 pos3d;
 		XMFLOAT3 pos3d2;
@@ -846,11 +870,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	}
 
-	delete light;
+	//delete light;
+	delete lightGroup;
 	delete model;
+	delete model2;
+	delete model3;
+	delete model4;
 	delete object3d;
 	delete object3d2;
 	delete object3d3;
+	delete objectFloor;
 	//ウィンドウクラスを登録解除
 	winApp->Release();
 

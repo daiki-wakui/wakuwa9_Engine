@@ -4,6 +4,7 @@ using namespace DirectX;
 
 //Ã“Iƒƒ“ƒo•Ï”‚ÌÀ‘Ô
 ID3D12Device* DirectionalLight::device = nullptr;
+bool DirectionalLight::ConstBufferData::active = false;
 
 void DirectionalLight::StaticInitalize(ID3D12Device* device)
 {
