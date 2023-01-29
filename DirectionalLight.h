@@ -1,15 +1,11 @@
 #pragma once
-#include <DirectXMath.h>
-#include <d3d12.h>
-#include <d3dx12.h>
-#include <assert.h>
-#include <wrl.h>
 
+#include <DirectXMath.h>
+
+//平行光源
 class DirectionalLight
 {
-private:
-	// Microsoft::WRL::を省略
-	template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+private: //エイリアス
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -17,72 +13,46 @@ private:
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public://サブクラス
+public: //サブクラス
 
 	//定数バッファ用データ構造体
 	struct ConstBufferData
 	{
-		XMVECTOR lightv;		//ライトへの方向を表すベクトル
-		XMFLOAT3 lightcolor;	//ライトの色
-		static bool active;	//有効フラグ
+		XMVECTOR lightv;
+		XMFLOAT3 lightcolor;
+		unsigned int active;
 	};
 
-private://静的メンバ変数
+public: //メンバ関数
+	
+	//ライト方向をセット
+	inline void SetLightDir(const XMVECTOR& lightdir) { this->lightdir = DirectX::XMVector3Normalize(lightdir); }
 
-	//デバイス
-	static ID3D12Device* device;
-
-	//定数バッファ
-	ComPtr<ID3D12Resource> constBuff;
-	//ライト光線方向
-	XMVECTOR lightdir = { 1,0,0,0 };
-
-	//ライト色
-	XMFLOAT3 lightcolor = { 1,1,1 };
-
-	//ダーティフラグ
-	bool dirty = false;
-
-public://静的メンバ関数
-
-	//静的初期化
-	static void StaticInitalize(ID3D12Device* device);
-
-	static DirectionalLight* Creare();
-
-public://メンバ関数
-
-	//初期化
-	void Initalize();
-
-	//更新
-	void Update();
-
-	//描画
-	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex);
-
-	//定数バッファ転送
-	void TransferConstBuffer();
-
-	//ライトの方向をセット
-	void SetLightDir(const XMVECTOR& lightdir);
-
+	
 	//ライト方向を取得
-	XMVECTOR GetLightDir() { return lightdir; };
+	inline const XMVECTOR& GetLightDir() { return lightdir; }
 
+	
+	//ライト色をセット
+	inline void SetLightColor(const XMFLOAT3& lightcolor) { this->lightcolor = lightcolor; }
 
-	XMFLOAT3 GetLightColor() { return lightcolor; };
-
-	//ライトの色をセット
-	void SetLightColor(const XMFLOAT3& lightcolor);
-
-	bool active = ConstBufferData::active;	//有効フラグ
+	//ライト色を取得
+	inline const XMFLOAT3& GetLightColor() { return lightcolor; }
 
 	//有効フラグをセット
 	inline void SetActive(bool active) { this->active = active; }
 
+	
 	//有効チェック
 	inline bool IsActive() { return active; }
 
+private: //メンバ変数
+
+	//ライト方向（単位ベクトル）
+	XMVECTOR lightdir = { 1,0,0,0 };
+	//ライト色
+	XMFLOAT3 lightcolor = { 1,1,1 };
+	//有効フラグ
+	bool active = false;
 };
 

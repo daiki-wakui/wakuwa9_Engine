@@ -1,6 +1,9 @@
 #include "LightGroup.h"
+#include <assert.h>
 
-//静的メンバ変数の実態
+using namespace DirectX;
+
+//静的メンバ変数の実体
 ID3D12Device* LightGroup::device = nullptr;
 
 void LightGroup::StaticInitialize(ID3D12Device* device)
@@ -8,18 +11,18 @@ void LightGroup::StaticInitialize(ID3D12Device* device)
 	//再初期化チェック
 	assert(!LightGroup::device);
 
-	//nullptr
+	//nullptrチェック
 	assert(device);
 
 	LightGroup::device = device;
 }
 
-LightGroup * LightGroup::Create()
+LightGroup* LightGroup::Create()
 {
-	// 3Dオブジェクトのインスタンスを生成
+	//3Dオブジェクトのインスタンスを生成
 	LightGroup* instance = new LightGroup();
 
-	// 初期化
+	//初期化
 	instance->Initialize();
 
 	return instance;
@@ -27,7 +30,9 @@ LightGroup * LightGroup::Create()
 
 void LightGroup::Initialize()
 {
-	//標準のライトの設定
+	//nullptrチェック
+	assert(device);
+
 	DefaultLightSetting();
 
 	//ヒープ設定
@@ -60,17 +65,19 @@ void LightGroup::Initialize()
 	TransferConstBuffer();
 }
 
-void LightGroup::Update() {
+void LightGroup::Update()
+{
+	//値の更新があった時だけ定数バッファに転送する
 	if (dirty) {
 		TransferConstBuffer();
 		dirty = false;
 	}
 }
 
-void LightGroup::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex) {
+void LightGroup::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex)
+{
 	//定数バッファビューをセット
-	cmdList->SetGraphicsRootConstantBufferView(rootParameterIndex,
-		constBuff->GetGPUVirtualAddress());
+	cmdList->SetGraphicsRootConstantBufferView(rootParameterIndex, constBuff->GetGPUVirtualAddress());
 }
 
 void LightGroup::TransferConstBuffer()
@@ -80,58 +87,63 @@ void LightGroup::TransferConstBuffer()
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
-		
 		constMap->ambientColor = ambientColor;
-
 		for (int i = 0; i < DirLightNum; i++) {
-			//ライトが有効なら設定を転送
+			// ライトが有効なら設定を転送
 			if (dirLights[i].IsActive()) {
 				constMap->dirLights[i].active = 1;
-				constMap->dirLights[i].lightv = dirLights[i].GetLightDir();
+				constMap->dirLights[i].lightv = -dirLights[i].GetLightDir();
 				constMap->dirLights[i].lightcolor = dirLights[i].GetLightColor();
 			}
-			//ライトが無効なら転送しない
+			// ライトが無効ならライト色を0に
 			else {
 				constMap->dirLights[i].active = 0;
 			}
 		}
-
 		constBuff->Unmap(0, nullptr);
 	}
 }
 
-void LightGroup::SetAmbientColor(const XMFLOAT3& color) {
+void LightGroup::DefaultLightSetting()
+{
+	dirLights[0].SetActive(true);
+	dirLights[0].SetLightColor({ 1.0f, 1.0f, 1.0f });
+	dirLights[0].SetLightDir({ 0.0f, -1.0f, 0.0f, 0 });
+
+	dirLights[1].SetActive(true);
+	dirLights[1].SetLightColor({ 1.0f, 1.0f, 1.0f });
+	dirLights[1].SetLightDir({ +0.5f, +0.1f, +0.2f, 0 });
+
+	dirLights[2].SetActive(true);
+	dirLights[2].SetLightColor({ 1.0f, 1.0f, 1.0f });
+	dirLights[2].SetLightDir({ -0.5f, +0.1f, -0.2f, 0 });
+}
+
+void LightGroup::SetAmbientColor(const XMFLOAT3& color)
+{
 	ambientColor = color;
 	dirty = true;
 }
 
-void LightGroup::SetDirLightActive(int index, bool active) {
+void LightGroup::SetDirLightActive(int index, bool active)
+{
 	assert(0 <= index && index < DirLightNum);
+
 	dirLights[index].SetActive(active);
 }
 
-void LightGroup::SetDirLightDir(int index, const XMVECTOR& lightdir) {
+void LightGroup::SetDirLightDir(int index, const XMVECTOR& lightdir)
+{
 	assert(0 <= index && index < DirLightNum);
+
 	dirLights[index].SetLightDir(lightdir);
 	dirty = true;
 }
 
-void LightGroup::SetDirLightColor(int index, const XMFLOAT3& lightcolor) {
+void LightGroup::SetDirLightColor(int index, const XMFLOAT3& lightcolor)
+{
 	assert(0 <= index && index < DirLightNum);
+
 	dirLights[index].SetLightColor(lightcolor);
 	dirty = true;
-}
-
-void LightGroup::DefaultLightSetting() {
-	dirLights[0].SetActive(true);
-	dirLights[0].SetLightColor({ 1.0f, 1.0f, 1.0f });
-	dirLights[0].SetLightDir({ 0.0f,-1.0f,0.0f,0.0f });
-
-	dirLights[1].SetActive(true);
-	dirLights[1].SetLightColor({ 1.0f, 1.0f, 1.0f });
-	dirLights[1].SetLightDir({ +0.5f,+0.1f,+0.2f,0.0f });
-
-	dirLights[2].SetActive(true);
-	dirLights[2].SetLightColor({ 1.0f, 1.0f, 1.0f });
-	dirLights[2].SetLightDir({ -0.5f,+0.1f,-0.2f,0.0f });
 }
