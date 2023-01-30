@@ -137,6 +137,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CircleShadow.cpp" />
     <ClCompile Include="DirectXBasis.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="DirectionalLight.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="WindowsApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CircleShadow.h" />
     <ClInclude Include="DirectXBasis.h" />
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="DirectionalLight.h" />

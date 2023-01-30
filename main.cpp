@@ -75,6 +75,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	lightGroup->SetDirLightActive(0, false);
 	lightGroup->SetDirLightActive(1, false);
 	lightGroup->SetDirLightActive(2, false);
+
 	/*lightGroup->SetPointLightActive(0, true);
 	pointLightPos[0] = 0.5f;
 	pointLightPos[1] = 1.0f;
@@ -87,10 +88,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	float spotLightAtten[3] = { 0.0f,0.0f,0.0f };
 	float spotLightFactorAngle[2] = { 20.0f,30.0f};
 
-	lightGroup->SetPointLightActive(0, false);
+	/*lightGroup->SetPointLightActive(0, false);
 	lightGroup->SetPointLightActive(1, false);
 	lightGroup->SetPointLightActive(2, false);
-	lightGroup->SetSpotLightActive(0, true);
+	lightGroup->SetSpotLightActive(0, true);*/
+
+	//ŠÛ‰e
+	float circleShadowDir[3] = { 0,-1,0 };
+	float circleShadowAtten[3] = { 0.5f,0.6f,0.0f };
+	float circleShadowFactorAngle[2] = { 0.0f,0.5f };
+
+	float fightPos[3] = { 10,0.0f,5 };
+
+	lightGroup->SetDirLightActive(0, true);
+	/*lightGroup->SetDirLightActive(1, true);
+	lightGroup->SetDirLightActive(2, true);*/
+	lightGroup->SetCircleShadowActive(0, true);
 
 #pragma region  •`‰æ‰Šú‰»ˆ—
 	HRESULT result;
@@ -743,7 +756,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	object3d3->SetModel(model2);
 
 	object3d->SetPosition({ -10,0,+5 });
-	object3d2->SetPosition({ +10,0,+5 });
+	object3d2->SetPosition(XMFLOAT3(fightPos));
 
 	objectFloor->SetModel(model3);
 	objectFloor->SetPosition({ 0,-10,0 });
@@ -783,13 +796,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		
 		/*lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
-
 		lightGroup->SetDirLightDir(0, XMVECTOR({ lightDir0[0],lightDir0[1],lightDir0[2],0 }));
 		lightGroup->SetDirLightColor(0, XMFLOAT3(lightColor0));
-
 		lightGroup->SetDirLightDir(1, XMVECTOR({ lightDir1[0],lightDir1[1],lightDir1[2],0 }));
 		lightGroup->SetDirLightColor(1, XMFLOAT3(lightColor1));
-
 		lightGroup->SetDirLightDir(2, XMVECTOR({ lightDir2[0],lightDir2[1],lightDir2[2],0 }));
 		lightGroup->SetDirLightColor(2, XMFLOAT3(lightColor2));*/
 
@@ -799,12 +809,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		lightGroup->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));*/
 
 
-		lightGroup->SetSpotLightDir(0, XMVECTOR({ spotLightDir[0],spotLightDir[1],spotLightDir[2] ,0 }));
+		/*lightGroup->SetSpotLightDir(0, XMVECTOR({ spotLightDir[0],spotLightDir[1],spotLightDir[2] ,0 }));
 		lightGroup->SetSpotLightPos(0, XMFLOAT3({ spotLightPos }));
 		lightGroup->SetSpotLightColor(0, XMFLOAT3({ spotLightColor }));
 		lightGroup->SetSpotLightAtten(0, XMFLOAT3({ spotLightAtten }));
-		lightGroup->SetSpotLightFactorAngle(0, XMFLOAT2(spotLightFactorAngle));
+		lightGroup->SetSpotLightFactorAngle(0, XMFLOAT2(spotLightFactorAngle));*/
 
+		lightGroup->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0],circleShadowDir[1],circleShadowDir[2] ,0 }));
+		lightGroup->SetCircleShadowCasterPos(0, XMFLOAT3({ fightPos[0],fightPos[1],fightPos[2] }));
+		lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
+		lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle));
+
+		object3d2->SetPosition(XMFLOAT3({ fightPos[0], fightPos[1], fightPos[2] }));
 
 		XMFLOAT3 pos3d;
 		XMFLOAT3 pos3d2;
@@ -842,7 +858,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		object3d->SetRotation(pos3d);
 		object3d2->SetRotation(pos3d);
-		object3d2->SetPosition(pos3d2);
+
+		
 
 		XMMATRIX matTrans;
 		matTrans = XMMatrixTranslation(pos.x, pos.y, 0.0f);

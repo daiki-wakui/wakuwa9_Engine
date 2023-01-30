@@ -47,12 +47,26 @@ struct SpotLight
 	uint active;
 };
 
+//丸影の数
+static const int CIRCLESHADOW_NUM = 1;
+
+struct CircleShadow
+{
+	float3 dir;
+	float3 casterPos;
+	float distanceCasterLight;
+	float3 atten;
+	float2 factorAngleCos;
+	uint active;
+};
+
 cbuffer cbuff2 : register(b2)
 {
 	float3 ambientColor;
 	DirLight dirLights[DIRLIGHT_NUM];
 	PointLight pointLights[POINTLIGHT_NUM];
 	SpotLight spotLights[SPOTLIGHT_NUM];
+	CircleShadow circleShadows[CIRCLESHADOW_NUM];
 }
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体

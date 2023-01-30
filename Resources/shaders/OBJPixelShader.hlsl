@@ -95,6 +95,34 @@ float4 main(VSOutput input) : SV_TARGET
 		}
 	}
 
+	//丸影
+	for (i = 0; i < CIRCLESHADOW_NUM; i++) {
+		if (circleShadows[i].active) {
+			float3 casterv = circleShadows[i].casterPos - input.worldpos.xyz;
+
+			float d = dot(casterv, circleShadows[i].dir);
+
+			float atten = saturate(1.0 /
+				(circleShadows[i].atten.x +
+					circleShadows[i].atten.y * d +
+					circleShadows[i].atten.z * d * d));
+
+			atten *= step(0, d);
+
+			float3 lightpos = circleShadows[i].casterPos + circleShadows[i].dir * circleShadows[i].distanceCasterLight;
+
+			float3 lightv = normalize(lightpos - input.worldpos.xyz);
+
+			float cos = dot(lightv, circleShadows[i].dir);
+
+			float angleatten = smoothstep(circleShadows[i].factorAngleCos.y, circleShadows[i].factorAngleCos.x, cos);
+
+			atten *= angleatten;
+
+			shadecolor.rgb -= atten;
+		}
+	}
+
 	// シェーディングによる色で描画
 	return shadecolor * texcolor;
 }

@@ -9,6 +9,7 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "SpotLight.h"
+#include "CircleShadow.h"
 
 //ライト
 class LightGroup
@@ -29,6 +30,7 @@ public: //定数
 	static const int DirLightNum = 3;
 	static const int PointLightNum = 3;
 	static const int SpotLightNum = 3;
+	static const int CircleShadowNum = 1;
 
 public: //サブクラス
 
@@ -44,6 +46,8 @@ public: //サブクラス
 		PointLight::ConstBufferData pointLights[PointLightNum];
 		//スポットライト用
 		SpotLight::ConstBufferData spotLights[SpotLightNum];
+		//丸影
+		CircleShadow::ConstBufferData circleShadows[CircleShadowNum];
 	};
 
 public: // 静的メンバ関数
@@ -115,6 +119,21 @@ public: //メンバ関数
 
 	void SetSpotLightFactorAngle(int index, const XMFLOAT2& lightFactorAngle);
 
+
+	//丸影
+	void SetCircleShadowActive(int index,bool active);
+
+	void SetCircleShadowCasterPos(int index, const XMFLOAT3& casterPos);
+
+	void SetCircleShadowDir(int index, const XMVECTOR& lightdir);
+
+	void SetCircleShadowDistanceCasterLight(int index, float distanceCasterLight);
+
+	void SetCircleShadowAtten(int index, const XMFLOAT3& lightAtten);
+
+	void SetCircleShadowFactorAngle(int index, const XMFLOAT2& lightFactorAngle);
+
+
 private: //メンバ変数
 
 	//定数バッファ
@@ -131,6 +150,9 @@ private: //メンバ変数
 
 	//スポットライトの配列
 	SpotLight spotLights[SpotLightNum];
+
+	//丸影の配列
+	CircleShadow circleShadows[CircleShadowNum];
 
 	//ダーティフラグ
 	bool dirty = false;
