@@ -36,7 +36,7 @@ public:
 	bool isDead = false;
 
 	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input,Object3D* podObject);
-	void Update();
+	void Update(Vector3 enemypos);
 	void Draw();
 
 	int GetCoolTime() const { return coolTime; };

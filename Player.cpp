@@ -20,7 +20,7 @@ void Player::clear() {
 	bullets_.clear();
 }
 
-void Player::Update()
+void Player::Update(Vector3 enemypos)
 {
 	const float MoveLimitX = 148.0f;
 	const float MoveLimitZ = 134.0f;
@@ -195,21 +195,37 @@ void Player::Update()
 
 	coolTime--;
 
-	if (coolTime < 0) {
-		//íeÇÃë¨ìx
-		const float kBulletSpeed = 2.0f;
-		Vector3 velocity(0, 0, kBulletSpeed);
+	//if (coolTime < 0) {
+	//	//íeÇÃë¨ìx
+	//	const float kBulletSpeed = 2.0f;
+	//	Vector3 velocity(0, 0, kBulletSpeed);
 
-		velocity.multiplyMat4(playerObject_->matWorld);
-		velocity.normalize();
-		velocity *= kBulletSpeed;
+	//	velocity.multiplyMat4(playerObject_->matWorld);
+	//	velocity.normalize();
+	//	velocity *= kBulletSpeed;
 
-		//íeÇÃê∂ê¨Ç∆èâä˙âª
-		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(posPod, velocity);
-		bullets_.push_back(std::move(newBullet));
+	//	//íeÇÃê∂ê¨Ç∆èâä˙âª
+	//	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+	//	newBullet->Initialize(posPod, velocity);
+	//	bullets_.push_back(std::move(newBullet));
 
-		coolTime = 8;
+	//	coolTime = 8;
+	//}
+
+	if (input_->keyInstantPush(DIK_SPACE)) {
+
+		for (int i = 0; i < 4; i++) {
+			//íeÇÃê∂ê¨Ç∆èâä˙âª
+			std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+			newBullet->Initialize(posPod, enemypos, true);
+			bullets_.push_back(std::move(newBullet));
+		}
+
+		/*if (coolTime < 0) {
+			
+
+			coolTime = 80;
+		}*/
 	}
 
 	//íeÇÃçXêVèàóù
