@@ -72,13 +72,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	float pointLightColor[3] = { 1,1,1 };
 	float pointLightAtten[3] = { 0.3f,0.1f,0.1f };
 
-	lightGroup->SetDirLightActive(0, false);
-	lightGroup->SetDirLightActive(1, false);
-	lightGroup->SetDirLightActive(2, false);
-	/*lightGroup->SetPointLightActive(0, true);
+	
 	pointLightPos[0] = 0.5f;
 	pointLightPos[1] = 1.0f;
-	pointLightPos[2] = 0.0f;*/
+	pointLightPos[2] = 0.0f;
 
 	//スポットライト
 	float spotLightDir[3] = { 0,-1,0 };
@@ -87,10 +84,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	float spotLightAtten[3] = { 0.0f,0.0f,0.0f };
 	float spotLightFactorAngle[2] = { 20.0f,30.0f};
 
-	lightGroup->SetPointLightActive(0, false);
-	lightGroup->SetPointLightActive(1, false);
-	lightGroup->SetPointLightActive(2, false);
-	lightGroup->SetSpotLightActive(0, true);
+	int State = 0;
 
 #pragma region  描画初期化処理
 	HRESULT result;
@@ -729,6 +723,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Model* model3 = Model::LoadFromObj("floor");
 	Model* model2 = Model::LoadFromObj("world");
 	Model* model4 = Model::LoadFromObj("player");
+	Model* model5 = Model::LoadFromObj("floor2");
 
 	//3Dオブジェクト生成
 	Object3D* object3d = Object3D::Create(5.0f);
@@ -736,6 +731,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Object3D* object3d3 = Object3D::Create(100.0f);
 
 	Object3D* objectFloor = Object3D::Create(5.0f);
+	Object3D* objectFloor2 = Object3D::Create(5.0f);
 
 	//3Dオブジェクトに3Dモデルを紐づけ
 	object3d->SetModel(model);
@@ -748,6 +744,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	objectFloor->SetModel(model3);
 	objectFloor->SetPosition({ 0,-10,0 });
 
+	objectFloor2->SetModel(model5);
+	objectFloor2->SetPosition({ 0,-10,0 });
+
 	//ゲームループ
 	while (true) {
 		//×ボタンで終了メッセージがきたら
@@ -758,6 +757,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d2->Update();
 		object3d3->Update();
 		objectFloor->Update();
+		objectFloor2->Update();
 
 		//keyborad更新処理
 		input_->Update();
@@ -781,29 +781,67 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			lightDir.m128_f32[0] -= 1.0f;
 		}
 
+		if (input_->keyInstantPush(DIK_1)) {
+			State = 1;
+		}
+		if (input_->keyInstantPush(DIK_2)) {
+			State = 2;
+		}
+		if (input_->keyInstantPush(DIK_3)) {
+			State = 3;
+		}
+
+		if (State == 1) {
+			lightGroup->SetDirLightActive(0, true);
+			lightGroup->SetDirLightActive(1, true);
+			lightGroup->SetDirLightActive(2, true);
+
+			lightGroup->SetSpotLightActive(0, false);
+			lightGroup->SetPointLightActive(0, false);
+
+			lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
+
+			lightGroup->SetDirLightDir(0, XMVECTOR({ lightDir0[0],lightDir0[1],lightDir0[2],0 }));
+			lightGroup->SetDirLightColor(0, XMFLOAT3(lightColor0));
+
+			lightGroup->SetDirLightDir(1, XMVECTOR({ lightDir1[0],lightDir1[1],lightDir1[2],0 }));
+			lightGroup->SetDirLightColor(1, XMFLOAT3(lightColor1));
+
+			lightGroup->SetDirLightDir(2, XMVECTOR({ lightDir2[0],lightDir2[1],lightDir2[2],0 }));
+			lightGroup->SetDirLightColor(2, XMFLOAT3(lightColor2));
+		}
 		
-		/*lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
+		if (State == 2) {
+			lightGroup->SetDirLightActive(0, false);
+			lightGroup->SetDirLightActive(1, false);
+			lightGroup->SetDirLightActive(2, false);
 
-		lightGroup->SetDirLightDir(0, XMVECTOR({ lightDir0[0],lightDir0[1],lightDir0[2],0 }));
-		lightGroup->SetDirLightColor(0, XMFLOAT3(lightColor0));
+			lightGroup->SetSpotLightActive(0, false);
 
-		lightGroup->SetDirLightDir(1, XMVECTOR({ lightDir1[0],lightDir1[1],lightDir1[2],0 }));
-		lightGroup->SetDirLightColor(1, XMFLOAT3(lightColor1));
+			lightGroup->SetPointLightActive(0, true);
 
-		lightGroup->SetDirLightDir(2, XMVECTOR({ lightDir2[0],lightDir2[1],lightDir2[2],0 }));
-		lightGroup->SetDirLightColor(2, XMFLOAT3(lightColor2));*/
+			lightGroup->SetPointLightPos(0, XMFLOAT3(pointLightPos));
+			lightGroup->SetPointLightColor(0, XMFLOAT3(pointLightColor));
+			lightGroup->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
+		}
+
+		if (State == 3) {
+			lightGroup->SetDirLightActive(0, false);
+			lightGroup->SetDirLightActive(1, false);
+			lightGroup->SetDirLightActive(2, false);
+			lightGroup->SetPointLightActive(0, false);
+			lightGroup->SetPointLightActive(1, false);
+			lightGroup->SetPointLightActive(2, false);
 
 
-		/*lightGroup->SetPointLightPos(0, XMFLOAT3(pointLightPos));
-		lightGroup->SetPointLightColor(0, XMFLOAT3(pointLightColor));
-		lightGroup->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));*/
+			lightGroup->SetSpotLightActive(0, true);
 
-
-		lightGroup->SetSpotLightDir(0, XMVECTOR({ spotLightDir[0],spotLightDir[1],spotLightDir[2] ,0 }));
-		lightGroup->SetSpotLightPos(0, XMFLOAT3({ spotLightPos }));
-		lightGroup->SetSpotLightColor(0, XMFLOAT3({ spotLightColor }));
-		lightGroup->SetSpotLightAtten(0, XMFLOAT3({ spotLightAtten }));
-		lightGroup->SetSpotLightFactorAngle(0, XMFLOAT2(spotLightFactorAngle));
+			lightGroup->SetSpotLightDir(0, XMVECTOR({ spotLightDir[0],spotLightDir[1],spotLightDir[2] ,0 }));
+			lightGroup->SetSpotLightPos(0, XMFLOAT3({ spotLightPos }));
+			lightGroup->SetSpotLightColor(0, XMFLOAT3({ spotLightColor }));
+			lightGroup->SetSpotLightAtten(0, XMFLOAT3({ spotLightAtten }));
+			lightGroup->SetSpotLightFactorAngle(0, XMFLOAT2(spotLightFactorAngle));
+		}
 
 
 		XMFLOAT3 pos3d;
@@ -814,30 +852,37 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		pos3d.y++;
 
-		if (input_->keyPush(DIK_D)) {
-		
-		}
-		if (input_->keyPush(DIK_A)) {
-			pos3d.y--;
-		}
-		if (input_->keyPush(DIK_S)) {
-			pos3d.x--;
-		}
-		if (input_->keyPush(DIK_W)) {
-			pos3d.x++;
-		}
-
 		if (input_->keyPush(DIK_RIGHT)) {
-			pos3d2.x++;
+			if (State == 2) {
+				pointLightPos[0]++;
+			}
+			if (State == 3) {
+				spotLightPos[0]++;
+			}
 		}
 		if (input_->keyPush(DIK_LEFT)) {
-			pos3d2.x--;
+			if (State == 2) {
+				pointLightPos[0]--;
+			}
+			if (State == 3) {
+				spotLightPos[0]--;
+			}
 		}
 		if (input_->keyPush(DIK_UP)) {
-			pos3d2.y++;
+			if (State == 2) {
+				pointLightPos[2]++;
+			}
+			if (State == 3) {
+				spotLightPos[2]++;
+			}
 		}
 		if (input_->keyPush(DIK_DOWN)) {
-			pos3d2.y--;
+			if (State == 2) {
+				pointLightPos[2]--;
+			}
+			if (State == 3) {
+				spotLightPos[2]--;
+			}
 		}
 
 		object3d->SetRotation(pos3d);
@@ -860,7 +905,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d->Draw();
 		object3d2->Draw();
 		object3d3->Draw();
-		objectFloor->Draw();
+		
+
+		if (State == 1) {
+			objectFloor2->Draw();
+		}
+		else {
+			objectFloor->Draw();
+		}
+		
 
 		Object3D::PostDraw();
 
