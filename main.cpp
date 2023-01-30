@@ -781,17 +781,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//Œõü•ûŒü‰Šú‰»				  ã ‰œ
 		static XMVECTOR lightDir = { 0,1,5,0 };
 
-		if (input_->keyPush(DIK_Y)) {
-			lightDir.m128_f32[1] += 1.0f;
+		if (input_->keyPush(DIK_RIGHT)) {
+			fightPos[0]++;
 		}
-		else if (input_->keyPush(DIK_H)) {
-			lightDir.m128_f32[1] -= 1.0f;
+		else if (input_->keyPush(DIK_LEFT)) {
+			fightPos[0]--;
 		}
-		if (input_->keyPush(DIK_J)) {
-			lightDir.m128_f32[0] += 1.0f;
+		if (input_->keyPush(DIK_UP)) {
+			fightPos[1]++;
 		}
-		else if (input_->keyPush(DIK_G)) {
-			lightDir.m128_f32[0] -= 1.0f;
+		else if (input_->keyPush(DIK_DOWN)) {
+			fightPos[1]--;
 		}
 		
 		/*lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
