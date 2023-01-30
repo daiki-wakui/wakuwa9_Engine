@@ -19,6 +19,7 @@ float4 main(VSOutput input) : SV_TARGET
 	// シェーディングによる色
 	float4 shadecolor = float4(ambientColor * ambient, m_alpha);
 
+	//平行光源
 	for (int i = 0; i < DIRLIGHT_NUM; i++) {
 
 		if (dirLights[i].active) {
@@ -36,6 +37,7 @@ float4 main(VSOutput input) : SV_TARGET
 		}
 	}
 
+	//点光源
 	for (int i = 0; i < POINTLIGHT_NUM; i++) {
 
 		if (pointLights[i].active) {
@@ -59,6 +61,37 @@ float4 main(VSOutput input) : SV_TARGET
 			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 
 			shadecolor.rgb += atten * (diffuse + specular) * pointLights[i].lightcolor;
+		}
+	}
+
+	//スポットライト
+	for (i = 0; i < SPOTLIGHT_NUM; i++) {
+		if (spotLights[i].active) {
+			//ライトへの方向ベクトル
+			float3 lightv = spotLights[i].lightpos - input.worldpos.xyz;
+			float d = length(lightv);
+			lightv = normalize(lightv);
+			//距離減衰係数
+			float atten = saturate(1.0f /
+				(spotLights[i].lightatten.x +
+					spotLights[i].lightatten.y * d +
+					spotLights[i].lightatten.z * d * d));
+
+			float cos = dot(lightv, spotLights[i].lightv);
+
+			float angleatten = smoothstep(spotLights[i].lightfactorananglecos.y, spotLights[i].lightfactorananglecos.x, cos);
+
+			atten *= angleatten;
+
+			float3 dotlightnormal = dot(lightv, input.normal);
+
+			float3 reflect = normalize(-lightv + 2 * dotlightnormal * input.normal);
+
+			float3 diffuse = dotlightnormal * m_diffuse;
+
+			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
+
+			shadecolor.rgb += atten * (diffuse + specular) * spotLights[i].lightcolor;
 		}
 	}
 

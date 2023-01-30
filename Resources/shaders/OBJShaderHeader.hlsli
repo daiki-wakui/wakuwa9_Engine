@@ -34,11 +34,25 @@ struct PointLight
 	uint active;
 };
 
+//スポットライトの数
+static const int SPOTLIGHT_NUM = 3;
+
+struct SpotLight
+{
+	float3 lightv;
+	float3 lightpos;
+	float3 lightcolor;    // ライトの色(RGB)
+	float3 lightatten;	//ライト距離減衰係数
+	float2 lightfactorananglecos;	//減衰角度
+	uint active;
+};
+
 cbuffer cbuff2 : register(b2)
 {
 	float3 ambientColor;
 	DirLight dirLights[DIRLIGHT_NUM];
 	PointLight pointLights[POINTLIGHT_NUM];
+	SpotLight spotLights[SPOTLIGHT_NUM];
 }
 
 // 頂点シェーダーからピクセルシェーダーへのやり取りに使用する構造体

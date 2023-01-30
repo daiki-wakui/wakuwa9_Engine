@@ -113,7 +113,7 @@ public: //ƒƒ“ƒoŠÖ”
 
 	void SetSpotLightAtten(int index, const XMFLOAT3& lightAtten);
 
-	void SetSpotLightFactorAngle(int index, XMFLOAT2& lightFactorAngle);
+	void SetSpotLightFactorAngle(int index, const XMFLOAT2& lightFactorAngle);
 
 private: //ƒƒ“ƒo•Ï”
 
