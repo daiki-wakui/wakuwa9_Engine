@@ -15,7 +15,7 @@ using namespace std;
 
 ID3D12Device* Model::device = nullptr;
 
-Model* Model::LoadFromObj(const std::string& modelname)
+Model* Model::LoadFromObj(const std::string& modelname, bool smoothing)
 {
 	Model* model = new Model();
 
@@ -23,7 +23,7 @@ Model* Model::LoadFromObj(const std::string& modelname)
 	model->InitializeDescriptorHeap();
 
 	//OBJファイルからデータを読み込む
-	model->LoadFromOBJInternal(modelname);
+	model->LoadFromOBJInternal(modelname, smoothing);
 
 	//データを元にバッファ生成
 	model->CreateBuffers();
@@ -31,7 +31,31 @@ Model* Model::LoadFromObj(const std::string& modelname)
 	return model;
 }
 
-void Model::LoadFromOBJInternal(const std::string& modelname) {
+void Model::AddSmoothData(unsigned short indexPosition, unsigned short indexVertex)
+{
+	smoothData[indexPosition].emplace_back(indexVertex);
+}
+
+void Model::CalculateSmoothedVertexNormals()
+{
+	auto itr = smoothData.begin();
+	for (itr; itr != smoothData.end(); ++itr) {
+		//各面用の共通頂点コレクション
+		std::vector<unsigned short>& v = itr->second;
+		//全頂点の法線を平均する
+		XMVECTOR normal = {};
+		for (unsigned short index : v) {
+			normal += XMVectorSet(vertices[index].normal.x, vertices[index].normal.y, vertices[index].normal.z, 0);
+		}
+		normal = XMVector3Normalize(normal / (float)v.size());
+		//共通法線を使用する全ての頂点データに書き込む
+		for (unsigned short index : v) {
+			vertices[index].normal = { normal.m128_f32[0],normal.m128_f32[1],normal.m128_f32[2] };
+		}
+	}
+}
+
+void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 
 	//ファイルストリーム
 	std::ifstream file;
@@ -114,6 +138,12 @@ void Model::LoadFromOBJInternal(const std::string& modelname) {
 				vertex.uv = texcoords[indexTexcoord - 1];
 				vertices.emplace_back(vertex);
 
+				//エッジ平面化用のデータを追加
+				if (smoothing == true) {
+					//vキー(座標データ)の番号と、全て合成したインデックスをセットで登録する
+					AddSmoothData(indexPosition, (unsigned short)GetVertexCount() - 1);
+				}
+
 				//頂点インデックスに追加
 				indices.emplace_back((unsigned short)indices.size());
 
@@ -132,6 +162,11 @@ void Model::LoadFromOBJInternal(const std::string& modelname) {
 	}
 
 	file.close();
+
+	//頂点法線の平均によるヘッジの平面化
+	if (smoothing == true) {
+		CalculateSmoothedVertexNormals();
+	}
 }
 
 void Model::LoadMaterial(const std::string& directoryPath, const std::string& filename)
@@ -375,7 +410,7 @@ void Model::CreateBuffers() {
 		constMap1->alpha = material.alpha;
 		constBuffB1->Unmap(0, nullptr);
 	}
-	
+
 }
 
 void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial) {
@@ -394,7 +429,7 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial
 		// シェーダリソースビューをセット
 		cmdList->SetGraphicsRootDescriptorTable(2, gpuDescHandleSRV);
 	}
-	
+
 	// 描画コマンド
 	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
 }

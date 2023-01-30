@@ -3,6 +3,8 @@
 #include "DirectXBasis.h"
 #include "Object3D.h"
 #include "Model.h"
+#include "ObjPhong.h"
+#include "Light.h"
 
 #include <memory>
 #include <string>
@@ -37,6 +39,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	DirectX.reset(dxBasis);
 
 	Object3D::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
+
+	ObjPhong::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
 
 	//keyborad初期化
 	input_->Initialize(winApp->GetHInstancee(), winApp->GetHwnd());
@@ -769,6 +773,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//objectFloor->Draw();
 
 		Object3D::PostDraw();
+
+
+		ObjPhong::PreDraw(dxBasis->GetCommandList());
+
+		ObjPhong::PostDraw();
 
 		// パイプラインステート設定
 		dxBasis->GetCommandList()->SetPipelineState(pipelineState.Get());
