@@ -830,36 +830,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		pos3d.y++;
 
-		if (input_->keyPush(DIK_D)) {
-		
-		}
-		if (input_->keyPush(DIK_A)) {
-			pos3d.y--;
-		}
-		if (input_->keyPush(DIK_S)) {
-			pos3d.x--;
-		}
-		if (input_->keyPush(DIK_W)) {
-			pos3d.x++;
-		}
-
-		if (input_->keyPush(DIK_RIGHT)) {
-			pos3d2.x++;
-		}
-		if (input_->keyPush(DIK_LEFT)) {
-			pos3d2.x--;
-		}
-		if (input_->keyPush(DIK_UP)) {
-			pos3d2.y++;
-		}
-		if (input_->keyPush(DIK_DOWN)) {
-			pos3d2.y--;
-		}
-
 		object3d->SetRotation(pos3d);
 		object3d2->SetRotation(pos3d);
-
-		
 
 		XMMATRIX matTrans;
 		matTrans = XMMatrixTranslation(pos.x, pos.y, 0.0f);
