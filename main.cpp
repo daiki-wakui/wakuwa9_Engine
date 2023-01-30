@@ -95,14 +95,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//ŠÛ‰e
 	float circleShadowDir[3] = { 0,-1,0 };
-	float circleShadowAtten[3] = { 0.5f,0.6f,0.0f };
-	float circleShadowFactorAngle[2] = { 0.0f,0.5f };
+	float circleShadowAtten[3] = { 0.5f,0.0f,0.0f };
+	float circleShadowFactorAngle[2] = { 1.0f,2.0f };
 
 	float fightPos[3] = { 10,0.0f,5 };
 
 	lightGroup->SetDirLightActive(0, true);
-	/*lightGroup->SetDirLightActive(1, true);
-	lightGroup->SetDirLightActive(2, true);*/
+	lightGroup->SetDirLightActive(1, true);
+	lightGroup->SetDirLightActive(2, true);
 	lightGroup->SetCircleShadowActive(0, true);
 
 #pragma region  •`‰æ‰Šú‰»ˆ—
@@ -793,7 +793,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		else if (input_->keyPush(DIK_G)) {
 			lightDir.m128_f32[0] -= 1.0f;
 		}
-
 		
 		/*lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
 		lightGroup->SetDirLightDir(0, XMVECTOR({ lightDir0[0],lightDir0[1],lightDir0[2],0 }));
