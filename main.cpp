@@ -687,6 +687,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 
 	//OBJからモデルを読み込む
+	Model* model5 = Model::LoadFromObj("sphere");
 	Model* model = Model::LoadFromObj("sphere",true);
 	Model* model3 = Model::LoadFromObj("floor");
 	Model* model2 = Model::LoadFromObj("world");
@@ -694,6 +695,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//3Dオブジェクト生成
 	Object3D* object3d = Object3D::Create(5.0f);
+	Object3D* object3d4 = Object3D::Create(5.0f);
 	Object3D* object3d2 = Object3D::Create(2.0f);
 	Object3D* object3d3 = Object3D::Create(100.0f);
 
@@ -703,9 +705,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	object3d->SetModel(model);
 	object3d2->SetModel(model4);
 	object3d3->SetModel(model2);
+	object3d4->SetModel(model5);
 
-	object3d->SetPosition({ -10,0,+5 });
-	object3d2->SetPosition({ +10,0,+5 });
+	object3d4->SetPosition({ -20,0,+5 });
+	object3d->SetPosition({ 20,0,+5 });
+	object3d2->SetPosition({ 0,0,+5 });
 
 	objectFloor->SetModel(model3);
 	objectFloor->SetPosition({ 0,-10,0 });
@@ -719,6 +723,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d->Update();
 		object3d2->Update();
 		object3d3->Update();
+		object3d4->Update();
 		objectFloor->Update();
 
 		//keyborad更新処理
@@ -767,6 +772,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		object3d->SetRotation(pos3d);
 		object3d2->SetRotation(pos3d);
+		object3d4->SetRotation(pos3d);
 		object3d2->SetPosition(pos3d2);
 
 		XMMATRIX matTrans;
@@ -785,6 +791,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d->Draw();
 		object3d2->Draw();
 		object3d3->Draw();
+		object3d4->Draw();
 		objectFloor->Draw();
 
 		Object3D::PostDraw();
@@ -838,6 +845,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete object3d;
 	delete object3d2;
 	delete object3d3;
+	delete object3d4;
 	//ウィンドウクラスを登録解除
 	winApp->Release();
 
