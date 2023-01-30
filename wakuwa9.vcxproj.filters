@@ -79,10 +79,10 @@
     <FxCompile Include="Resources\shaders\OBJVertexShader.hlsl">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </FxCompile>
-    <FxCompile Include="ObjPhongVShader.hlsl">
+    <FxCompile Include="Resources\shaders\ObjPhongPShader.hlsl">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </FxCompile>
-    <FxCompile Include="ObjPhongPShader.hlsl">
+    <FxCompile Include="Resources\shaders\ObjPhongVShader.hlsl">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>
@@ -93,7 +93,7 @@
     <None Include="Resources\shaders\OBJShaderHeader.hlsli">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </None>
-    <None Include="ObjPhongHeader.hlsli">
+    <None Include="Resources\shaders\ObjPhongHeader.hlsli">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </None>
   </ItemGroup>
