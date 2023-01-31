@@ -64,6 +64,44 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//3Dオブジェクトにライトをセット
 	Object3D::SetLightGroup(lightGroup);
 
+	//平行光源
+	float ambientColor0[3] = { 1,1,1 };
+
+	float lightDir0[3] = { 0,0,1 };
+	float lightColor0[3] = { 1,0,0 };
+
+	float lightDir1[3] = { 0,1,0 };
+	float lightColor1[3] = { 0,1,0 };
+
+	float lightDir2[3] = { 1,0,0 };
+	float lightColor2[3] = { 0,0,1 };
+
+	//点光源
+	float pointLightPos[3] = { 0,0,0 };
+	float pointLightColor[3] = { 1,1,1 };
+	float pointLightAtten[3] = { 0.3f,0.1f,0.1f };
+
+	pointLightPos[0] = 0.5f;
+	pointLightPos[1] = 1.0f;
+	pointLightPos[2] = 0.0f;
+
+	//スポットライト
+	float spotLightDir[3] = { 0,-1,0 };
+	float spotLightPos[3] = { 0,5,0 };
+	float spotLightColor[3] = { 1,1,1 };
+	float spotLightAtten[3] = { 0.0f,0.0f,0.0f };
+	float spotLightFactorAngle[2] = { 20.0f,30.0f };
+
+	//丸影
+	float circleShadowDir[3] = { 0,-1,0 };
+	float circleShadowAtten[3] = { 0.5f,0.0f,0.0f };
+	float circleShadowFactorAngle[2] = { 1.0f,2.0f };
+
+	float fightPos[3] = { 10,0.0f,5 };
+
+	int State = 0;
+
+
 	spBasis->Initialize(dxBasis);
 	int tex1 = 0;
 	int tex2 = 0;
@@ -119,6 +157,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Model* model3 = Model::LoadFromObj("floor");
 	Model* model2 = Model::LoadFromObj("world");
 	Model* model4 = Model::LoadFromObj("player");
+	Model* model5 = Model::LoadFromObj("floor2");
 
 	//3Dオブジェクト生成
 	Object3D* object3d = Object3D::Create(5.0f);
@@ -126,6 +165,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Object3D* object3d3 = Object3D::Create(100.0f);
 
 	Object3D* objectFloor = Object3D::Create(5.0f);
+	Object3D* objectFloor2 = Object3D::Create(5.0f);
 
 	//3Dオブジェクトに3Dモデルを紐づけ
 	object3d->SetModel(model);
@@ -137,6 +177,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	objectFloor->SetModel(model3);
 	objectFloor->SetPosition({ 0,-10,0 });
+
+	objectFloor2->SetModel(model5);
+	objectFloor2->SetPosition({ 0,-10,0 });
 
 	int scene = 0;
 
@@ -188,6 +231,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d2->Update();
 		object3d3->Update();
 		objectFloor->Update();
+		objectFloor2->Update();
 
 		if (input_->keyInstantPush(DIK_5) && scene == 0) {
 			sound->PlayWave("PerituneMaterial.wav");
@@ -217,8 +261,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d->Draw();
 		object3d2->Draw();
 		object3d3->Draw();
-		objectFloor->Draw();
-
+		//objectFloor->Draw();
+		objectFloor2->Draw();
 		Object3D::PostDraw();
 
 		sprite->Draw(tex1);
