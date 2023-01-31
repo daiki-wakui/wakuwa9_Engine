@@ -3,6 +3,7 @@
 #include "DirectXBasis.h"
 #include "Object3D.h"
 #include "Model.h"
+#include "Sound.h"
 
 #include <memory>
 #include <string>
@@ -32,9 +33,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	windows.reset(winApp);
 	MSG msg{};
 
+	
+
 	//DirectX初期化
 	dxBasis->Initialize(winApp);
 	DirectX.reset(dxBasis);
+
+	
+	Sound* sound = nullptr;
 
 	Object3D::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
 
@@ -42,7 +48,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	input_->Initialize(winApp->GetHInstancee(), winApp->GetHwnd());
 	keyboard.reset(input_);
 
-	
+	//オーディオ初期化
+	sound = new Sound();
+	sound->Initialize();
+
+	sound->LoadWave("PerituneMaterial.wav");
+	sound->LoadWave("Alarm01.wav");
 
 #pragma region  描画初期化処理
 	HRESULT result;
@@ -711,43 +722,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d3->Update();
 		objectFloor->Update();
 
+		if (input_->keyInstantPush(DIK_1) && scene == 0) {
+			sound->PlayWave("PerituneMaterial.wav");
+			scene = 1;
+		}
+
+		if (input_->keyInstantPush(DIK_2)) {
+			sound->StopWAVE("PerituneMaterial.wav");
+			scene = 0;
+		}
+
+		if (input_->keyInstantPush(DIK_3)) {
+			sound->PlayWave("Alarm01.wav");
+		}
+
 		//keyborad更新処理
 		input_->Update();
-
-		XMFLOAT3 pos3d;
-		XMFLOAT3 pos3d2;
-
-		pos3d = object3d->GetRotation();
-		pos3d2 = object3d2->GetPosition();
-
-		if (input_->keyPush(DIK_D)) {
-			pos3d.y++;
-		}
-		if (input_->keyPush(DIK_A)) {
-			pos3d.y--;
-		}
-		if (input_->keyPush(DIK_S)) {
-			pos3d.x--;
-		}
-		if (input_->keyPush(DIK_W)) {
-			pos3d.x++;
-		}
-
-		if (input_->keyPush(DIK_RIGHT)) {
-			pos3d2.x++;
-		}
-		if (input_->keyPush(DIK_LEFT)) {
-			pos3d2.x--;
-		}
-		if (input_->keyPush(DIK_UP)) {
-			pos3d2.y++;
-		}
-		if (input_->keyPush(DIK_DOWN)) {
-			pos3d2.y--;
-		}
-
-		object3d->SetRotation(pos3d);
-		object3d2->SetPosition(pos3d2);
 
 		XMMATRIX matTrans;
 		matTrans = XMMatrixTranslation(pos.x, pos.y, 0.0f);
@@ -813,10 +803,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	}
 
-	delete model;
-	delete object3d;
-	delete object3d2;
-	delete object3d3;
+	sound->Finalize();
+	delete sound;
 	//ウィンドウクラスを登録解除
 	winApp->Release();
 
