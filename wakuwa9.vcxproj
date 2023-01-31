@@ -110,6 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)Light;$(ProjectDir)Base;$(ProjectDir)Input;$(ProjectDir)Audio;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,6 +128,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)Light;$(ProjectDir)Base;$(ProjectDir)Input;$(ProjectDir)Audio;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -138,35 +140,35 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CircleShadow.cpp" />
-    <ClCompile Include="DirectXBasis.cpp" />
-    <ClCompile Include="KeyBoard.cpp" />
-    <ClCompile Include="DirectionalLight.cpp" />
-    <ClCompile Include="LightGroup.cpp" />
+    <ClCompile Include="2d\Sprite.cpp" />
+    <ClCompile Include="2d\SpriteBasis.cpp" />
+    <ClCompile Include="3d\Model.cpp" />
+    <ClCompile Include="3d\Object3D.cpp" />
+    <ClCompile Include="Audio\Sound.cpp" />
+    <ClCompile Include="Base\DirectXBasis.cpp" />
+    <ClCompile Include="Base\WindowsApp.cpp" />
+    <ClCompile Include="Input\KeyBoard.cpp" />
+    <ClCompile Include="Light\CircleShadow.cpp" />
+    <ClCompile Include="Light\DirectionalLight.cpp" />
+    <ClCompile Include="Light\LightGroup.cpp" />
+    <ClCompile Include="Light\PointLight.cpp" />
+    <ClCompile Include="Light\SpotLight.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Object3D.cpp" />
-    <ClCompile Include="PointLight.cpp" />
-    <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="SpotLight.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="SpriteBasis.cpp" />
-    <ClCompile Include="WindowsApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CircleShadow.h" />
-    <ClInclude Include="DirectXBasis.h" />
-    <ClInclude Include="KeyBoard.h" />
-    <ClInclude Include="DirectionalLight.h" />
-    <ClInclude Include="LightGroup.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="Object3D.h" />
-    <ClInclude Include="PointLight.h" />
-    <ClInclude Include="Sound.h" />
-    <ClInclude Include="SpotLight.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="SpriteBasis.h" />
-    <ClInclude Include="WindowsApp.h" />
+    <ClInclude Include="2d\Sprite.h" />
+    <ClInclude Include="2d\SpriteBasis.h" />
+    <ClInclude Include="3d\Model.h" />
+    <ClInclude Include="3d\Object3D.h" />
+    <ClInclude Include="Audio\Sound.h" />
+    <ClInclude Include="Base\DirectXBasis.h" />
+    <ClInclude Include="Base\WindowsApp.h" />
+    <ClInclude Include="Input\KeyBoard.h" />
+    <ClInclude Include="Light\CircleShadow.h" />
+    <ClInclude Include="Light\DirectionalLight.h" />
+    <ClInclude Include="Light\LightGroup.h" />
+    <ClInclude Include="Light\PointLight.h" />
+    <ClInclude Include="Light\SpotLight.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">
