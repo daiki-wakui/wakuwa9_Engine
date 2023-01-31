@@ -748,7 +748,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		constMapTransform->mat = matWorld * matProjection;
 
 #pragma region DirectX–ˆƒtƒŒ[ƒ€ˆ—
-
 		// •`‰æ‘Oˆ—
 		dxBasis->PreDraw();
 
