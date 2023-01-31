@@ -224,6 +224,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	sound->Finalize();
 	delete sound;
+
+	delete sprite;
+	delete sprite2;
+	delete sprite3;
+	delete sprite4;
 	//ウィンドウクラスを登録解除
 	winApp->Release();
 
