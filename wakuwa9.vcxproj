@@ -148,6 +148,8 @@
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="SpotLight.cpp" />
+    <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="SpriteBasis.cpp" />
     <ClCompile Include="WindowsApp.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +162,8 @@
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="SpotLight.h" />
+    <ClInclude Include="Sprite.h" />
+    <ClInclude Include="SpriteBasis.h" />
     <ClInclude Include="WindowsApp.h" />
   </ItemGroup>
   <ItemGroup>
@@ -191,10 +195,23 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\SpritePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\SpriteVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli" />
     <None Include="Resources\shaders\OBJShaderHeader.hlsli" />
+    <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

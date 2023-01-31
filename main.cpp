@@ -5,6 +5,8 @@
 #include "Model.h"
 #include "DirectionalLight.h"
 #include "LightGroup.h"
+#include "Sprite.h"
+#include "SpriteBasis.h"
 
 #include <memory>
 #include <string>
@@ -28,6 +30,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//DirectXの基盤生成クラス
 	std::unique_ptr<DirectXBasis> DirectX;
 	DirectXBasis* dxBasis = new DirectXBasis();
+
+	//Spriteの基盤生成クラス
+	std::unique_ptr<SpriteBasis> SpBasis;
+	SpriteBasis* spBasis = new SpriteBasis();
 
 	//windowsAPI初期化
 	winApp->Initalize();
@@ -90,9 +96,41 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	float fightPos[3] = { 10,0.0f,5 };
 
-	
-
 	int State = 0;
+
+
+	spBasis->Initialize(dxBasis);
+	int tex1 = 0;
+	int tex2 = 0;
+	int tex3 = 0;
+
+	tex1 = spBasis->TextureData(L"Resources/001.png");
+	tex2 = spBasis->TextureData(L"Resources/test.png");
+	tex3 = spBasis->TextureData(L"Resources/title.png");
+
+	spBasis->TextureSetting();
+
+	SpBasis.reset(spBasis);
+
+	HRESULT result;
+
+	Sprite* sprite = new Sprite();
+	sprite->Initialize(spBasis, winApp);
+
+	Sprite* sprite2 = new Sprite();
+	sprite2->Initialize(spBasis, winApp);
+
+	Sprite* sprite3 = new Sprite();
+	sprite3->Initialize(spBasis, winApp);
+
+	sprite->Create(150, 150);
+	sprite2->Create(50, 50);
+	sprite3->Create(900, 120);
+
+	XMFLOAT2 posS = { 0,0 };
+	XMFLOAT2 sizeS = { 0,0 };
+	float speed = 1;
+	float angle = 0;
 
 	//OBJからモデルを読み込む
 	Model* model = Model::LoadFromObj("sphere",true);
@@ -130,6 +168,41 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (winApp->gameloopExit(msg) == true) {
 			break;	//ゲームループ終了
 		}
+		sizeS = sprite->GetSize();
+
+		posS.x = 0;
+		posS.y = 0;
+
+		angle = 0;
+
+		angle += 1;
+
+		if (input_->keyPush(DIK_D)) {
+			//posS.x += speed;
+			sizeS.x++;
+		}
+		else if (input_->keyPush(DIK_A)) {
+			//posS.x -= speed;
+			sizeS.x--;
+		}
+		if (input_->keyPush(DIK_W)) {
+			//posS.y -= speed;
+			sizeS.y++;
+		}
+		else if (input_->keyPush(DIK_S)) {
+			//posS.y += speed;
+			sizeS.y--;
+		}
+
+		//sprite
+		//sprite->SetPosition(posS);
+		sprite->SetSize(sizeS);
+		sprite3->SetSize(XMFLOAT2{ 1280 / 2,720 / 2 });
+
+		sprite2->Update();
+		sprite->Update();
+		sprite3->Update();
+
 		object3d->Update();
 		object3d2->Update();
 		object3d3->Update();
@@ -279,16 +352,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Object3D::PostDraw();
 
+		sprite->Draw(tex1);
+		sprite2->Draw(tex2);
+		sprite3->Draw(tex3);
+
 		//描画後処理
 		dxBasis->PostDraw();
-
-
-		
 #pragma endregion
 
 	}
 
 	//delete light;
+	delete sprite;
+	delete sprite2;
+	delete sprite3;
 	delete lightGroup;
 	delete model;
 	delete model2;
