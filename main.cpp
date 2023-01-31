@@ -7,6 +7,7 @@
 #include "LightGroup.h"
 #include "Sprite.h"
 #include "SpriteBasis.h"
+#include "Sound.h"
 
 #include <memory>
 #include <string>
@@ -43,6 +44,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//DirectX初期化
 	dxBasis->Initialize(winApp);
 	DirectX.reset(dxBasis);
+
+	Sound* sound = nullptr;
 
 	Object3D::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
 
@@ -162,6 +165,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	objectFloor2->SetModel(model5);
 	objectFloor2->SetPosition({ 0,-10,0 });
 
+	//オーディオ初期化
+	sound = new Sound();
+	sound->Initialize();
+
+	sound->LoadWave("PerituneMaterial.wav");
+	sound->LoadWave("Alarm01.wav");
+
+	int scene = 0;
+
 	//ゲームループ
 	while (true) {
 		//×ボタンで終了メッセージがきたら
@@ -208,6 +220,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d3->Update();
 		objectFloor->Update();
 		objectFloor2->Update();
+
+		if (input_->keyInstantPush(DIK_5) && scene == 0) {
+			sound->PlayWave("PerituneMaterial.wav");
+			scene = 1;
+		}
+
+		if (input_->keyInstantPush(DIK_6)) {
+			if (scene == 1) {
+				sound->StopWAVE("PerituneMaterial.wav");
+			}
+
+			scene = 0;
+		}
+
+		if (input_->keyInstantPush(DIK_7)) {
+			sound->PlayWave("Alarm01.wav");
+		}
+
 		//keyborad更新処理
 		input_->Update();
 
@@ -362,6 +392,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	}
 
+
+	sound->Finalize();
+	delete sound;
 	//delete light;
 	delete sprite;
 	delete sprite2;
