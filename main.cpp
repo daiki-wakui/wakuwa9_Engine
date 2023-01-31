@@ -177,17 +177,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d3->Update();
 		objectFloor->Update();
 
-		if (input_->keyInstantPush(DIK_1) && scene == 0) {
+		if (input_->keyInstantPush(DIK_5) && scene == 0) {
 			sound->PlayWave("PerituneMaterial.wav");
 			scene = 1;
 		}
 
-		if (input_->keyInstantPush(DIK_2)) {
+		if (input_->keyInstantPush(DIK_6)) {
 			sound->StopWAVE("PerituneMaterial.wav");
 			scene = 0;
 		}
 
-		if (input_->keyInstantPush(DIK_3)) {
+		if (input_->keyInstantPush(DIK_7)) {
 			sound->PlayWave("Alarm01.wav");
 		}
 
