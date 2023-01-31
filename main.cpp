@@ -711,6 +711,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	objectFloor->SetModel(model3);
 	objectFloor->SetPosition({ 0,-10,0 });
 
+	int scene = 0;
+
 	//ゲームループ
 	while (true) {
 		//×ボタンで終了メッセージがきたら
