@@ -62,7 +62,7 @@ void Sprite::Create(float x, float y)
 	assert(SUCCEEDED(result));
 
 	//値を書きこんで自動転送
-	constMapMaterial->color = XMFLOAT4(1, 1, 1, 0.5f);	//色変更
+	constMapMaterial->color = XMFLOAT4(1, 1, 1, 1);	//色変更
 
 	//左上を原点に設定
 	matProjection =

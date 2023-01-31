@@ -106,12 +106,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int tex1 = 0;
 	int tex2 = 0;
 	int tex3 = 0;
-	int tex4 = 0;
 
 	tex1 = spBasis->TextureData(L"Resources/001.png");
 	tex2 = spBasis->TextureData(L"Resources/test.png");
 	tex3 = spBasis->TextureData(L"Resources/title.png");
-	tex4 = spBasis->TextureData(L"Resources/kosi.png");
 
 	spBasis->TextureSetting();
 
@@ -137,13 +135,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Sprite* sprite3 = new Sprite();
 	sprite3->Initialize(spBasis, winApp);
 
-	Sprite* sprite4 = new Sprite();
-	sprite4->Initialize(spBasis, winApp);
-
 	sprite->Create(150, 150);
 	sprite2->Create(50, 50);
-	sprite3->Create(200, 200);
-	sprite4->Create(300, 300);
+	sprite3->Create(900, 120);
 
 	XMFLOAT2 posS = { 0,0 };
 	XMFLOAT2 sizeS = { 0,0 };
@@ -219,13 +213,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//sprite
 		//sprite->SetPosition(posS);
 		sprite->SetSize(sizeS);
-		//sprite->SetRotation(angle);
-		//sprite2->SetRotation(angle);
+		sprite3->SetSize(XMFLOAT2{ 1280/2,720/2 });
 
 		sprite2->Update();
 		sprite->Update();
 		sprite3->Update();
-		sprite4->Update();
 
 		object3d->Update();
 		object3d2->Update();
@@ -239,7 +231,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		if (input_->keyInstantPush(DIK_6)) {
-			sound->StopWAVE("PerituneMaterial.wav");
+			if (scene == 1) {
+				sound->StopWAVE("PerituneMaterial.wav");
+			}
+			
 			scene = 0;
 		}
 
@@ -252,6 +247,112 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		lightGroup->Update();
 
+		//光線方向初期化				  上 奥
+		static XMVECTOR lightDir = { 0,1,5,0 };
+
+		if (input_->keyPush(DIK_RIGHT)) {
+			fightPos[0]++;
+		}
+		else if (input_->keyPush(DIK_LEFT)) {
+			fightPos[0]--;
+		}
+		if (input_->keyPush(DIK_UP)) {
+			fightPos[1]++;
+		}
+		else if (input_->keyPush(DIK_DOWN)) {
+			fightPos[1]--;
+		}
+
+		if (input_->keyInstantPush(DIK_1)) {
+			State = 1;
+		}
+		if (input_->keyInstantPush(DIK_2)) {
+			State = 2;
+		}
+		if (input_->keyInstantPush(DIK_3)) {
+			State = 3;
+		}
+		if (input_->keyInstantPush(DIK_4)) {
+			State = 4;
+		}
+
+		if (State == 1) {
+			lightGroup->SetDirLightActive(0, true);
+			lightGroup->SetDirLightActive(1, true);
+			lightGroup->SetDirLightActive(2, true);
+
+			lightGroup->SetSpotLightActive(0, false);
+			lightGroup->SetPointLightActive(0, false);
+			lightGroup->SetCircleShadowActive(0, false);
+
+			lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
+
+			lightGroup->SetDirLightDir(0, XMVECTOR({ lightDir0[0],lightDir0[1],lightDir0[2],0 }));
+			lightGroup->SetDirLightColor(0, XMFLOAT3(lightColor0));
+
+			lightGroup->SetDirLightDir(1, XMVECTOR({ lightDir1[0],lightDir1[1],lightDir1[2],0 }));
+			lightGroup->SetDirLightColor(1, XMFLOAT3(lightColor1));
+
+			lightGroup->SetDirLightDir(2, XMVECTOR({ lightDir2[0],lightDir2[1],lightDir2[2],0 }));
+			lightGroup->SetDirLightColor(2, XMFLOAT3(lightColor2));
+		}
+
+		if (State == 2) {
+			lightGroup->SetDirLightActive(0, false);
+			lightGroup->SetDirLightActive(1, false);
+			lightGroup->SetDirLightActive(2, false);
+			lightGroup->SetCircleShadowActive(0, false);
+
+			lightGroup->SetSpotLightActive(0, false);
+
+			lightGroup->SetPointLightActive(0, true);
+
+			lightGroup->SetPointLightPos(0, XMFLOAT3(pointLightPos));
+			lightGroup->SetPointLightColor(0, XMFLOAT3(pointLightColor));
+			lightGroup->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
+		}
+
+		if (State == 3) {
+			lightGroup->SetDirLightActive(0, false);
+			lightGroup->SetDirLightActive(1, false);
+			lightGroup->SetDirLightActive(2, false);
+			lightGroup->SetPointLightActive(0, false);
+			lightGroup->SetPointLightActive(1, false);
+			lightGroup->SetPointLightActive(2, false);
+			lightGroup->SetCircleShadowActive(0, false);
+
+			lightGroup->SetSpotLightActive(0, true);
+
+			lightGroup->SetSpotLightDir(0, XMVECTOR({ spotLightDir[0],spotLightDir[1],spotLightDir[2] ,0 }));
+			lightGroup->SetSpotLightPos(0, XMFLOAT3({ spotLightPos }));
+			lightGroup->SetSpotLightColor(0, XMFLOAT3({ spotLightColor }));
+			lightGroup->SetSpotLightAtten(0, XMFLOAT3({ spotLightAtten }));
+			lightGroup->SetSpotLightFactorAngle(0, XMFLOAT2(spotLightFactorAngle));
+		}
+
+		if (State == 4) {
+			lightGroup->SetDirLightActive(0, false);
+			lightGroup->SetDirLightActive(1, false);
+			lightGroup->SetDirLightActive(2, false);
+			lightGroup->SetPointLightActive(0, false);
+			lightGroup->SetPointLightActive(1, false);
+			lightGroup->SetPointLightActive(2, false);
+
+			lightGroup->SetSpotLightActive(0, false);
+
+			lightGroup->SetDirLightActive(0, true);
+			lightGroup->SetDirLightActive(1, true);
+			lightGroup->SetDirLightActive(2, true);
+			lightGroup->SetCircleShadowActive(0, true);
+
+			lightGroup->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0],circleShadowDir[1],circleShadowDir[2] ,0 }));
+			lightGroup->SetCircleShadowCasterPos(0, XMFLOAT3({ fightPos[0],fightPos[1],fightPos[2] }));
+			lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
+			lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle));
+		}
+
+		object3d2->SetPosition(XMFLOAT3({ fightPos[0], fightPos[1], fightPos[2] }));
+
 #pragma region DirectX毎フレーム処理
 		// 描画前処理
 		dxBasis->PreDraw();
@@ -261,15 +362,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d->Draw();
 		object3d2->Draw();
 		object3d3->Draw();
-		//objectFloor->Draw();
-		objectFloor2->Draw();
+
+		if (State == 1 || State == 4) {
+			objectFloor2->Draw();
+		}
+		else {
+			objectFloor->Draw();
+		}
+
 		Object3D::PostDraw();
 
 		sprite->Draw(tex1);
 		sprite2->Draw(tex2);
 		sprite3->Draw(tex3);
-		sprite4->Draw(tex4);
-		
 
 		//描画後処理
 		dxBasis->PostDraw();
@@ -287,7 +392,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete sprite;
 	delete sprite2;
 	delete sprite3;
-	delete sprite4;
+	delete model;
+	delete model2;
+	delete model3;
+	delete model4;
+	delete object3d;
+	delete object3d2;
+	delete object3d3;
+	delete objectFloor;
+	delete objectFloor2;
 	//ウィンドウクラスを登録解除
 	winApp->Release();
 
