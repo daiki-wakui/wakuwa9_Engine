@@ -182,32 +182,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		sizeS = sprite->GetSize();
 
-		posS.x = 0;
-		posS.y = 0;
-
-		angle = 0;
-
-		angle += 1;
-
 		if (input_->keyPush(DIK_D)) {
-			//posS.x += speed;
 			sizeS.x++;
 		}
 		else if (input_->keyPush(DIK_A)) {
-			//posS.x -= speed;
 			sizeS.x--;
 		}
 		if (input_->keyPush(DIK_W)) {
-			//posS.y -= speed;
 			sizeS.y++;
 		}
 		else if (input_->keyPush(DIK_S)) {
-			//posS.y += speed;
 			sizeS.y--;
 		}
-
-		//sprite
-		//sprite->SetPosition(posS);
 		sprite->SetSize(sizeS);
 		sprite3->SetSize(XMFLOAT2{ 1280 / 2,720 / 2 });
 
