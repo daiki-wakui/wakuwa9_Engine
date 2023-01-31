@@ -16,90 +16,132 @@
     <Filter Include="リソース ファイル\シェーダーファイル">
       <UniqueIdentifier>{ffc28295-e417-4b36-91cc-70f60949dd59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Engine">
+      <UniqueIdentifier>{c676a83a-5d1e-49fb-b6f5-53feba456a0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Audio">
+      <UniqueIdentifier>{bdd4dde0-bec4-4203-a617-eb86fd517029}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Base">
+      <UniqueIdentifier>{3fd90db0-f4db-4fa8-81b5-e0e5d4c088c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Input">
+      <UniqueIdentifier>{79a74f51-55d5-433c-9d23-189a3fbf7e36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Light">
+      <UniqueIdentifier>{60bd278f-af50-4297-a2d7-970fab3dd857}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\3d">
+      <UniqueIdentifier>{a1b04b50-ffa1-4871-8e61-83bfc9f77500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\2d">
+      <UniqueIdentifier>{52c0cf45-51d7-4a94-9e22-bdd1747c1419}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine">
+      <UniqueIdentifier>{f9ba3bfc-3983-4229-bb43-68194943dac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\2d">
+      <UniqueIdentifier>{c84a387c-dcfa-4e79-9251-a584134d1735}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\3d">
+      <UniqueIdentifier>{83237d30-e5a8-4d2b-b13e-959acaf05fe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Light">
+      <UniqueIdentifier>{501384de-ba29-4ecf-8b2b-3e09213f1af3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Input">
+      <UniqueIdentifier>{7c3932d6-6e58-4745-ac8c-2695a23c6486}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Base">
+      <UniqueIdentifier>{f7c6d311-7345-41e0-b2f3-ddcf1e972db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Audio">
+      <UniqueIdentifier>{3ced2a45-35ff-4ce1-a5ba-6d97ddc31bc9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="2d\Sprite.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Model.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Object3D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Audio\Sound.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\DirectXBasis.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\WindowsApp.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\KeyBoard.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Light\CircleShadow.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Light\DirectionalLight.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Light\LightGroup.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Light\PointLight.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Light\SpotLight.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Engine\2d</Filter>
     </ClCompile>
     <ClCompile Include="2d\SpriteBasis.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Engine\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="3d\Object3D.cpp">
+      <Filter>ソース ファイル\Engine\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="3d\Model.cpp">
+      <Filter>ソース ファイル\Engine\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="Light\CircleShadow.cpp">
+      <Filter>ソース ファイル\Engine\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Light\DirectionalLight.cpp">
+      <Filter>ソース ファイル\Engine\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Light\LightGroup.cpp">
+      <Filter>ソース ファイル\Engine\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Light\PointLight.cpp">
+      <Filter>ソース ファイル\Engine\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Light\SpotLight.cpp">
+      <Filter>ソース ファイル\Engine\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\KeyBoard.cpp">
+      <Filter>ソース ファイル\Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\DirectXBasis.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\WindowsApp.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Audio\Sound.cpp">
+      <Filter>ソース ファイル\Engine\Audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\Sprite.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\2d</Filter>
     </ClInclude>
     <ClInclude Include="2d\SpriteBasis.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\Model.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\2d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Object3D.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\3d</Filter>
     </ClInclude>
-    <ClInclude Include="Audio\Sound.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\DirectXBasis.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\WindowsApp.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Input\KeyBoard.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="3d\Model.h">
+      <Filter>ヘッダー ファイル\Engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="Light\CircleShadow.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\Light</Filter>
     </ClInclude>
     <ClInclude Include="Light\DirectionalLight.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\Light</Filter>
     </ClInclude>
     <ClInclude Include="Light\LightGroup.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\Light</Filter>
     </ClInclude>
     <ClInclude Include="Light\PointLight.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\Light</Filter>
     </ClInclude>
     <ClInclude Include="Light\SpotLight.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Input\KeyBoard.h">
+      <Filter>ヘッダー ファイル\Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\DirectXBasis.h">
+      <Filter>ヘッダー ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\WindowsApp.h">
+      <Filter>ヘッダー ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Audio\Sound.h">
+      <Filter>ヘッダー ファイル\Engine\Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
