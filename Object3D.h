@@ -8,6 +8,8 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include <string>
+#include "DirectionalLight.h"
+#include "LightGroup.h"
 
 class Object3D
 {
@@ -25,7 +27,11 @@ public: // サブクラス
 	// 定数バッファ用データ構造体B0
 	struct ConstBufferDataB0
 	{
-		XMMATRIX mat;	// ３Ｄ変換行列
+		//XMMATRIX mat;	// ３Ｄ変換行列
+
+		XMMATRIX viewproj;	//ビュープロジェクション行列
+		XMMATRIX world;		//ワールド行列
+		XMFLOAT3 cameraPos;	//カメラ座標(ワールド座標)
 	};
 
 private: // 定数
@@ -91,6 +97,17 @@ public: // 静的メンバ関数
 	/// <param name="move">移動量</param>
 	static void CameraMoveVector(XMFLOAT3 move);
 
+	/// <summary>
+	/// ライトのセット
+	/// </summary>
+	/*static void SetLight(DirectionalLight* light) {
+		Object3D::light = light;
+	}*/
+
+	static void SetLightGroup(LightGroup* lightGroup) {
+		Object3D::lightGroup = lightGroup;
+	}
+
 private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device* device;
@@ -111,8 +128,12 @@ private: // 静的メンバ変数
 	// 上方向ベクトル
 	static XMFLOAT3 up;
 
+	//ライト
+	//static DirectionalLight* light;
+	static LightGroup* lightGroup;
+
 private:// 静的メンバ関数
-	
+
 
 	/// <summary>
 	/// カメラ初期化
@@ -173,7 +194,7 @@ private: // メンバ変数
 
 
 	// 行列用定数バッファ
-	ComPtr<ID3D12Resource> constBuffB0; 
+	ComPtr<ID3D12Resource> constBuffB0;
 	// ローカルスケール
 	XMFLOAT3 scale = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角

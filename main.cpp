@@ -6,6 +6,8 @@
 #include "Sound.h"
 #include "Sprite.h"
 #include "SpriteBasis.h"
+#include "DirectionalLight.h"
+#include "LightGroup.h"
 
 #include <memory>
 #include <string>
@@ -48,9 +50,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Object3D::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
 
+	LightGroup::StaticInitialize(dxBasis->GetDevice());
+
 	//keyborad初期化
 	input_->Initialize(winApp->GetHInstancee(), winApp->GetHwnd());
 	keyboard.reset(input_);
+
+	//DirectionalLight* light = nullptr;
+	LightGroup* lightGroup = nullptr;
+
+	//ライト生成
+	lightGroup = LightGroup::Create();
+	//3Dオブジェクトにライトをセット
+	Object3D::SetLightGroup(lightGroup);
 
 	spBasis->Initialize(dxBasis);
 	int tex1 = 0;
@@ -194,6 +206,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//keyborad更新処理
 		input_->Update();
 
+		lightGroup->Update();
+
 #pragma region DirectX毎フレーム処理
 		// 描画前処理
 		dxBasis->PreDraw();
@@ -224,6 +238,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	sound->Finalize();
 	delete sound;
+	delete lightGroup;
 
 	delete sprite;
 	delete sprite2;
