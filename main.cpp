@@ -98,9 +98,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	triPos.y = objectTri->GetPosition().y;
 	triPos.z = objectTri->GetPosition().z;
 
-	triangle.p0 = Vector3(triPos.x + 1, triPos.y, triPos.z + 1);
+	//レイと三角形
+	triangle.p0 = Vector3(triPos.x - 30, triPos.y, triPos.z);
+	triangle.p1 = Vector3(triPos.x, triPos.y, triPos.z + 120);
+	triangle.p2 = Vector3(triPos.x + 30, triPos.y, triPos.z);
+
+	//球と三角形
+	/*triangle.p0 = Vector3(triPos.x + 1, triPos.y, triPos.z + 1);
 	triangle.p1 = Vector3(triPos.x - 1, triPos.y, triPos.z);
-	triangle.p2 = Vector3(triPos.x + 1, triPos.y, triPos.z - 1);
+	triangle.p2 = Vector3(triPos.x + 1, triPos.y, triPos.z - 1);*/
+
 	triangle.normal = Vector3(0, 1, 0);
 
 	Ray ray;
@@ -206,7 +213,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//hit = Collison::CheckSphere2Plane(sphere, plane);
 		//hit = Collison::CheckSphere2Triangle(sphere, triangle);
-		hit = Collison::CheckRay2Plane(ray, plane);
+		//hit = Collison::CheckRay2Plane(ray, plane);
+		hit = Collison::CheckRay2Triangle(ray, triangle);
 
 #pragma region DirectX毎フレーム処理
 
@@ -219,8 +227,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//object3d2->Draw();
 		object3d3->Draw();
 		
-		objectFloor->Draw();
-		//objectTri->Draw();
+		//objectFloor->Draw();
+		objectTri->Draw();
 
 		if (hit) {
 			//objectHit->Draw();

@@ -18,10 +18,14 @@ public:
 	Vector3 p1;
 	Vector3 p2;
 	Vector3 normal;
+
+	void ComputeNormal();
 };
 
 struct Ray
 {
 	Vector3 start;
 	Vector3 dir = { 1.0f,0.0f,0.0f };
+
+	
 };

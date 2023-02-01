@@ -138,6 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Collison.cpp" />
+    <ClCompile Include="CollisonPrimitive.cpp" />
     <ClCompile Include="DirectXBasis.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="main.cpp" />

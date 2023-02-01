@@ -128,3 +128,37 @@ bool Collison::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distanc
 	}
 	return true;
 }
+
+bool Collison::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float* distance, Vector3* inter)
+{
+	Plane plane;
+	Vector3 interPlane;
+	plane.normal = triangle.normal;
+	plane.distance = triangle.normal.dot(triangle.p0);
+
+	if (!CheckRay2Plane(ray, plane, distance, &interPlane)) return false;
+	const float epslion = 1.0e-5f;
+	Vector3 pt_p0 = triangle.p0 - interPlane;
+	Vector3 p0_p1 = triangle.p1 - triangle.p0;
+	Vector3 m = pt_p0;
+	m = m.cross(p0_p1);
+	if (m.dot(triangle.normal) < -epslion) return false;
+
+	Vector3 pt_p1 = triangle.p1 - interPlane;
+	Vector3 p1_p2 = triangle.p2 - triangle.p1;
+	m = pt_p1;
+	m = m.cross(p1_p2);
+	if (m.dot(triangle.normal) < -epslion) return false;
+
+	Vector3 pt_p2 = triangle.p2 - interPlane;
+	Vector3 p2_p0 = triangle.p0 - triangle.p2;
+	m = pt_p2;
+	m = m.cross(p2_p0);
+	if (m.dot(triangle.normal) < -epslion) return false;
+
+	if (inter) {
+		*inter = interPlane;
+	}
+
+	return true;
+}
