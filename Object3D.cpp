@@ -24,7 +24,7 @@ ComPtr<ID3D12RootSignature> Object3D::rootsignature;
 ComPtr<ID3D12PipelineState> Object3D::pipelinestate;
 XMMATRIX Object3D::matView{};
 XMMATRIX Object3D::matProjection{};
-XMFLOAT3 Object3D::eye = { 0, 20, -60.0f };
+XMFLOAT3 Object3D::eye = { 0, 0, -100.0f };
 XMFLOAT3 Object3D::target = { 0, 0, 0 };
 XMFLOAT3 Object3D::up = { 0, 1, 0 };
 
@@ -70,7 +70,7 @@ void Object3D::PostDraw()
 	Object3D::cmdList = nullptr;
 }
 
-Object3D* Object3D::Create(float scale)
+Object3D* Object3D::Create(float scalex, float scaley, float scalez)
 {
 	// 3Dオブジェクトのインスタンスを生成
 	Object3D* object3d = new Object3D();
@@ -85,8 +85,8 @@ Object3D* Object3D::Create(float scale)
 		return nullptr;
 	}
 
-	float scale_val = scale;
-	object3d->scale = { scale_val,scale_val,scale_val };
+	//float scale_val = scale;
+	object3d->scale = { scalex,scaley,scalez };
 
 	return object3d;
 }

@@ -15,5 +15,8 @@ public:
 	//‹…‚ÆŽOŠpŒ`
 	static bool CheckSphere2Triangle(const Sphere& sphere, const Triangle& triangle,
 		Vector3* inter = nullptr);
+
+	//ƒŒƒC‚Æ•½–Ê
+	static bool CheckRay2Plane(const Ray& ray, const Plane& plane, float* distance = nullptr, Vector3* inter = nullptr);
 };
 

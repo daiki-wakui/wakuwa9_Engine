@@ -51,15 +51,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Model* model4 = Model::LoadFromObj("player");
 	Model* modelHit = Model::LoadFromObj("sphere2");
 	Model* modeltri = Model::LoadFromObj("tria");
+	Model* modelCude = Model::LoadFromObj("Cube");
+	Model* modelCudeHit = Model::LoadFromObj("Cube2");
 
 	//3Dオブジェクト生成
-	Object3D* object3d = Object3D::Create(5.0f);
-	Object3D* objectHit = Object3D::Create(5.0f);
-	Object3D* object3d2 = Object3D::Create(2.0f);
-	Object3D* object3d3 = Object3D::Create(100.0f);
+	Object3D* object3d = Object3D::Create(5.0f,5,5);
+	Object3D* objectHit = Object3D::Create(5.0f,5,5);
+	Object3D* object3d2 = Object3D::Create(2.0f,2,2);
+	Object3D* object3d3 = Object3D::Create(100.0f,100,100);
 
-	Object3D* objectFloor = Object3D::Create(5.0f);
-	Object3D* objectTri = Object3D::Create(3.0f);
+	Object3D* objectFloor = Object3D::Create(5.0f,5,5);
+	Object3D* objectTri = Object3D::Create(3.0f,3,3);
+	Object3D* objectCude = Object3D::Create(1.0f,100,1);
+	Object3D* objectCudeHit = Object3D::Create(1.0f,100,1);
 
 	//3Dオブジェクトに3Dモデルを紐づけ
 	object3d->SetModel(model);
@@ -67,6 +71,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	object3d3->SetModel(model2);
 
 	objectTri->SetModel(modeltri);
+	objectCude->SetModel(modelCude);
+	objectCudeHit->SetModel(modelCudeHit);
 
 	object3d->SetPosition({ -10,0,+5 });
 	object3d2->SetPosition({ +10,0,+5 });
@@ -97,6 +103,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	triangle.p2 = Vector3(triPos.x + 1, triPos.y, triPos.z - 1);
 	triangle.normal = Vector3(0, 1, 0);
 
+	Ray ray;
+	Vector3 raypos;
+
+	//ray.start = { 0,1,0 };
+	ray.dir = { 0,-1,0 };
+	
+	//ray.dir = Vector3(-1, 0, 0);
+
 	int State = 0;
 
 	//ゲームループ
@@ -111,6 +125,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		objectFloor->Update();
 		objectHit->Update();
 		objectTri->Update();
+		objectCude->Update();
+		objectCudeHit->Update();
 
 		//keyborad更新処理
 		input_->Update();
@@ -164,7 +180,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		object3d->SetRotation(pos3d);
 		object3d->SetPosition(pos3d2);
+		objectCude->SetPosition(pos3d2);
 		objectHit->SetPosition(pos3d2);
+		objectCudeHit->SetPosition(pos3d2);
 
 		spherePos.x = object3d->GetPosition().x;
 		spherePos.y = object3d->GetPosition().y;
@@ -180,8 +198,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		plane.normal = normalVec;
 		plane.distance = 0.0f;
 
+		raypos.x = objectCude->GetPosition().x;
+		raypos.y = objectCude->GetPosition().y + 105;
+		raypos.z = objectCude->GetPosition().z;
+
+		ray.start = raypos;
+
 		//hit = Collison::CheckSphere2Plane(sphere, plane);
-		hit = Collison::CheckSphere2Triangle(sphere, triangle);
+		//hit = Collison::CheckSphere2Triangle(sphere, triangle);
+		hit = Collison::CheckRay2Plane(ray, plane);
 
 #pragma region DirectX毎フレーム処理
 
@@ -191,16 +216,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Object3D::PreDraw(dxBasis->GetCommandList());
 
 		
-		object3d2->Draw();
+		//object3d2->Draw();
 		object3d3->Draw();
-		//objectFloor->Draw();
-		objectTri->Draw();
+		
+		objectFloor->Draw();
+		//objectTri->Draw();
 
 		if (hit) {
-			objectHit->Draw();
+			//objectHit->Draw();
+			objectCudeHit->Draw();
 		}
 		else {
-			object3d->Draw();
+			//object3d->Draw();
+			objectCude->Draw();
 		}
 
 		Object3D::PostDraw();

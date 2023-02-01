@@ -59,7 +59,7 @@ public: // 静的メンバ関数
 	/// 3Dオブジェクト生成
 	/// </summary>
 	/// <returns></returns>
-	static Object3D* Create(float scale);
+	static Object3D* Create(float scalex = 1, float scaley = 1, float scalez = 1);
 
 	/// <summary>
 	/// 視点座標の取得
