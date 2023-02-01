@@ -142,7 +142,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		XMFLOAT3 pos3d2;
 
 		pos3d = object3d->GetRotation();
-		pos3d2 = object3d->GetPosition();
+		pos3d2 = objectCude->GetPosition();
 
 		if (input_->keyInstantPush(DIK_SPACE)) {
 			if (hit == false) {
@@ -186,10 +186,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		object3d->SetRotation(pos3d);
-		object3d->SetPosition(pos3d2);
+		//object3d->SetPosition(pos3d2);
 		objectCude->SetPosition(pos3d2);
-		objectHit->SetPosition(pos3d2);
+		//objectHit->SetPosition(pos3d2);
 		objectCudeHit->SetPosition(pos3d2);
+
+		objectHit->SetPosition(object3d->GetPosition());
 
 		spherePos.x = object3d->GetPosition().x;
 		spherePos.y = object3d->GetPosition().y;
@@ -206,7 +208,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		plane.distance = 0.0f;
 
 		raypos.x = objectCude->GetPosition().x;
-		raypos.y = objectCude->GetPosition().y + 105;
+		raypos.y = objectCude->GetPosition().y + 100;
 		raypos.z = objectCude->GetPosition().z;
 
 		ray.start = raypos;
@@ -214,7 +216,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//hit = Collison::CheckSphere2Plane(sphere, plane);
 		//hit = Collison::CheckSphere2Triangle(sphere, triangle);
 		//hit = Collison::CheckRay2Plane(ray, plane);
-		hit = Collison::CheckRay2Triangle(ray, triangle);
+		//hit = Collison::CheckRay2Triangle(ray, triangle);
+		hit = Collison::CheckRay2Sphere(ray, sphere);
 
 #pragma region DirectX–ˆƒtƒŒ[ƒ€ˆ—
 
@@ -228,14 +231,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		object3d3->Draw();
 		
 		//objectFloor->Draw();
-		objectTri->Draw();
+		//objectTri->Draw();
 
 		if (hit) {
-			//objectHit->Draw();
+			objectHit->Draw();
 			objectCudeHit->Draw();
 		}
 		else {
-			//object3d->Draw();
+			object3d->Draw();
 			objectCude->Draw();
 		}
 

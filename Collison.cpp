@@ -162,3 +162,24 @@ bool Collison::CheckRay2Triangle(const Ray& ray, const Triangle& triangle, float
 
 	return true;
 }
+
+bool Collison::CheckRay2Sphere(const Ray& ray, const Sphere& sphere, float* distance, Vector3* inter)
+{
+	Vector3 m = ray.start;
+	m -= sphere.center;
+	float b = m.dot(ray.dir);
+	float c = m.dot(m) - sphere.radius * sphere.radius;
+	if (c > 0.0f && b > 0.0f) return false;
+
+	float discr = b * b - c;
+	if (discr < 0.0f) return false;
+
+	float t = -b - sqrtf(discr);
+	if (t < 0) t = 0.0f;
+	if (distance) *distance = t;
+	if (inter) {
+		*inter = ray.start;
+		*inter += t * ray.dir;
+	}
+	return true;
+}
