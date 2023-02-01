@@ -137,20 +137,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CollisonPrimitive.cpp" />
+    <ClCompile Include="Collison.cpp" />
     <ClCompile Include="DirectXBasis.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Object3D.cpp" />
+    <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="WindowsApp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collison.h" />
     <ClInclude Include="CollisonPrimitive.h" />
     <ClInclude Include="DirectXBasis.h" />
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Object3D.h" />
+    <ClInclude Include="Vector3.h" />
     <ClInclude Include="WindowsApp.h" />
   </ItemGroup>
   <ItemGroup>
