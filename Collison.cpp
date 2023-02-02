@@ -121,7 +121,9 @@ bool Collison::CheckRay2Plane(const Ray& ray, const Plane& plane, float* distanc
 	float t = dis / -d1;
 	if (t < 0) return false;
 
-	if (distance) { *distance = t; }
+	if (distance){
+		*distance = t;
+	}
 	if (inter) {
 		*inter = ray.start;
 		*inter += t * ray.dir;
