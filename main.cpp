@@ -74,11 +74,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	objectCude->SetModel(modelCude);
 	objectCudeHit->SetModel(modelCudeHit);
 
-	object3d->SetPosition({ -10,0,+5 });
+	object3d->SetPosition({ -10,15,+5 });
 	object3d2->SetPosition({ +10,0,+5 });
 
 	objectFloor->SetModel(model3);
-	objectFloor->SetPosition({ 0,-7,0 });
+	objectFloor->SetPosition({ 0,-4,0 });
 	objectTri->SetPosition({ 0,-7,-10 });
 
 	objectHit->SetModel(modelHit);
@@ -104,21 +104,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	triangle.p2 = Vector3(triPos.x + 30, triPos.y, triPos.z);
 
 	//球と三角形
-	/*triangle.p0 = Vector3(triPos.x + 1, triPos.y, triPos.z + 1);
-	triangle.p1 = Vector3(triPos.x - 1, triPos.y, triPos.z);
-	triangle.p2 = Vector3(triPos.x + 1, triPos.y, triPos.z - 1);*/
-
 	triangle.normal = Vector3(0, 1, 0);
 
 	Ray ray;
 	Vector3 raypos;
-
-	//ray.start = { 0,1,0 };
 	ray.dir = { 0,-1,0 };
-	
-	//ray.dir = Vector3(-1, 0, 0);
-
 	int State = 0;
+
+	int timer = 0;
+	XMFLOAT3 move;
+	bool down = true;
 
 	//ゲームループ
 	while (true) {
@@ -140,18 +135,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		XMFLOAT3 pos3d;
 		XMFLOAT3 pos3d2;
+		XMFLOAT3 pos3dCube;
 
 		pos3d = object3d->GetRotation();
-		pos3d2 = objectCude->GetPosition();
-
-		if (input_->keyInstantPush(DIK_SPACE)) {
-			if (hit == false) {
-				hit = true;
-			}
-			else {
-				hit = false;
-			}
-		}
+		pos3d2 = object3d->GetPosition();
+		pos3dCube = objectCude->GetPosition();
+		move = object3d->GetPosition();		
 
 		if (input_->keyPush(DIK_D)) {
 			pos3d.y++;
@@ -167,31 +156,79 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		if (input_->keyPush(DIK_RIGHT)) {
-			pos3d2.x++;
+			pos3d2.x += 0.5f;
+			pos3dCube.x += 0.5f;
 		}
 		if (input_->keyPush(DIK_LEFT)) {
-			pos3d2.x--;
+			pos3d2.x-=0.5;
+			pos3dCube.x -= 0.5f;
 		}
 		if (input_->keyPush(DIK_UP)) {
-			pos3d2.y++;
+			pos3d2.y+=0.5;
+			pos3dCube.y += 0.5f;
 		}
 		if (input_->keyPush(DIK_DOWN)) {
-			pos3d2.y--;
+			pos3d2.y-=0.5;
+			pos3dCube.y -= 0.5f;
 		}
 		if (input_->keyPush(DIK_A)) {
-			pos3d2.z++;
+			pos3d2.z+=0.5;
+			pos3dCube.z += 0.5f;
 		}
 		if (input_->keyPush(DIK_Z)) {
-			pos3d2.z--;
+			pos3d2.z-=0.5;
+			pos3dCube.z -= 0.5f;
 		}
 
 		object3d->SetRotation(pos3d);
-		//object3d->SetPosition(pos3d2);
-		objectCude->SetPosition(pos3d2);
-		//objectHit->SetPosition(pos3d2);
-		objectCudeHit->SetPosition(pos3d2);
 
+		if (State == 1 || State == 2) {
+			object3d->SetPosition(pos3d2);
+		}
+		if (State == 3 || State == 4 || State == 5) {
+			objectCude->SetPosition(pos3dCube);
+		}
+		//objectHit->SetPosition(pos3d2);
+		objectCudeHit->SetPosition(objectCude->GetPosition());
 		objectHit->SetPosition(object3d->GetPosition());
+
+		if (input_->keyInstantPush(DIK_1)) {
+			objectFloor->SetPosition({ 0,-4,0 });
+			State = 1;
+			Object3D::CameraEyeMoveVector(XMFLOAT3(0, 10, -100));
+			object3d->SetPosition({ -10,15,+5 });
+			//objectFloor
+		}
+
+		if (input_->keyInstantPush(DIK_2)) {
+			State = 2;
+			Object3D::CameraEyeMoveVector(XMFLOAT3(0, 20, -60));
+			object3d->SetPosition({ -10,15,+30 });
+			triangle.p0 = Vector3(triPos.x + 1, triPos.y, triPos.z + 1);
+			triangle.p1 = Vector3(triPos.x - 1, triPos.y, triPos.z);
+			triangle.p2 = Vector3(triPos.x + 1, triPos.y, triPos.z - 1);
+		}
+
+		if (input_->keyInstantPush(DIK_3)) {
+			State = 3;
+			Object3D::CameraEyeMoveVector(XMFLOAT3(0, 5, -100));
+			objectFloor->SetPosition({ 0,0,0 });
+		}
+
+		if (input_->keyInstantPush(DIK_4)) {
+			State = 4;
+			Object3D::CameraEyeMoveVector(XMFLOAT3(0, 20, -100));
+			triangle.p0 = Vector3(triPos.x - 30, triPos.y, triPos.z);
+			triangle.p1 = Vector3(triPos.x, triPos.y, triPos.z + 120);
+			triangle.p2 = Vector3(triPos.x + 30, triPos.y, triPos.z);
+		}
+
+		if (input_->keyInstantPush(DIK_5)) {
+			State = 5;
+			Object3D::CameraEyeMoveVector(XMFLOAT3(0, 20, -100));
+			object3d->SetPosition({ 0,15,+5 });
+			objectCude->SetPosition( {0,-100,+5 });
+		}
 
 		spherePos.x = object3d->GetPosition().x;
 		spherePos.y = object3d->GetPosition().y;
@@ -213,11 +250,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		ray.start = raypos;
 
-		//hit = Collison::CheckSphere2Plane(sphere, plane);
-		//hit = Collison::CheckSphere2Triangle(sphere, triangle);
-		//hit = Collison::CheckRay2Plane(ray, plane);
-		//hit = Collison::CheckRay2Triangle(ray, triangle);
-		hit = Collison::CheckRay2Sphere(ray, sphere);
+		if (State == 1) {
+			hit = Collison::CheckSphere2Plane(sphere, plane);
+		}
+		if (State == 2) {
+			hit = Collison::CheckSphere2Triangle(sphere, triangle);
+		}
+		if (State == 3) {
+			hit = Collison::CheckRay2Plane(ray, plane);
+		}
+		if (State == 4) {
+			hit = Collison::CheckRay2Triangle(ray, triangle);
+		}
+		if (State == 5) {
+			hit = Collison::CheckRay2Sphere(ray, sphere);
+		}
 
 #pragma region DirectX毎フレーム処理
 
@@ -230,16 +277,54 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//object3d2->Draw();
 		object3d3->Draw();
 		
-		//objectFloor->Draw();
-		//objectTri->Draw();
+		
+		
 
 		if (hit) {
-			objectHit->Draw();
-			objectCudeHit->Draw();
+
+			if (State == 1) {
+				objectHit->Draw();
+				objectFloor->Draw();
+			}
+			if (State == 2) {
+				objectHit->Draw();
+				objectTri->Draw();
+			}
+			if (State == 3) {
+				objectCudeHit->Draw();
+				objectFloor->Draw();
+			}
+			if (State == 4) {
+				objectCudeHit->Draw();
+				objectTri->Draw();
+			}
+			if (State == 5) {
+				objectHit->Draw();
+				objectCudeHit->Draw();
+			}
 		}
 		else {
-			object3d->Draw();
-			objectCude->Draw();
+
+			if (State == 1) {
+				object3d->Draw();
+				objectFloor->Draw();
+			}
+			if (State == 2) {
+				object3d->Draw();
+				objectTri->Draw();
+			}
+			if (State == 3) {
+				objectCude->Draw();
+				objectFloor->Draw();
+			}
+			if (State == 4) {
+				objectCude->Draw();
+				objectTri->Draw();
+			}
+			if (State == 5) {
+				object3d->Draw();
+				objectCude->Draw();
+			}
 		}
 
 		Object3D::PostDraw();

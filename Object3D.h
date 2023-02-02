@@ -91,6 +91,8 @@ public: // 静的メンバ関数
 	/// <param name="move">移動量</param>
 	static void CameraMoveVector(XMFLOAT3 move);
 
+	static void CameraEyeMoveVector(XMFLOAT3 move);
+
 private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device* device;
