@@ -113,6 +113,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	int timer = 0;
 	XMFLOAT3 move;
+	XMFLOAT3 rayMove;
 	bool down = true;
 
 	//ゲームループ
@@ -122,7 +123,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;	//ゲームループ終了
 		}
 		object3d->Update();
-		//object3d2->Update();
 		object3d3->Update();
 		objectFloor->Update();
 		objectHit->Update();
@@ -140,94 +140,155 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		pos3d = object3d->GetRotation();
 		pos3d2 = object3d->GetPosition();
 		pos3dCube = objectCude->GetPosition();
-		move = object3d->GetPosition();		
+		move = object3d->GetPosition();	
+		rayMove = objectCude->GetPosition();
 
-		if (input_->keyPush(DIK_D)) {
-			pos3d.y++;
-		}
-		if (input_->keyPush(DIK_A)) {
-			pos3d.y--;
-		}
-		if (input_->keyPush(DIK_S)) {
-			pos3d.x--;
-		}
-		if (input_->keyPush(DIK_W)) {
-			pos3d.x++;
-		}
-
-		if (input_->keyPush(DIK_RIGHT)) {
-			pos3d2.x += 0.5f;
-			pos3dCube.x += 0.5f;
-		}
-		if (input_->keyPush(DIK_LEFT)) {
-			pos3d2.x-=0.5;
-			pos3dCube.x -= 0.5f;
-		}
-		if (input_->keyPush(DIK_UP)) {
-			pos3d2.y+=0.5;
-			pos3dCube.y += 0.5f;
-		}
-		if (input_->keyPush(DIK_DOWN)) {
-			pos3d2.y-=0.5;
-			pos3dCube.y -= 0.5f;
-		}
-		if (input_->keyPush(DIK_A)) {
-			pos3d2.z+=0.5;
-			pos3dCube.z += 0.5f;
-		}
-		if (input_->keyPush(DIK_Z)) {
-			pos3d2.z-=0.5;
-			pos3dCube.z -= 0.5f;
+		if (State == 1) {
+			if (down == true) {
+				move.y -= 0.5f;
+				timer++;
+				if (timer >= 50) {
+					timer = 0;
+					down = false;
+				}
+			}
+			else {
+				move.y += 0.5f;
+				timer++;
+				if (timer >= 50) {
+					timer = 0;
+					down = true;
+				}
+			}
 		}
 
-		object3d->SetRotation(pos3d);
+		if (State == 2) {
+			if (down == true) {
+				move.x++;
+				timer++;
+				if (timer >= 50) {
+					timer = 0;
+					down = false;
+				}
+			}
+			else {
+				move.x--;
+				timer++;
+				if (timer >= 50) {
+					timer = 0;
+					down = true;
+				}
+			}
+		}
+
+		if (State == 3||State==5) {
+			if (down == true) {
+				rayMove.y++;
+				timer++;
+				if (timer >= 50) {
+					timer = 0;
+					down = false;
+				}
+			}
+			else {
+				rayMove.y--;
+				timer++;
+				if (timer >= 50) {
+					timer = 0;
+					down = true;
+				}
+			}
+		}
+
+		if (State == 4) {
+			if (down == true) {
+				rayMove.x++;
+				timer++;
+				if (timer >= 50) {
+					timer = 0;
+					down = false;
+				}
+			}
+			else {
+				rayMove.x--;
+				timer++;
+				if (timer >= 50) {
+					timer = 0;
+					down = true;
+				}
+			}
+		}
 
 		if (State == 1 || State == 2) {
-			object3d->SetPosition(pos3d2);
+			object3d->SetPosition(move);
 		}
 		if (State == 3 || State == 4 || State == 5) {
-			objectCude->SetPosition(pos3dCube);
+			objectCude->SetPosition(rayMove);
 		}
-		//objectHit->SetPosition(pos3d2);
 		objectCudeHit->SetPosition(objectCude->GetPosition());
 		objectHit->SetPosition(object3d->GetPosition());
 
 		if (input_->keyInstantPush(DIK_1)) {
-			objectFloor->SetPosition({ 0,-4,0 });
-			State = 1;
-			Object3D::CameraEyeMoveVector(XMFLOAT3(0, 10, -100));
-			object3d->SetPosition({ -10,15,+5 });
-			//objectFloor
+			if (State != 1) {
+				objectFloor->SetPosition({ 0,-4,0 });
+				State = 1;
+				Object3D::CameraEyeMoveVector(XMFLOAT3(0, 10, -100));
+				object3d->SetPosition({ -10,20,+5 });
+				timer = 0;
+				down = true;
+			}
+			
 		}
 
 		if (input_->keyInstantPush(DIK_2)) {
-			State = 2;
-			Object3D::CameraEyeMoveVector(XMFLOAT3(0, 20, -60));
-			object3d->SetPosition({ -10,15,+30 });
-			triangle.p0 = Vector3(triPos.x + 1, triPos.y, triPos.z + 1);
-			triangle.p1 = Vector3(triPos.x - 1, triPos.y, triPos.z);
-			triangle.p2 = Vector3(triPos.x + 1, triPos.y, triPos.z - 1);
+			if (State != 2) {
+				State = 2;
+				Object3D::CameraEyeMoveVector(XMFLOAT3(0, 20, -60));
+				object3d->SetPosition({ -25,-10,+35 });
+				triangle.p0 = Vector3(triPos.x + 1, triPos.y, triPos.z + 1);
+				triangle.p1 = Vector3(triPos.x - 1, triPos.y, triPos.z);
+				triangle.p2 = Vector3(triPos.x + 1, triPos.y, triPos.z - 1);
+				timer = 0;
+				down = true;
+			}
 		}
 
 		if (input_->keyInstantPush(DIK_3)) {
-			State = 3;
-			Object3D::CameraEyeMoveVector(XMFLOAT3(0, 5, -100));
-			objectFloor->SetPosition({ 0,0,0 });
+			if (State != 3) {
+				State = 3;
+				Object3D::CameraEyeMoveVector(XMFLOAT3(0, 5, -100));
+				objectCude->SetPosition({ 0,-125,0 });
+				objectFloor->SetPosition({ 0,0,0 });
+				timer = 0;
+				down = true;
+			}
+			
 		}
 
 		if (input_->keyInstantPush(DIK_4)) {
-			State = 4;
-			Object3D::CameraEyeMoveVector(XMFLOAT3(0, 20, -100));
-			triangle.p0 = Vector3(triPos.x - 30, triPos.y, triPos.z);
-			triangle.p1 = Vector3(triPos.x, triPos.y, triPos.z + 120);
-			triangle.p2 = Vector3(triPos.x + 30, triPos.y, triPos.z);
+			if (State != 4) {
+				State = 4;
+				Object3D::CameraEyeMoveVector(XMFLOAT3(0, 20, -100));
+				triangle.p0 = Vector3(triPos.x - 30, triPos.y, triPos.z);
+				triangle.p1 = Vector3(triPos.x, triPos.y, triPos.z + 120);
+				triangle.p2 = Vector3(triPos.x + 30, triPos.y, triPos.z);
+				objectCude->SetPosition({ -25,50,15 });
+				timer = 0;
+				down = true;
+			}
+			
 		}
 
 		if (input_->keyInstantPush(DIK_5)) {
-			State = 5;
-			Object3D::CameraEyeMoveVector(XMFLOAT3(0, 20, -100));
-			object3d->SetPosition({ 0,15,+5 });
-			objectCude->SetPosition( {0,-100,+5 });
+			if (State != 5) {
+				State = 5;
+				Object3D::CameraEyeMoveVector(XMFLOAT3(0, 20, -100));
+				object3d->SetPosition({ 0,15,+5 });
+				objectCude->SetPosition({ 0,-115,+5 });
+				timer = 0;
+				down = true;
+			}
+			
 		}
 
 		spherePos.x = object3d->GetPosition().x;
@@ -273,12 +334,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Object3D::PreDraw(dxBasis->GetCommandList());
 
-		
-		//object3d2->Draw();
 		object3d3->Draw();
-		
-		
-		
 
 		if (hit) {
 
@@ -331,8 +387,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//描画後処理
 		dxBasis->PostDraw();
-
-
 		
 #pragma endregion
 
