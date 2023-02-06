@@ -177,6 +177,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			lightGroup->SetSpotLightActive(0, false);
 			lightGroup->SetPointLightActive(0, false);
+			lightGroup->SetCircleShadowActive(0, false);
 
 			lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
 
@@ -195,6 +196,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			lightGroup->SetDirLightActive(1, false);
 			lightGroup->SetDirLightActive(2, false);
 
+			lightGroup->SetCircleShadowActive(0, false);
 			lightGroup->SetSpotLightActive(0, false);
 
 			lightGroup->SetPointLightActive(0, true);
@@ -211,7 +213,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			lightGroup->SetPointLightActive(0, false);
 			lightGroup->SetPointLightActive(1, false);
 			lightGroup->SetPointLightActive(2, false);
-
+			lightGroup->SetCircleShadowActive(0, false);
 
 			lightGroup->SetSpotLightActive(0, true);
 
