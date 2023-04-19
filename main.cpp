@@ -97,7 +97,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	float circleShadowAtten[3] = { 0.5f,0.0f,0.0f };
 	float circleShadowFactorAngle[2] = { 1.0f,2.0f };
 
-	float fightPos[3] = { 10,0.0f,5 };
+	float playerPos[3] = { 0,0.0f,5 };
 
 	int State = 0;
 
@@ -115,55 +115,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	SpBasis.reset(spBasis);
 
-	HRESULT result;
-
 	Sprite* sprite = new Sprite();
 	sprite->Initialize(spBasis, winApp);
 
-	Sprite* sprite2 = new Sprite();
-	sprite2->Initialize(spBasis, winApp);
-
-	Sprite* sprite3 = new Sprite();
-	sprite3->Initialize(spBasis, winApp);
-
 	sprite->Create(150, 150);
-	sprite2->Create(50, 50);
-	sprite3->Create(900, 120);
-
-	XMFLOAT2 posS = { 0,0 };
-	XMFLOAT2 sizeS = { 0,0 };
-	float speed = 1;
-	float angle = 0;
 
 	//OBJからモデルを読み込む
-	Model* model = Model::LoadFromObj("sphere",true);
-	Model* model3 = Model::LoadFromObj("floor");
-	Model* model2 = Model::LoadFromObj("world");
-	Model* model4 = Model::LoadFromObj("player");
-	Model* model5 = Model::LoadFromObj("floor2");
+	Model* floorModel = Model::LoadFromObj("floor");
+	Model* skydomModel = Model::LoadFromObj("world");
+	Model* playerModel = Model::LoadFromObj("player");
 
 	//3Dオブジェクト生成
-	Object3D* object3d = Object3D::Create(5.0f);
-	Object3D* object3d2 = Object3D::Create(2.0f);
-	Object3D* object3d3 = Object3D::Create(100.0f);
-
+	Object3D* playerObject = Object3D::Create(2.0f);
+	Object3D* skyObject = Object3D::Create(100.0f);
 	Object3D* objectFloor = Object3D::Create(5.0f);
 
-	Object3D* objectFloor2 = Object3D::Create(5.0f);
-
 	//3Dオブジェクトに3Dモデルを紐づけ
-	object3d->SetModel(model);
-	object3d2->SetModel(model4);
-	object3d3->SetModel(model2);
+	playerObject->SetModel(playerModel);
+	skyObject->SetModel(skydomModel);
 
-	object3d->SetPosition({ -10,0,+5 });
-	object3d2->SetPosition(XMFLOAT3(fightPos));
+	playerObject->SetPosition(XMFLOAT3(playerPos));
 
-	objectFloor->SetModel(model3);
+	objectFloor->SetModel(floorModel);
 	objectFloor->SetPosition({ 0,-10,0 });
-
-	objectFloor2->SetModel(model5);
-	objectFloor2->SetPosition({ 0,-10,0 });
 
 	//オーディオ初期化
 	sound = new Sound();
@@ -172,7 +146,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	sound->LoadWave("PerituneMaterial.wav");
 	sound->LoadWave("Alarm01.wav");
 
-	int scene = 0;
+	OutputDebugStringA("文字列リテラルを出力するよ\n");
+
+	std::string a("stringに埋め込んだ文字列を取得するよ\n");
+	OutputDebugStringA(a.c_str());
 
 	//ゲームループ
 	while (true) {
@@ -180,174 +157,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (winApp->gameloopExit(msg) == true) {
 			break;	//ゲームループ終了
 		}
-		sizeS = sprite->GetSize();
 
-		if (input_->keyPush(DIK_D)) {
-			sizeS.x++;
-		}
-		else if (input_->keyPush(DIK_A)) {
-			sizeS.x--;
-		}
-		if (input_->keyPush(DIK_W)) {
-			sizeS.y++;
-		}
-		else if (input_->keyPush(DIK_S)) {
-			sizeS.y--;
-		}
-		sprite->SetSize(sizeS);
-		sprite3->SetSize(XMFLOAT2{ 1280 / 2,720 / 2 });
-
-		sprite2->Update();
 		sprite->Update();
-		sprite3->Update();
 
-		object3d->Update();
-		object3d2->Update();
-		object3d3->Update();
+		playerObject->Update();
+		skyObject->Update();
 		objectFloor->Update();
-		objectFloor2->Update();
-
-		if (input_->keyInstantPush(DIK_5) && scene == 0) {
-			sound->PlayWave("PerituneMaterial.wav");
-			scene = 1;
-		}
-
-		if (input_->keyInstantPush(DIK_6)) {
-			if (scene == 1) {
-				sound->StopWAVE("PerituneMaterial.wav");
-			}
-
-			scene = 0;
-		}
-
-		if (input_->keyInstantPush(DIK_7)) {
-			sound->PlayWave("Alarm01.wav");
-		}
 
 		//keyborad更新処理
 		input_->Update();
 
-		//light->Update();
 		lightGroup->Update();
-
-		//光線方向初期化				  上 奥
-		static XMVECTOR lightDir = { 0,1,5,0 };
-
-		if (input_->keyPush(DIK_RIGHT)) {
-			fightPos[0]++;
-		}
-		else if (input_->keyPush(DIK_LEFT)) {
-			fightPos[0]--;
-		}
-		if (input_->keyPush(DIK_UP)) {
-			fightPos[1]++;
-		}
-		else if (input_->keyPush(DIK_DOWN)) {
-			fightPos[1]--;
-		}
-
-		if (input_->keyInstantPush(DIK_1)) {
-			State = 1;
-		}
-		if (input_->keyInstantPush(DIK_2)) {
-			State = 2;
-		}
-		if (input_->keyInstantPush(DIK_3)) {
-			State = 3;
-		}
-		if (input_->keyInstantPush(DIK_4)) {
-			State = 4;
-		}
-
-		if (State == 1) {
-			lightGroup->SetDirLightActive(0, true);
-			lightGroup->SetDirLightActive(1, true);
-			lightGroup->SetDirLightActive(2, true);
-
-			lightGroup->SetSpotLightActive(0, false);
-			lightGroup->SetPointLightActive(0, false);
-			lightGroup->SetCircleShadowActive(0, false);
-
-			lightGroup->SetAmbientColor(XMFLOAT3(ambientColor0));
-
-			lightGroup->SetDirLightDir(0, XMVECTOR({ lightDir0[0],lightDir0[1],lightDir0[2],0 }));
-			lightGroup->SetDirLightColor(0, XMFLOAT3(lightColor0));
-
-			lightGroup->SetDirLightDir(1, XMVECTOR({ lightDir1[0],lightDir1[1],lightDir1[2],0 }));
-			lightGroup->SetDirLightColor(1, XMFLOAT3(lightColor1));
-
-			lightGroup->SetDirLightDir(2, XMVECTOR({ lightDir2[0],lightDir2[1],lightDir2[2],0 }));
-			lightGroup->SetDirLightColor(2, XMFLOAT3(lightColor2));
-		}
-
-		if (State == 2) {
-			lightGroup->SetDirLightActive(0, false);
-			lightGroup->SetDirLightActive(1, false);
-			lightGroup->SetDirLightActive(2, false);
-			lightGroup->SetCircleShadowActive(0, false);
-
-			lightGroup->SetSpotLightActive(0, false);
-
-			lightGroup->SetPointLightActive(0, true);
-
-			lightGroup->SetPointLightPos(0, XMFLOAT3(pointLightPos));
-			lightGroup->SetPointLightColor(0, XMFLOAT3(pointLightColor));
-			lightGroup->SetPointLightAtten(0, XMFLOAT3(pointLightAtten));
-		}
-
-		if (State == 3) {
-			lightGroup->SetDirLightActive(0, false);
-			lightGroup->SetDirLightActive(1, false);
-			lightGroup->SetDirLightActive(2, false);
-			lightGroup->SetPointLightActive(0, false);
-			lightGroup->SetPointLightActive(1, false);
-			lightGroup->SetPointLightActive(2, false);
-			lightGroup->SetCircleShadowActive(0, false);
-
-			lightGroup->SetSpotLightActive(0, true);
-
-			lightGroup->SetSpotLightDir(0, XMVECTOR({ spotLightDir[0],spotLightDir[1],spotLightDir[2] ,0 }));
-			lightGroup->SetSpotLightPos(0, XMFLOAT3({ spotLightPos }));
-			lightGroup->SetSpotLightColor(0, XMFLOAT3({ spotLightColor }));
-			lightGroup->SetSpotLightAtten(0, XMFLOAT3({ spotLightAtten }));
-			lightGroup->SetSpotLightFactorAngle(0, XMFLOAT2(spotLightFactorAngle));
-		}
-
-		if (State == 4) {
-			lightGroup->SetDirLightActive(0, false);
-			lightGroup->SetDirLightActive(1, false);
-			lightGroup->SetDirLightActive(2, false);
-			lightGroup->SetPointLightActive(0, false);
-			lightGroup->SetPointLightActive(1, false);
-			lightGroup->SetPointLightActive(2, false);
-
-			lightGroup->SetSpotLightActive(0, false);
-
-			lightGroup->SetDirLightActive(0, true);
-			lightGroup->SetDirLightActive(1, true);
-			lightGroup->SetDirLightActive(2, true);
-			lightGroup->SetCircleShadowActive(0, true);
-
-			lightGroup->SetCircleShadowDir(0, XMVECTOR({ circleShadowDir[0],circleShadowDir[1],circleShadowDir[2] ,0 }));
-			lightGroup->SetCircleShadowCasterPos(0, XMFLOAT3({ fightPos[0],fightPos[1],fightPos[2] }));
-			lightGroup->SetCircleShadowAtten(0, XMFLOAT3(circleShadowAtten));
-			lightGroup->SetCircleShadowFactorAngle(0, XMFLOAT2(circleShadowFactorAngle));
-		}
-
-		
-
-		object3d2->SetPosition(XMFLOAT3({ fightPos[0], fightPos[1], fightPos[2] }));
-
-		XMFLOAT3 pos3d;
-		XMFLOAT3 pos3d2;
-
-		pos3d = object3d->GetRotation();
-		pos3d2 = object3d2->GetPosition();
-
-		pos3d.y++;
-
-		object3d->SetRotation(pos3d);
-		object3d2->SetRotation(pos3d);
 
 #pragma region DirectX毎フレーム処理
 
@@ -356,23 +176,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Object3D::PreDraw(dxBasis->GetCommandList());
 
-		object3d->Draw();
-		object3d2->Draw();
-		object3d3->Draw();
-		
-
-		if (State == 1 || State == 4) {
-			objectFloor2->Draw();
-		}
-		else {
-			objectFloor->Draw();
-		}
+		playerObject->Draw();
+		skyObject->Draw();
+		objectFloor->Draw();
 
 		Object3D::PostDraw();
 
 		sprite->Draw(tex1);
-		sprite2->Draw(tex2);
-		sprite3->Draw(tex3);
 
 		//描画後処理
 		dxBasis->PostDraw();
@@ -383,20 +193,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	sound->Finalize();
 	delete sound;
-	//delete light;
 	delete sprite;
-	delete sprite2;
-	delete sprite3;
 	delete lightGroup;
-	delete model;
-	delete model2;
-	delete model3;
-	delete model4;
-	delete object3d;
-	delete object3d2;
-	delete object3d3;
+	delete floorModel;
+	delete playerModel;
+	delete playerObject;
+	delete skyObject;
 	delete objectFloor;
-	delete objectFloor2;
 	//ウィンドウクラスを登録解除
 	winApp->Release();
 
