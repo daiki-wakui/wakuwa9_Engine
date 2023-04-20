@@ -149,6 +149,7 @@
     <ClCompile Include="Audio\Sound.cpp" />
     <ClCompile Include="Base\DirectXBasis.cpp" />
     <ClCompile Include="Base\WindowsApp.cpp" />
+    <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Input\KeyBoard.cpp" />
     <ClCompile Include="Light\CircleShadow.cpp" />
     <ClCompile Include="Light\DirectionalLight.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="Audio\Sound.h" />
     <ClInclude Include="Base\DirectXBasis.h" />
     <ClInclude Include="Base\WindowsApp.h" />
+    <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Input\KeyBoard.h" />
     <ClInclude Include="Light\CircleShadow.h" />
     <ClInclude Include="Light\DirectionalLight.h" />
