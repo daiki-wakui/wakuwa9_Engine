@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "SpriteBasis.h"
 #include "Sound.h"
+#include "ImGuiManager.h"
 
 #include <memory>
 #include <string>
@@ -32,6 +33,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::unique_ptr<DirectXBasis> DirectX;
 	DirectXBasis* dxBasis = new DirectXBasis();
 
+	//ImGuiクラスの生成
+	std::unique_ptr<ImGuiManager> ImGuiM;
+	ImGuiManager* imguiM = new ImGuiManager;
+
 	//Spriteの基盤生成クラス
 	std::unique_ptr<SpriteBasis> SpBasis;
 	SpriteBasis* spBasis = new SpriteBasis();
@@ -44,6 +49,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//DirectX初期化
 	dxBasis->Initialize(winApp);
 	DirectX.reset(dxBasis);
+
+	imguiM->Initialize(winApp,dxBasis);
+	ImGuiM.reset(imguiM);
 
 	Sound* sound = nullptr;
 
@@ -169,6 +177,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		lightGroup->Update();
 
+
+		//デバック用
+		imguiM->Begin();
+
+		imguiM->End();
+
 #pragma region DirectX毎フレーム処理
 
 		// 描画前処理
@@ -186,6 +200,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		//描画後処理
 		dxBasis->PostDraw();
+
+		imguiM->Draw();
+
 #pragma endregion
 
 	}
@@ -200,6 +217,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete playerObject;
 	delete skyObject;
 	delete objectFloor;
+
+	imguiM->Finalize();
 	//ウィンドウクラスを登録解除
 	winApp->Release();
 
