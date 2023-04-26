@@ -19,8 +19,8 @@ using namespace DirectX;
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 
-
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+
 	//windowsAPIÇÃê∂ê¨ÉNÉâÉX
 	std::unique_ptr<WindowsApp> windows;
 	WindowsApp* winApp = new WindowsApp();
