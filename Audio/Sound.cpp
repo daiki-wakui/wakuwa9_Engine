@@ -41,7 +41,6 @@ void Sound::Finalize()
 
 void Sound::LoadWave(const std::string& filename)
 {
-	HRESULT result;
 
 	if (soundDatas.find(filename) != soundDatas.end()) {
 		return;

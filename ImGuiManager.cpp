@@ -5,6 +5,8 @@
 
 void ImGuiManager::Initialize(WindowsApp* winApp, DirectXBasis* directXBase)
 {
+	HRESULT result;
+
 	assert(winApp);
 	assert(directXBase);
 
