@@ -729,16 +729,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//Œõü•ûŒü‰Šú‰»				  ã ‰œ
 		static XMVECTOR lightDir = { 0,1,5,0 };
 
-		if (input_->keyPush(DIK_Y)) {
+		if (input_->keyPush(DIK_W)) {
 			lightDir.m128_f32[1] += 1.0f;
 		}
-		else if (input_->keyPush(DIK_H)) {
+		else if (input_->keyPush(DIK_S)) {
 			lightDir.m128_f32[1] -= 1.0f;
 		}
-		if (input_->keyPush(DIK_J)) {
+		if (input_->keyPush(DIK_D)) {
 			lightDir.m128_f32[0] += 1.0f;
 		}
-		else if (input_->keyPush(DIK_G)) {
+		else if (input_->keyPush(DIK_A)) {
 			lightDir.m128_f32[0] -= 1.0f;
 		}
 
@@ -751,19 +751,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		pos3d2 = object3d2->GetPosition();
 
 		pos3d.y++;
-
-		if (input_->keyPush(DIK_D)) {
-		
-		}
-		if (input_->keyPush(DIK_A)) {
-			pos3d.y--;
-		}
-		if (input_->keyPush(DIK_S)) {
-			pos3d.x--;
-		}
-		if (input_->keyPush(DIK_W)) {
-			pos3d.x++;
-		}
 
 		if (input_->keyPush(DIK_RIGHT)) {
 			pos3d2.x++;
