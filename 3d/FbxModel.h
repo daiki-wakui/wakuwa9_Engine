@@ -29,6 +29,16 @@ struct Node
 
 class FbxModel
 {
+public: //サブクラス
+
+	//頂点データ構造体
+	struct VertexPosNormalUv
+	{
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMFLOAT3 normal;
+		DirectX::XMFLOAT2 uv;
+	};
+
 public:
 
 	//フレンドクラス
@@ -39,6 +49,15 @@ public:
 
 	//ノード配列
 	std::vector<Node> nodes;
+
+	//メッシュを持つノード
+	Node* meshNode = nullptr;
+
+	//頂点データ配列
+	std::vector<VertexPosNormalUv> vertices;
+
+	//頂点インデックス配列
+	std::vector<unsigned short> indices;
 
 private:
 
