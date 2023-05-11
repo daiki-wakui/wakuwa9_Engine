@@ -9,6 +9,7 @@
 #include "SpriteBasis.h"
 #include "Sound.h"
 #include "ImGuiManager.h"
+#include "FbxLoader.h"
 
 #include <memory>
 #include <string>
@@ -52,6 +53,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	imguiM->Initialize(winApp,dxBasis);
 	ImGuiM.reset(imguiM);
+
+	//Fbx初期化
+	FbxLoader::GetInstance()->Initialize(dxBasis->GetDevice());
 
 	Sound* sound = nullptr;
 
@@ -111,6 +115,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 	spBasis->Initialize(dxBasis);
+
+	//ゲームシーンに使う初期化
+
 	int tex1 = 0;
 	int tex2 = 0;
 	int tex3 = 0;
@@ -158,6 +165,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	std::string a("stringに埋め込んだ文字列を取得するよ\n");
 	OutputDebugStringA(a.c_str());
+
+	//FBXファイル読み込み
+	FbxLoader::GetInstance()->LoadModelFromFile("cube");
 
 	//ゲームループ
 	while (true) {
@@ -217,6 +227,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete playerObject;
 	delete skyObject;
 	delete objectFloor;
+
+	FbxLoader::GetInstance()->Finalize();
 
 	imguiM->Finalize();
 	//ウィンドウクラスを登録解除
