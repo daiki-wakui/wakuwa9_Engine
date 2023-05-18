@@ -53,6 +53,9 @@ public:
 	//テクスチャ読み込み
 	void LoadTexture(FbxModel* model, const std::string& fullpath);
 
+	//ディレクトリを含んだファイルパスからファイル名を抽出する
+	std::string ExtractFileName(const std::string& path);
+
 private:
 	// privateなコンストラクタ（シングルトンパターン）
 	FbxLoader() = default;
@@ -72,4 +75,7 @@ private:
 
 	//FBXインポータ
 	FbxImporter* fbxImporter = nullptr;
+
+	//テクスチャがない場合の標準テクスチャファイル名
+	static const string defaultTextureFileName;
 };

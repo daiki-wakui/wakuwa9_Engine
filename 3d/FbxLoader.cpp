@@ -6,6 +6,8 @@ using namespace DirectX;
 //静的メンバ変数の実態
 const std::string FbxLoader::baseDirectory = "Resources/FBX/";
 
+const std::string FbxLoader::defaultTextureFileName = "white1x1.png";
+
 FbxLoader* FbxLoader::GetInstance()
 {
     static FbxLoader instance;
@@ -262,8 +264,94 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
 
 void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode)
 {
+    const int materialCount = fbxNode->GetMaterialCount();
+
+    if (materialCount > 0) {
+        //先頭のマテリアルを取得
+        FbxSurfaceMaterial* material = fbxNode->GetMaterial(0);
+
+        //テクスチャを読み込んだかどうかを表すフラグ
+        bool textureLoaded = false;
+
+        if (material) {
+            if (material->GetClassId().Is(FbxSurfaceLambert::ClassId)) {
+                FbxSurfaceLambert* lambert = static_cast<FbxSurfaceLambert*>(material);
+
+                //環境光係数
+                FbxPropertyT<FbxDouble3> ambient = lambert->Ambient;
+                model->ambient.x = (float)ambient.Get()[0];
+                model->ambient.y = (float)ambient.Get()[1];
+                model->ambient.z = (float)ambient.Get()[2];
+
+                //拡散反射係数
+                FbxPropertyT<FbxDouble3> diffuse = lambert->Diffuse;
+                model->diffuse.x = (float)diffuse.Get()[0];
+                model->diffuse.y = (float)diffuse.Get()[1];
+                model->diffuse.z = (float)diffuse.Get()[2];
+
+                //ディフューズテクスチャを取り出す
+                const FbxProperty diffuseProperty = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
+                if (diffuseProperty.IsValid()) {
+
+                    const FbxFileTexture* texture = diffuseProperty.GetSrcObject<FbxFileTexture>();
+
+                    if (texture) {
+                        const char* filepath = texture->GetFileName();
+
+                        //ファイルパスからファイル名抽出
+                        string path_str(filepath);
+                        string name = ExtractFileName(path_str);
+
+                        //テクスチャ読み込み
+                        LoadTexture(model, baseDirectory + model->name + "/" + name);
+                        textureLoaded = true;
+                    }
+                }
+            }
+        }
+
+        //テクスチャがない場合は白テクスチャを貼る
+        if (!textureLoaded) {
+            LoadTexture(model, baseDirectory + defaultTextureFileName);
+        }
+    }
 }
 
 void FbxLoader::LoadTexture(FbxModel* model, const std::string& fullpath)
 {
+    HRESULT result = S_FALSE;
+
+    //WICテクスチャロード
+    TexMetadata& metadata = model->metadata;
+    ScratchImage& scratchImg = model->scratchImg;
+
+    //ユニコード文字列に変換
+    wchar_t wfilepath[128];
+    MultiByteToWideChar(CP_ACP, 0, fullpath.c_str(), -1, wfilepath, _countof(wfilepath));
+
+    result = LoadFromWICFile(
+        wfilepath, WIC_FLAGS_NONE,
+        &metadata, scratchImg);
+
+    if (FAILED(result)) {
+        assert(0);
+    }
+}
+
+std::string FbxLoader::ExtractFileName(const std::string& path)
+{
+    size_t pos1;
+
+    //区切り文字'￥￥'が出てくる一番最後の部分を検索
+    pos1 = path.rfind('\\');
+    if (pos1 != string::npos) {
+        return path.substr(pos1 + 1, path.size() - pos1 - 1);
+    }
+
+    pos1 = path.rfind('/');
+    if (pos1 != string::npos) {
+        return path.substr(pos1 + 1, path.size() - pos1 - 1);
+    }
+
+    return path;
 }

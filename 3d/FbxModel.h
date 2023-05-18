@@ -2,6 +2,7 @@
 #include <string>
 #include <DirectXMath.h>
 #include <vector>
+#include <DirectXTex.h>
 
 struct Node
 {
@@ -58,6 +59,18 @@ public:
 
 	//頂点インデックス配列
 	std::vector<unsigned short> indices;
+
+	//アンビエント係数
+	DirectX::XMFLOAT3 ambient = { 1,1,1 };
+
+	//ディディフューズ係数
+	DirectX::XMFLOAT3 diffuse = { 1,1,1 };
+
+	//テクスチャメタデータ
+	DirectX::TexMetadata metadata = {};
+
+	//スクラッチイメージ
+	DirectX::ScratchImage scratchImg = {};
 
 private:
 
