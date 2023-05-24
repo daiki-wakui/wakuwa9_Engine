@@ -20,6 +20,12 @@ using namespace DirectX;
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 
+#include <json.hpp>
+#include "LevelLoader.h"
+#include <fstream>
+#include <cassert>
+#include <map>
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//windowsAPIの生成クラス
@@ -161,13 +167,54 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	sound->LoadWave("PerituneMaterial.wav");
 	sound->LoadWave("Alarm01.wav");
 
-	OutputDebugStringA("文字列リテラルを出力するよ\n");
+	/*OutputDebugStringA("文字列リテラルを出力するよ\n");
 
 	std::string a("stringに埋め込んだ文字列を取得するよ\n");
-	OutputDebugStringA(a.c_str());
+	OutputDebugStringA(a.c_str());*/
 
 	//FBXファイル読み込み
-	FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	//FbxLoader::GetInstance()->LoadModelFromFile("cube");
+
+	LevelData* levelData = nullptr;
+
+	// レベルデータの読み込み
+	levelData = LevelLoader::LoadFile("obj");
+
+	std::map<std::string, Model*> models;
+	std::vector<Object3D*> objects;
+
+	// レベルデータからオブジェクトを生成、配置
+	for (auto& objectData : levelData->objects) {
+		// ファイル名から登録済みモデルを検索
+		Model* model = nullptr;
+		decltype(models)::iterator it = models.find(objectData.fileName);
+		if (it != models.end()) {
+			model = it->second;
+		}
+
+		// モデルを指定して3Dオブジェクトを生成
+		Object3D* newObject = Object3D::Create(1.0f);
+		newObject->SetModel(playerModel);
+
+		// 座標
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMStoreFloat3(&pos, objectData.translation);
+		newObject->SetPosition(pos);
+
+		// 回転角
+		DirectX::XMFLOAT3 rot;
+		DirectX::XMStoreFloat3(&rot, objectData.rotation);
+		newObject->SetRotation({rot.x,rot.y-90,rot.z});
+
+
+		// 座標
+		DirectX::XMFLOAT3 scale;
+		DirectX::XMStoreFloat3(&scale, objectData.scaling);
+		newObject->SetScale(scale);
+
+		// 配列に登録
+		objects.push_back(newObject);
+	}
 
 	//ゲームループ
 	while (true) {
@@ -181,6 +228,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		playerObject->Update();
 		skyObject->Update();
 		objectFloor->Update();
+
+		for (auto& object : objects) {
+			object->Update();
+		}
 
 		//keyborad更新処理
 		input_->Update();
@@ -200,9 +251,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Object3D::PreDraw(dxBasis->GetCommandList());
 
-		playerObject->Draw();
-		skyObject->Draw();
-		objectFloor->Draw();
+		//playerObject->Draw();
+		//skyObject->Draw();
+		//objectFloor->Draw();
+
+		for (auto& object : objects) {
+			object->Draw();
+		}
 
 		Object3D::PostDraw();
 

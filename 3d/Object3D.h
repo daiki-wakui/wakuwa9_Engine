@@ -183,6 +183,7 @@ public: // ƒƒ“ƒoŠÖ”
 	/// <param name="position">À•W</param>
 	void SetPosition(const XMFLOAT3& position) { this->position = position; }
 	void SetRotation(const XMFLOAT3& rotation) { this->rotation = rotation; }
+	void SetScale(const XMFLOAT3& scale) { this->scale = scale; }
 
 	//setter
 	void SetModel(Model* model) { model_ = model; };
