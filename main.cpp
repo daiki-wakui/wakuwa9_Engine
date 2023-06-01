@@ -10,6 +10,7 @@
 #include "Sound.h"
 #include "ImGuiManager.h"
 #include "FbxLoader.h"
+#include "FbxObject3d.h"
 
 #include <memory>
 #include <string>
@@ -60,6 +61,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Sound* sound = nullptr;
 
 	Object3D::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
+
+	FbxObject3d::SetCamera(Object3D::GetEye(), Object3D::GetTarget(), Object3D::GetUp());
+
+	FbxObject3d::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
 
 	//DirectionalLight::StaticInitalize(dxBasis->GetDevice());
 	LightGroup::StaticInitialize(dxBasis->GetDevice());
@@ -135,6 +140,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	sprite->Create(150, 150);
 
+	
+
 	//OBJからモデルを読み込む
 	Model* floorModel = Model::LoadFromObj("floor");
 	Model* skydomModel = Model::LoadFromObj("world");
@@ -167,7 +174,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	OutputDebugStringA(a.c_str());
 
 	//FBXファイル読み込み
-	FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	//FbxLoader::GetInstance()->LoadModelFromFile("cube");
+
+	FbxModel* cube = nullptr;
+	FbxObject3d* objcube = nullptr;
+
+	cube = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+
+	objcube = new FbxObject3d;
+	objcube->Initialize();
+	objcube->SetModel(cube);
+	//ですとらくたno
 
 	//ゲームループ
 	while (true) {
@@ -181,6 +198,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		playerObject->Update();
 		skyObject->Update();
 		objectFloor->Update();
+
+		objcube->Update();
 
 		//keyborad更新処理
 		input_->Update();
@@ -203,6 +222,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		playerObject->Draw();
 		skyObject->Draw();
 		objectFloor->Draw();
+
+		objcube->Draw(dxBasis->GetCommandList());
 
 		Object3D::PostDraw();
 

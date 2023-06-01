@@ -85,6 +85,8 @@ public: // 静的メンバ関数
 	/// <returns>座標</returns>
 	static const XMFLOAT3& GetTarget() { return target; }
 
+	static const XMFLOAT3& GetUp() { return up; }
+
 	/// <summary>
 	/// 注視点座標の設定
 	/// </summary>

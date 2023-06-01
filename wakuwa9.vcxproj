@@ -157,6 +157,7 @@
     <ClCompile Include="Audio\Sound.cpp" />
     <ClCompile Include="Base\DirectXBasis.cpp" />
     <ClCompile Include="Base\WindowsApp.cpp" />
+    <ClCompile Include="FbxObject3d.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Input\KeyBoard.cpp" />
     <ClCompile Include="Light\CircleShadow.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Audio\Sound.h" />
     <ClInclude Include="Base\DirectXBasis.h" />
     <ClInclude Include="Base\WindowsApp.h" />
+    <ClInclude Include="FbxObject3d.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Input\KeyBoard.h" />
     <ClInclude Include="Light\CircleShadow.h" />
@@ -195,6 +197,22 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\FBXPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\FBXVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="Resources\shaders\OBJPixelShader.hlsl">
@@ -228,6 +246,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli" />
+    <None Include="Resources\shaders\FBX.hlsli" />
     <None Include="Resources\shaders\OBJShaderHeader.hlsli" />
     <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
