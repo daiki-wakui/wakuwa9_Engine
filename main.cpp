@@ -21,7 +21,13 @@ using namespace DirectX;
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 
+#include "GameCore.h"
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+
+	GameCore game;
+
+	game.Initialize();
 
 	//windowsAPIの生成クラス
 	std::unique_ptr<WindowsApp> windows;
@@ -193,6 +199,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;	//ゲームループ終了
 		}
 
+		game.Update();
+
 		sprite->Update();
 
 		playerObject->Update();
@@ -213,6 +221,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		imguiM->End();
 
 #pragma region DirectX毎フレーム処理
+
+		game.Draw();
 
 		// 描画前処理
 		dxBasis->PreDraw();
@@ -238,6 +248,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	}
 
+	game.Finalize();
 
 	sound->Finalize();
 	delete sound;

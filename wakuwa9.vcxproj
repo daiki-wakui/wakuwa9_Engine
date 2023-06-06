@@ -107,6 +107,7 @@
     <ClCompile Include="Base\DirectXBasis.cpp" />
     <ClCompile Include="Base\WindowsApp.cpp" />
     <ClCompile Include="FbxObject3d.cpp" />
+    <ClCompile Include="GameCore.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Input\KeyBoard.cpp" />
     <ClCompile Include="Light\CircleShadow.cpp" />
@@ -127,6 +128,7 @@
     <ClInclude Include="Base\DirectXBasis.h" />
     <ClInclude Include="Base\WindowsApp.h" />
     <ClInclude Include="FbxObject3d.h" />
+    <ClInclude Include="GameCore.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Input\KeyBoard.h" />
     <ClInclude Include="Light\CircleShadow.h" />
