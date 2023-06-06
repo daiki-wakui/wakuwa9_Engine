@@ -309,8 +309,8 @@ void DirectXBasis::PreDraw(){
 
 	// ビューポート設定コマンド
 	D3D12_VIEWPORT viewport{};
-	viewport.Width = winApp->GetWindowWidth();
-	viewport.Height = winApp->GetWindowHeight();
+	viewport.Width = (FLOAT)winApp->GetWindowWidth();
+	viewport.Height = (FLOAT)winApp->GetWindowHeight();
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
 	viewport.MinDepth = 0.0f;

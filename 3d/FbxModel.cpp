@@ -7,8 +7,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 
 
 	//頂点データ全体のサイズ
-	UINT sizeVB = 
-		static_cast<UINT>(sizeof(VertexPosNormalUv))* vertices.size();
+	size_t sizeVB = static_cast<size_t>(sizeof(VertexPosNormalUv))* vertices.size();
 
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
@@ -34,7 +33,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 
 	//頂点バッファビュー(VBV)の生成
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	vbView.SizeInBytes = sizeVB;
+	vbView.SizeInBytes = (UINT)sizeVB;
 	vbView.StrideInBytes = sizeof(vertices[0]);
 
 	//頂点インデックス全体のサイズ

@@ -38,7 +38,7 @@ float4 main(VSOutput input) : SV_TARGET
 	}
 
 	//点光源
-	for (int i = 0; i < POINTLIGHT_NUM; i++) {
+	/*for (int i = 0; i < POINTLIGHT_NUM; i++) {
 
 		if (pointLights[i].active) {
 			float3 lightv = pointLights[i].lightpos - input.worldpos.xyz;
@@ -62,7 +62,7 @@ float4 main(VSOutput input) : SV_TARGET
 
 			shadecolor.rgb += atten * (diffuse + specular) * pointLights[i].lightcolor;
 		}
-	}
+	}*/
 
 	//スポットライト
 	for (i = 0; i < SPOTLIGHT_NUM; i++) {
@@ -96,7 +96,7 @@ float4 main(VSOutput input) : SV_TARGET
 	}
 
 	//丸影
-	for (i = 0; i < CIRCLESHADOW_NUM; i++) {
+	/*for (i = 0; i < CIRCLESHADOW_NUM; i++) {
 		if (circleShadows[i].active) {
 			float3 casterv = circleShadows[i].casterPos - input.worldpos.xyz;
 
@@ -121,7 +121,7 @@ float4 main(VSOutput input) : SV_TARGET
 
 			shadecolor.rgb -= atten;
 		}
-	}
+	}*/
 
 	// シェーディングによる色で描画
 	return shadecolor * texcolor;
