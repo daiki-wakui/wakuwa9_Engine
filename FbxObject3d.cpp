@@ -33,6 +33,8 @@ void FbxObject3d::Initialize()
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuffTransfrom));
+
+	SetScale({ 0.1f,0.1f,0.1f });
 }
 
 void FbxObject3d::Update()

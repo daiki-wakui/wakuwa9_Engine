@@ -45,6 +45,8 @@ public: //メンバ関数
 	//モデルのセット
 	void SetModel(FbxModel* model) { this->model = model; }
 
+	
+
 protected: //メンバ変数
 
 	//定数バッファ
@@ -84,6 +86,11 @@ public:	//静的メンバ関数
 	static void InitializeCamera(int window_width, int window_height);
 
 	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
+
+
+	void SetPosition(const XMFLOAT3& position) { this->positon = position; }
+	void SetRotation(const XMFLOAT3& rotation) { this->rotation = rotation; }
+	void SetScale(const XMFLOAT3& scale) { this->scale = scale; }
 
 
 private:	//静的メンバ変数

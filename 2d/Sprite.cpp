@@ -68,7 +68,7 @@ void Sprite::Create(float x, float y)
 	matProjection =
 		XMMatrixOrthographicOffCenterLH(
 			0.0f, winApp->GetWindowWidth(),
-			winApp->GetWindowHeight(), 0.0f,
+			(float)winApp->GetWindowHeight(), 0.0f,
 			0.0f, 1.0f);
 
 	matWorld = XMMatrixIdentity();
