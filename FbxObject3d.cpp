@@ -6,6 +6,7 @@ using namespace DirectX;
 using namespace Microsoft::WRL;
 
 ID3D12Device* FbxObject3d::device = nullptr;
+ID3D12GraphicsCommandList* FbxObject3d::cmdList_ = nullptr;
 XMFLOAT3 FbxObject3d::eye = { 0, 0, 0.0f };
 XMFLOAT3 FbxObject3d::target = { 0, 0, 0 };
 XMFLOAT3 FbxObject3d::up = { 0, 0, 0 };
@@ -64,22 +65,27 @@ void FbxObject3d::Update()
 	constBuffTransfrom->Unmap(0, nullptr);
 }
 
-void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList)
+void FbxObject3d::Draw()
 {
 	if (model == nullptr) {
 		return;
 	}
 
-	cmdList->SetPipelineState(pipelinestate.Get());
+	cmdList_->SetPipelineState(pipelinestate.Get());
 
-	cmdList->SetGraphicsRootSignature(rootsignature.Get());
+	cmdList_->SetGraphicsRootSignature(rootsignature.Get());
 
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	cmdList_->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	cmdList->SetGraphicsRootConstantBufferView(0,
+	cmdList_->SetGraphicsRootConstantBufferView(0,
 		constBuffTransfrom->GetGPUVirtualAddress());
 
-	model->Draw(cmdList);
+	model->Draw(cmdList_);
+}
+
+void FbxObject3d::PreSet(ID3D12GraphicsCommandList* cmdList)
+{
+	FbxObject3d::cmdList_ = cmdList;
 }
 
 void FbxObject3d::CreateGraphicsPipeline()

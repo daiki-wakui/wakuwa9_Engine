@@ -40,12 +40,12 @@ public: //メンバ関数
 	//毎フレーム
 	void Update();
 
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Draw();
 
 	//モデルのセット
 	void SetModel(FbxModel* model) { this->model = model; }
 
-	
+	static void PreSet(ID3D12GraphicsCommandList* cmdList);
 
 protected: //メンバ変数
 
@@ -82,6 +82,9 @@ public:	//静的メンバ関数
 
 	//パイプラインステートオブジェクト
 	static ComPtr<ID3D12PipelineState> pipelinestate;
+
+	// コマンドリスト
+	static ID3D12GraphicsCommandList* cmdList_;
 
 	static void InitializeCamera(int window_width, int window_height);
 
