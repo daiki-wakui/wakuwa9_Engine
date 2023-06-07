@@ -61,6 +61,10 @@ private:
 	FbxModel* cubeModel = nullptr;
 	FbxObject3d* objcube = nullptr;
 
+	FbxModel* testModel = nullptr;
+	FbxObject3d* testObj = nullptr;
+
+
 	Sprite* sprite = new Sprite();
 
 	int tex1 = 0;

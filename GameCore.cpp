@@ -65,6 +65,12 @@ void GameCore::Initialize()
 	objcube->Initialize();
 	objcube->SetModel(cubeModel);
 
+	testModel = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+
+	testObj = new FbxObject3d;
+	testObj->Initialize();
+	testObj->SetModel(testModel);
+
 	LightGroup::StaticInitialize(dxBasis->GetDevice());
 
 	//ƒ‰ƒCƒg¶¬
@@ -97,6 +103,9 @@ void GameCore::Finalize()
 
 	delete cubeModel;
 	delete objcube;
+
+	delete testModel;
+	delete testObj;
 
 	FbxLoader::GetInstance()->Finalize();
 
@@ -137,7 +146,7 @@ void GameCore::Draw()
 	objectFloor->Draw();
 
 	//fbx
-	objcube->Draw();
+	//objcube->Draw();
 
 	Object3D::PostDraw();
 
