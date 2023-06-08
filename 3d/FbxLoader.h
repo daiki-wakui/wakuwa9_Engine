@@ -55,6 +55,10 @@ public:
 	//テクスチャ読み込み
 	void LoadTexture(FbxModel* model, const std::string& fullpath);
 
+	//スキニング情報の読み取り
+	void ParseSkin(FbxModel* model, FbxMesh* fbxMesh);
+
+
 	//ディレクトリを含んだファイルパスからファイル名を抽出する
 	std::string ExtractFileName(const std::string& path);
 
@@ -80,4 +84,9 @@ private:
 
 	//テクスチャがない場合の標準テクスチャファイル名
 	static const string defaultTextureFileName;
+
+public:
+
+	static void ConvertMatrixFromFbx(DirectX::XMMATRIX* dst, const FbxAMatrix& src);
+
 };
