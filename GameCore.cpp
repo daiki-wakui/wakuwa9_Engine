@@ -126,6 +126,7 @@ void GameCore::Update()
 	objectFloor->Update();
 
 	objcube->Update();
+	testObj->Update();
 
 	imguiM->Begin();
 
@@ -141,12 +142,13 @@ void GameCore::Draw()
 	FbxObject3d::PreSet(dxBasis->GetCommandList());
 
 	//obj
-	playerObject->Draw();
+	//playerObject->Draw();
 	skyObject->Draw();
 	objectFloor->Draw();
 
 	//fbx
 	//objcube->Draw();
+	testObj->Draw();
 
 	Object3D::PostDraw();
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "FbxModel.h"
+#include "FbxLoader.h"
 
 #include <Windows.h>
 #include <wrl.h>
@@ -32,6 +33,15 @@ public: // サブクラス
 		XMFLOAT3 cameraPos;	//カメラ座標(ワールド座標)
 	};
 
+	//ボーンの最大数
+	static const int MAX_BONES = 32;
+
+	//定数バッファ用データ構造体(スキニング)
+	struct CounstBufferDataSkin
+	{
+		XMMATRIX bones[MAX_BONES];
+	};
+
 public: //メンバ関数
 
 	//初期化
@@ -52,6 +62,8 @@ protected: //メンバ変数
 	//定数バッファ
 	ComPtr<ID3D12Resource> constBuffTransfrom;
 
+	//定数バッファ(スキン)
+	ComPtr<ID3D12Resource> constBuffSkin;
 
 	XMFLOAT3 scale = { 1,1,1 };
 
