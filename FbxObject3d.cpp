@@ -298,7 +298,7 @@ void FbxObject3d::CreateGraphicsPipeline()
 
 	// ルートパラメータ
 	//CD3DX12_ROOT_PARAMETER rootparams[2];
-	CD3DX12_ROOT_PARAMETER rootparams[3];
+	CD3DX12_ROOT_PARAMETER rootparams[3] = {};
 
 	// CBV（座標変換行列用）
 	rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
