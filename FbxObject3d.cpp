@@ -35,7 +35,12 @@ void FbxObject3d::Initialize()
 		nullptr,
 		IID_PPV_ARGS(&constBuffTransfrom));
 
-	
+	heapProps =
+		CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
+
+	resourceDesc =
+		CD3DX12_RESOURCE_DESC::Buffer((sizeof(CounstBufferDataSkin) + 0xff) & ~0xff);
+
 
 	//定数バッファの生成
 	result = device->CreateCommittedResource(
@@ -48,6 +53,10 @@ void FbxObject3d::Initialize()
 
 	SetScale({ 2,2,2 });
 	//SetRotation({ 45,0,0 });
+
+	frameTime_.SetTime(0, 0, 0, 1, 0, FbxTime::eFrames60);
+
+	//PlayAnimation();
 }
 
 void FbxObject3d::Update()
@@ -77,6 +86,14 @@ void FbxObject3d::Update()
 	constBuffTransfrom->Unmap(0, nullptr);
 
 
+	if (isPlay) {
+		currentTime_ += frameTime_;
+
+		if (currentTime_ > endTime_) {
+			currentTime_ = startTime_;
+		}
+	}
+
 	//ボーン配列
 	std::vector<FbxModel::Bone>& bones = model->GetBones();
 
@@ -89,7 +106,7 @@ void FbxObject3d::Update()
 
 		//今の姿勢行列を取得
 		FbxAMatrix fbxCurrentPose =
-			bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(0);
+			bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime_);
 
 		//XMMATRIXに変換
 		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
@@ -99,6 +116,8 @@ void FbxObject3d::Update()
 	}
 
 	constBuffSkin->Unmap(0, nullptr);
+
+	
 }
 
 void FbxObject3d::Draw()
@@ -125,6 +144,25 @@ void FbxObject3d::Draw()
 void FbxObject3d::PreSet(ID3D12GraphicsCommandList* cmdList)
 {
 	FbxObject3d::cmdList_ = cmdList;
+}
+
+void FbxObject3d::PlayAnimation()
+{
+	FbxScene* fbxScene = model->GetFbxScene();
+
+	FbxAnimStack* animstack = fbxScene->GetSrcObject<FbxAnimStack>(0);
+
+	const char* animstackname = animstack->GetName();
+
+	FbxTakeInfo* takeinfo = fbxScene->GetTakeInfo(animstackname);
+
+	startTime_ = takeinfo->mLocalTimeSpan.GetStart();
+
+	endTime_ = takeinfo->mLocalTimeSpan.GetStop();
+
+	currentTime_ = startTime_;
+
+	isPlay = true;
 }
 
 void FbxObject3d::CreateGraphicsPipeline()

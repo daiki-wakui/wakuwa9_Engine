@@ -57,6 +57,8 @@ public: //メンバ関数
 
 	static void PreSet(ID3D12GraphicsCommandList* cmdList);
 
+	void PlayAnimation();
+
 protected: //メンバ変数
 
 	//定数バッファ
@@ -74,6 +76,17 @@ protected: //メンバ変数
 	XMMATRIX matWorld;
 
 	FbxModel* model = nullptr;
+
+	//一フレームの時間
+	FbxTime frameTime_;
+
+	FbxTime startTime_;
+
+	FbxTime endTime_;
+
+	FbxTime currentTime_;
+
+	bool isPlay = false;
 
 public:	//静的メンバ関数
 

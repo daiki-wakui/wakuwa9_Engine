@@ -59,17 +59,20 @@ void GameCore::Initialize()
 	objectFloor->SetPosition({ 0,-10,0 });
 
 	//FBXƒtƒ@ƒCƒ‹“Ç‚İ‚İ
-	cubeModel = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	//cubeModel = FbxLoader::GetInstance()->LoadModelFromFile("cube");
 
-	objcube = new FbxObject3d;
-	objcube->Initialize();
-	objcube->SetModel(cubeModel);
+	//objcube = new FbxObject3d;
+	//objcube->Initialize();
+	//objcube->SetModel(cubeModel);
 
 	testModel = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
 	testObj = new FbxObject3d;
+	
 	testObj->Initialize();
 	testObj->SetModel(testModel);
+	
+	testObj->PlayAnimation();
 
 	LightGroup::StaticInitialize(dxBasis->GetDevice());
 
@@ -125,7 +128,7 @@ void GameCore::Update()
 	skyObject->Update();
 	objectFloor->Update();
 
-	objcube->Update();
+	//objcube->Update();
 	testObj->Update();
 
 	imguiM->Begin();
