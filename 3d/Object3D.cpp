@@ -94,21 +94,21 @@ Object3D* Object3D::Create(float scale)
 	return object3d;
 }
 
-void Object3D::SetEye(XMFLOAT3 eye)
+void Object3D::SetEye(XMFLOAT3& eye)
 {
 	Object3D::eye = eye;
 
 	UpdateViewMatrix();
 }
 
-void Object3D::SetTarget(XMFLOAT3 target)
+void Object3D::SetTarget(XMFLOAT3& target)
 {
 	Object3D::target = target;
 
 	UpdateViewMatrix();
 }
 
-void Object3D::CameraMoveVector(XMFLOAT3 move)
+void Object3D::CameraMoveVector(XMFLOAT3& move)
 {
 	XMFLOAT3 eye_moved = GetEye();
 	XMFLOAT3 target_moved = GetTarget();

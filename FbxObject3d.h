@@ -94,7 +94,7 @@ public:	//ê√ìIÉÅÉìÉoä÷êî
 	//setter
 	static void SetDevice(ID3D12Device* device) { FbxObject3d::device = device; }
 
-	static void SetCamera(XMFLOAT3 eye, XMFLOAT3 target, XMFLOAT3 up) {
+	static void SetCamera(XMFLOAT3& eye, XMFLOAT3& target, XMFLOAT3& up) {
 		FbxObject3d::eye = eye,
 		FbxObject3d::target = target,
 		FbxObject3d::up = up;

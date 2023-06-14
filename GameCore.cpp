@@ -34,7 +34,11 @@ void GameCore::Initialize()
 	//Fbx‰Šú‰»
 	FbxLoader::GetInstance()->Initialize(dxBasis->GetDevice());
 
-	FbxObject3d::SetCamera(Object3D::GetEye(), Object3D::GetTarget(), Object3D::GetUp());
+	XMFLOAT3 eye = Object3D::GetEye();
+	XMFLOAT3 target = Object3D::GetTarget();
+	XMFLOAT3 up = Object3D::GetUp();
+
+	FbxObject3d::SetCamera(eye, target, up);
 
 	FbxObject3d::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
 
