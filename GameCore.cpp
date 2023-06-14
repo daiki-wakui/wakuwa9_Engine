@@ -29,6 +29,9 @@ void GameCore::Initialize()
 	sprite->Initialize(spBasis, winApp);
 	sprite->Create(50, 50);
 
+	postEffect_->Initialize(spBasis, winApp);
+	postEffect_->Create(0, 0);
+
 	Object3D::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
 
 	//Fbx初期化
@@ -114,6 +117,8 @@ void GameCore::Finalize()
 	delete testModel;
 	delete testObj;
 
+	delete postEffect_;
+
 	FbxLoader::GetInstance()->Finalize();
 
 	winApp->Release();
@@ -145,21 +150,24 @@ void GameCore::Draw()
 	// 描画前処理
 	dxBasis->PreDraw();
 
-	Object3D::PreDraw(dxBasis->GetCommandList());
-	FbxObject3d::PreSet(dxBasis->GetCommandList());
+	//Object3D::PreDraw(dxBasis->GetCommandList());
+	//FbxObject3d::PreSet(dxBasis->GetCommandList());
 
-	//obj
-	//playerObject->Draw();
-	skyObject->Draw();
-	objectFloor->Draw();
+	////obj
+	////playerObject->Draw();
+	//skyObject->Draw();
+	//objectFloor->Draw();
 
-	//fbx
-	//objcube->Draw();
-	testObj->Draw();
+	////fbx
+	////objcube->Draw();
+	//testObj->Draw();
 
-	Object3D::PostDraw();
+	//Object3D::PostDraw();
 
-	sprite->Draw(tex1);
+	//sprite->Draw(tex1);
+
+	//ポストエフェクトの描画
+	postEffect_->Draw(tex2);
 
 	//描画後処理
 	dxBasis->PostDraw();

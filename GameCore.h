@@ -25,6 +25,8 @@ using namespace DirectX;
 #pragma comment(lib, "d3dcompiler.lib")
 #include <cstdint>
 
+#include "PostEffect.h"
+
 class GameCore
 {
 private:
@@ -71,6 +73,8 @@ private:
 	int32_t tex1 = 0;
 	int32_t tex2 = 0;
 	int32_t tex3 = 0;
+
+	PostEffect* postEffect_ = new PostEffect();
 
 public:
 

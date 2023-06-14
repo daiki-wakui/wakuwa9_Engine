@@ -19,7 +19,8 @@ public:
 
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-private:
+protected:
+
 	HRESULT result_;
 
 	WindowsApp* winApp_ = nullptr;
