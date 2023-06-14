@@ -6,6 +6,7 @@
 #include <DirectXMath.h>
 #include <DirectXTex.h>
 #include <array>
+#include <cstdint>
 
 class SpriteBasis
 {
@@ -48,9 +49,9 @@ public:
 	void Draw();
 	void Setting();
 
-	int TextureData(const wchar_t* name);
+	int32_t TextureData(const wchar_t* name);
 
-	int texNum = -1;
+	int32_t texNum = -1;
 	UINT incrementSize;
 	UINT GetincrementSize() { return incrementSize; };
 

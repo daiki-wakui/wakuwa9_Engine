@@ -3,6 +3,7 @@
 #include "WindowsApp.h"
 #include <DirectXMath.h>
 using namespace DirectX;
+#include <cstdint>
 
 enum VertexNumber
 {
@@ -96,7 +97,7 @@ public:
 
 	void Initialize(SpriteBasis* spBasis, WindowsApp* winApp);
 	void Update();
-	void Draw(int texNum);
+	void Draw(int32_t texNum);
 
 	void VertexData();
 	void IndexData();

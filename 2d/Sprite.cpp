@@ -117,7 +117,7 @@ void Sprite::Update()
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	//全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++) {
+	for (int32_t i = 0; i < _countof(vertices); i++) {
 		vertMap[i] = vertices[i];
 	}
 	//繋がりを解除
@@ -137,7 +137,7 @@ void Sprite::Update()
 
 }
 
-void Sprite::Draw(int texNum)
+void Sprite::Draw(int32_t texNum)
 {
 	// パイプラインステート設定
 	spBasis->GetDxBasis()->GetCommandList()->SetPipelineState(spBasis->GetPipelineState());
@@ -228,7 +228,7 @@ void Sprite::VertexData()
 	result = vertBuff->Map(0, nullptr, (void**)&vertMap);
 	assert(SUCCEEDED(result));
 	//全頂点に対して
-	for (int i = 0; i < _countof(vertices); i++) {
+	for (int32_t i = 0; i < _countof(vertices); i++) {
 		vertMap[i] = vertices[i];
 	}
 	//繋がりを解除
@@ -285,7 +285,7 @@ void Sprite::IndexData()
 	uint16_t* indexMap = nullptr;
 	result = indexBuff->Map(0, nullptr, (void**)&indexMap);
 	//全インデックスに対して
-	for (int i = 0; i < _countof(indices); i++) {
+	for (int32_t i = 0; i < _countof(indices); i++) {
 		indexMap[i] = indices[i];
 	}
 	//マッピング解除

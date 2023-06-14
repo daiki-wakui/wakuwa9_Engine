@@ -10,6 +10,7 @@
 #include <string>
 #include "DirectionalLight.h"
 #include "LightGroup.h"
+#include <cstdint>
 
 class Object3D
 {
@@ -35,11 +36,11 @@ public: // サブクラス
 	};
 
 private: // 定数
-	static const int division = 50;					// 分割数
+	static const int32_t division = 50;					// 分割数
 	static const float radius;				// 底面の半径
 	static const float prizmHeight;			// 柱の高さ
-	static const int planeCount = division * 2 + division * 2;		// 面の数
-	static const int vertexCount = planeCount * 3;		// 頂点数
+	static const int32_t planeCount = division * 2 + division * 2;		// 面の数
+	static const int32_t vertexCount = planeCount * 3;		// 頂点数
 
 public: // 静的メンバ関数
 	/// <summary>
@@ -48,7 +49,7 @@ public: // 静的メンバ関数
 	/// <param name="device">デバイス</param>
 	/// <param name="window_width">画面幅</param>
 	/// <param name="window_height">画面高さ</param>
-	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
+	static void StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height);
 
 	/// <summary>
 	/// 描画前処理
@@ -142,7 +143,7 @@ private:// 静的メンバ関数
 	/// </summary>
 	/// <param name="window_width">画面横幅</param>
 	/// <param name="window_height">画面縦幅</param>
-	static void InitializeCamera(int window_width, int window_height);
+	static void InitializeCamera(int32_t window_width, int32_t window_height);
 
 	/// <summary>
 	/// グラフィックパイプライン生成

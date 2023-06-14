@@ -6,6 +6,7 @@
 #include <d3d12.h>
 #include <DirectXMath.h>
 #include <d3dx12.h>
+#include <stdint.h>
 
 class SpotLight
 {
@@ -33,7 +34,7 @@ public:	//サブクラス
 		XMFLOAT3 lightatten;
 		float pad3;
 		XMFLOAT2 lightactoranglecos;
-		unsigned int active;
+		uint32_t active;
 		float pad4;
 	};
 

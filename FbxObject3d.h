@@ -8,6 +8,7 @@
 #include <d3dx12.h>
 #include <DirectXMath.h>
 #include <string>
+#include <cstdint>
 
 class FbxObject3d
 {
@@ -34,7 +35,7 @@ public: // サブクラス
 	};
 
 	//ボーンの最大数
-	static const int MAX_BONES = 32;
+	static const int32_t MAX_BONES = 32;
 
 	//定数バッファ用データ構造体(スキニング)
 	struct CounstBufferDataSkin
@@ -111,9 +112,9 @@ public:	//静的メンバ関数
 	// コマンドリスト
 	static ID3D12GraphicsCommandList* cmdList_;
 
-	static void InitializeCamera(int window_width, int window_height);
+	static void InitializeCamera(int32_t window_width, int32_t window_height);
 
-	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
+	static void StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height);
 
 
 	void SetPosition(const XMFLOAT3& position) { this->positon = position; }

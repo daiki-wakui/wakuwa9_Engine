@@ -5,6 +5,8 @@
 #include <wrl.h>
 #include <map>
 #include <string>
+#include <cstdint>
+#include <stdint.h>
 
 class Sound
 {
@@ -43,7 +45,7 @@ public:
 		//バッファの先頭アドレス
 		BYTE* pBuffer;
 		//バッファのサイズ
-		unsigned int bufferSize;
+		uint32_t bufferSize;
 
 		IXAudio2SourceVoice* pSoundVoice_;
 	};

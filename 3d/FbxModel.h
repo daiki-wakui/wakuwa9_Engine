@@ -9,6 +9,7 @@
 #include <d3d12.h>
 #include <d3dx12.h>
 #include <fbxsdk.h>
+#include <cstdint>
 
 struct Node
 {
@@ -55,7 +56,7 @@ private: //エイリアス
 public: //サブクラス
 
 	//ボーンインデックスの最大数
-	static const int MAX_BONE_INDICES = 4;
+	static const int32_t MAX_BONE_INDICES = 4;
 
 
 	//頂点データ構造体

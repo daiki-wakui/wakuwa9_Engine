@@ -54,7 +54,7 @@ void FbxObject3d::Initialize()
 	//定数バッファへデータ転送
 	CounstBufferDataSkin* constMapSkin = nullptr;
 	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);
-	for (int i = 0; i < MAX_BONES; i++) {
+	for (int32_t i = 0; i < MAX_BONES; i++) {
 		constMapSkin->bones[i] = XMMatrixIdentity();
 	}
 
@@ -109,7 +109,7 @@ void FbxObject3d::Update()
 	//定数バッファへデータ転送
 	CounstBufferDataSkin* constMapSkin = nullptr;
 	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);
-	for (int i = 0; i < bones.size(); i++) {
+	for (int32_t i = 0; i < bones.size(); i++) {
 		//今の姿勢行列
 		XMMATRIX matCurrentPose;
 
@@ -338,7 +338,7 @@ void FbxObject3d::CreateGraphicsPipeline()
 	if (FAILED(result)) { assert(0); }
 }
 
-void FbxObject3d::InitializeCamera(int window_width, int window_height)
+void FbxObject3d::InitializeCamera(int32_t window_width, int32_t window_height)
 {
 	// ビュー行列の生成
 	matView = XMMatrixLookAtLH(
@@ -355,7 +355,7 @@ void FbxObject3d::InitializeCamera(int window_width, int window_height)
 	);
 }
 
-void FbxObject3d::StaticInitialize(ID3D12Device* device, int window_width, int window_height)
+void FbxObject3d::StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height)
 {
 	FbxObject3d::SetDevice(device);
 

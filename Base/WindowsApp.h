@@ -1,5 +1,6 @@
 #pragma once
 #include <windows.h>
+#include <cstdint>
 
 class WindowsApp
 {
@@ -9,8 +10,8 @@ private:
 	HWND hwnd = nullptr;
 
 	//ウィンドウサイズ
-	const int window_width = 1280;
-	const int window_height = 720;
+	const int32_t window_width = 1280;
+	const int32_t window_height = 720;
 
 public:	//静的メンバ関数
 
@@ -31,7 +32,7 @@ public:	//メンバ関数
 	HWND GetHwnd() const { return hwnd; }
 	WNDCLASSEX GetW() const { return w; };
 	HINSTANCE GetHInstancee() const { return w.hInstance; };
-	const int GetWindowWidth() { return window_width; };
-	const int GetWindowHeight() { return window_height; };
+	const int32_t GetWindowWidth() { return window_width; };
+	const int32_t GetWindowHeight() { return window_height; };
 };
 

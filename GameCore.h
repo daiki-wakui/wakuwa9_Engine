@@ -23,6 +23,7 @@
 using namespace DirectX;
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
+#include <cstdint>
 
 class GameCore
 {
@@ -67,9 +68,9 @@ private:
 
 	Sprite* sprite = new Sprite();
 
-	int tex1 = 0;
-	int tex2 = 0;
-	int tex3 = 0;
+	int32_t tex1 = 0;
+	int32_t tex2 = 0;
+	int32_t tex3 = 0;
 
 public:
 

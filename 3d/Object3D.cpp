@@ -31,7 +31,7 @@ XMFLOAT3 Object3D::up = { 0, 1, 0 };
 //DirectionalLight* Object3D::light = nullptr;
 LightGroup* Object3D::lightGroup = nullptr;
 
-void Object3D::StaticInitialize(ID3D12Device* device, int window_width, int window_height)
+void Object3D::StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height)
 {
 	// nullptrチェック
 	assert(device);
@@ -125,7 +125,7 @@ void Object3D::CameraMoveVector(XMFLOAT3 move)
 	SetTarget(target_moved);
 }
 
-void Object3D::InitializeCamera(int window_width, int window_height)
+void Object3D::InitializeCamera(int32_t window_width, int32_t window_height)
 {
 	// ビュー行列の生成
 	matView = XMMatrixLookAtLH(

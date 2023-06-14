@@ -1,6 +1,6 @@
 #include "GameCore.h"
 
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+int32_t WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int32_t) {
 
 	GameCore game;
 

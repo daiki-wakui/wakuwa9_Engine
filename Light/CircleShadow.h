@@ -6,6 +6,7 @@
 #include <d3d12.h>
 #include <DirectXMath.h>
 #include <d3dx12.h>
+#include <stdint.h>
 
 //丸影
 class CircleShadow
@@ -32,7 +33,7 @@ public:	//サブクラス
 		XMFLOAT3 atten;
 		float pad3;
 		XMFLOAT2 factorAngleCos;
-		unsigned int active;
+		uint32_t active;
 		float pad4;
 	};
 

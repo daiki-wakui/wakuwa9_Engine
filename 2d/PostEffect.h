@@ -1,5 +1,7 @@
 #pragma once
 #include "Sprite.h"
+#include <cstdint>
+
 class PostEffect :  public Sprite
 {
 public:
@@ -8,7 +10,7 @@ public:
 	PostEffect();
 
 	//•`‰æ
-	void Draw(int texNum);
+	void Draw(int32_t texNum);
 
 };
 

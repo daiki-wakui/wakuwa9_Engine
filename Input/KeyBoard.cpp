@@ -34,7 +34,7 @@ void KeyBoard::Update()
 	//キーボード情報の取得開始
 	keyboard->Acquire();
 
-	for (int i = 0; i < 256; i++) {
+	for (int32_t i = 0; i < 256; i++) {
 		oldkey[i] = key[i];
 	}
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <DirectXMath.h>
+#include <stdint.h>
 
 //平行光源
 class DirectionalLight
@@ -20,7 +21,7 @@ public: //サブクラス
 	{
 		XMVECTOR lightv;
 		XMFLOAT3 lightcolor;
-		unsigned int active;
+		uint32_t active;
 	};
 
 public: //メンバ関数

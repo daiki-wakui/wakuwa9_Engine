@@ -207,7 +207,7 @@ void SpriteBasis::Setting() {
 #pragma endregion
 }
 
-int SpriteBasis::TextureData(const wchar_t* name)
+int32_t SpriteBasis::TextureData(const wchar_t* name)
 {
 	texNum++;
 
@@ -252,7 +252,7 @@ int SpriteBasis::TextureData(const wchar_t* name)
 	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
-	int buffIndex = texNum;
+	int32_t buffIndex = texNum;
 
 	//テクスチャバッファ生成
 	result = dxBasis->GetDevice()->CreateCommittedResource(

@@ -6,7 +6,7 @@ PostEffect::PostEffect()
 
 }
 
-void PostEffect::Draw(int texNum)
+void PostEffect::Draw(int32_t texNum)
 {
 	
 }

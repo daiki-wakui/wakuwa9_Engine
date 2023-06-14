@@ -5,6 +5,7 @@
 #include <d3d12.h>
 #include <DirectXMath.h>
 #include <d3dx12.h>
+#include <stdint.h>
 
 //“_ŒõŒ¹
 class PointLight
@@ -30,7 +31,7 @@ public:
 		XMFLOAT3 lightcolor;
 		float pad2;
 		XMFLOAT3 lightatten;
-		unsigned int active;
+		uint32_t active;
 	};
 
 public:  //ƒƒ“ƒo•Ï”

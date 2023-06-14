@@ -10,6 +10,7 @@
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "CircleShadow.h"
+#include <cstdint>
 
 //ライト
 class LightGroup
@@ -27,10 +28,10 @@ private:// エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public: //定数
-	static const int DirLightNum = 3;
-	static const int PointLightNum = 3;
-	static const int SpotLightNum = 3;
-	static const int CircleShadowNum = 1;
+	static const int32_t DirLightNum = 3;
+	static const int32_t PointLightNum = 3;
+	static const int32_t SpotLightNum = 3;
+	static const int32_t CircleShadowNum = 1;
 
 public: //サブクラス
 
@@ -88,50 +89,50 @@ public: //メンバ関数
 	void SetAmbientColor(const XMFLOAT3& color);
 
 	//平行光源の有効フラグをセット
-	void SetDirLightActive(int index, bool active);
+	void SetDirLightActive(int32_t index, bool active);
 
 	//平行光源のライト方向をセット
-	void SetDirLightDir(int index, const XMVECTOR& lightdir);
+	void SetDirLightDir(int32_t index, const XMVECTOR& lightdir);
 
 	//平行光源のライト色をセット
-	void SetDirLightColor(int index, const XMFLOAT3& lightcolor);
+	void SetDirLightColor(int32_t index, const XMFLOAT3& lightcolor);
 
 	//点光源
-	void SetPointLightActive(int index, bool active);
+	void SetPointLightActive(int32_t index, bool active);
 
-	void SetPointLightPos(int index, const XMFLOAT3& lightpos);
+	void SetPointLightPos(int32_t index, const XMFLOAT3& lightpos);
 
-	void SetPointLightColor(int index, const XMFLOAT3& lightcolor);
+	void SetPointLightColor(int32_t index, const XMFLOAT3& lightcolor);
 
-	void SetPointLightAtten(int index, const XMFLOAT3& lightatten);
+	void SetPointLightAtten(int32_t index, const XMFLOAT3& lightatten);
 
 
 	//スポットライト
-	void SetSpotLightActive(int index, bool active);
+	void SetSpotLightActive(int32_t index, bool active);
 
-	void SetSpotLightDir(int index, const XMVECTOR& lightdir);
+	void SetSpotLightDir(int32_t index, const XMVECTOR& lightdir);
 
-	void SetSpotLightPos(int index, const XMFLOAT3& lightpos);
+	void SetSpotLightPos(int32_t index, const XMFLOAT3& lightpos);
 
-	void SetSpotLightColor(int index, const XMFLOAT3& lightcolor);
+	void SetSpotLightColor(int32_t index, const XMFLOAT3& lightcolor);
 
-	void SetSpotLightAtten(int index, const XMFLOAT3& lightAtten);
+	void SetSpotLightAtten(int32_t index, const XMFLOAT3& lightAtten);
 
-	void SetSpotLightFactorAngle(int index, const XMFLOAT2& lightFactorAngle);
+	void SetSpotLightFactorAngle(int32_t index, const XMFLOAT2& lightFactorAngle);
 
 
 	//丸影
-	void SetCircleShadowActive(int index,bool active);
+	void SetCircleShadowActive(int32_t index,bool active);
 
-	void SetCircleShadowCasterPos(int index, const XMFLOAT3& casterPos);
+	void SetCircleShadowCasterPos(int32_t index, const XMFLOAT3& casterPos);
 
-	void SetCircleShadowDir(int index, const XMVECTOR& lightdir);
+	void SetCircleShadowDir(int32_t index, const XMVECTOR& lightdir);
 
-	void SetCircleShadowDistanceCasterLight(int index, float distanceCasterLight);
+	void SetCircleShadowDistanceCasterLight(int32_t index, float distanceCasterLight);
 
-	void SetCircleShadowAtten(int index, const XMFLOAT3& lightAtten);
+	void SetCircleShadowAtten(int32_t index, const XMFLOAT3& lightAtten);
 
-	void SetCircleShadowFactorAngle(int index, const XMFLOAT2& lightFactorAngle);
+	void SetCircleShadowFactorAngle(int32_t index, const XMFLOAT2& lightFactorAngle);
 
 
 private: //メンバ変数
