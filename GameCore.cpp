@@ -141,21 +141,21 @@ void GameCore::Draw()
 	// •`‰æ‘Oˆ—
 	dxBasis->PreDraw();
 
-	Object3D::PreDraw(dxBasis->GetCommandList());
-	FbxObject3d::PreSet(dxBasis->GetCommandList());
+	//Object3D::PreDraw(dxBasis->GetCommandList());
+	//FbxObject3d::PreSet(dxBasis->GetCommandList());
 
-	//obj
-	//playerObject->Draw();
-	skyObject->Draw();
-	objectFloor->Draw();
+	////obj
+	////playerObject->Draw();
+	//skyObject->Draw();
+	//objectFloor->Draw();
 
-	//fbx
-	//objcube->Draw();
-	testObj->Draw();
+	////fbx
+	////objcube->Draw();
+	//testObj->Draw();
 
-	Object3D::PostDraw();
+	//Object3D::PostDraw();
 
-	sprite->Draw(tex1);
+	//sprite->Draw(tex1);
 
 	//•`‰æŒãˆ—
 	dxBasis->PostDraw();

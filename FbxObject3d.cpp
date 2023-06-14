@@ -60,8 +60,8 @@ void FbxObject3d::Initialize()
 
 	constBuffSkin->Unmap(0, nullptr);
 
-	SetScale({ 2,2,2 });
-	//SetRotation({ 45,0,0 });
+	SetScale({ 4,4,4 });
+	SetRotation({ 0,90,0 });
 
 	frameTime_.SetTime(0, 0, 0, 1, 0, FbxTime::eFrames60);
 
