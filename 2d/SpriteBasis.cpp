@@ -5,16 +5,16 @@ using namespace DirectX;
 
 void SpriteBasis::Initialize(DirectXBasis* dxBasis)
 {
-	this->dxBasis = dxBasis;
+	this->dxBasis_ = dxBasis;
 
 	//デスクリプタヒープ生成
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
 	srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	srvHeapDesc.NumDescriptors = kMaxSRVCount;
+	srvHeapDesc.NumDescriptors = sMaxSRVCount;
 
-	result = dxBasis->GetDevice()->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap));
-	assert(SUCCEEDED(result));
+	result_ = dxBasis->GetDevice()->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap_));
+	assert(SUCCEEDED(result_));
 }
 
 void SpriteBasis::TextureSetting()
@@ -38,22 +38,22 @@ void SpriteBasis::LoadShader()
 #pragma region  頂点シェーダーファイルの読み込み
 
 	// 頂点シェーダの読み込みとコンパイル
-	result = D3DCompileFromFile(
+	result_ = D3DCompileFromFile(
 		L"Resources/shaders/SpriteVS.hlsl", // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
-		&vsBlob, &errorBlob);
+		&vsBlob_, &errorBlob_);
 
 	// エラーなら
-	if (FAILED(result)) {
+	if (FAILED(result_)) {
 		// errorBlobからエラー内容をstring型にコピー
 		std::string error;
-		error.resize(errorBlob->GetBufferSize());
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
+		error.resize(errorBlob_->GetBufferSize());
+		std::copy_n((char*)errorBlob_->GetBufferPointer(),
+			errorBlob_->GetBufferSize(),
 			error.begin());
 		error += "\n";
 		// エラー内容を出力ウィンドウに表示
@@ -66,22 +66,22 @@ void SpriteBasis::LoadShader()
 #pragma region  ピクセルシェーダファイルの読み込み
 
 	// ピクセルシェーダの読み込みとコンパイル
-	result = D3DCompileFromFile(
+	result_ = D3DCompileFromFile(
 		L"Resources/shaders/SpritePS.hlsl", // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
-		&psBlob, &errorBlob);
+		&psBlob_, &errorBlob_);
 
 	// エラーなら
-	if (FAILED(result)) {
+	if (FAILED(result_)) {
 		// errorBlobからエラー内容をstring型にコピー
 		std::string error;
-		error.resize(errorBlob->GetBufferSize());
-		std::copy_n((char*)errorBlob->GetBufferPointer(),
-			errorBlob->GetBufferSize(),
+		error.resize(errorBlob_->GetBufferSize());
+		std::copy_n((char*)errorBlob_->GetBufferPointer(),
+			errorBlob_->GetBufferSize(),
 			error.begin());
 		error += "\n";
 		// エラー内容を出力ウィンドウに表示
@@ -117,10 +117,10 @@ void SpriteBasis::Setting() {
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc{};
 
 	// シェーダーの設定
-	pipelineDesc.VS.pShaderBytecode = vsBlob->GetBufferPointer();
-	pipelineDesc.VS.BytecodeLength = vsBlob->GetBufferSize();
-	pipelineDesc.PS.pShaderBytecode = psBlob->GetBufferPointer();
-	pipelineDesc.PS.BytecodeLength = psBlob->GetBufferSize();
+	pipelineDesc.VS.pShaderBytecode = vsBlob_->GetBufferPointer();
+	pipelineDesc.VS.BytecodeLength = vsBlob_->GetBufferSize();
+	pipelineDesc.PS.pShaderBytecode = psBlob_->GetBufferPointer();
+	pipelineDesc.PS.BytecodeLength = psBlob_->GetBufferSize();
 
 	// サンプルマスクの設定
 	pipelineDesc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
@@ -168,7 +168,7 @@ void SpriteBasis::Setting() {
 	rootParams[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
 	//テクスチャレジスタ0番
 	rootParams[1].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange;
+	rootParams[1].DescriptorTable.pDescriptorRanges = &descriptorRange_;
 	rootParams[1].DescriptorTable.NumDescriptorRanges = 1;
 	rootParams[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 	//定数バッファ1番
@@ -185,49 +185,49 @@ void SpriteBasis::Setting() {
 	rootSignatureDesc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 	rootSignatureDesc.pParameters = rootParams;
 	rootSignatureDesc.NumParameters = _countof(rootParams);
-	rootSignatureDesc.pStaticSamplers = &samplerDesc;
+	rootSignatureDesc.pStaticSamplers = &samplerDesc_;
 	rootSignatureDesc.NumStaticSamplers = 1;
 
 	// ルートシグネチャのシリアライズ
 	ID3DBlob* rootSigBlob = nullptr;
-	result = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
-		&rootSigBlob, &errorBlob);
-	assert(SUCCEEDED(result));
-	result = dxBasis->GetDevice()->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
-		IID_PPV_ARGS(&rootSignature));
-	assert(SUCCEEDED(result));
+	result_ = D3D12SerializeRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0,
+		&rootSigBlob, &errorBlob_);
+	assert(SUCCEEDED(result_));
+	result_ = dxBasis_->GetDevice()->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(),
+		IID_PPV_ARGS(&rootSignature_));
+	assert(SUCCEEDED(result_));
 	rootSigBlob->Release();
 	// パイプラインにルートシグネチャをセット
-	pipelineDesc.pRootSignature = rootSignature.Get();
+	pipelineDesc.pRootSignature = rootSignature_.Get();
 
 	//パイプラインステートの生成
-	result = dxBasis->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState));
-	assert(SUCCEEDED(result));
+	result_ = dxBasis_->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState_));
+	assert(SUCCEEDED(result_));
 
 #pragma endregion
 }
 
 int32_t SpriteBasis::TextureData(const wchar_t* name)
 {
-	texNum++;
+	texNum_++;
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 	//WICテクスチャのロード
-	result = LoadFromWICFile(
+	result_ = LoadFromWICFile(
 		name,
 		WIC_FLAGS_NONE,
 		&metadata, scratchImg);
 
 	ScratchImage mipChain{};
 	//ミニマップ生成
-	result = GenerateMipMaps(
+	result_ = GenerateMipMaps(
 		scratchImg.GetImages(),
 		scratchImg.GetImageCount(),
 		scratchImg.GetMetadata(),
 		TEX_FILTER_DEFAULT, 0, mipChain);
 
-	if (SUCCEEDED(result)) {
+	if (SUCCEEDED(result_)) {
 		scratchImg = std::move(mipChain);
 		metadata = scratchImg.GetMetadata();
 	}
@@ -252,10 +252,10 @@ int32_t SpriteBasis::TextureData(const wchar_t* name)
 	textureResourceDesc.MipLevels = (UINT16)metadata.mipLevels;
 	textureResourceDesc.SampleDesc.Count = 1;
 
-	int32_t buffIndex = texNum;
+	int32_t buffIndex = texNum_;
 
 	//テクスチャバッファ生成
-	result = dxBasis->GetDevice()->CreateCommittedResource(
+	result_ = dxBasis_->GetDevice()->CreateCommittedResource(
 		&textureHeapProp,
 		D3D12_HEAP_FLAG_NONE,
 		&textureResourceDesc,
@@ -268,33 +268,33 @@ int32_t SpriteBasis::TextureData(const wchar_t* name)
 
 		const Image* img = scratchImg.GetImage(i, 0, 0);
 
-		result = textrueBuffers_[buffIndex]->WriteToSubresource(
+		result_ = textrueBuffers_[buffIndex]->WriteToSubresource(
 			(UINT)i,
 			nullptr,
 			img->pixels,
 			(UINT)img->rowPitch,
 			(UINT)img->slicePitch
 		);
-		assert(SUCCEEDED(result));
+		assert(SUCCEEDED(result_));
 	}
 
 	//テクスチャからどのように色を取り出すかの設定
-	samplerDesc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	//横繰り返し
-	samplerDesc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	//縦繰り返し
-	samplerDesc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	//奥行繰り返し
-	samplerDesc.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
-	samplerDesc.Filter = D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
-	samplerDesc.MaxLOD = D3D12_FLOAT32_MAX;	//ミニマップ最大値
-	samplerDesc.MinLOD = 0.0f;	//ミニマップ最小値
-	samplerDesc.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-	samplerDesc.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+	samplerDesc_.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	//横繰り返し
+	samplerDesc_.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	//縦繰り返し
+	samplerDesc_.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;	//奥行繰り返し
+	samplerDesc_.BorderColor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
+	samplerDesc_.Filter = D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
+	samplerDesc_.MaxLOD = D3D12_FLOAT32_MAX;	//ミニマップ最大値
+	samplerDesc_.MinLOD = 0.0f;	//ミニマップ最小値
+	samplerDesc_.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	samplerDesc_.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 
 
 
 	//SRVヒープの先頭アドレスを取得してtexNum分進める
-	incrementSize = dxBasis->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap->GetCPUDescriptorHandleForHeapStart();
-	srvHandle.ptr += incrementSize * texNum;
+	incrementSize_ = dxBasis_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	D3D12_CPU_DESCRIPTOR_HANDLE srvHandle = srvHeap_->GetCPUDescriptorHandleForHeapStart();
+	srvHandle.ptr += incrementSize_ * texNum_;
 
 	//シェーダリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
@@ -304,14 +304,14 @@ int32_t SpriteBasis::TextureData(const wchar_t* name)
 	srvDesc.Texture2D.MipLevels = textureResourceDesc.MipLevels;
 
 	//ハンドルの指す位置にシェーダリソースビュー作成
-	dxBasis->GetDevice()->CreateShaderResourceView(textrueBuffers_[buffIndex].Get(), &srvDesc, srvHandle);
+	dxBasis_->GetDevice()->CreateShaderResourceView(textrueBuffers_[buffIndex].Get(), &srvDesc, srvHandle);
 
 	//デスクリプタレンジの設定
-	descriptorRange.NumDescriptors = 1;
-	descriptorRange.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-	descriptorRange.BaseShaderRegister = 0;	//テクスチャレジスタ0番
-	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+	descriptorRange_.NumDescriptors = 1;
+	descriptorRange_.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRange_.BaseShaderRegister = 0;	//テクスチャレジスタ0番
+	descriptorRange_.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
-	return texNum;
+	return texNum_;
 }
 

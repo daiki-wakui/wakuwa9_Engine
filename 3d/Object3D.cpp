@@ -16,27 +16,25 @@ using namespace std;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-const float Object3D::radius = 5.0f;				// 底面の半径
-const float Object3D::prizmHeight = 8.0f;			// 柱の高さ
-ID3D12Device* Object3D::device = nullptr;
-ID3D12GraphicsCommandList* Object3D::cmdList = nullptr;
-ComPtr<ID3D12RootSignature> Object3D::rootsignature;
-ComPtr<ID3D12PipelineState> Object3D::pipelinestate;
-XMMATRIX Object3D::matView{};
-XMMATRIX Object3D::matProjection{};
-XMFLOAT3 Object3D::eye = { 0, 0, -40.0f };
-XMFLOAT3 Object3D::target = { 0, 0, 0 };
-XMFLOAT3 Object3D::up = { 0, 1, 0 };
+ID3D12Device* Object3D::sDevice = nullptr;
+ID3D12GraphicsCommandList* Object3D::sCmdList = nullptr;
+ComPtr<ID3D12RootSignature> Object3D::sRootsignature;
+ComPtr<ID3D12PipelineState> Object3D::sPipelinestate;
+XMMATRIX Object3D::sMatView{};
+XMMATRIX Object3D::sMatProjection{};
+XMFLOAT3 Object3D::sEye = { 0, 0, -40.0f };
+XMFLOAT3 Object3D::sTarget = { 0, 0, 0 };
+XMFLOAT3 Object3D::sUp = { 0, 1, 0 };
 
 //DirectionalLight* Object3D::light = nullptr;
-LightGroup* Object3D::lightGroup = nullptr;
+LightGroup* Object3D::sLightGroup = nullptr;
 
 void Object3D::StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height)
 {
 	// nullptrチェック
 	assert(device);
 
-	Object3D::device = device;
+	Object3D::sDevice = device;
 
 	Model::SetDevice(device);
 
@@ -54,15 +52,15 @@ void Object3D::StaticInitialize(ID3D12Device* device, int32_t window_width, int3
 void Object3D::PreDraw(ID3D12GraphicsCommandList* cmdList)
 {
 	// PreDrawとPostDrawがペアで呼ばれていなければエラー
-	assert(Object3D::cmdList == nullptr);
+	assert(Object3D::sCmdList == nullptr);
 
 	// コマンドリストをセット
-	Object3D::cmdList = cmdList;
+	Object3D::sCmdList = cmdList;
 
 	// パイプラインステートの設定
-	cmdList->SetPipelineState(pipelinestate.Get());
+	cmdList->SetPipelineState(sPipelinestate.Get());
 	// ルートシグネチャの設定
-	cmdList->SetGraphicsRootSignature(rootsignature.Get());
+	cmdList->SetGraphicsRootSignature(sRootsignature.Get());
 	// プリミティブ形状を設定
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
@@ -70,7 +68,7 @@ void Object3D::PreDraw(ID3D12GraphicsCommandList* cmdList)
 void Object3D::PostDraw()
 {
 	// コマンドリストを解除
-	Object3D::cmdList = nullptr;
+	Object3D::sCmdList = nullptr;
 }
 
 Object3D* Object3D::Create(float scale)
@@ -89,21 +87,21 @@ Object3D* Object3D::Create(float scale)
 	}
 
 	float scale_val = scale;
-	object3d->scale = { scale_val,scale_val,scale_val };
+	object3d->scale_ = { scale_val,scale_val,scale_val };
 
 	return object3d;
 }
 
 void Object3D::SetEye(XMFLOAT3& eye)
 {
-	Object3D::eye = eye;
+	Object3D::sEye = eye;
 
 	UpdateViewMatrix();
 }
 
 void Object3D::SetTarget(XMFLOAT3& target)
 {
-	Object3D::target = target;
+	Object3D::sTarget = target;
 
 	UpdateViewMatrix();
 }
@@ -128,14 +126,14 @@ void Object3D::CameraMoveVector(XMFLOAT3& move)
 void Object3D::InitializeCamera(int32_t window_width, int32_t window_height)
 {
 	// ビュー行列の生成
-	matView = XMMatrixLookAtLH(
-		XMLoadFloat3(&eye),
-		XMLoadFloat3(&target),
-		XMLoadFloat3(&up));
+	sMatView = XMMatrixLookAtLH(
+		XMLoadFloat3(&sEye),
+		XMLoadFloat3(&sTarget),
+		XMLoadFloat3(&sUp));
 
 
 	// 透視投影による射影行列の生成
-	matProjection = XMMatrixPerspectiveFovLH(
+	sMatProjection = XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(60.0f),
 		(float)window_width / window_height,
 		0.1f, 1000.0f
@@ -279,13 +277,13 @@ void Object3D::InitializeGraphicsPipeline()
 	// バージョン自動判定のシリアライズ
 	result = D3DX12SerializeVersionedRootSignature(&rootSignatureDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSigBlob, &errorBlob);
 	// ルートシグネチャの生成
-	result = device->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootsignature));
+	result = sDevice->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&sRootsignature));
 	assert(SUCCEEDED(result));
 
-	gpipeline.pRootSignature = rootsignature.Get();
+	gpipeline.pRootSignature = sRootsignature.Get();
 
 	// グラフィックスパイプラインの生成
-	result = device->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&pipelinestate));
+	result = sDevice->CreateGraphicsPipelineState(&gpipeline, IID_PPV_ARGS(&sPipelinestate));
 	assert(SUCCEEDED(result));
 
 }
@@ -298,13 +296,13 @@ void Object3D::CreateModel()
 void Object3D::UpdateViewMatrix()
 {
 	// ビュー行列の更新
-	matView = XMMatrixLookAtLH(XMLoadFloat3(&eye), XMLoadFloat3(&target), XMLoadFloat3(&up));
+	sMatView = XMMatrixLookAtLH(XMLoadFloat3(&sEye), XMLoadFloat3(&sTarget), XMLoadFloat3(&sUp));
 }
 
 bool Object3D::Initialize()
 {
 	// nullptrチェック
-	assert(device);
+	assert(sDevice);
 
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
@@ -315,10 +313,10 @@ bool Object3D::Initialize()
 	HRESULT result;
 
 	// 定数バッファの生成
-	result = device->CreateCommittedResource(
+	result = sDevice->CreateCommittedResource(
 		&heapProps, // アップロード可能
 		D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
-		IID_PPV_ARGS(&constBuffB0));
+		IID_PPV_ARGS(&constBuffB0_));
 	assert(SUCCEEDED(result));
 
 	
@@ -334,33 +332,33 @@ void Object3D::Update()
 	XMMATRIX matScale, matRot, matTrans;
 
 	// スケール、回転、平行移動行列の計算
-	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	matScale = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
 	matRot = XMMatrixIdentity();
-	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
-	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
-	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
-	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation_.z));
+	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation_.x));
+	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation_.y));
+	matTrans = XMMatrixTranslation(position_.x, position_.y, position_.z);
 
 	// ワールド行列の合成
-	matWorld = XMMatrixIdentity(); // 変形をリセット
-	matWorld *= matScale; // ワールド行列にスケーリングを反映
-	matWorld *= matRot; // ワールド行列に回転を反映
-	matWorld *= matTrans; // ワールド行列に平行移動を反映
+	matWorld_ = XMMatrixIdentity(); // 変形をリセット
+	matWorld_ *= matScale; // ワールド行列にスケーリングを反映
+	matWorld_ *= matRot; // ワールド行列に回転を反映
+	matWorld_ *= matTrans; // ワールド行列に平行移動を反映
 
 	// 親オブジェクトがあれば
-	if (parent != nullptr) {
+	if (parent_ != nullptr) {
 		// 親オブジェクトのワールド行列を掛ける
-		matWorld *= parent->matWorld;
+		matWorld_ *= parent_->matWorld_;
 	}
 
 	// 定数バッファへデータ転送
 	ConstBufferDataB0* constMap = nullptr;
-	result = constBuffB0->Map(0, nullptr, (void**)&constMap);
+	result = constBuffB0_->Map(0, nullptr, (void**)&constMap);
 	//constMap->color = color;
-	constMap->viewproj = matView * matProjection;
-	constMap->world = matWorld;
+	constMap->viewproj = sMatView * sMatProjection;
+	constMap->world = matWorld_;
 	constMap->cameraPos = GetEye();
-	constBuffB0->Unmap(0, nullptr);
+	constBuffB0_->Unmap(0, nullptr);
 
 	
 }
@@ -368,8 +366,8 @@ void Object3D::Update()
 void Object3D::Draw()
 {
 	// nullptrチェック
-	assert(device);
-	assert(Object3D::cmdList);
+	assert(sDevice);
+	assert(Object3D::sCmdList);
 
 	//モデルの紐づけがない場合描画しない
 	if (model_ == nullptr) {
@@ -377,12 +375,12 @@ void Object3D::Draw()
 	}
 
 	// 定数バッファビューをセット
-	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
+	sCmdList->SetGraphicsRootConstantBufferView(0, constBuffB0_->GetGPUVirtualAddress());
 	
 	//ライトの描画
 	//light->Draw(cmdList, 3);
-	lightGroup->Draw(cmdList, 3);
+	sLightGroup->Draw(sCmdList, 3);
 
-	model_->Draw(cmdList, 1);
+	model_->Draw(sCmdList, 1);
 }
 

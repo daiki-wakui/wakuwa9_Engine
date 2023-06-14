@@ -64,10 +64,10 @@ public:
 
 private:
 
-	ComPtr<IXAudio2> xAudio2;
+	ComPtr<IXAudio2> xAudio2_;
 	//サウンドデータの連想配列
-	std::map<std::string, SoundData> soundDatas;
+	std::map<std::string, SoundData> soundDatas_;
 
-	std::string directoryPath;
+	std::string directoryPath_;
 };
 

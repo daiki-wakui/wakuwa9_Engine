@@ -6,7 +6,7 @@ using namespace DirectX;
 //静的メンバ変数の実態
 const std::string FbxLoader::baseDirectory = "Resources/FBX/";
 
-const std::string FbxLoader::defaultTextureFileName = "white1x1.png";
+const std::string FbxLoader::sDefaultTextureFileName = "white1x1.png";
 
 FbxLoader* FbxLoader::GetInstance()
 {
@@ -18,28 +18,28 @@ void FbxLoader::Initialize(ID3D12Device* device)
 {
 
     //再初期化チェック
-    assert(fbxManager == nullptr);
+    assert(fbxManager_ == nullptr);
 
     //引数からメンバ変数に代入
-    this->device = device;
+    this->device_ = device;
 
     //FBXマネージャの生成
-    fbxManager = FbxManager::Create();
+    fbxManager_ = FbxManager::Create();
 
     //FBXマネージャの入出力設定
-    FbxIOSettings* ios = FbxIOSettings::Create(fbxManager, IOSROOT);
-    fbxManager->SetIOSettings(ios);
+    FbxIOSettings* ios = FbxIOSettings::Create(fbxManager_, IOSROOT);
+    fbxManager_->SetIOSettings(ios);
 
     //FBXインポータの生成
-    fbxImporter = FbxImporter::Create(fbxManager, "");
+    fbxImporter_ = FbxImporter::Create(fbxManager_, "");
 
 }
 
 void FbxLoader::Finalize()
 {
     //各種FBXインスタンスの破棄
-    fbxImporter->Destroy();
-    fbxManager->Destroy();
+    fbxImporter_->Destroy();
+    fbxManager_->Destroy();
 
 }
 
@@ -55,15 +55,15 @@ FbxModel* FbxLoader::LoadModelFromFile(const string& modelName)
     const string fullpath = directryPath + fileName;
 
     //ファイル名を指定してFBXファイルを読み込む
-    if (!fbxImporter->Initialize(fullpath.c_str(), -1, fbxManager->GetIOSettings())) {
+    if (!fbxImporter_->Initialize(fullpath.c_str(), -1, fbxManager_->GetIOSettings())) {
         assert(0);
     }
 
     //シーン生成
-    FbxScene* fbxScene = FbxScene::Create(fbxManager, "fbxScene");
+    FbxScene* fbxScene = FbxScene::Create(fbxManager_, "fbxScene");
 
     //ファイルからロードしたFBXの情報をシーンにインポート
-    fbxImporter->Import(fbxScene);
+    fbxImporter_->Import(fbxScene);
 
     //モデル生成
     FbxModel* model = new FbxModel();
@@ -83,7 +83,7 @@ FbxModel* FbxLoader::LoadModelFromFile(const string& modelName)
     model->fbxScene = fbxScene;
 
     //バッファ生成
-    model->CreateBuffers(device);
+    model->CreateBuffers(device_);
 
     return model;
 }
@@ -320,7 +320,7 @@ void FbxLoader::ParseMaterial(FbxModel* model, FbxNode* fbxNode)
 
         //テクスチャがない場合は白テクスチャを貼る
         if (!textureLoaded) {
-            LoadTexture(model, baseDirectory + defaultTextureFileName);
+            LoadTexture(model, baseDirectory + sDefaultTextureFileName);
         }
     }
 }
@@ -458,11 +458,11 @@ void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh)
             vertices[i].boneWeight[weightArrayIndex] = weightSet.weight;
 
             //4つに達したら終了
-            if (++weightArrayIndex >= FbxModel::MAX_BONE_INDICES) {
+            if (++weightArrayIndex >= FbxModel::sMAX_BONE_INDICES) {
                 float weight = 0.0f;
 
                 //2番目以降のウェイトを合計
-                for (int32_t j = 1; j < FbxModel::MAX_BONE_INDICES; j++) {
+                for (int32_t j = 1; j < FbxModel::sMAX_BONE_INDICES; j++) {
                     weight += vertices[i].boneWeight[j];
                 }
 

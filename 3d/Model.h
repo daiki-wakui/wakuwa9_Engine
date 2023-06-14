@@ -72,48 +72,48 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial);
 
-	static void SetDevice(ID3D12Device* device) { Model::device = device; };
+	static void SetDevice(ID3D12Device* device) { Model::sDevice = device; };
 
 private:
 	// デバイス(借りてくる)
-	static ID3D12Device* device;
+	static ID3D12Device* sDevice;
 
 	// デスクリプタサイズ
-	UINT descriptorHandleIncrementSize = 0;
+	UINT descriptorHandleIncrementSize_ = 0;
 
 	// テクスチャバッファ
-	ComPtr<ID3D12Resource> texbuff;
+	ComPtr<ID3D12Resource> texbuff_;
 	// デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> descHeap;
+	ComPtr<ID3D12DescriptorHeap> descHeap_;
 
 	// シェーダリソースビューのハンドル(CPU)
-	CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV;
-	// シェーダリソースビューのハンドル(CPU)
-	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
+	CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV_;
+	// シェーダリソースビューのハンドル(GPU)
+	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV_;
 
 	// 頂点バッファ
-	ComPtr<ID3D12Resource> vertBuff;
+	ComPtr<ID3D12Resource> vertBuff_;
 	// インデックスバッファ
-	ComPtr<ID3D12Resource> indexBuff;
+	ComPtr<ID3D12Resource> indexBuff_;
 	// 頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vbView;
+	D3D12_VERTEX_BUFFER_VIEW vbView_;
 	// インデックスバッファビュー
-	D3D12_INDEX_BUFFER_VIEW ibView;
+	D3D12_INDEX_BUFFER_VIEW ibView_;
 	// マテリアル用定数バッファ
-	ComPtr<ID3D12Resource> constBuffB1; 
+	ComPtr<ID3D12Resource> constBuffB1_; 
 
 	// 頂点データ配列
-	std::vector<VertexPosNormalUv> vertices;
+	std::vector<VertexPosNormalUv> vertices_;
 
 	// 頂点インデックス配列
-	std::vector<unsigned short> indices;
+	std::vector<unsigned short> indices_;
 
 	//頂点法線スムージング用データ
-	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;
+	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 
 	
     // 頂点データの数を取得
-	inline size_t GetVertexCount() { return vertices.size(); }
+	inline size_t GetVertexCount() { return vertices_.size(); }
 
     // エッジ平面化データの追加
 	void AddSmoothData(unsigned short indexPosition, unsigned short indexVertex);

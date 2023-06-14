@@ -36,11 +36,6 @@ public: // サブクラス
 	};
 
 private: // 定数
-	static const int32_t division = 50;					// 分割数
-	static const float radius;				// 底面の半径
-	static const float prizmHeight;			// 柱の高さ
-	static const int32_t planeCount = division * 2 + division * 2;		// 面の数
-	static const int32_t vertexCount = planeCount * 3;		// 頂点数
 
 public: // 静的メンバ関数
 	/// <summary>
@@ -72,7 +67,7 @@ public: // 静的メンバ関数
 	/// 視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	static const XMFLOAT3& GetEye() { return eye; }
+	static const XMFLOAT3& GetEye() { return sEye; }
 
 	/// <summary>
 	/// 視点座標の設定
@@ -84,9 +79,9 @@ public: // 静的メンバ関数
 	/// 注視点座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	static const XMFLOAT3& GetTarget() { return target; }
+	static const XMFLOAT3& GetTarget() { return sTarget; }
 
-	static const XMFLOAT3& GetUp() { return up; }
+	static const XMFLOAT3& GetUp() { return sUp; }
 
 	/// <summary>
 	/// 注視点座標の設定
@@ -108,32 +103,32 @@ public: // 静的メンバ関数
 	}*/
 
 	static void SetLightGroup(LightGroup* lightGroup) {
-		Object3D::lightGroup = lightGroup;
+		Object3D::sLightGroup = lightGroup;
 	}
 
 private: // 静的メンバ変数
 	// デバイス
-	static ID3D12Device* device;
+	static ID3D12Device* sDevice;
 	// コマンドリスト
-	static ID3D12GraphicsCommandList* cmdList;
+	static ID3D12GraphicsCommandList* sCmdList;
 	// ルートシグネチャ
-	static ComPtr<ID3D12RootSignature> rootsignature;
+	static ComPtr<ID3D12RootSignature> sRootsignature;
 	// パイプラインステートオブジェクト
-	static ComPtr<ID3D12PipelineState> pipelinestate;
+	static ComPtr<ID3D12PipelineState> sPipelinestate;
 	// ビュー行列
-	static XMMATRIX matView;
+	static XMMATRIX sMatView;
 	// 射影行列
-	static XMMATRIX matProjection;
+	static XMMATRIX sMatProjection;
 	// 視点座標
-	static XMFLOAT3 eye;
+	static XMFLOAT3 sEye;
 	// 注視点座標
-	static XMFLOAT3 target;
+	static XMFLOAT3 sTarget;
 	// 上方向ベクトル
-	static XMFLOAT3 up;
+	static XMFLOAT3 sUp;
 
 	//ライト
 	//static DirectionalLight* light;
-	static LightGroup* lightGroup;
+	static LightGroup* sLightGroup;
 
 private:// 静的メンバ関数
 	
@@ -177,15 +172,15 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	const XMFLOAT3& GetPosition() const { return position; }
-	const XMFLOAT3& GetRotation() const { return rotation; }
+	const XMFLOAT3& GetPosition() const { return position_; }
+	const XMFLOAT3& GetRotation() const { return rotation_; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(const XMFLOAT3& position) { this->position = position; }
-	void SetRotation(const XMFLOAT3& rotation) { this->rotation = rotation; }
+	void SetPosition(const XMFLOAT3& position) { this->position_ = position; }
+	void SetRotation(const XMFLOAT3& rotation) { this->rotation_ = rotation; }
 
 	//setter
 	void SetModel(Model* model) { model_ = model; };
@@ -197,17 +192,17 @@ private: // メンバ変数
 
 
 	// 行列用定数バッファ
-	ComPtr<ID3D12Resource> constBuffB0; 
+	ComPtr<ID3D12Resource> constBuffB0_; 
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
+	XMFLOAT3 scale_ = { 1,1,1 };
 	// X,Y,Z軸回りのローカル回転角
-	XMFLOAT3 rotation = { 0,0,0 };
+	XMFLOAT3 rotation_ = { 0,0,0 };
 	// ローカル座標
-	XMFLOAT3 position = { 0,0,0 };
+	XMFLOAT3 position_ = { 0,0,0 };
 	// ローカルワールド変換行列
-	XMMATRIX matWorld;
+	XMMATRIX matWorld_;
 	// 親オブジェクト
-	Object3D* parent = nullptr;
+	Object3D* parent_ = nullptr;
 
 };
 

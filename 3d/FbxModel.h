@@ -56,7 +56,7 @@ private: //エイリアス
 public: //サブクラス
 
 	//ボーンインデックスの最大数
-	static const int32_t MAX_BONE_INDICES = 4;
+	static const int32_t sMAX_BONE_INDICES = 4;
 
 
 	//頂点データ構造体
@@ -65,8 +65,8 @@ public: //サブクラス
 		DirectX::XMFLOAT3 pos;	//xyz座標
 		DirectX::XMFLOAT3 normal;	//法線ベクトル
 		DirectX::XMFLOAT2 uv;	//uv座標
-		UINT boneIndex[MAX_BONE_INDICES];	//ボーン 番号
-		float boneWeight[MAX_BONE_INDICES];	//ボーン　重み
+		UINT boneIndex[sMAX_BONE_INDICES];	//ボーン 番号
+		float boneWeight[sMAX_BONE_INDICES];	//ボーン　重み
 	};
 
 	//ボーン構造体
@@ -122,30 +122,30 @@ public:
 	//ボーン配列
 	std::vector<Bone> bones;
 
-	//getter
-	std::vector<Bone>& GetBones() { return bones; }
+	//FBXシーン
+	FbxScene* fbxScene = nullptr;
 
 	
 private: //メンバ変数
 
 	//頂点バッファ
-	ComPtr<ID3D12Resource> vertBuff;
+	ComPtr<ID3D12Resource> vertBuff_;
 	//インデックスバッファ
-	ComPtr<ID3D12Resource> indexBuff;
+	ComPtr<ID3D12Resource> indexBuff_;
 	//テクスチャバッファ
-	ComPtr<ID3D12Resource> texbuff;
+	ComPtr<ID3D12Resource> texbuff_;
 	//頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vbView = {};
+	D3D12_VERTEX_BUFFER_VIEW vbView_ = {};
 	//インデックスバッファビュー
-	D3D12_INDEX_BUFFER_VIEW ibView = {};
+	D3D12_INDEX_BUFFER_VIEW ibView_ = {};
 	//SRV用デスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
+	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
 
 
 public: //メンバ関数
 
-	//FBXシーン
-	FbxScene* fbxScene = nullptr;
+	//getter
+	std::vector<Bone>& GetBones() { return bones; }
 
 	//getter
 	FbxScene* GetFbxScene() { return fbxScene; }

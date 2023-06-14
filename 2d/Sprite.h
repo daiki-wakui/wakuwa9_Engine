@@ -20,33 +20,33 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 private:
-	HRESULT result;
+	HRESULT result_;
 
-	WindowsApp* winApp = nullptr;
-	SpriteBasis* spBasis;
+	WindowsApp* winApp_ = nullptr;
+	SpriteBasis* spBasis_;
 
-	ComPtr<ID3D12Resource> vertBuff = nullptr;
+	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
 	// 頂点バッファビューの作成
-	D3D12_VERTEX_BUFFER_VIEW vbView{};
-	UINT vertexSize;
+	D3D12_VERTEX_BUFFER_VIEW vbView_{};
+	UINT vertexSize_;
 
-	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle;
+	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle_;
 
-	ComPtr<ID3D12Resource> indexBuff = nullptr;
+	ComPtr<ID3D12Resource> indexBuff_ = nullptr;
 	//インデックスバッファビュー
-	D3D12_INDEX_BUFFER_VIEW ibView{};
-	UINT indexSize;
+	D3D12_INDEX_BUFFER_VIEW ibView_{};
+	UINT indexSize_;
 
 	//ヒープ設定
-	D3D12_HEAP_PROPERTIES heapProp{};
+	D3D12_HEAP_PROPERTIES heapProp_{};
 	//リソース設定
-	D3D12_RESOURCE_DESC resDesc{};
+	D3D12_RESOURCE_DESC resDesc_{};
 
 	//定数バッファの生成
 	//color
-	ComPtr<ID3D12Resource> constBuffMaterial = nullptr;
+	ComPtr<ID3D12Resource> constBuffMaterial_ = nullptr;
 	//mat
-	ComPtr<ID3D12Resource> constBuffTransform = nullptr;
+	ComPtr<ID3D12Resource> constBuffTransform_ = nullptr;
 
 	//頂点データ構造体
 	struct Vertex {
@@ -64,15 +64,15 @@ private:
 		XMMATRIX mat;	//3D変換行列
 	};
 
-	CounstBufferDataTransform* constMapTransform = nullptr;
+	CounstBufferDataTransform* constMapTransform_ = nullptr;
 
-	Vertex vertices[4];
+	Vertex vertices_[4];
 
-	XMMATRIX matWorld;
-	XMMATRIX matScale;
-	XMMATRIX matRot;
-	XMMATRIX matTrans;
-	XMMATRIX matProjection;
+	XMMATRIX matWorld_;
+	XMMATRIX matScale_;
+	XMMATRIX matRot_;
+	XMMATRIX matTrans_;
+	XMMATRIX matProjection_;
 
 	XMFLOAT2 position_ = { 0,0 };
 	float rotation_ = 0;
