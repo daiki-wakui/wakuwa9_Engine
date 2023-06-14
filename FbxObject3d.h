@@ -74,7 +74,7 @@ protected: //ƒƒ“ƒo•Ï”
 
 	XMFLOAT3 positon = { 0,0,0 };
 
-	XMMATRIX matWorld;
+	XMMATRIX matWorld = {};
 
 	FbxModel* model = nullptr;
 

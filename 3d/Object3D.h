@@ -200,7 +200,7 @@ private: // メンバ変数
 	// ローカル座標
 	XMFLOAT3 position_ = { 0,0,0 };
 	// ローカルワールド変換行列
-	XMMATRIX matWorld_;
+	XMMATRIX matWorld_ = {};
 	// 親オブジェクト
 	Object3D* parent_ = nullptr;
 
