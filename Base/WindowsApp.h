@@ -6,12 +6,12 @@ class WindowsApp
 {
 private:
 	//ウィンドウクラスの設定
-	WNDCLASSEX w{};
-	HWND hwnd = nullptr;
+	WNDCLASSEX w_{};
+	HWND hwnd_ = nullptr;
 
 	//ウィンドウサイズ
-	const int32_t window_width = 1280;
-	const int32_t window_height = 720;
+	const int32_t WINDOW_WIDTH = 1280;
+	const int32_t WINDOW_HEIGHT = 720;
 
 public:	//静的メンバ関数
 
@@ -29,10 +29,10 @@ public:	//メンバ関数
 	void Release();
 
 	//getter
-	HWND GetHwnd() const { return hwnd; }
-	WNDCLASSEX GetW() const { return w; };
-	HINSTANCE GetHInstancee() const { return w.hInstance; };
-	const int32_t GetWindowWidth() { return window_width; };
-	const int32_t GetWindowHeight() { return window_height; };
+	HWND GetHwnd() const { return hwnd_; }
+	WNDCLASSEX GetW() const { return w_; };
+	HINSTANCE GetHInstancee() const { return w_.hInstance; };
+	const int32_t GetWindowWidth() { return WINDOW_WIDTH; };
+	const int32_t GetWindowHeight() { return WINDOW_HEIGHT; };
 };
 

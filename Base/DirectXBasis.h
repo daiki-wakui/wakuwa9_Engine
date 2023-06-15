@@ -19,41 +19,41 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 private:
-	WindowsApp* winApp = nullptr;
+	WindowsApp* winApp_ = nullptr;
 
-	HRESULT result;
-	ComPtr<ID3D12Device> device;
-	ComPtr<IDXGIFactory7> dxgiFactory;
-	ComPtr<IDXGISwapChain4> swapChain;
-	ComPtr<ID3D12CommandAllocator> cmdAllocator;
-	ComPtr<ID3D12GraphicsCommandList> commandList;
-	ComPtr<ID3D12CommandQueue> commandQueue;
-	ComPtr<ID3D12DescriptorHeap> rtvHeap;
+	HRESULT result_;
+	ComPtr<ID3D12Device> device_;
+	ComPtr<IDXGIFactory7> dxgiFactory_;
+	ComPtr<IDXGISwapChain4> swapChain_;
+	ComPtr<ID3D12CommandAllocator> cmdAllocator_;
+	ComPtr<ID3D12GraphicsCommandList> commandList_;
+	ComPtr<ID3D12CommandQueue> commandQueue_;
+	ComPtr<ID3D12DescriptorHeap> rtvHeap_;
 
 	// デスクリプタヒープ
-	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
+	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc_{};
 	// スワップチェーン
-	DXGI_SWAP_CHAIN_DESC1 swapChainDesc{};
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc_{};
 	// バックバッファ
-	std::vector<ComPtr<ID3D12Resource>> backBuffers;
+	std::vector<ComPtr<ID3D12Resource>> backBuffers_;
 
-	D3D12_RESOURCE_BARRIER barrierDesc{};
+	D3D12_RESOURCE_BARRIER barrierDesc_{};
 
-	ComPtr<ID3D12DescriptorHeap> dsvHeap = nullptr;
+	ComPtr<ID3D12DescriptorHeap> dsvHeap_ = nullptr;
 	//ID3D12DescriptorHeap* dsvHeap = nullptr;
 
 	/*D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle;
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle;*/
 
-	ComPtr<ID3D12Resource> depthBuff = nullptr;
+	ComPtr<ID3D12Resource> depthBuff_ = nullptr;
 
 	// フェンスの生成
-	ComPtr<ID3D12Fence> fence;
+	ComPtr<ID3D12Fence> fence_;
 	//フェンス値
-	UINT64 fenceVal = 0;
+	UINT64 fenceVal_ = 0;
 
 	//時間記録(FPS固定用)
-	std::chrono::steady_clock::time_point reference;
+	std::chrono::steady_clock::time_point reference_;
 
 public:
 
@@ -78,11 +78,11 @@ public:
 	void PostDraw();
 
 	//デバイス取得
-	ID3D12Device* GetDevice() const { return device.Get(); };
+	ID3D12Device* GetDevice() const { return device_.Get(); };
 	//コマンドリスト取得
-	ID3D12GraphicsCommandList* GetCommandList() const { return commandList.Get(); };
+	ID3D12GraphicsCommandList* GetCommandList() const { return commandList_.Get(); };
 
 	//バックバッファの数を取得
-	size_t GetBackBufferCount() const { return backBuffers.size(); }
+	size_t GetBackBufferCount() const { return backBuffers_.size(); }
 };
 

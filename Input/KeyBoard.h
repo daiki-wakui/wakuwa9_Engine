@@ -19,9 +19,9 @@ public:
 
 private:
 
-	ComPtr<IDirectInputDevice8> keyboard = nullptr;
-	BYTE key[256] = {};
-	BYTE oldkey[256] = {};
+	ComPtr<IDirectInputDevice8> keyboard_ = nullptr;
+	BYTE key_[256] = {};
+	BYTE oldkey_[256] = {};
 
 public:
 	void Initialize(HINSTANCE hInstance, HWND hwnd);

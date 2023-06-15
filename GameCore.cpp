@@ -150,24 +150,24 @@ void GameCore::Draw()
 	// 描画前処理
 	dxBasis->PreDraw();
 
-	//Object3D::PreDraw(dxBasis->GetCommandList());
-	//FbxObject3d::PreSet(dxBasis->GetCommandList());
+	Object3D::PreDraw(dxBasis->GetCommandList());
+	FbxObject3d::PreSet(dxBasis->GetCommandList());
 
-	////obj
-	////playerObject->Draw();
-	//skyObject->Draw();
-	//objectFloor->Draw();
+	//obj
+	//playerObject->Draw();
+	skyObject->Draw();
+	objectFloor->Draw();
 
-	////fbx
-	////objcube->Draw();
-	//testObj->Draw();
+	//fbx
+	//objcube->Draw();
+	testObj->Draw();
 
-	//Object3D::PostDraw();
+	Object3D::PostDraw();
 
-	//sprite->Draw(tex1);
+	sprite->Draw(tex1);
 
 	//ポストエフェクトの描画
-	postEffect_->Draw(tex2);
+	//postEffect_->Draw(tex2);
 
 	//描画後処理
 	dxBasis->PostDraw();

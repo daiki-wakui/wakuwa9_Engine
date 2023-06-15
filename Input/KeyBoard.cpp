@@ -14,15 +14,15 @@ void KeyBoard::Initialize(HINSTANCE hInstance, HWND hwnd)
 	assert(SUCCEEDED(result));
 
 	//キーボードデバイスの生成
-	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
+	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard_, NULL);
 	assert(SUCCEEDED(result));
 
 	//入力データ形式のセット
-	result = keyboard->SetDataFormat(&c_dfDIKeyboard);	//標準形式
+	result = keyboard_->SetDataFormat(&c_dfDIKeyboard);	//標準形式
 	assert(SUCCEEDED(result));
 
 	//排他制御レベルのセット
-	result = keyboard->SetCooperativeLevel(
+	result = keyboard_->SetCooperativeLevel(
 		hwnd,
 		DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
@@ -32,33 +32,33 @@ void KeyBoard::Initialize(HINSTANCE hInstance, HWND hwnd)
 void KeyBoard::Update()
 {
 	//キーボード情報の取得開始
-	keyboard->Acquire();
+	keyboard_->Acquire();
 
 	for (int32_t i = 0; i < 256; i++) {
-		oldkey[i] = key[i];
+		oldkey_[i] = key_[i];
 	}
 
 	//全キーの入力状態を取得する
-	keyboard->GetDeviceState(sizeof(key), key);
+	keyboard_->GetDeviceState(sizeof(key_), key_);
 
 }
 
 bool KeyBoard::keyPush(uint8_t key)
 {
-	return this->key[key];
+	return key_[key];
 }
 
 bool KeyBoard::keyRelease(uint8_t key)
 {
-	return !this->key[key];
+	return !key_[key];
 }
 
 bool KeyBoard::keyInstantPush(uint8_t key)
 {
-	return this->key[key] && !oldkey[key];
+	return key_[key] && !oldkey_[key];
 }
 
 bool KeyBoard::keyInstantRelease(uint8_t key)
 {
-	return !this->key[key] && oldkey[key];
+	return !key_[key] && oldkey_[key];
 }

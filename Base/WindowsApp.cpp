@@ -25,20 +25,20 @@ LRESULT WindowsApp::windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam
 void WindowsApp::Initalize()
 {
 
-	w.cbSize = sizeof(WNDCLASSEX);
-	w.lpfnWndProc = (WNDPROC)windowProc;	//ウィンドウプロシージャを設定
-	w.lpszClassName = L"DirectXGame";	//ウィンドウクラス名
-	w.hInstance = GetModuleHandle(nullptr);	//ウィンドウハンドル
-	w.hCursor = LoadCursor(NULL, IDC_ARROW);	//カーソル設定
+	w_.cbSize = sizeof(WNDCLASSEX);
+	w_.lpfnWndProc = (WNDPROC)windowProc;	//ウィンドウプロシージャを設定
+	w_.lpszClassName = L"DirectXGame";	//ウィンドウクラス名
+	w_.hInstance = GetModuleHandle(nullptr);	//ウィンドウハンドル
+	w_.hCursor = LoadCursor(NULL, IDC_ARROW);	//カーソル設定
 
 	//ウィンドウクラスをOSに登録する
-	RegisterClassEx(&w);
+	RegisterClassEx(&w_);
 	//ウィンドウサイズ{X,Y,横,縦}
-	RECT wrc = { 0,0,window_width,window_height };
+	RECT wrc = { 0,0,WINDOW_WIDTH,WINDOW_HEIGHT };
 	//自動でサイズを補正する
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
-	hwnd = CreateWindow(w.lpszClassName,
+	hwnd_ = CreateWindow(w_.lpszClassName,
 		L"DirectXGame",
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
@@ -47,11 +47,11 @@ void WindowsApp::Initalize()
 		wrc.bottom - wrc.top,
 		nullptr,
 		nullptr,
-		w.hInstance,
+		w_.hInstance,
 		nullptr
 	);
 
-	ShowWindow(hwnd, SW_SHOW);
+	ShowWindow(hwnd_, SW_SHOW);
 }
 
 //ゲームループ終了判定
@@ -72,7 +72,7 @@ bool WindowsApp::gameloopExit(MSG& msg){
 //登録解除
 void WindowsApp::Release(){
 	//ウィンドウクラスを登録解除
-	UnregisterClass(w.lpszClassName, w.hInstance);
+	UnregisterClass(w_.lpszClassName, w_.hInstance);
 }
 
 
