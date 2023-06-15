@@ -32,13 +32,13 @@ class GameCore
 private:
 
 	//windowsAPIの生成クラス
-	std::unique_ptr<WindowsApp> windows;
+	std::unique_ptr<WindowsApp> windows_;
 	//keyboradクラスの生成
-	std::unique_ptr<KeyBoard> keyboard;
+	std::unique_ptr<KeyBoard> keyboard_;
 	//DirectXの基盤生成クラス
-	std::unique_ptr<DirectXBasis> DirectX;
+	std::unique_ptr<DirectXBasis> DirectX_;
 	
-	std::unique_ptr<ImGuiManager> ImGuiM;
+	std::unique_ptr<ImGuiManager> ImGuiM_;
 
 	WindowsApp* winApp = new WindowsApp();
 	KeyBoard* input_ = new KeyBoard();

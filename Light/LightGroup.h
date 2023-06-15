@@ -28,10 +28,10 @@ private:// エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public: //定数
-	static const int32_t DirLightNum = 3;
-	static const int32_t PointLightNum = 3;
-	static const int32_t SpotLightNum = 3;
-	static const int32_t CircleShadowNum = 1;
+	static const int32_t sDIRLIGHT_NUM = 3;
+	static const int32_t sPOINTLIGHT_NUM = 3;
+	static const int32_t sSPOTLIGHT_NUM = 3;
+	static const int32_t sCIRCLESHADOW_NUM = 1;
 
 public: //サブクラス
 
@@ -42,13 +42,13 @@ public: //サブクラス
 		XMFLOAT3 ambientColor;
 		float pad1;
 		//平行光源用
-		DirectionalLight::ConstBufferData dirLights[DirLightNum];
+		DirectionalLight::ConstBufferData dirLights[sDIRLIGHT_NUM];
 		//点光源用
-		PointLight::ConstBufferData pointLights[PointLightNum];
+		PointLight::ConstBufferData pointLights[sPOINTLIGHT_NUM];
 		//スポットライト用
-		SpotLight::ConstBufferData spotLights[SpotLightNum];
+		SpotLight::ConstBufferData spotLights[sSPOTLIGHT_NUM];
 		//丸影
-		CircleShadow::ConstBufferData circleShadows[CircleShadowNum];
+		CircleShadow::ConstBufferData circleShadows[sCIRCLESHADOW_NUM];
 	};
 
 public: // 静的メンバ関数
@@ -63,7 +63,7 @@ public: // 静的メンバ関数
 private: //静的メンバ変数
 
 	//デバイス
-	static ID3D12Device* device;
+	static ID3D12Device* sDevice;
 
 public: //メンバ関数
 	
@@ -144,16 +144,16 @@ private: //メンバ変数
 	XMFLOAT3 ambientColor = { 1,1,1 };
 
 	//平行光源の配列
-	DirectionalLight dirLights[DirLightNum];
+	DirectionalLight dirLights[sDIRLIGHT_NUM];
 
 	//点光源の配列
-	PointLight pointLights[PointLightNum];
+	PointLight pointLights[sPOINTLIGHT_NUM];
 
 	//スポットライトの配列
-	SpotLight spotLights[SpotLightNum];
+	SpotLight spotLights[sSPOTLIGHT_NUM];
 
 	//丸影の配列
-	CircleShadow circleShadows[CircleShadowNum];
+	CircleShadow circleShadows[sCIRCLESHADOW_NUM];
 
 	//ダーティフラグ
 	bool dirty = false;

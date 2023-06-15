@@ -4,18 +4,18 @@ void GameCore::Initialize()
 {
 	//windowsAPI‰Šú‰»
 	winApp->Initalize();
-	windows.reset(winApp);
+	windows_.reset(winApp);
 
 	//DirectX‰Šú‰»
 	dxBasis->Initialize(winApp);
-	DirectX.reset(dxBasis);
+	DirectX_.reset(dxBasis);
 
 	//keyborad‰Šú‰»
 	input_->Initialize(winApp->GetHInstancee(), winApp->GetHwnd());
-	keyboard.reset(input_);
+	keyboard_.reset(input_);
 
 	imguiM->Initialize(winApp, dxBasis);
-	ImGuiM.reset(imguiM);
+	ImGuiM_.reset(imguiM);
 
 	spBasis->Initialize(dxBasis);
 

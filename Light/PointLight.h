@@ -36,24 +36,24 @@ public:
 
 public:  //メンバ変数
 
-	XMFLOAT3 lightpos = { 0,0,0 };
-	XMFLOAT3 lightcolor = { 1,1,1 };
+	XMFLOAT3 lightpos_ = { 0,0,0 };
+	XMFLOAT3 lightcolor_ = { 1,1,1 };
 	//ライトの距離減衰係数
-	XMFLOAT3 lightAtten = { 1.0f,1.0f,1.0f };
+	XMFLOAT3 lightAtten_ = { 1.0f,1.0f,1.0f };
 	//有効フラグ
-	bool active = false;
+	bool active_ = false;
 
 public: //メンバ関数
-	inline void SetLightPos(const XMFLOAT3& lightpos) { this->lightpos = lightpos; };
-	inline const XMFLOAT3& GetLightPos() { return lightpos; };
+	inline void SetLightPos(const XMFLOAT3& lightpos) { lightpos_ = lightpos; };
+	inline const XMFLOAT3& GetLightPos() { return lightpos_; };
 
-	inline void SetLightColor(const XMFLOAT3& lightcolor) { this->lightcolor = lightcolor; };
-	inline const XMFLOAT3& GetLightcolor() { return lightcolor; };
+	inline void SetLightColor(const XMFLOAT3& lightcolor) { lightcolor_ = lightcolor; };
+	inline const XMFLOAT3& GetLightcolor() { return lightcolor_; };
 
-	inline void SetLightAtten(const XMFLOAT3& lightAtten) { this->lightAtten = lightAtten; };
-	inline const XMFLOAT3& GetLightAtten() { return lightAtten; };
+	inline void SetLightAtten(const XMFLOAT3& lightAtten) { lightAtten_ = lightAtten; };
+	inline const XMFLOAT3& GetLightAtten() { return lightAtten_; };
 
-	inline void SetActive(bool active) { this->active = active; };
-	inline bool IsActive() { return active; };
+	inline void SetActive(bool active) { active_ = active; };
+	inline bool IsActive() { return active_; };
 };
 

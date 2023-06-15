@@ -40,39 +40,39 @@ public:	//サブクラス
 
 private: //メンバ変数
 	//方向
-	XMVECTOR lightdir = { 1,0,0,0 };
+	XMVECTOR lightdir_ = { 1,0,0,0 };
 	//座標
-	XMFLOAT3 lightpos = { 0,0,0 };
+	XMFLOAT3 lightpos_ = { 0,0,0 };
 	//色
-	XMFLOAT3 lightcolor = { 1,1,1 };
+	XMFLOAT3 lightcolor_ = { 1,1,1 };
 	//距離減衰係数
-	XMFLOAT3 lightAtten = { 1.0f,1.0f,1.0f };
+	XMFLOAT3 lightAtten_ = { 1.0f,1.0f,1.0f };
 	//減衰角度
-	XMFLOAT2 lightFactorAngleCos = { 0.5f,0.2f };
+	XMFLOAT2 lightFactorAngleCos_ = { 0.5f,0.2f };
 	//有効フラグ
-	bool active = false;
+	bool active_ = false;
 
 public: //メンバ関数
 
-	inline void SetLightDir(const XMVECTOR& lightdir) { this->lightdir = DirectX::XMVector3Normalize(lightdir); };
-	inline const XMVECTOR& GetLightDir() { return lightdir; };
+	inline void SetLightDir(const XMVECTOR& lightdir) { lightdir_ = DirectX::XMVector3Normalize(lightdir); };
+	inline const XMVECTOR& GetLightDir() { return lightdir_; };
 
-	inline void SetLightPos(const XMFLOAT3& lightpos) { this->lightpos = lightpos; };
-	inline const XMFLOAT3& GetLightPos() { return lightpos; };
+	inline void SetLightPos(const XMFLOAT3& lightpos) { lightpos_ = lightpos; };
+	inline const XMFLOAT3& GetLightPos() { return lightpos_; };
 
-	inline void SetLightColor(const XMFLOAT3& lightcolor) { this->lightcolor = lightcolor; };
-	inline const XMFLOAT3& GetLightColor() { return lightcolor; };
+	inline void SetLightColor(const XMFLOAT3& lightcolor) { lightcolor_ = lightcolor; };
+	inline const XMFLOAT3& GetLightColor() { return lightcolor_; };
 
-	inline void SetLightAtten(const XMFLOAT3& lightatten) { this->lightAtten = lightatten; };
-	inline const XMFLOAT3& GetLightAtten() { return lightAtten; };
+	inline void SetLightAtten(const XMFLOAT3& lightatten) { lightAtten_ = lightatten; };
+	inline const XMFLOAT3& GetLightAtten() { return lightAtten_; };
 
 	inline void SetLightFactorAngle(const XMFLOAT2& lightFactorAngle) {
-		this->lightFactorAngleCos.x = cosf(DirectX::XMConvertToRadians(lightFactorAngle.x));
-		this->lightFactorAngleCos.y = cosf(DirectX::XMConvertToRadians(lightFactorAngle.y));
+		lightFactorAngleCos_.x = cosf(DirectX::XMConvertToRadians(lightFactorAngle.x));
+		lightFactorAngleCos_.y = cosf(DirectX::XMConvertToRadians(lightFactorAngle.y));
 	};
 
-	inline const XMFLOAT2& GetLightFactorAngleCos() { return lightFactorAngleCos; };
-	inline void SetActive(bool active) { this->active = active; };
-	inline bool IsActive() { return active; };
+	inline const XMFLOAT2& GetLightFactorAngleCos() { return lightFactorAngleCos_; };
+	inline void SetActive(bool active) { active_ = active; };
+	inline bool IsActive() { return active_; };
 };
 
