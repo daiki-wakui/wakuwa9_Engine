@@ -15,20 +15,20 @@ using namespace std;
 
 ID3D12Device* Model::sDevice = nullptr;
 
-Model* Model::LoadFromObj(const std::string& modelname, bool smoothing)
+void Model::LoadFromObj(const std::string& modelname, bool smoothing)
 {
-	Model* model = new Model();
+	//Model* model = new Model();
 
 	//デスクリプタヒープ生成
-	model->InitializeDescriptorHeap();
+	InitializeDescriptorHeap();
 
 	//OBJファイルからデータを読み込む
-	model->LoadFromOBJInternal(modelname, smoothing);
+	LoadFromOBJInternal(modelname, smoothing);
 
 	//データを元にバッファ生成
-	model->CreateBuffers();
+	CreateBuffers();
 
-	return model;
+	//return model;
 }
 
 void Model::AddSmoothData(unsigned short indexPosition, unsigned short indexVertex)

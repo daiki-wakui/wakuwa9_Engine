@@ -3,39 +3,34 @@
 void GameCore::Initialize()
 {
 	//windowsAPI初期化
-	winApp->Initalize();
-	windows_.reset(winApp);
+	windows_->Initalize();
 
 	//DirectX初期化
-	dxBasis->Initialize(winApp);
-	DirectX_.reset(dxBasis);
+	directX_->Initialize(windows_.get());
 
 	//keyborad初期化
-	input_->Initialize(winApp->GetHInstancee(), winApp->GetHwnd());
-	keyboard_.reset(input_);
+	keyboard_->Initialize(windows_->GetHInstancee(), windows_->GetHwnd());
 
-	imguiM->Initialize(winApp, dxBasis);
-	ImGuiM_.reset(imguiM);
+	imGuiM_->Initialize(windows_.get(), directX_.get());
 
-	spBasis->Initialize(dxBasis);
+	spBasis_->Initialize(directX_.get());
 
-	tex1 = spBasis->TextureData(L"Resources/001.png");
-	tex2 = spBasis->TextureData(L"Resources/test.png");
-	tex3 = spBasis->TextureData(L"Resources/title.png");
+	tex1_ = spBasis_->TextureData(L"Resources/001.png");
+	tex2_ = spBasis_->TextureData(L"Resources/test.png");
+	tex3_ = spBasis_->TextureData(L"Resources/title.png");
 
-	spBasis->TextureSetting();
-	SpBasis.reset(spBasis);
+	spBasis_->TextureSetting();
 
-	sprite->Initialize(spBasis, winApp);
-	sprite->Create(50, 50);
+	sprite_->Initialize(spBasis_.get(), windows_.get());
+	sprite_->Create(50, 50);
 
-	postEffect_->Initialize(spBasis, winApp);
+	postEffect_->Initialize(spBasis_.get(), windows_.get());
 	postEffect_->Create(0, 0);
 
-	Object3D::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
+	Object3D::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
 
 	//Fbx初期化
-	FbxLoader::GetInstance()->Initialize(dxBasis->GetDevice());
+	FbxLoader::GetInstance()->Initialize(directX_->GetDevice());
 
 	XMFLOAT3 eye = Object3D::GetEye();
 	XMFLOAT3 target = Object3D::GetTarget();
@@ -43,132 +38,129 @@ void GameCore::Initialize()
 
 	FbxObject3d::SetCamera(eye, target, up);
 
-	FbxObject3d::StaticInitialize(dxBasis->GetDevice(), winApp->GetWindowWidth(), winApp->GetWindowHeight());
+	FbxObject3d::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
 
 	//DirectionalLight::StaticInitalize(dxBasis->GetDevice());
 
 	//OBJからモデルを読み込む
-	floorModel = Model::LoadFromObj("floor");
-	skydomModel = Model::LoadFromObj("world");
-	playerModel = Model::LoadFromObj("player");
+	playerModel_ = std::make_unique<Model>();
+	playerModel_->LoadFromObj("player");
+
+	floorModel_ = std::make_unique<Model>();
+	floorModel_->LoadFromObj("floor");
+
+	skydomModel_ = std::make_unique<Model>();
+	skydomModel_->LoadFromObj("world");
 
 	//3Dオブジェクト生成
-	playerObject = Object3D::Create(2.0f);
-	skyObject = Object3D::Create(100.0f);
-	objectFloor = Object3D::Create(5.0f);
+	playerObject_ = std::make_unique<Object3D>();
+	//playerObject->SetModel(playerModel2);
+	playerObject_->SetModel(playerModel_.get());
+	playerObject_->Initialize();
+	playerObject_->SetScale(XMFLOAT3({ 2,2,2 }));
+	playerObject_->SetPosition(XMFLOAT3({ 0,0,0 }));
 
-	//3Dオブジェクトに3Dモデルを紐づけ
-	playerObject->SetModel(playerModel);
-	skyObject->SetModel(skydomModel);
-	objectFloor->SetModel(floorModel);
+	skyObject_ = std::make_unique<Object3D>();
+	skyObject_->SetModel(skydomModel_.get());
+	skyObject_->Initialize();
+	skyObject_->SetScale(XMFLOAT3({ 100,100,100 }));
 
-	playerObject->SetPosition(XMFLOAT3({ 0,0,0 }));
-	objectFloor->SetPosition({ 0,-10,0 });
+	objectFloor_ = std::make_unique<Object3D>();
+	objectFloor_->SetModel(floorModel_.get());
+	objectFloor_->Initialize();
+	objectFloor_->SetScale(XMFLOAT3({ 5,5,5 }));
+	objectFloor_->SetPosition({ 0,-10,0 });
 
 	//FBXファイル読み込み
-	cubeModel = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	//cubeModel = FbxLoader::GetInstance()->LoadModelFromFile("cube");
 
-	objcube = new FbxObject3d;
+	/*objcube = new FbxObject3d;
 	objcube->Initialize();
-	objcube->SetModel(cubeModel);
+	objcube->SetModel(cubeModel);*/
 
-	testModel = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+	testModel_ = std::make_unique<FbxModel>();
+	FbxLoader::GetInstance()->LoadModelFromFile(testModel_.get(), "boneTest");
 
-	testObj = new FbxObject3d;
+	testObj_ = std::make_unique<FbxObject3d>();
+	testObj_->Initialize();
+	testObj_->SetModel(testModel_.get());
 	
-	testObj->Initialize();
-	testObj->SetModel(testModel);
-	
-	testObj->PlayAnimation();
+	testObj_->PlayAnimation();
 
-	LightGroup::StaticInitialize(dxBasis->GetDevice());
+	LightGroup::StaticInitialize(directX_->GetDevice());
 
 	//ライト生成
-	lightGroup = LightGroup::Create();
+	lightGroup->Initialize();
 	//3Dオブジェクトにライトをセット
-	Object3D::SetLightGroup(lightGroup);
+	Object3D::SetLightGroup(lightGroup.get());
 
 	//オーディオ初期化
-	sound = new Sound();
-	sound->Initialize();
+	sound_->Initialize();
 
-	sound->LoadWave("PerituneMaterial.wav");
-	sound->LoadWave("Alarm01.wav");
+	sound_->LoadWave("PerituneMaterial.wav");
+	sound_->LoadWave("Alarm01.wav");
 }
 
 void GameCore::Finalize()
 {
-	imguiM->Finalize();
+	imGuiM_->Finalize();
 	
-	sound->Finalize();
-	delete sound;
-	delete lightGroup;
+	sound_->Finalize();
 
-	delete playerModel;
-	delete playerObject;
-	delete floorModel;
-	delete objectFloor;
-	delete skydomModel;
-	delete skyObject;
-
-	delete cubeModel;
-	delete objcube;
-
-	delete testModel;
-	delete testObj;
-
-	delete postEffect_;
+	testModel_->fbxScene_->Destroy();
 
 	FbxLoader::GetInstance()->Finalize();
 
-	winApp->Release();
+	windows_->Release();
 }
 
 void GameCore::Update()
 {
 	//keyborad更新処理
-	input_->Update();
+	keyboard_->Update();
 
 	lightGroup->Update();
 
-	sprite->Update();
+	sprite_->Update();
 
-	playerObject->Update();
-	skyObject->Update();
-	objectFloor->Update();
+	playerObject_->Update();
+	skyObject_->Update();
+	objectFloor_->Update();
 
-	objcube->Update();
-	testObj->Update();
+	//objcube->Update();
+	testObj_->Update();
 
-	imguiM->Begin();
+	//sound_->PlayWave("Alarm01.wav");
 
-	imguiM->End();
+	imGuiM_->Begin();
+
+	imGuiM_->End();
 }
 
 void GameCore::Draw()
 {
 	// 描画前処理
-	dxBasis->PreDraw();
+	directX_->PreDraw();
 
-	Object3D::PreDraw(dxBasis->GetCommandList());
-	FbxObject3d::PreSet(dxBasis->GetCommandList());
+	Object3D::PreDraw(directX_->GetCommandList());
+	FbxObject3d::PreSet(directX_->GetCommandList());
 
 	//obj
-	//playerObject->Draw();
-	skyObject->Draw();
-	objectFloor->Draw();
+	playerObject_->Draw();
+	skyObject_->Draw();
+	objectFloor_->Draw();
 
 	//fbx
 	//objcube->Draw();
-	testObj->Draw();
+	testObj_->Draw();
 
 	Object3D::PostDraw();
 
-	sprite->Draw(tex1);
+	sprite_->Draw(tex1_);
 
 	//ポストエフェクトの描画
 	//postEffect_->Draw(tex2);
 
 	//描画後処理
-	dxBasis->PostDraw();
+	directX_->PostDraw();
 }

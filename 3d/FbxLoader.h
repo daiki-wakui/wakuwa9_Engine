@@ -17,7 +17,7 @@ private:	//エイリアス
 public:	//定数
 
 	//モデル格納ルートパス
-	static const string baseDirectory;
+	static const string sBaseDirectory;
 
 public:
 	/// <summary>
@@ -35,7 +35,7 @@ public:
 	//ファイルからFBXモデル読み込み
 	//void LoadModelFromFile(const string& modelName);
 
-	FbxModel* LoadModelFromFile(const string& modelName);
+	void LoadModelFromFile(FbxModel* model, const string& modelName);
 
 	//再帰的にノード構成を解析
 	void ParseNodeRecursive(FbxModel* model, FbxNode* fbxNode, Node* parent = nullptr);
@@ -63,15 +63,10 @@ public:
 	std::string ExtractFileName(const std::string& path);
 
 private:
-	// privateなコンストラクタ（シングルトンパターン）
+	// privateなコンストラクタ
 	FbxLoader() = default;
-	// privateなデストラクタ（シングルトンパターン）
+	// privateなデストラクタ
 	~FbxLoader() = default;
-	// コピーコンストラクタを禁止（シングルトンパターン）
-	FbxLoader(const FbxLoader& obj) = delete;
-	// コピー代入演算子を禁止（シングルトンパターン）
-	void operator=(const FbxLoader& obj) = delete;
-
 
 	//D3D12デバイス
 	ID3D12Device* device_ = nullptr;

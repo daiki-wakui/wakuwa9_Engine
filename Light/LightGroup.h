@@ -58,7 +58,7 @@ public: // 静的メンバ関数
 
 	
 	//インスタンス生成
-	static LightGroup* Create();
+	void Create();
 
 private: //静的メンバ変数
 

@@ -93,37 +93,37 @@ public:
 	friend class FbxLoder;
 
 	//モデル名
-	std::string name;
+	std::string name_;
 
 	//ノード配列
-	std::vector<Node> nodes;
+	std::vector<Node> nodes_;
 
 	//メッシュを持つノード
 	Node* meshNode = nullptr;
 
 	//頂点データ配列
-	std::vector<VertexPosNormalUvSkin> vertices;
+	std::vector<VertexPosNormalUvSkin> vertices_;
 
 	//頂点インデックス配列
-	std::vector<unsigned short> indices;
+	std::vector<unsigned short> indices_;
 
 	//アンビエント係数
-	DirectX::XMFLOAT3 ambient = { 1,1,1 };
+	DirectX::XMFLOAT3 ambient_ = { 1,1,1 };
 
 	//ディディフューズ係数
-	DirectX::XMFLOAT3 diffuse = { 1,1,1 };
+	DirectX::XMFLOAT3 diffuse_ = { 1,1,1 };
 
 	//テクスチャメタデータ
-	DirectX::TexMetadata metadata = {};
+	DirectX::TexMetadata metadata_ = {};
 
 	//スクラッチイメージ
-	DirectX::ScratchImage scratchImg = {};
+	DirectX::ScratchImage scratchImg_ = {};
 
 	//ボーン配列
-	std::vector<Bone> bones;
+	std::vector<Bone> bones_;
 
 	//FBXシーン
-	FbxScene* fbxScene = nullptr;
+	FbxScene* fbxScene_ = nullptr;
 
 	
 private: //メンバ変数
@@ -145,10 +145,10 @@ private: //メンバ変数
 public: //メンバ関数
 
 	//getter
-	std::vector<Bone>& GetBones() { return bones; }
+	std::vector<Bone>& GetBones() { return bones_; }
 
 	//getter
-	FbxScene* GetFbxScene() { return fbxScene; }
+	FbxScene* GetFbxScene() { return fbxScene_; }
 
 	//デストラクタ
 	~FbxModel();

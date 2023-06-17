@@ -3,7 +3,7 @@
 FbxModel::~FbxModel()
 {
 	//FBXシーンの解放
-	fbxScene->Destroy();
+	//fbxScene->Destroy();
 }
 
 void FbxModel::CreateBuffers(ID3D12Device* device)
@@ -13,7 +13,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 
 
 	//頂点データ全体のサイズ
-	size_t sizeVB = static_cast<size_t>(sizeof(VertexPosNormalUvSkin))* vertices.size();
+	size_t sizeVB = static_cast<size_t>(sizeof(VertexPosNormalUvSkin))* vertices_.size();
 
 	// ヒーププロパティ
 	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
@@ -33,17 +33,17 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	VertexPosNormalUvSkin* vertMap = nullptr;
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result)) {
-		std::copy(vertices.begin(), vertices.end(), vertMap);
+		std::copy(vertices_.begin(), vertices_.end(), vertMap);
 		vertBuff_->Unmap(0, nullptr);
 	}
 
 	//頂点バッファビュー(VBV)の生成
 	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
 	vbView_.SizeInBytes = (UINT)sizeVB;
-	vbView_.StrideInBytes = sizeof(vertices[0]);
+	vbView_.StrideInBytes = sizeof(vertices_[0]);
 
 	//頂点インデックス全体のサイズ
-	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices.size());
+	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices_.size());
 
 	// リソース設定
 	resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeIB);
@@ -61,7 +61,7 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	unsigned short* indexMap = nullptr;
 	result = indexBuff_->Map(0, nullptr, (void**)&indexMap);
 	if (SUCCEEDED(result)) {
-		std::copy(indices.begin(), indices.end(), indexMap);
+		std::copy(indices_.begin(), indices_.end(), indexMap);
 		indexBuff_->Unmap(0, nullptr);
 	}
 
@@ -71,16 +71,16 @@ void FbxModel::CreateBuffers(ID3D12Device* device)
 	ibView_.SizeInBytes = sizeIB;
 
 	//テクスチャ画像データ
-	const DirectX::Image* img = scratchImg.GetImage(0, 0, 0);
+	const DirectX::Image* img = scratchImg_.GetImage(0, 0, 0);
 	assert(img);
 
 	//リソース設定
 	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
-		metadata.format,
-		metadata.width,
-		(UINT)metadata.height,
-		(UINT16)metadata.arraySize,
-		(UINT16)metadata.mipLevels);
+		metadata_.format,
+		metadata_.width,
+		(UINT)metadata_.height,
+		(UINT16)metadata_.arraySize,
+		(UINT16)metadata_.mipLevels);
 
 	// ヒーププロパティ
 	heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0);
@@ -137,5 +137,5 @@ void FbxModel::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootDescriptorTable(1,
 		descHeapSRV_->GetGPUDescriptorHandleForHeapStart());
 
-	cmdList->DrawIndexedInstanced((UINT)indices.size(), 1, 0, 0, 0);
+	cmdList->DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }

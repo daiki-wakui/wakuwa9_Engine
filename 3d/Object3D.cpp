@@ -73,23 +73,7 @@ void Object3D::PostDraw()
 
 Object3D* Object3D::Create(float scale)
 {
-	// 3Dオブジェクトのインスタンスを生成
-	Object3D* object3d = new Object3D();
-	if (object3d == nullptr) {
-		return nullptr;
-	}
-
-	// 初期化
-	if (!object3d->Initialize()) {
-		delete object3d;
-		assert(0);
-		return nullptr;
-	}
-
-	float scale_val = scale;
-	object3d->scale_ = { scale_val,scale_val,scale_val };
-
-	return object3d;
+	return nullptr;
 }
 
 void Object3D::SetEye(XMFLOAT3& eye)

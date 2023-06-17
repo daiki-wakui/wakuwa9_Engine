@@ -19,33 +19,33 @@ public:
 	//チャンクヘッダ
 	struct ChunkHeader
 	{
-		char id[4];	//チャンクごとのid
-		int32_t size;	//チャンクサイズ
+		char id_[4];	//チャンクごとのid
+		int32_t size_;	//チャンクサイズ
 	};
 
 	//RIFFヘッダチャンク
 	struct RiffHeader
 	{
-		ChunkHeader chunk;	//RIFF
-		char type[4];	//WAVE
+		ChunkHeader chunk_;	//RIFF
+		char type_[4];	//WAVE
 	};
 
 	//FMTチャンク
 	struct FormatChunk
 	{
-		ChunkHeader chunk;	//fmt
-		WAVEFORMATEX fmt;	//波形フォーマット
+		ChunkHeader chunk_;	//fmt
+		WAVEFORMATEX fmt_;	//波形フォーマット
 	};
 
 	//音声データ
 	struct SoundData
 	{
 		//波形フォーマット
-		WAVEFORMATEX wfex;
+		WAVEFORMATEX wfex_;
 		//バッファの先頭アドレス
-		BYTE* pBuffer;
+		BYTE* pBuffer_;
 		//バッファのサイズ
-		uint32_t bufferSize;
+		uint32_t bufferSize_;
 
 		IXAudio2SourceVoice* pSoundVoice_;
 	};

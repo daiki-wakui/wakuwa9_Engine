@@ -29,7 +29,7 @@ void Sound::Finalize()
 	std::map<std::string, SoundData>::iterator it = soundDatas_.begin();
 
 
-
+	//バッファのメモリを解放
 	for (; it != soundDatas_.end(); ++it) {
 		Unload(&it->second);
 	}
@@ -63,11 +63,11 @@ void Sound::LoadWave(const std::string& filename)
 	file.read((char*)&riff, sizeof(riff));
 
 	//ファイルがRIFFかチェック
-	if (strncmp(riff.chunk.id, "RIFF", 4) != 0) {
+	if (strncmp(riff.chunk_.id_, "RIFF", 4) != 0) {
 		assert(0);
 	}
 	//タイプがWAVEかチェック
-	if (strncmp(riff.type, "WAVE", 4) != 0) {
+	if (strncmp(riff.type_, "WAVE", 4) != 0) {
 		assert(0);
 	}
 
@@ -79,28 +79,28 @@ void Sound::LoadWave(const std::string& filename)
 		assert(0);
 	}*/
 	//チャンク本体の読み込み
-	assert(format.chunk.size <= sizeof(format.fmt));
-	file.read((char*)&format.fmt, format.chunk.size);
+	assert(format.chunk_.size_ <= sizeof(format.fmt_));
+	file.read((char*)&format.fmt_, format.chunk_.size_);
 
 	//Dataチャンクの読み込み
 	ChunkHeader data;
 	file.read((char*)&data, sizeof(data));
 
 	//JUNKチャンクを検出した場合
-	if (strncmp(data.id, "JUNK", 4) == 0) {
+	if (strncmp(data.id_, "JUNK", 4) == 0) {
 		//読み込み位置をJUNKチャンクの終わりまで進める
-		file.seekg(data.size, std::ios_base::cur);
+		file.seekg(data.size_, std::ios_base::cur);
 		//再読み込み
 		file.read((char*)&data, sizeof(data));
 	}
 
-	if (strncmp(data.id, "data", 4) != 0) {
+	if (strncmp(data.id_, "data", 4) != 0) {
 		assert(0);
 	}
 
 	//Dataチャンクのデータ部(波形データ)の読み込み
-	char* pBuffer = new char[data.size];
-	file.read(pBuffer, data.size);
+	char* pBuffer = new char[data.size_];
+	file.read(pBuffer, data.size_);
 
 	//ファイルクローズ
 	file.close();
@@ -108,21 +108,18 @@ void Sound::LoadWave(const std::string& filename)
 	//読み込んだ音声データをretrun
 	SoundData soundData = {};
 
-	soundData.wfex = format.fmt;
-	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
-	soundData.bufferSize = data.size;
+	soundData.wfex_ = format.fmt_;
+	soundData.pBuffer_ = reinterpret_cast<BYTE*>(pBuffer);
+	soundData.bufferSize_ = data.size_;
 
 	soundDatas_.insert(std::make_pair(filename, soundData));
 }
 
 void Sound::Unload(SoundData* soundData)
 {
-	//バッファのメモリを解放
-	delete[] soundData->pBuffer;
-
-	soundData->pBuffer = 0;
-	soundData->bufferSize = 0;
-	soundData->wfex = {};
+	soundData->pBuffer_ = 0;
+	soundData->bufferSize_ = 0;
+	soundData->wfex_ = {};
 }
 
 void Sound::PlayWave(const std::string& filename)
@@ -136,13 +133,13 @@ void Sound::PlayWave(const std::string& filename)
 
 	//波形フォーマットを元にSourceVoiceの生成
 	IXAudio2SourceVoice* pSoundVoice = nullptr;
-	result = xAudio2_->CreateSourceVoice(&pSoundVoice, &soundData.wfex);
+	result = xAudio2_->CreateSourceVoice(&pSoundVoice, &soundData.wfex_);
 	assert(SUCCEEDED(result));
 
 	//再生する波形データの設定
 	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = soundData.pBuffer;
-	buf.AudioBytes = soundData.bufferSize;
+	buf.pAudioData = soundData.pBuffer_;
+	buf.AudioBytes = soundData.bufferSize_;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
 
 	soundData.pSoundVoice_ = pSoundVoice;

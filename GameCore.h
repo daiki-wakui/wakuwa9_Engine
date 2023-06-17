@@ -32,49 +32,50 @@ class GameCore
 private:
 
 	//windowsAPIの生成クラス
-	std::unique_ptr<WindowsApp> windows_;
+	std::unique_ptr<WindowsApp> windows_ = std::make_unique<WindowsApp>();
+
 	//keyboradクラスの生成
-	std::unique_ptr<KeyBoard> keyboard_;
+	std::unique_ptr<KeyBoard> keyboard_ = std::make_unique<KeyBoard>();
+
 	//DirectXの基盤生成クラス
-	std::unique_ptr<DirectXBasis> DirectX_;
-	
-	std::unique_ptr<ImGuiManager> ImGuiM_;
+	std::unique_ptr<DirectXBasis> directX_ = std::make_unique<DirectXBasis>();
 
-	WindowsApp* winApp = new WindowsApp();
-	KeyBoard* input_ = new KeyBoard();
-	DirectXBasis* dxBasis = new DirectXBasis();
-	ImGuiManager* imguiM = new ImGuiManager;
+	//imgui
+	std::unique_ptr<ImGuiManager> imGuiM_ = std::make_unique<ImGuiManager>();
 
-	std::unique_ptr<SpriteBasis> SpBasis;
-	SpriteBasis* spBasis = new SpriteBasis();
-
-	Sound* sound = nullptr;
-
-	LightGroup* lightGroup = nullptr;
+	//ライトグループ
+	std::unique_ptr<LightGroup> lightGroup = std::make_unique<LightGroup>();
 
 	//OBJからモデルを読み込む
-	Model* floorModel;
-	Model* skydomModel;
-	Model* playerModel;
+	std::unique_ptr<Model> floorModel_;
+	std::unique_ptr<Model> skydomModel_;
 
-	Object3D* playerObject;
-	Object3D* skyObject;
-	Object3D* objectFloor;
+	std::unique_ptr<Object3D> skyObject_;
+	std::unique_ptr<Object3D> objectFloor_;
 
-	FbxModel* cubeModel = nullptr;
-	FbxObject3d* objcube = nullptr;
+	std::unique_ptr<Model> playerModel_;
+	std::unique_ptr<Object3D> playerObject_;
 
-	FbxModel* testModel = nullptr;
-	FbxObject3d* testObj = nullptr;
+	//FBX
+	std::unique_ptr<FbxModel> testModel_;
+	std::unique_ptr<FbxObject3d> testObj_;
 
+	//スプライト基盤
+	std::unique_ptr<SpriteBasis> spBasis_ = std::make_unique<SpriteBasis>();
 
-	Sprite* sprite = new Sprite();
+	//スプライト
+	std::unique_ptr<Sprite> sprite_ = std::make_unique<Sprite>();
 
-	int32_t tex1 = 0;
-	int32_t tex2 = 0;
-	int32_t tex3 = 0;
+	//画像
+	int32_t tex1_ = 0;
+	int32_t tex2_ = 0;
+	int32_t tex3_ = 0;
 
-	PostEffect* postEffect_ = new PostEffect();
+	//ポストエフェクト
+	std::unique_ptr<PostEffect> postEffect_ = std::make_unique<PostEffect>();
+	
+	//サウンド
+	std::unique_ptr<Sound> sound_ = std::make_unique<Sound>();
 
 public:
 
@@ -88,9 +89,9 @@ public:
 
 	void Draw();
 
-	WindowsApp* GetWindows() { return winApp; }
-	DirectXBasis* GetDirectX() { return dxBasis; }
-	ImGuiManager* GetImGui() { return imguiM; }
-	KeyBoard* GetInput() { return input_; }
+	WindowsApp* GetWindows() { return windows_.get(); }
+	DirectXBasis* GetDirectX() { return directX_.get(); }
+	ImGuiManager* GetImGui() { return imGuiM_.get(); }
+	KeyBoard* GetInput() { return keyboard_.get(); }
 };
 

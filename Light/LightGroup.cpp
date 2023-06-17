@@ -17,15 +17,15 @@ void LightGroup::StaticInitialize(ID3D12Device* device)
 	LightGroup::sDevice = device;
 }
 
-LightGroup* LightGroup::Create()
+void LightGroup::Create()
 {
 	//3Dオブジェクトのインスタンスを生成
-	LightGroup* instance = new LightGroup();
+	//LightGroup* instance = std::make_unique<LightGroup>();
 
 	//初期化
-	instance->Initialize();
+	//instance->Initialize();
 
-	return instance;
+	//return instance;
 }
 
 void LightGroup::Initialize()
