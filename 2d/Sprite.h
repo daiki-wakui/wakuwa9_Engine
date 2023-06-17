@@ -86,7 +86,7 @@ public:
 	void SetPosition(const XMFLOAT2& position) { position_ = position; };
 
 	const float GetRotation() const { return rotation_; };
-	void SetRotation(float rotation) { rotation_ = rotation; };
+	void SetRotation(const float rotation) { rotation_ = rotation; };
 
 	const XMFLOAT2& GetSize() const { return size_; };
 	void SetSize(const XMFLOAT2& size) { size_ = size; };

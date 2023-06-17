@@ -53,7 +53,7 @@ public:
 	int32_t TextureData(const wchar_t* name);
 
 	
-	UINT GetincrementSize() { return incrementSize_; };
+	UINT GetincrementSize() const { return incrementSize_; };
 
 	void LoadShader();
 
