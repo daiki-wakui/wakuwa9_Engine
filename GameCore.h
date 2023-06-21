@@ -71,6 +71,8 @@ private:
 	int32_t tex2_ = 0;
 	int32_t tex3_ = 0;
 
+	int32_t postTex = 100;
+
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_ = std::make_unique<PostEffect>();
 	

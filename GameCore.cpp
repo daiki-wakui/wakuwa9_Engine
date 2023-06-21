@@ -15,17 +15,24 @@ void GameCore::Initialize()
 
 	spBasis_->Initialize(directX_.get());
 
+	postTex = spBasis_->TextureData(L"Resources/white1x1.png");
+
 	tex1_ = spBasis_->TextureData(L"Resources/001.png");
 	tex2_ = spBasis_->TextureData(L"Resources/test.png");
 	tex3_ = spBasis_->TextureData(L"Resources/title.png");
+
+
 
 	spBasis_->TextureSetting();
 
 	sprite_->Initialize(spBasis_.get(), windows_.get());
 	sprite_->Create(50, 50);
 
-	postEffect_->Initialize(spBasis_.get(), windows_.get());
+	postEffect_->SetDirectX(spBasis_.get(), windows_.get());
+	postEffect_->Initialize();
 	postEffect_->Create(0, 0);
+	postEffect_->SetSize({ 500, 500 });
+	postEffect_->Update();
 
 	Object3D::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
 
@@ -142,24 +149,24 @@ void GameCore::Draw()
 	// 描画前処理
 	directX_->PreDraw();
 
-	Object3D::PreDraw(directX_->GetCommandList());
-	FbxObject3d::PreSet(directX_->GetCommandList());
+	//Object3D::PreDraw(directX_->GetCommandList());
+	//FbxObject3d::PreSet(directX_->GetCommandList());
 
-	//obj
-	playerObject_->Draw();
-	skyObject_->Draw();
-	objectFloor_->Draw();
+	////obj
+	//playerObject_->Draw();
+	//skyObject_->Draw();
+	//objectFloor_->Draw();
 
-	//fbx
-	//objcube->Draw();
-	testObj_->Draw();
+	////fbx
+	////objcube->Draw();
+	//testObj_->Draw();
 
-	Object3D::PostDraw();
+	//Object3D::PostDraw();
 
-	sprite_->Draw(tex1_);
+	//sprite_->Draw(tex1_);
 
 	//ポストエフェクトの描画
-	//postEffect_->Draw(tex2);
+	postEffect_->Draw(postTex);
 
 	//描画後処理
 	directX_->PostDraw();
