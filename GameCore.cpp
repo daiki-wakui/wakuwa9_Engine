@@ -21,16 +21,21 @@ void GameCore::Initialize()
 	tex2_ = spBasis_->TextureData(L"Resources/test.png");
 	tex3_ = spBasis_->TextureData(L"Resources/title.png");
 
-
+	backTex_ = spBasis_->TextureData(L"Resources/backTitle.png");
 
 	spBasis_->TextureSetting();
 
 	sprite_->Initialize(spBasis_.get(), windows_.get());
 	sprite_->Create(50, 50);
 
+	backSprite_->Initialize(spBasis_.get(), windows_.get());
+	backSprite_->Create(640, 360);
+	backSprite_->SetSize({ 1280,720 });
+	backSprite_->Update();
+
 	postEffect_->SetDirectX(spBasis_.get(), windows_.get());
 	postEffect_->Initialize();
-	postEffect_->Create(0, 0);
+	postEffect_->Create(250, 250);
 	postEffect_->SetSize({ 500, 500 });
 	postEffect_->Update();
 
@@ -65,7 +70,7 @@ void GameCore::Initialize()
 	playerObject_->SetModel(playerModel_.get());
 	playerObject_->Initialize();
 	playerObject_->SetScale(XMFLOAT3({ 2,2,2 }));
-	playerObject_->SetPosition(XMFLOAT3({ 0,0,0 }));
+	playerObject_->SetPosition(XMFLOAT3({ 20,0,5 }));
 
 	skyObject_ = std::make_unique<Object3D>();
 	skyObject_->SetModel(skydomModel_.get());
@@ -146,27 +151,36 @@ void GameCore::Update()
 
 void GameCore::Draw()
 {
-	// 描画前処理
-	directX_->PreDraw();
+	postEffect_->PreDrawScene(directX_->GetCommandList());
 
-	//Object3D::PreDraw(directX_->GetCommandList());
-	//FbxObject3d::PreSet(directX_->GetCommandList());
+	backSprite_->Draw(backTex_);
 
-	////obj
-	//playerObject_->Draw();
-	//skyObject_->Draw();
-	//objectFloor_->Draw();
+	Object3D::PreDraw(directX_->GetCommandList());
+	FbxObject3d::PreSet(directX_->GetCommandList());
 
-	////fbx
-	////objcube->Draw();
-	//testObj_->Draw();
+	//obj
+	playerObject_->Draw();
+	skyObject_->Draw();
+	objectFloor_->Draw();
 
-	//Object3D::PostDraw();
+	//fbx
+	//objcube->Draw();
+	testObj_->Draw();
+
+	Object3D::PostDraw();
 
 	//sprite_->Draw(tex1_);
 
+	postEffect_->PostDrawScene(directX_->GetCommandList());
+
+
+	// 描画前処理
+	directX_->PreDraw();
+
 	//ポストエフェクトの描画
 	postEffect_->Draw(postTex);
+
+	sprite_->Draw(tex1_);
 
 	//描画後処理
 	directX_->PostDraw();

@@ -66,11 +66,15 @@ private:
 	//スプライト
 	std::unique_ptr<Sprite> sprite_ = std::make_unique<Sprite>();
 
+	std::unique_ptr<Sprite> backSprite_ = std::make_unique<Sprite>();
+
+
 	//画像
 	int32_t tex1_ = 0;
 	int32_t tex2_ = 0;
 	int32_t tex3_ = 0;
 
+	int32_t backTex_ = 0;
 	int32_t postTex = 100;
 
 	//ポストエフェクト
