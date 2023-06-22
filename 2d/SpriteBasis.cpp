@@ -197,6 +197,7 @@ void SpriteBasis::Setting() {
 		IID_PPV_ARGS(&rootSignature_));
 	assert(SUCCEEDED(result_));
 	rootSigBlob->Release();
+
 	// パイプラインにルートシグネチャをセット
 	pipelineDesc.pRootSignature = rootSignature_.Get();
 

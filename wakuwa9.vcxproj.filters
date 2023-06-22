@@ -199,11 +199,17 @@
     <FxCompile Include="Resources\shaders\SpritePS.hlsl">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </FxCompile>
-    <FxCompile Include="Resources\shaders\FBXVS.hlsl">
-      <Filter>リソース ファイル</Filter>
+    <FxCompile Include="Resources\shaders\PostEffectVS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffectPS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\FBXVS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -216,8 +222,11 @@
     <None Include="Resources\shaders\Sprite.hlsli">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </None>
+    <None Include="Resources\shaders\PostEffect.hlsli">
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
+    </None>
     <None Include="Resources\shaders\FBX.hlsli">
-      <Filter>リソース ファイル</Filter>
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
     </None>
   </ItemGroup>
 </Project>

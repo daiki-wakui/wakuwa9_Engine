@@ -35,9 +35,6 @@ void GameCore::Initialize()
 
 	postEffect_->SetDirectX(spBasis_.get(), windows_.get());
 	postEffect_->Initialize();
-	postEffect_->Create(250, 250);
-	postEffect_->SetSize({ 500, 500 });
-	postEffect_->Update();
 
 	Object3D::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
 
@@ -153,14 +150,14 @@ void GameCore::Draw()
 {
 	postEffect_->PreDrawScene(directX_->GetCommandList());
 
-	backSprite_->Draw(backTex_);
+	//backSprite_->Draw(backTex_);
 
 	Object3D::PreDraw(directX_->GetCommandList());
 	FbxObject3d::PreSet(directX_->GetCommandList());
 
 	//obj
 	playerObject_->Draw();
-	skyObject_->Draw();
+	//skyObject_->Draw();
 	objectFloor_->Draw();
 
 	//fbx
@@ -178,9 +175,9 @@ void GameCore::Draw()
 	directX_->PreDraw();
 
 	//ポストエフェクトの描画
-	postEffect_->Draw(postTex);
+	postEffect_->Draw();
 
-	sprite_->Draw(tex1_);
+	//sprite_->Draw(tex1_);
 
 	//描画後処理
 	directX_->PostDraw();

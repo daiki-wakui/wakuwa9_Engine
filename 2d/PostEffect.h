@@ -23,6 +23,18 @@ private:
 
 	D3D12_RESOURCE_BARRIER barrierDesc_{};
 
+	//定数バッファの生成
+	//color
+	ComPtr<ID3D12Resource> constBuffMaterial_ = nullptr;
+	//mat
+	ComPtr<ID3D12Resource> constBuffTransform_ = nullptr;
+
+	//グラフィックスパイプライン
+	ComPtr<ID3D12PipelineState> pipelineState;
+
+	//ルートシグネクチャ
+	ComPtr<ID3D12RootSignature> rootSignature;
+
 	//借りてくる
 	SpriteBasis* spBasis_ = nullptr;
 	WindowsApp* winApp_ = nullptr;
@@ -34,13 +46,21 @@ public:
 
 	void Initialize();
 
+	void VertexData();
+
+	void IndexData();
+
+	void Crate();
+
 	void SetDirectX(SpriteBasis* spBasis, WindowsApp* winApp);
+
+	void CreateGraphicsPipelineState();
 
 	//コンストラクタ
 	PostEffect();
 
 	//描画
-	void Draw(int32_t texNum);
+	void Draw();
 
 
 	//シーン描画前処理
