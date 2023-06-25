@@ -33,7 +33,7 @@ void GameCore::Initialize()
 	backSprite_->SetSize({ 1280,720 });
 	backSprite_->Update();
 
-	postEffect_->SetDirectX(spBasis_.get(), windows_.get());
+	postEffect_->SetDirectX(spBasis_.get(), windows_.get(),keyboard_.get());
 	postEffect_->Initialize();
 
 	Object3D::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());

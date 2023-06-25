@@ -1,12 +1,13 @@
 #pragma once
 #include "Sprite.h"
 #include <cstdint>
+#include "KeyBoard.h"
 
 class PostEffect :  public Sprite
 {
 private:
 
-	ComPtr<ID3D12Resource> texBuff_;
+	ComPtr<ID3D12Resource> texBuff_[2] = {};
 
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
 
@@ -38,7 +39,7 @@ private:
 	//ŽØ‚è‚Ä‚­‚é
 	SpriteBasis* spBasis_ = nullptr;
 	WindowsApp* winApp_ = nullptr;
-
+	KeyBoard* key_ = nullptr;
 
 	static const float sCLEAR_COLOR[4];
 
@@ -52,7 +53,7 @@ public:
 
 	void Crate();
 
-	void SetDirectX(SpriteBasis* spBasis, WindowsApp* winApp);
+	void SetDirectX(SpriteBasis* spBasis, WindowsApp* winApp, KeyBoard* key);
 
 	void CreateGraphicsPipelineState();
 
