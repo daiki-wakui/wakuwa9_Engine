@@ -156,9 +156,9 @@ void GameCore::Draw()
 	FbxObject3d::PreSet(directX_->GetCommandList());
 
 	//obj
-	playerObject_->Draw();
+	//playerObject_->Draw();
 	//skyObject_->Draw();
-	objectFloor_->Draw();
+	//objectFloor_->Draw();
 
 	//fbx
 	//objcube->Draw();

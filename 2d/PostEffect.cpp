@@ -84,7 +84,7 @@ void PostEffect::Initialize()
 	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};
 	srvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	srvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	srvDescHeapDesc.NumDescriptors = 1;
+	srvDescHeapDesc.NumDescriptors = 2;
 
 	//SRV用デスクリプタヒープ生成
 	result = spBasis_->GetDxBasis()->GetDevice()->CreateDescriptorHeap(
@@ -101,12 +101,21 @@ void PostEffect::Initialize()
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;	//2Dテクスチャ
 	srvDesc.Texture2D.MipLevels = 1;
 
-	//デスクリプタヒープにSRV作成
-	spBasis_->GetDxBasis()->GetDevice()->CreateShaderResourceView(
-		texBuff_[0].Get(),
-		&srvDesc,
-		descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
-	);
+	//
+
+	for (int32_t i = 0; i < 2; i++) {
+		//デスクリプタヒープにSRV作成
+		spBasis_->GetDxBasis()->GetDevice()->CreateShaderResourceView(
+			texBuff_[i].Get(),
+			&srvDesc,
+			CD3DX12_CPU_DESCRIPTOR_HANDLE(
+				descHeapSRV_->GetCPUDescriptorHandleForHeapStart(), i,
+				spBasis_->GetDxBasis()->GetDevice()->GetDescriptorHandleIncrementSize(
+					D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV))
+		);
+	}
+
+
 
 	//RTV用デスクリプタヒープ設定
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc{};
@@ -545,8 +554,18 @@ void PostEffect::CreateGraphicsPipelineState()
 	descriptorRange.BaseShaderRegister = 0;	//テクスチャレジスタ0番
 	descriptorRange.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
+	//デスクリプタレンジ2の設定
+	D3D12_DESCRIPTOR_RANGE descriptorRange2{};
+
+	//デスクリプタレンジ2の設定
+	descriptorRange2.NumDescriptors = 1;
+	descriptorRange2.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	descriptorRange2.BaseShaderRegister = 1;	//テクスチャレジスタ1番
+	descriptorRange2.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+
 	//ルートパラメータの設定
-	D3D12_ROOT_PARAMETER rootParams[3] = {};
+	D3D12_ROOT_PARAMETER rootParams[4] = {};
 	//定数バッファ0番
 	rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;	//定数バッファビュー
 	rootParams[0].Descriptor.ShaderRegister = 0;	//定数バッファ番号
@@ -562,7 +581,11 @@ void PostEffect::CreateGraphicsPipelineState()
 	rootParams[2].Descriptor.ShaderRegister = 1;	//定数バッファ番号
 	rootParams[2].Descriptor.RegisterSpace = 0;		//デフォルト値
 	rootParams[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;	//全てのシェーダーから見える
-
+	//テクスチャレジスタ1番
+	rootParams[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+	rootParams[3].DescriptorTable.pDescriptorRanges = &descriptorRange2;
+	rootParams[3].DescriptorTable.NumDescriptorRanges = 1;
+	rootParams[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
 	//テクスチャサンプラーの設定
 	D3D12_STATIC_SAMPLER_DESC samplerDesc{};
@@ -612,22 +635,22 @@ void PostEffect::CreateGraphicsPipelineState()
 void PostEffect::Draw()
 {
 
-	if (key_->keyInstantPush(DIK_0)) {
-		static int32_t tex = 0;
+	//if (key_->keyInstantPush(DIK_0)) {
+	//	static int32_t tex = 0;
 
-		tex = (tex + 1) % 2;
+	//	tex = (tex + 1) % 2;
 
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-		srvDesc.Texture2D.MipLevels = 1;
-		spBasis_->GetDxBasis()->GetDevice()->CreateShaderResourceView(
-			texBuff_[tex].Get(),
-			&srvDesc,
-			descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
-		);
-	}
+	//	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	//	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	//	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	//	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	//	srvDesc.Texture2D.MipLevels = 1;
+	//	spBasis_->GetDxBasis()->GetDevice()->CreateShaderResourceView(
+	//		texBuff_[tex].Get(),
+	//		&srvDesc,
+	//		descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
+	//	);
+	//}
 
 	// パイプラインステート設定
 	spBasis_->GetDxBasis()->GetCommandList()->SetPipelineState(pipelineState.Get());
@@ -650,7 +673,16 @@ void PostEffect::Draw()
 	srvGpuHandle_.ptr += spBasis_->GetincrementSize() * texNum;*/
 
 	//SRVヒープの先頭にあるSRVをルートパラメータ1番に設定
-	spBasis_->GetDxBasis()->GetCommandList()->SetGraphicsRootDescriptorTable(1, descHeapSRV_->GetGPUDescriptorHandleForHeapStart());
+	spBasis_->GetDxBasis()->GetCommandList()->SetGraphicsRootDescriptorTable(1,
+		CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(),0,
+			spBasis_->GetDxBasis()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV))
+		);
+
+	spBasis_->GetDxBasis()->GetCommandList()->SetGraphicsRootDescriptorTable(3,
+		CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV_->GetGPUDescriptorHandleForHeapStart(), 1,
+			spBasis_->GetDxBasis()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV))
+	);
+	
 
 	//定数バッファビュー(CBV)の設定コマンド
 	spBasis_->GetDxBasis()->GetCommandList()->SetGraphicsRootConstantBufferView(2, constBuffTransform_->GetGPUVirtualAddress());
