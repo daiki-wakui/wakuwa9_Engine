@@ -34,7 +34,10 @@ void GameCore::Initialize()
 	backSprite_->Update();
 
 	postEffect_->SetDirectX(spBasis_.get(), windows_.get(),keyboard_.get());
-	postEffect_->Initialize();
+	postEffect_->Initialize(0);
+
+	gaussianEffect_->SetDirectX(spBasis_.get(), windows_.get(), keyboard_.get());
+	gaussianEffect_->Initialize(1);
 
 	Object3D::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
 
@@ -141,6 +144,10 @@ void GameCore::Update()
 
 	//sound_->PlayWave("Alarm01.wav");
 
+	if (keyboard_->keyInstantPush(DIK_0)) {
+		state = (state + 1) % 2;
+	}
+
 	imGuiM_->Begin();
 
 	imGuiM_->End();
@@ -148,8 +155,13 @@ void GameCore::Update()
 
 void GameCore::Draw()
 {
-	postEffect_->PreDrawScene(directX_->GetCommandList());
-
+	if (state == 0) {
+		postEffect_->PreDrawScene(directX_->GetCommandList());
+	}
+	else {
+		gaussianEffect_->PreDrawScene(directX_->GetCommandList());
+	}
+	
 	//backSprite_->Draw(backTex_);
 
 	Object3D::PreDraw(directX_->GetCommandList());
@@ -168,14 +180,24 @@ void GameCore::Draw()
 
 	//sprite_->Draw(tex1_);
 
-	postEffect_->PostDrawScene(directX_->GetCommandList());
+	if (state == 0) {
+		postEffect_->PostDrawScene(directX_->GetCommandList());
 
+	}
+	else {
+		gaussianEffect_->PostDrawScene(directX_->GetCommandList());
+	}
 
 	// 描画前処理
 	directX_->PreDraw();
 
-	//ポストエフェクトの描画
-	postEffect_->Draw();
+	if (state == 0) {
+		//ポストエフェクトの描画
+		postEffect_->Draw();
+	}
+	else {
+		gaussianEffect_->Draw();
+	}
 
 	//sprite_->Draw(tex1_);
 

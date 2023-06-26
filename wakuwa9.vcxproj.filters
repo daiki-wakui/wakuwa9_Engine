@@ -211,6 +211,12 @@
     <FxCompile Include="Resources\shaders\FBXVS.hlsl">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\GaussianPS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\GaussianVS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
@@ -226,6 +232,9 @@
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </None>
     <None Include="Resources\shaders\FBX.hlsli">
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
+    </None>
+    <None Include="Resources\shaders\Gaussian.hlsli">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </None>
   </ItemGroup>

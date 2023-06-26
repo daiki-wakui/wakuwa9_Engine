@@ -45,7 +45,7 @@ private:
 
 public:
 
-	void Initialize();
+	void Initialize(int32_t num = 0);
 
 	void VertexData();
 
@@ -55,7 +55,7 @@ public:
 
 	void SetDirectX(SpriteBasis* spBasis, WindowsApp* winApp, KeyBoard* key);
 
-	void CreateGraphicsPipelineState();
+	void CreateGraphicsPipelineState(int32_t num = 0);
 
 	//コンストラクタ
 	PostEffect();

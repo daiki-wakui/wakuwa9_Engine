@@ -68,6 +68,7 @@ private:
 
 	std::unique_ptr<Sprite> backSprite_ = std::make_unique<Sprite>();
 
+	int32_t state = 0;
 
 	//画像
 	int32_t tex1_ = 0;
@@ -79,7 +80,9 @@ private:
 
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_ = std::make_unique<PostEffect>();
-	
+	std::unique_ptr<PostEffect> gaussianEffect_ = std::make_unique<PostEffect>();
+
+
 	//サウンド
 	std::unique_ptr<Sound> sound_ = std::make_unique<Sound>();
 
