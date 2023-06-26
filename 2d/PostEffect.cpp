@@ -5,7 +5,7 @@
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
-const float PostEffect::sCLEAR_COLOR[4] = { 0.25f,0.5f,0.1f,0.0f };//緑っぽい色
+const float PostEffect::sCLEAR_COLOR[4] = { 0.1f,0.1f,0.5f,0.0f };//緑っぽい色
 
 void PostEffect::Initialize()
 {
@@ -213,10 +213,10 @@ void PostEffect::VertexData()
 {
 
 	// 頂点データ
-	vertices_[LB] = { {   0.0f, (float)winApp_->GetWindowHeight()/2, 0.0f},{0.0f , 1.0f}};
+	vertices_[LB] = { {   0.0f, (float)winApp_->GetWindowHeight(), 0.0f},{0.0f , 1.0f}};
 	vertices_[LT] = { {   0.0f, 0.0f, 0.0f }, { 0.0f , 0.0f } };
-	vertices_[RB] = { { (float)winApp_->GetWindowWidth()/2, (float)winApp_->GetWindowHeight()/2, 0.0f},{1.0f , 1.0f}};
-	vertices_[RT] = { { (float)winApp_->GetWindowWidth()/2,   0.0f, 0.0f },{ 1.0f , 0.0f } };
+	vertices_[RB] = { { (float)winApp_->GetWindowWidth(), (float)winApp_->GetWindowHeight(), 0.0f},{1.0f , 1.0f}};
+	vertices_[RT] = { { (float)winApp_->GetWindowWidth(),   0.0f, 0.0f },{ 1.0f , 0.0f } };
 
 	// 頂点データ全体のサイズ = 頂点データ一つ分のサイズ * 頂点データの要素数
 	UINT sizeVB = static_cast<UINT>(sizeof(vertices_[0]) * _countof(vertices_));
@@ -403,7 +403,7 @@ void PostEffect::Crate()
 	matRot_ *= XMMatrixRotationY(XMConvertToRadians(0.0f));	//Y 0度回転
 	matWorld_ *= matRot_;
 
-	matTrans_ = XMMatrixTranslation(1280 / 2 - 640 / 2, 720 / 2 - 360 / 2, 0.0f);
+	matTrans_ = XMMatrixTranslation(0.0f,0.0f, 0.0f);
 	matWorld_ *= matTrans_;
 
 	constMapTransform_->mat = matWorld_ * matProjection_;
@@ -635,22 +635,22 @@ void PostEffect::CreateGraphicsPipelineState()
 void PostEffect::Draw()
 {
 
-	//if (key_->keyInstantPush(DIK_0)) {
-	//	static int32_t tex = 0;
+	if (key_->keyInstantPush(DIK_0)) {
+		static int32_t tex = 0;
 
-	//	tex = (tex + 1) % 2;
+		tex = (tex + 1) % 2;
 
-	//	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	//	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
-	//	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	//	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	//	srvDesc.Texture2D.MipLevels = 1;
-	//	spBasis_->GetDxBasis()->GetDevice()->CreateShaderResourceView(
-	//		texBuff_[tex].Get(),
-	//		&srvDesc,
-	//		descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
-	//	);
-	//}
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = 1;
+		spBasis_->GetDxBasis()->GetDevice()->CreateShaderResourceView(
+			texBuff_[tex].Get(),
+			&srvDesc,
+			descHeapSRV_->GetCPUDescriptorHandleForHeapStart()
+		);
+	}
 
 	// パイプラインステート設定
 	spBasis_->GetDxBasis()->GetCommandList()->SetPipelineState(pipelineState.Get());
