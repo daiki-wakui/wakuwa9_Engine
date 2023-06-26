@@ -68,7 +68,7 @@ private:
 
 	std::unique_ptr<Sprite> backSprite_ = std::make_unique<Sprite>();
 
-	int32_t state = 0;
+	int32_t state = 1;
 
 	//‰æ‘œ
 	int32_t tex1_ = 0;
