@@ -183,6 +183,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::map<std::string, Model*> models;
 	std::vector<Object3D*> objects;
 
+	models.insert(std::make_pair(std::string("player"), playerModel));
+	models.insert(std::make_pair(std::string("enemy"), floorModel));
+
+
 	// レベルデータからオブジェクトを生成、配置
 	for (auto& objectData : levelData->objects) {
 		// ファイル名から登録済みモデルを検索
@@ -194,7 +198,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// モデルを指定して3Dオブジェクトを生成
 		Object3D* newObject = Object3D::Create(1.0f);
-		newObject->SetModel(playerModel);
+		//newObject->SetModel(playerModel);
+		newObject->SetModel(model);
+
 
 		// 座標
 		DirectX::XMFLOAT3 pos;
