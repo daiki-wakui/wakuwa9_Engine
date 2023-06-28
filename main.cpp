@@ -196,6 +196,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			model = it->second;
 		}
 
+		if (levelData->objects[0].fileName == "camera") {
+
+			DirectX::XMFLOAT3 eye;
+			DirectX::XMStoreFloat3(&eye, objectData.translation);
+			Object3D::CameraMoveVector(eye);
+		}
+
 		// モデルを指定して3Dオブジェクトを生成
 		Object3D* newObject = Object3D::Create(1.0f);
 		//newObject->SetModel(playerModel);
