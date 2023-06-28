@@ -201,7 +201,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			model = it->second;
 		}
 
-		if (levelData->objects[0].fileName == "camera") {
+		if (objectData.fileName == "camera") {
 
 			DirectX::XMFLOAT3 eye;
 			DirectX::XMStoreFloat3(&eye, objectData.translation);
