@@ -26,6 +26,8 @@ using namespace DirectX;
 #include <cassert>
 #include <map>
 
+#include "IventBox.h"
+
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	//windowsAPIの生成クラス
@@ -147,6 +149,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Model* playerModel = Model::LoadFromObj("player");
 	Model* enemyModel = Model::LoadFromObj("enemySou");
 	Model* enemyModelRed = Model::LoadFromObj("enemySou2");
+	Model* cube = Model::LoadFromObj("cube");
 
 
 	//3Dオブジェクト生成
@@ -183,6 +186,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// レベルデータの読み込み
 	levelData = LevelLoader::LoadFile("obj");
 
+	IventBox* Box = new IventBox;
+	bool ivent = false;
+
 	std::map<std::string, Model*> models;
 	std::vector<Object3D*> objects;
 
@@ -190,6 +196,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	models.insert(std::make_pair(std::string("enemy"), floorModel));
 	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel));
 	models.insert(std::make_pair(std::string("enemySpawn2"), enemyModelRed));
+	models.insert(std::make_pair(std::string("IventBlock"), cube));
 
 
 	// レベルデータからオブジェクトを生成、配置
@@ -208,31 +215,61 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			Object3D::CameraMoveVector({eye.x+2.0f,eye.y-1.5f,eye.z});
 		}
 
-		// モデルを指定して3Dオブジェクトを生成
-		Object3D* newObject = Object3D::Create(1.0f);
-		//newObject->SetModel(playerModel);
-		newObject->SetModel(model);
+		if (objectData.fileName == "IventBlock") {
+			// モデルを指定して3Dオブジェクトを生成
+			Object3D* newObject = Object3D::Create(1.0f);
+			//newObject->SetModel(playerModel);
+			newObject->SetModel(model);
+
+			// 座標
+			DirectX::XMFLOAT3 pos;
+			DirectX::XMStoreFloat3(&pos, objectData.translation);
+			newObject->SetPosition(pos);
+
+			// 回転角
+			DirectX::XMFLOAT3 rot;
+			DirectX::XMStoreFloat3(&rot, objectData.rotation);
+			newObject->SetRotation({ rot.x,rot.y,rot.z });
 
 
-		// 座標
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMStoreFloat3(&pos, objectData.translation);
-		newObject->SetPosition(pos);
+			// 座標
+			DirectX::XMFLOAT3 scale;
+			DirectX::XMStoreFloat3(&scale, objectData.scaling);
+			newObject->SetScale(scale);
 
-		// 回転角
-		DirectX::XMFLOAT3 rot;
-		DirectX::XMStoreFloat3(&rot, objectData.rotation);
-		newObject->SetRotation({rot.x,rot.y-90,rot.z});
+			
+			Box->Initialize(model, newObject);
+		}
+		else {
+			// モデルを指定して3Dオブジェクトを生成
+			Object3D* newObject = Object3D::Create(1.0f);
+			//newObject->SetModel(playerModel);
+			newObject->SetModel(model);
 
 
-		// 座標
-		DirectX::XMFLOAT3 scale;
-		DirectX::XMStoreFloat3(&scale, objectData.scaling);
-		newObject->SetScale(scale);
+			// 座標
+			DirectX::XMFLOAT3 pos;
+			DirectX::XMStoreFloat3(&pos, objectData.translation);
+			newObject->SetPosition(pos);
 
-		// 配列に登録
-		objects.push_back(newObject);
+			// 回転角
+			DirectX::XMFLOAT3 rot;
+			DirectX::XMStoreFloat3(&rot, objectData.rotation);
+			newObject->SetRotation({ rot.x,rot.y - 90,rot.z });
+
+
+			// 座標
+			DirectX::XMFLOAT3 scale;
+			DirectX::XMStoreFloat3(&scale, objectData.scaling);
+			newObject->SetScale(scale);
+
+			// 配列に登録
+			objects.push_back(newObject);
+		}
+		
 	}
+
+	int32_t state = 0;
 
 	//ゲームループ
 	while (true) {
@@ -256,6 +293,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		lightGroup->Update();
 
+		if (input_->keyInstantPush(DIK_SPACE) && Box->arive == true) {
+			ivent = (ivent + 1) % 2;
+		}
+
+		if (input_->keyInstantPush(DIK_1)) {
+			state = (state + 1) % 2;
+		}
+
+		if (Box->arive == true) {
+			Box->Update();
+		}
+		
+
 
 		//デバック用
 		imguiM->Begin();
@@ -270,12 +320,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Object3D::PreDraw(dxBasis->GetCommandList());
 
 		//playerObject->Draw();
-		//skyObject->Draw();
+
+		if (ivent == true) {
+			skyObject->Draw();
+		}
+		
 		//objectFloor->Draw();
 
 		for (auto& object : objects) {
 			object->Draw();
 		}
+
+		if (Box->arive == true && state == false) {
+			
+			Box->Draw();
+		}
+		
 
 		Object3D::PostDraw();
 

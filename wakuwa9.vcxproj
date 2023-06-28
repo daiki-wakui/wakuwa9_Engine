@@ -159,6 +159,7 @@
     <ClCompile Include="Base\WindowsApp.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Input\KeyBoard.cpp" />
+    <ClCompile Include="IventBox.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="Light\CircleShadow.cpp" />
     <ClCompile Include="Light\DirectionalLight.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Base\WindowsApp.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Input\KeyBoard.h" />
+    <ClInclude Include="IventBox.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Light\CircleShadow.h" />
     <ClInclude Include="Light\DirectionalLight.h" />
