@@ -145,6 +145,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Model* floorModel = Model::LoadFromObj("floor");
 	Model* skydomModel = Model::LoadFromObj("world");
 	Model* playerModel = Model::LoadFromObj("player");
+	Model* enemyModel = Model::LoadFromObj("enemySou");
+	Model* enemyModelRed = Model::LoadFromObj("enemySou2");
+
 
 	//3Dオブジェクト生成
 	Object3D* playerObject = Object3D::Create(2.0f);
@@ -185,6 +188,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	models.insert(std::make_pair(std::string("player"), playerModel));
 	models.insert(std::make_pair(std::string("enemy"), floorModel));
+	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel));
+	models.insert(std::make_pair(std::string("enemySpawn2"), enemyModelRed));
 
 
 	// レベルデータからオブジェクトを生成、配置
@@ -200,7 +205,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			DirectX::XMFLOAT3 eye;
 			DirectX::XMStoreFloat3(&eye, objectData.translation);
-			Object3D::CameraMoveVector(eye);
+			Object3D::CameraMoveVector({eye.x+2.0f,eye.y-1.5f,eye.z});
 		}
 
 		// モデルを指定して3Dオブジェクトを生成
