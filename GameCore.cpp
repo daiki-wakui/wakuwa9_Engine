@@ -84,11 +84,6 @@ void GameCore::Initialize()
 	objectFloor_->SetPosition({ 0,-10,0 });
 
 	//FBXファイル読み込み
-	//cubeModel = FbxLoader::GetInstance()->LoadModelFromFile("cube");
-
-	/*objcube = new FbxObject3d;
-	objcube->Initialize();
-	objcube->SetModel(cubeModel);*/
 
 	testModel_ = std::make_unique<FbxModel>();
 	FbxLoader::GetInstance()->LoadModelFromFile(testModel_.get(), "boneTest");
@@ -139,14 +134,9 @@ void GameCore::Update()
 	skyObject_->Update();
 	objectFloor_->Update();
 
-	//objcube->Update();
-	testObj_->Update();
+	//testObj_->Update();
 
 	//sound_->PlayWave("Alarm01.wav");
-
-	if (keyboard_->keyInstantPush(DIK_0)) {
-		state = (state + 1) % 2;
-	}
 
 	imGuiM_->Begin();
 
@@ -155,12 +145,8 @@ void GameCore::Update()
 
 void GameCore::Draw()
 {
-	if (state == 0) {
-		postEffect_->PreDrawScene(directX_->GetCommandList());
-	}
-	else {
-		gaussianEffect_->PreDrawScene(directX_->GetCommandList());
-	}
+
+	postEffect_->PreDrawScene(directX_->GetCommandList());
 	
 	//backSprite_->Draw(backTex_);
 
@@ -169,37 +155,22 @@ void GameCore::Draw()
 
 	//obj
 	//playerObject_->Draw();
-	//skyObject_->Draw();
+	skyObject_->Draw();
 	//objectFloor_->Draw();
 
 	//fbx
-	//objcube->Draw();
-	testObj_->Draw();
+	//testObj_->Draw();
 
 	Object3D::PostDraw();
 
-	//sprite_->Draw(tex1_);
+	sprite_->Draw(tex1_);
 
-	if (state == 0) {
-		postEffect_->PostDrawScene(directX_->GetCommandList());
-
-	}
-	else {
-		gaussianEffect_->PostDrawScene(directX_->GetCommandList());
-	}
+	postEffect_->PostDrawScene(directX_->GetCommandList());
 
 	// 描画前処理
 	directX_->PreDraw();
 
-	if (state == 0) {
-		//ポストエフェクトの描画
-		postEffect_->Draw();
-	}
-	else {
-		gaussianEffect_->Draw();
-	}
-
-	//sprite_->Draw(tex1_);
+	postEffect_->Draw();
 
 	//描画後処理
 	directX_->PostDraw();
