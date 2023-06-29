@@ -54,6 +54,8 @@ void GameCore::Initialize()
 
 	//DirectionalLight::StaticInitalize(dxBasis->GetDevice());
 
+
+
 	//OBJ‚©‚çƒ‚ƒfƒ‹‚ğ“Ç‚İ‚Ş
 	playerModel_ = std::make_unique<Model>();
 	playerModel_->LoadFromObj("player");
