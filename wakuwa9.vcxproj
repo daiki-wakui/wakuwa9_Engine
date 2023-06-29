@@ -44,11 +44,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)External\DirectXTex;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)External\imgui;$(SolutionDir)lib\fbx_sdk\include</IncludePath>
+    <IncludePath>$(SolutionDir)External\DirectXTex;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)External\imgui;$(SolutionDir)lib\fbx_sdk\include;$(SolutionDir)External\nlohmann</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)External\DirectXTex;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)External\imgui;$(SolutionDir)lib\fbx_sdk\include</IncludePath>
+    <IncludePath>$(SolutionDir)External\DirectXTex;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)External\imgui;$(SolutionDir)lib\fbx_sdk\include;$(SolutionDir)External\nlohmann</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
