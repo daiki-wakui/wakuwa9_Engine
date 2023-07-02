@@ -140,7 +140,7 @@ void GameCore::Initialize()
 
 	//models.insert(std::make_pair(std::string("player"), playerModel_.get()));
 	//models.insert(std::make_pair(std::string("enemy"), floorModel));
-	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
+	//models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
 	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
 

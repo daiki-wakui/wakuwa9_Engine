@@ -23,12 +23,12 @@ private:
 	Model* hpModel_;
 	Object3D* hpObj_[5];
 
-	XMFLOAT3 rot;
-	XMFLOAT3 pos;
-	XMFLOAT3 posPod;
-	XMFLOAT3 eye;
+	XMFLOAT3 rot_;
+	XMFLOAT3 pos_;
+	XMFLOAT3 posPod_;
+	XMFLOAT3 eye_;
 
-	XMFLOAT3 move = { 0,0,0 };
+	XMFLOAT3 move_ = { 0,0,0 };
 
 	float dashPower = 5.0f;
 	bool isStep = false;

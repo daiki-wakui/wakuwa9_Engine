@@ -37,12 +37,12 @@ void Player::Update()
 		isStep = false;
 	}
 
-	rot = playerObject_->GetRotation();
-	pos = playerObject_->GetPosition();
-	eye = playerObject_->GetEye();
+	rot_ = playerObject_->GetRotation();
+	pos_ = playerObject_->GetPosition();
+	eye_ = playerObject_->GetEye();
 
-	CameraVec.x = eye.x - pos.x;
-	CameraVec.z = eye.z - pos.z;
+	CameraVec.x = eye_.x - pos_.x;
+	CameraVec.z = eye_.z - pos_.z;
 	CameraVec.normalize();
 	CameraRot = tmpVecY.cross(CameraVec);
 
@@ -52,48 +52,48 @@ void Player::Update()
 
 	if (input_->keyPush(DIK_RIGHT)) {
 
-		if (pos.x >= MoveLimitX - 20) {
+		if (pos_.x >= MoveLimitX - 20) {
 			isStep = false;
 		}
 
-		if (pos.x >= MoveLimitX) {
-			pos.x = MoveLimitX;
+		if (pos_.x >= MoveLimitX) {
+			pos_.x = MoveLimitX;
 		}
 		else {
-			pos.x ++;
-			move = { 1,0,0 };
-			Object3D::CameraMoveVector(move);
+			pos_.x ++;
+			move_ = { 1,0,0 };
+			Object3D::CameraMoveVector(move_);
 
 			if (isStep == true) {
-				pos.x += dashPower;
-				move = { dashPower,0,0 };
-				Object3D::CameraMoveVector(move);
+				pos_.x += dashPower;
+				move_ = { dashPower,0,0 };
+				Object3D::CameraMoveVector(move_);
 				dashPower--;
 			}
 		}
 	}
 	if (input_->keyPush(DIK_LEFT)) {
 
-		if (pos.x <= -MoveLimitX + 20) {
+		if (pos_.x <= -MoveLimitX + 20) {
 			isStep = false;
 		}
 
-		if (pos.x <= -MoveLimitX) {
-			pos.x = -MoveLimitX;
+		if (pos_.x <= -MoveLimitX) {
+			pos_.x = -MoveLimitX;
 		}
 		else {
-			pos.x--;
-			move = { -1,0,0 };
-			Object3D::CameraMoveVector(move);
+			pos_.x--;
+			move_ = { -1,0,0 };
+			Object3D::CameraMoveVector(move_);
 
 			//Object3D::CameraMoveVector({ -1.0f,0.0f,0.0f });
 
 			if (isStep == true) {
-				pos.x -= dashPower;
+				pos_.x -= dashPower;
 				//Object3D::CameraMoveVector({ -dashPower,0.0f,0.0f });
 
-				move = { -dashPower,0,0 };
-				Object3D::CameraMoveVector(move);
+				move_ = { -dashPower,0,0 };
+				Object3D::CameraMoveVector(move_);
 				dashPower--;
 			}
 		}
@@ -101,25 +101,25 @@ void Player::Update()
 	}
 	if (input_->keyPush(DIK_UP)) {
 
-		if (pos.z >= MoveLimitZ - 20) {
+		if (pos_.z >= MoveLimitZ - 20) {
 			isStep = false;
 		}
 
-		if (pos.z >= MoveLimitZ) {
-			pos.z = MoveLimitZ;
+		if (pos_.z >= MoveLimitZ) {
+			pos_.z = MoveLimitZ;
 		}
 		else {
-			pos.z++;
+			pos_.z++;
 
-			move = { 0,0,1 };
-			Object3D::CameraMoveVector(move);
+			move_ = { 0,0,1 };
+			Object3D::CameraMoveVector(move_);
 			//Object3D::CameraMoveVector({ 0.0f,0.0f,1.0f });
 
 			if (isStep == true) {
-				pos.z += dashPower;
+				pos_.z += dashPower;
 
-				move = { 0,0,dashPower };
-				Object3D::CameraMoveVector(move);
+				move_ = { 0,0,dashPower };
+				Object3D::CameraMoveVector(move_);
 				//Object3D::CameraMoveVector({ 0.0f,0.0f,dashPower });
 				dashPower--;
 			}
@@ -128,25 +128,25 @@ void Player::Update()
 	}
 	if (input_->keyPush(DIK_DOWN)) {
 
-		if (pos.z <= (-MoveLimitZ - 20) + 20) {
+		if (pos_.z <= (-MoveLimitZ - 20) + 20) {
 			isStep = false;
 		}
 
-		if (pos.z <= -MoveLimitZ - 20) {
-			pos.z = -MoveLimitZ - 20;
+		if (pos_.z <= -MoveLimitZ - 20) {
+			pos_.z = -MoveLimitZ - 20;
 		}
 		else {
 
-			move = { 0,0,-1 };
-			Object3D::CameraMoveVector(move);
+			move_ = { 0,0,-1 };
+			Object3D::CameraMoveVector(move_);
 			//Object3D::CameraMoveVector({ 0.0f,0.0f,-1.0f });
-			pos.z--;
+			pos_.z--;
 
 			if (isStep == true) {
-				pos.z -= dashPower;
+				pos_.z -= dashPower;
 
-				move = { 0,0,-dashPower };
-				Object3D::CameraMoveVector(move);
+				move_ = { 0,0,-dashPower };
+				Object3D::CameraMoveVector(move_);
 				//Object3D::CameraMoveVector({ 0.0f,0.0f,-dashPower });
 				dashPower--;
 			}
@@ -157,11 +157,11 @@ void Player::Update()
 		if (input_->keyPush(DIK_D)) {
 
 
-			if (rot.y >= 18.0f) {
-				rot.y = 18.0f;
+			if (rot_.y >= 18.0f) {
+				rot_.y = 18.0f;
 			}
 			else {
-				rot.y++;
+				rot_.y++;
 				Vector3 rot = CameraRot / 2;
 				Object3D::CameraEyeMoveVector(rot);
 			}
@@ -169,25 +169,25 @@ void Player::Update()
 		if (input_->keyPush(DIK_A)) {
 
 
-			if (rot.y <= -18.0f) {
-				rot.y = -18.0f;
+			if (rot_.y <= -18.0f) {
+				rot_.y = -18.0f;
 			}
 			else {
-				rot.y--;
+				rot_.y--;
 				Vector3 rot = -CameraRot/2;
 				Object3D::CameraEyeMoveVector(rot);
 			}
 		}
 	}
 
-	posPod = pos;
+	posPod_ = pos_;
 
-	posPod.x += 5;
-	posPod.y += 7;
+	posPod_.x += 5;
+	posPod_.y += 7;
 
-	playerObject_->SetRotation(rot);
-	playerObject_->SetPosition(pos);
-	podObject_->SetPosition(posPod);
+	playerObject_->SetRotation(rot_);
+	playerObject_->SetPosition(pos_);
+	podObject_->SetPosition(posPod_);
 
 	//XMFLOAT3 lifePos[5];
 
@@ -230,7 +230,7 @@ void Player::Update()
 
 		//íeÇÃê∂ê¨Ç∆èâä˙âª
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(posPod, velocity, bulletModel_, bulletObject_);
+		newBullet->Initialize(posPod_, velocity, bulletModel_, bulletObject_);
 		bullets_.push_back(std::move(newBullet));
 
 		coolTime = 8;
@@ -280,9 +280,9 @@ DirectX::XMFLOAT3 Player::GetWorldPos()
 {
 	DirectX::XMFLOAT3 worldPos;
 
-	worldPos.x = pos.x;
-	worldPos.y = pos.y;
-	worldPos.z = pos.z;
+	worldPos.x = pos_.x;
+	worldPos.y = pos_.y;
+	worldPos.z = pos_.z;
 
 	return worldPos;
 }
