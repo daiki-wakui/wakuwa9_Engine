@@ -403,3 +403,26 @@ void Object3D::Draw()
 	model_->Draw(sCmdList, 1);
 }
 
+void Object3D::SetCamera(XMFLOAT3& eye, XMFLOAT3& terget)
+{
+	XMFLOAT3 setCamera_e = GetEye();
+	XMFLOAT3 setCamera_t = GetTarget();
+
+	setCamera_e.x -= setCamera_e.x;
+	setCamera_e.y -= setCamera_e.y;
+	setCamera_e.z -= setCamera_e.z;
+
+	setCamera_t.x -= setCamera_t.x;
+	setCamera_t.y -= setCamera_t.y;
+	setCamera_t.z -= setCamera_t.z;
+
+	setCamera_e.y += 20.0f;
+	setCamera_e.z -= 80.0f;
+
+	setCamera_t.y += 20.0f;
+	setCamera_t.z -= 30.0f;
+
+	SetEye(setCamera_e);
+	SetTarget(setCamera_t);
+}
+

@@ -9,11 +9,11 @@ private:
 	Model* model_;
 	Object3D* object_;
 
-	int32_t hp = 50;
-
+	
 public:
 
 	bool arive_ = false;
+	int32_t hp = 50;
 
 	DirectX::XMFLOAT3 GetWorldPos();
 

@@ -190,6 +190,8 @@ public: // メンバ関数
 	//setter
 	void SetModel(Model* model) { model_ = model; };
 
+	void SetCamera(XMFLOAT3& eye, XMFLOAT3& terget);
+
 	// ローカルワールド変換行列
 	XMMATRIX matWorld_ = {};
 

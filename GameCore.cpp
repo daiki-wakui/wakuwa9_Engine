@@ -19,7 +19,7 @@ void GameCore::Initialize()
 
 	tex1_ = spBasis_->TextureData(L"Resources/001.png");
 	tex2_ = spBasis_->TextureData(L"Resources/test.png");
-	tex3_ = spBasis_->TextureData(L"Resources/title.png");
+	//tex3_ = spBasis_->TextureData(L"Resources/title.png");
 
 	
 
@@ -27,6 +27,11 @@ void GameCore::Initialize()
 
 	playerHP_ = spBasis_->TextureData(L"Resources/playerHP.png");
 	bossHP_ = spBasis_->TextureData(L"Resources/red.png");
+
+	title_ = spBasis_->TextureData(L"Resources/title.png");;
+	gameover_ = spBasis_->TextureData(L"Resources/gameover.png");
+	gameclear_ = spBasis_->TextureData(L"Resources/gameclear.png");
+
 
 	spBasis_->TextureSetting();
 
@@ -43,6 +48,21 @@ void GameCore::Initialize()
 
 	bossHPSprite_->Initialize(spBasis_.get(), windows_.get());
 	bossHPSprite_->Create(640, 30);
+
+	titleSprite_->Initialize(spBasis_.get(), windows_.get());
+	titleSprite_->Create(640, 360);
+	titleSprite_->SetSize({ 1280,720 });
+	titleSprite_->Update();
+
+	gameoverSprite_->Initialize(spBasis_.get(), windows_.get());
+	gameoverSprite_->Create(640, 360);
+	gameoverSprite_->SetSize({ 1280,720 });
+	gameoverSprite_->Update();
+
+	gameclearSprite_->Initialize(spBasis_.get(), windows_.get());
+	gameclearSprite_->Create(640, 360);
+	gameclearSprite_->SetSize({ 1280,720 });
+	gameclearSprite_->Update();
 
 	postEffect_->SetDirectX(spBasis_.get(), windows_.get(),keyboard_.get());
 	postEffect_->Initialize(0);
@@ -300,31 +320,55 @@ void GameCore::Update()
 
 	//sound_->PlayWave("Alarm01.wav");
 
-	eventBox_->Update();
-
-	for (auto& object : objects) {
-		object->Update();
+	//ƒ^ƒCƒgƒ‹
+	if (scene == 0) {
+		if (keyboard_->keyInstantPush(DIK_SPACE)) {
+			scene = 1;
+			player_->HP = 5;
+			player_->isDead = false;
+			boss_->arive_ = true;
+			boss_->hp = 50;
+			HitBox = false;
+		}
 	}
-	player_->Update();
+	//ƒQ[ƒ€‰æ–Ê
+	if (scene == 1) {
+		if (keyboard_->keyInstantPush(DIK_T)) {
+			scene = 0;
+		}
 
-	//enemy‚ÌŽ€–Sƒtƒ‰ƒO
-	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
-		return enemy->IsDead();
-		});
+		eventBox_->Update();
 
-	//“G‚Ì“®‚«
-	for (std::unique_ptr<Enemy>& enemy : enemys_) {
-		enemy->Update();
+		for (auto& object : objects) {
+			object->Update();
+		}
+
+		if (player_->IsDead() == false) {
+			player_->Update();
+
+		}
+		
+		//enemy‚ÌŽ€–Sƒtƒ‰ƒO
+		enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
+			return enemy->IsDead();
+			});
+
+		//“G‚Ì“®‚«
+		for (std::unique_ptr<Enemy>& enemy : enemys_) {
+			enemy->Update();
+		}
+
+		if (HitBox == true) {
+			boss_->Update();
+			bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
+			bossHPSprite_->Update();
+		}
+
+		playerHPSprite_->SetSize({ 32.0f * (float)player_->GetHP(),16.0f });
+		playerHPSprite_->Update();
+
+
 	}
-
-	if (HitBox == true) {
-		boss_->Update();
-		bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
-		bossHPSprite_->Update();
-	}
-
-	playerHPSprite_->SetSize({ 32.0f * (float)player_->GetHP(),16.0f });
-	playerHPSprite_->Update();
 
 	
 	
@@ -439,11 +483,6 @@ void GameCore::Update()
 			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
 				bullet->isDead_ = true;
 				enemy->OnCollision();
-
-				if (enemy->IsDead() == true) {
-					//knockDownNum++;
-				}
-				//SoundPlayWave(xAudio2.Get(), soundData2);
 			}
 		}
 	}
@@ -458,10 +497,32 @@ void GameCore::Draw()
 
 	postEffect_->PreDrawScene(directX_->GetCommandList());
 	
-	//backSprite_->Draw(backTex_);
-
 	Object3D::PreDraw(directX_->GetCommandList());
 	FbxObject3d::PreSet(directX_->GetCommandList());
+
+	if (scene == 0) {
+		
+	}
+
+	if (scene == 1) {
+		//eventBox_->Draw();
+
+		for (auto& object : objects) {
+			object->Draw();
+		}
+
+		if (player_->IsDead() == false) {
+			player_->Draw();
+		}
+
+		for (std::unique_ptr<Enemy>& enemy : enemys_) {
+			enemy->Draw();
+		}
+
+		if (HitBox == true && boss_->GetArive() == true) {
+			boss_->Draw();
+		}
+	}
 
 	//obj
 	//playerObject_->Draw();
@@ -471,35 +532,35 @@ void GameCore::Draw()
 	//fbx
 	//testObj_->Draw();
 
-	eventBox_->Draw();
-
-	for (auto& object : objects) {
-		object->Draw();
-	}
 	
-	if (player_->IsDead() == false) {
-		player_->Draw();
-	}
-	
-	for (std::unique_ptr<Enemy>& enemy : enemys_) {
-		enemy->Draw();
-	}
-
-	if (HitBox == true && boss_->GetArive() == true) {
-		boss_->Draw();
-	}
 	
 
 	Object3D::PostDraw();
 
 	//sprite_->Draw(tex1_);
 
-	playerHPSprite_->Draw(playerHP_);
-
-	if (HitBox == true && boss_->GetArive() == true) {
-		bossHPSprite_->Draw(bossHP_);
-
+	if (scene == 0) {
+		titleSprite_->Draw(title_);
 	}
+
+	if (scene == 1) {
+		playerHPSprite_->Draw(playerHP_);
+
+		if (HitBox == true && boss_->GetArive() == true) {
+			bossHPSprite_->Draw(bossHP_);
+
+		}
+
+		if (player_->IsDead() == true) {
+			gameoverSprite_->Draw(gameover_);
+		}
+
+		if (boss_->GetArive() == false) {
+			gameclearSprite_->Draw(gameclear_);
+		}
+	}
+
+	
 	
 	postEffect_->PostDrawScene(directX_->GetCommandList());
 

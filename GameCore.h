@@ -102,6 +102,10 @@ private:
 	std::unique_ptr<Sprite> playerHPSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> bossHPSprite_ = std::make_unique<Sprite>();
 
+	std::unique_ptr<Sprite> titleSprite_ = std::make_unique<Sprite>();
+	std::unique_ptr<Sprite> gameoverSprite_ = std::make_unique<Sprite>();
+	std::unique_ptr<Sprite> gameclearSprite_ = std::make_unique<Sprite>();
+	
 
 	int32_t state = 1;
 
@@ -116,6 +120,9 @@ private:
 	int32_t playerHP_ = 0;
 	int32_t bossHP_ = 0;
 
+	int32_t title_ = 0;
+	int32_t gameover_ = 0;
+	int32_t gameclear_ = 0;
 
 	bool HitBox = false;
 
@@ -144,6 +151,8 @@ private:
 	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 	std::unique_ptr<Enemy> newEnemy2 = std::make_unique<Enemy>();
 	std::unique_ptr<Enemy> newEnemy3 = std::make_unique<Enemy>();
+
+	int32_t scene = 0;
 
 public:
 
