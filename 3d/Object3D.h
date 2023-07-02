@@ -11,6 +11,7 @@
 #include "DirectionalLight.h"
 #include "LightGroup.h"
 #include <cstdint>
+#include "Vector3.h"
 
 class Object3D
 {
@@ -94,6 +95,7 @@ public: // 静的メンバ関数
 	/// </summary>
 	/// <param name="move">移動量</param>
 	static void CameraMoveVector(XMFLOAT3& move);
+	static void CameraEyeMoveVector(Vector3& eye);
 
 	/// <summary>
 	/// ライトのセット
@@ -180,7 +182,7 @@ public: // メンバ関数
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(const XMFLOAT3& position) { this->position_ = position; }
+	void SetPosition(const XMFLOAT3& position) { position_ = position; }
 	void SetRotation(const XMFLOAT3& rotation) { this->rotation_ = rotation; }
     void SetScale   (const XMFLOAT3& scale) { this->scale_ = scale; }
 

@@ -60,6 +60,9 @@ void GameCore::Initialize()
 	playerModel_ = std::make_unique<Model>();
 	playerModel_->LoadFromObj("player");
 
+	podModel_ = std::make_unique<Model>();
+	podModel_->LoadFromObj("pod");
+
 	floorModel_ = std::make_unique<Model>();
 	floorModel_->LoadFromObj("floor");
 
@@ -83,8 +86,12 @@ void GameCore::Initialize()
 	//playerObject->SetModel(playerModel2);
 	playerObject_->SetModel(playerModel_.get());
 	playerObject_->Initialize();
-	playerObject_->SetScale(XMFLOAT3({ 2,2,2 }));
-	playerObject_->SetPosition(XMFLOAT3({ 20,0,5 }));
+	playerObject_->SetScale(XMFLOAT3({ 1,1,1 }));
+	playerObject_->SetPosition({ 0,10,0 });
+
+	podObject_ = std::make_unique<Object3D>();
+	podObject_->SetModel(podModel_.get());
+	podObject_->Initialize();
 
 	skyObject_ = std::make_unique<Object3D>();
 	skyObject_->SetModel(skydomModel_.get());
@@ -127,7 +134,7 @@ void GameCore::Initialize()
 	// レベルデータの読み込み
 	levelData_ = LevelLoader::LoadFile("obj");
 
-	models.insert(std::make_pair(std::string("player"), playerModel_.get()));
+	//models.insert(std::make_pair(std::string("player"), playerModel_.get()));
 	//models.insert(std::make_pair(std::string("enemy"), floorModel));
 	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
@@ -203,6 +210,8 @@ void GameCore::Initialize()
 		}
 
 	}
+
+	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_.get(), podObject_.get());
 }
 
 void GameCore::Finalize()
@@ -230,7 +239,7 @@ void GameCore::Update()
 
 	sprite_->Update();
 
-	playerObject_->Update();
+	//playerObject_->Update();
 	skyObject_->Update();
 	objectFloor_->Update();
 
@@ -243,6 +252,7 @@ void GameCore::Update()
 	for (auto& object : objects) {
 		object->Update();
 	}
+	player_->Update();
 
 	imGuiM_->Begin();
 
@@ -272,6 +282,8 @@ void GameCore::Draw()
 	for (auto& object : objects) {
 		object->Draw();
 	}
+
+	player_->Draw();
 
 	Object3D::PostDraw();
 

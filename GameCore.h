@@ -32,6 +32,7 @@ using namespace DirectX;
 #include <cassert>
 #include <map>
 #include "EventBox.h"
+#include "Player.h"
 
 class GameCore
 {
@@ -62,12 +63,17 @@ private:
 	std::unique_ptr<Model> playerModel_;
 	std::unique_ptr<Object3D> playerObject_;
 
+	std::unique_ptr<Model> podModel_;
+	std::unique_ptr<Object3D> podObject_;
+
+
 	std::unique_ptr<Model> enemyModel_;
 	std::unique_ptr<Model> bossModel_;
 	std::unique_ptr<Model> cubeModel_;
 
 	std::unique_ptr<Model> filedModel_;
 
+	
 
 	std::unique_ptr<EventBox> eventBox_;
 
@@ -106,6 +112,10 @@ private:
 
 	std::map<std::string, Model*> models;
 	std::vector<Object3D*> objects;
+
+	std::unique_ptr<Player> player_ = std::make_unique<Player>();
+	//Player* player = new Player;
+	//player->Initialize(playerModel_, playerObject, input_, podObject);
 
 public:
 
