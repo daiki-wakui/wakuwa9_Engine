@@ -162,7 +162,8 @@ void Player::Update()
 			}
 			else {
 				rot.y++;
-				Object3D::CameraEyeMoveVector(CameraRot);
+				Vector3 rot = CameraRot / 2;
+				Object3D::CameraEyeMoveVector(rot);
 			}
 		}
 		if (input_->keyPush(DIK_A)) {
@@ -173,7 +174,7 @@ void Player::Update()
 			}
 			else {
 				rot.y--;
-				Vector3 rot = -CameraRot;
+				Vector3 rot = -CameraRot/2;
 				Object3D::CameraEyeMoveVector(rot);
 			}
 		}
