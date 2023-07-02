@@ -121,6 +121,12 @@ void GameCore::Initialize()
 	enemyObject3_->SetModel(enemyModel_.get());
 	enemyObject3_->Initialize();
 
+	bossObject_ = std::make_unique<Object3D>();
+	bossObject_->SetModel(enemyModel_.get());
+	bossObject_->Initialize();
+	bossObject_->SetScale({ 15,15,15 });
+	bossObject_->SetPosition({ 0,20,370 });
+
 	//FBXファイル読み込み
 
 	testModel_ = std::make_unique<FbxModel>();
@@ -242,7 +248,7 @@ void GameCore::Initialize()
 	enemys_.push_back(std::move(newEnemy2));
 	enemys_.push_back(std::move(newEnemy3));
 
-	
+	boss_->Initialize(enemyModel_.get(), bossObject_.get());
 }
 
 void GameCore::Finalize()
@@ -300,7 +306,11 @@ void GameCore::Update()
 		enemy->Update();
 	}
 
+	if (HitBox == true) {
+		boss_->Update();
 
+	}
+	
 	XMFLOAT3 posA, posB;
 
 	//自弾リストの取得
@@ -324,6 +334,35 @@ void GameCore::Update()
 	if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
 
 		HitBox = true;
+	}
+
+	//自機の弾とボスの当たり判定
+	posA = boss_->GetWorldPos();
+
+	for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+		//自弾の座標
+		posB = bullet->GetWorldPos();
+
+		//AとBの距離
+		float r1 = 20.0f;	//敵のスケール
+		float r2 = 1.0f;	//弾のスケール
+		float r = r1 + r2;
+
+		XMFLOAT3 dis;
+		dis.x = posB.x - posA.x;
+		dis.y = posB.y - posA.y;
+		dis.z = posB.z - posA.z;
+
+
+		if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && HitBox == true) {
+			bullet->isDead_ = true;
+			//enemy->OnCollision();
+
+			//if (enemy->IsDead() == true) {
+			//	//knockDownNum++;
+			//}
+			//SoundPlayWave(xAudio2.Get(), soundData2);
+		}
 	}
 
 	//自機と敵の弾の当たり判定
@@ -420,6 +459,11 @@ void GameCore::Draw()
 	for (std::unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Draw();
 	}
+
+	if (HitBox == true) {
+		boss_->Draw();
+	}
+	
 
 	Object3D::PostDraw();
 

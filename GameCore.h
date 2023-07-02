@@ -34,6 +34,7 @@ using namespace DirectX;
 #include "EventBox.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Boss.h"
 
 class GameCore
 {
@@ -74,6 +75,7 @@ private:
 	std::unique_ptr<Object3D> enemyObject_;
 	std::unique_ptr<Object3D> enemyObject2_;
 	std::unique_ptr<Object3D> enemyObject3_;
+	std::unique_ptr<Object3D> bossObject_;
 
 
 	std::unique_ptr<Model> bossModel_;
@@ -126,6 +128,8 @@ private:
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
 	//Player* player = new Player;
 	//player->Initialize(playerModel_, playerObject, input_, podObject);
+
+	std::unique_ptr<Boss> boss_ = std::make_unique<Boss>();
 
 	std::list<std::unique_ptr<Enemy>> enemys_;
 
