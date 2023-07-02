@@ -66,6 +66,9 @@ private:
 	std::unique_ptr<Model> bossModel_;
 	std::unique_ptr<Model> cubeModel_;
 
+	std::unique_ptr<Model> filedModel_;
+
+
 	std::unique_ptr<EventBox> eventBox_;
 
 	//FBX

@@ -72,6 +72,10 @@ void GameCore::Initialize()
 	cubeModel_ = std::make_unique<Model>();
 	cubeModel_->LoadFromObj("cube");
 
+	filedModel_ = std::make_unique<Model>();
+	filedModel_->LoadFromObj("filed");
+
+
 	eventBox_ = std::make_unique<EventBox>();
 
 	//3Dオブジェクト生成
@@ -85,7 +89,8 @@ void GameCore::Initialize()
 	skyObject_ = std::make_unique<Object3D>();
 	skyObject_->SetModel(skydomModel_.get());
 	skyObject_->Initialize();
-	skyObject_->SetScale(XMFLOAT3({ 100,100,100 }));
+	skyObject_->SetScale(XMFLOAT3({ 400,400,400 }));
+	skyObject_->SetPosition({ 0,0,100 });
 
 	objectFloor_ = std::make_unique<Object3D>();
 	objectFloor_->SetModel(floorModel_.get());
@@ -125,7 +130,7 @@ void GameCore::Initialize()
 	models.insert(std::make_pair(std::string("player"), playerModel_.get()));
 	//models.insert(std::make_pair(std::string("enemy"), floorModel));
 	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
-	//models.insert(std::make_pair(std::string("enemySpawn2"), enemyModelRed));
+	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
 	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
 
 
@@ -185,7 +190,7 @@ void GameCore::Initialize()
 			// 回転角
 			DirectX::XMFLOAT3 rot;
 			DirectX::XMStoreFloat3(&rot, objectData.rotation);
-			newObject->SetRotation({ rot.x,rot.y - 90,rot.z });
+			newObject->SetRotation({ rot.x,rot.y,rot.z });
 
 
 			// 座標

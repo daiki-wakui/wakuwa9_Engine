@@ -22,8 +22,8 @@ ComPtr<ID3D12RootSignature> Object3D::sRootsignature;
 ComPtr<ID3D12PipelineState> Object3D::sPipelinestate;
 XMMATRIX Object3D::sMatView{};
 XMMATRIX Object3D::sMatProjection{};
-XMFLOAT3 Object3D::sEye = { 0, 0, -40.0f };
-XMFLOAT3 Object3D::sTarget = { 0, 0, 0 };
+XMFLOAT3 Object3D::sEye = { 0, 20, -30.0f };
+XMFLOAT3 Object3D::sTarget = { 0, 10, 0 };
 XMFLOAT3 Object3D::sUp = { 0, 1, 0 };
 
 //DirectionalLight* Object3D::light = nullptr;
