@@ -12,7 +12,7 @@ void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int 
 
 	pattern_ = pattern;
 
-	//bullets_.clear();
+	bullets_.clear();
 }
 
 void Enemy::Update()
@@ -34,23 +34,23 @@ void Enemy::Update()
 
 		velocity.multiplyMat4(enemyObject_->matWorld_);
 
-		//std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-		//newBullet->Initialize(pos_, velocity);
+		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+		newBullet->Initialize(pos_, velocity, bulletModel_);
 
 		//íeÇìoò^Ç∑ÇÈ
-		//bullets_.push_back(std::move(newBullet));
+		bullets_.push_back(std::move(newBullet));
 
 		coolTime = 50;
 	}
 
 	//ÉfÉXÉtÉâÉOÇ™óßÇ¡ÇΩíeÇçÌèú
-	/*bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
+	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
 		return bullet->IsDead();
-		});*/
+		});
 
-	/*for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
 		bullet->Update();
-	}*/
+	}
 
 	enemyObject_->SetPosition(pos_);
 
@@ -61,9 +61,9 @@ void Enemy::Draw()
 {
 	enemyObject_->Draw();
 
-	/*for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
 		bullet->Draw();
-	}*/
+	}
 }
 
 void Enemy::OnCollision()
@@ -84,5 +84,10 @@ XMFLOAT3 Enemy::GetWorldPos()
 	worldPos.z = pos_.z;
 
 	return worldPos;
+}
+
+void Enemy::SetBulletModel(Model* model)
+{
+	bulletModel_ = model;
 }
 

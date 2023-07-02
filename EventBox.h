@@ -13,6 +13,8 @@ public:
 
 	bool arive = false;
 
+	DirectX::XMFLOAT3 GetWorldPos();
+
 	void Initialize(Model* Model, Object3D* Object);
 	void Update();
 	void Draw();

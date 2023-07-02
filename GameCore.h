@@ -107,6 +107,8 @@ private:
 	int32_t backTex_ = 0;
 	int32_t postTex = 100;
 
+	bool HitBox = false;
+
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_ = std::make_unique<PostEffect>();
 	std::unique_ptr<PostEffect> gaussianEffect_ = std::make_unique<PostEffect>();

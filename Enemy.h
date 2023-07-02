@@ -4,7 +4,7 @@
 #include "KeyBoard.h"
 #include <memory>
 #include <list>
-//#include "EnemyBullet.h"
+#include "EnemyBullet.h"
 #include "Player.h"
 
 class Enemy
@@ -20,13 +20,16 @@ private:
 	XMFLOAT3 enemyPos;
 	Vector3	differenceVec;
 
+	Model* bulletModel_;
+
+
 	bool isDead = false;
 
-	int HP = 3;
+	int HP = 5;
 
 	int coolTime = 10;
 
-//	std::list<std::unique_ptr<EnemyBullet>> bullets_;
+	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 
 	int pattern_;
 
@@ -42,8 +45,9 @@ public:
 
 	XMFLOAT3 GetWorldPos();
 
+	void SetBulletModel(Model* model);
 	
-	//const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
+	const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
 };
 
 

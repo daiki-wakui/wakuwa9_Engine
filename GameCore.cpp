@@ -230,14 +230,19 @@ void GameCore::Initialize()
 	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_.get(), podObject_.get());
 	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
 
-	newEnemy->Initialize(enemyObject_.get(), {-25,0,30}, player_.get(), 0);
-	newEnemy2->Initialize(enemyObject2_.get(), {0,0,30}, player_.get(), 0);
-	newEnemy3->Initialize(enemyObject3_.get(), {25,0,30}, player_.get(), 0);
+	newEnemy->Initialize(enemyObject_.get(), {-25,0,30}, player_.get());
+	newEnemy->SetBulletModel(cubeModel_.get());
+	newEnemy2->Initialize(enemyObject2_.get(), {0,0,30}, player_.get());
+	newEnemy2->SetBulletModel(cubeModel_.get());
+	newEnemy3->Initialize(enemyObject3_.get(), {25,0,30}, player_.get());
+	newEnemy3->SetBulletModel(cubeModel_.get());
 
 	//敵を登録する
 	enemys_.push_back(std::move(newEnemy));
 	enemys_.push_back(std::move(newEnemy2));
 	enemys_.push_back(std::move(newEnemy3));
+
+	
 }
 
 void GameCore::Finalize()
@@ -293,6 +298,92 @@ void GameCore::Update()
 	//敵の動き
 	for (std::unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Update();
+	}
+
+
+	XMFLOAT3 posA, posB;
+
+	//自弾リストの取得
+	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player_->GetBullets();
+
+	posA = player_->GetWorldPos();
+
+	posB = eventBox_->GetWorldPos();
+
+	//AとBの距離
+	float r1 = 3.0f;	//イベントのスケール
+	float r2 = 13.0f;	//自機のスケール
+	float r = r1 + r2;
+
+	XMFLOAT3 dis;
+	dis.x = posB.x - posA.x;
+	dis.y = posB.y - posA.y;
+	dis.z = posB.z - posA.z;
+
+
+	if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
+
+		HitBox = true;
+	}
+
+	//自機と敵の弾の当たり判定
+	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+		for (const std::unique_ptr<EnemyBullet>& bullet : enemy->GetBullets()) {
+			//敵弾の座標
+			posB = bullet->GetWorldPos();
+
+			//AとBの距離
+			float r1 = 7.0f;	//敵のスケール
+			float r2 = 1.0f;	//弾のスケール
+			float r = r1 + r2;
+
+			XMFLOAT3 dis;
+			dis.x = posB.x - posA.x;
+			dis.y = posB.y - posA.y;
+			dis.z = posB.z - posA.z;
+
+			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
+
+				bullet->isDead_ = true;
+				/*if (isPlayerDamege == 0 && invincible == 0) {
+					
+					isPlayerDamege = 1;
+					player->OnCollision();
+					SoundPlayWave(xAudio2.Get(), soundData5);
+				}*/
+			}
+		}
+	}
+
+	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+		posA = enemy->GetWorldPos();
+
+		//自機の弾と敵の当たり判定
+		for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+			//自弾の座標
+			posB = bullet->GetWorldPos();
+
+			//AとBの距離
+			float r1 = 7.0f;	//敵のスケール
+			float r2 = 1.0f;	//弾のスケール
+			float r = r1 + r2;
+
+			XMFLOAT3 dis;
+			dis.x = posB.x - posA.x;
+			dis.y = posB.y - posA.y;
+			dis.z = posB.z - posA.z;
+
+
+			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
+				bullet->isDead_ = true;
+				enemy->OnCollision();
+
+				if (enemy->IsDead() == true) {
+					//knockDownNum++;
+				}
+				//SoundPlayWave(xAudio2.Get(), soundData2);
+			}
+		}
 	}
 
 	imGuiM_->Begin();

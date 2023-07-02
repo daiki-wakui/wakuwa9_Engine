@@ -244,7 +244,7 @@ void Player::Update()
 	//デスフラグが立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
 		return bullet->IsDead();
-		});
+	});
 }
 
 void Player::Draw()
