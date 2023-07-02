@@ -107,6 +107,7 @@
     <ClCompile Include="Audio\Sound.cpp" />
     <ClCompile Include="Base\DirectXBasis.cpp" />
     <ClCompile Include="Base\WindowsApp.cpp" />
+    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="EventBox.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="Audio\Sound.h" />
     <ClInclude Include="Base\DirectXBasis.h" />
     <ClInclude Include="Base\WindowsApp.h" />
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="EventBox.h" />
