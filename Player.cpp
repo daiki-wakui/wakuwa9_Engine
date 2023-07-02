@@ -41,10 +41,10 @@ void Player::Update()
 	pos = playerObject_->GetPosition();
 	eye = playerObject_->GetEye();
 
-	//CameraVec.x = eye.x - pos3d2.x;
-	//CameraVec.z = eye.z - pos3d2.z;
-	//CameraVec.normalize();
-	//CameraRot = tmpVecY.cross(CameraVec);
+	CameraVec.x = eye.x - pos.x;
+	CameraVec.z = eye.z - pos.z;
+	CameraVec.normalize();
+	CameraRot = tmpVecY.cross(CameraVec);
 
 	//isMove = 0;
 
