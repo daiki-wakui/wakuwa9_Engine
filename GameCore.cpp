@@ -109,6 +109,18 @@ void GameCore::Initialize()
 	objectFloor_->SetScale(XMFLOAT3({ 5,5,5 }));
 	objectFloor_->SetPosition({ 0,-10,0 });
 
+	enemyObject_ = std::make_unique<Object3D>();
+	enemyObject_->SetModel(enemyModel_.get());
+	enemyObject_->Initialize();
+
+	enemyObject2_ = std::make_unique<Object3D>();
+	enemyObject2_->SetModel(enemyModel_.get());
+	enemyObject2_->Initialize();
+
+	enemyObject3_ = std::make_unique<Object3D>();
+	enemyObject3_->SetModel(enemyModel_.get());
+	enemyObject3_->Initialize();
+
 	//FBXƒtƒ@ƒCƒ‹“Ç‚İ‚İ
 
 	testModel_ = std::make_unique<FbxModel>();
@@ -217,6 +229,15 @@ void GameCore::Initialize()
 
 	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_.get(), podObject_.get());
 	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
+
+	newEnemy->Initialize(enemyObject_.get(), {-25,0,30}, player_.get(), 0);
+	newEnemy2->Initialize(enemyObject2_.get(), {0,0,30}, player_.get(), 0);
+	newEnemy3->Initialize(enemyObject3_.get(), {25,0,30}, player_.get(), 0);
+
+	//“G‚ğ“o˜^‚·‚é
+	enemys_.push_back(std::move(newEnemy));
+	enemys_.push_back(std::move(newEnemy2));
+	enemys_.push_back(std::move(newEnemy3));
 }
 
 void GameCore::Finalize()
@@ -233,6 +254,11 @@ void GameCore::Finalize()
 	objects.clear();
 
 	windows_->Release();
+}
+
+void GameCore::Inport()
+{
+
 }
 
 void GameCore::Update()
@@ -258,6 +284,16 @@ void GameCore::Update()
 		object->Update();
 	}
 	player_->Update();
+
+	//enemy‚Ì€–Sƒtƒ‰ƒO
+	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
+		return enemy->IsDead();
+		});
+
+	//“G‚Ì“®‚«
+	for (std::unique_ptr<Enemy>& enemy : enemys_) {
+		enemy->Update();
+	}
 
 	imGuiM_->Begin();
 
@@ -289,6 +325,10 @@ void GameCore::Draw()
 	}
 
 	player_->Draw();
+
+	for (std::unique_ptr<Enemy>& enemy : enemys_) {
+		enemy->Draw();
+	}
 
 	Object3D::PostDraw();
 
