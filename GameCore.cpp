@@ -66,6 +66,14 @@ void GameCore::Initialize()
 	skydomModel_ = std::make_unique<Model>();
 	skydomModel_->LoadFromObj("world");
 
+	enemyModel_ = std::make_unique<Model>();
+	enemyModel_->LoadFromObj("enemySou");
+
+	cubeModel_ = std::make_unique<Model>();
+	cubeModel_->LoadFromObj("cube");
+
+	eventBox_ = std::make_unique<EventBox>();
+
 	//3Dオブジェクト生成
 	playerObject_ = std::make_unique<Object3D>();
 	//playerObject->SetModel(playerModel2);
@@ -108,6 +116,88 @@ void GameCore::Initialize()
 
 	sound_->LoadWave("PerituneMaterial.wav");
 	sound_->LoadWave("Alarm01.wav");
+
+
+
+	// レベルデータの読み込み
+	levelData_ = LevelLoader::LoadFile("obj");
+
+	models.insert(std::make_pair(std::string("player"), playerModel_.get()));
+	//models.insert(std::make_pair(std::string("enemy"), floorModel));
+	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
+	//models.insert(std::make_pair(std::string("enemySpawn2"), enemyModelRed));
+	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
+
+
+	// レベルデータからオブジェクトを生成、配置
+	for (auto& objectData : levelData_->objects) {
+		// ファイル名から登録済みモデルを検索
+		Model* model = nullptr;
+		decltype(models)::iterator it = models.find(objectData.fileName);
+		if (it != models.end()) {
+			model = it->second;
+		}
+
+		if (objectData.fileName == "camera") {
+
+			DirectX::XMFLOAT3 eye;
+			DirectX::XMStoreFloat3(&eye, objectData.translation);
+			Object3D::CameraMoveVector(eye);
+		}
+
+		if (objectData.fileName == "IventBlock") {
+			// モデルを指定して3Dオブジェクトを生成
+			Object3D* newObject = Object3D::Create(1.0f);
+			//newObject->SetModel(playerModel);
+			newObject->SetModel(model);
+
+			// 座標
+			DirectX::XMFLOAT3 pos;
+			DirectX::XMStoreFloat3(&pos, objectData.translation);
+			newObject->SetPosition(pos);
+
+			// 回転角
+			DirectX::XMFLOAT3 rot;
+			DirectX::XMStoreFloat3(&rot, objectData.rotation);
+			newObject->SetRotation({ rot.x,rot.y,rot.z });
+
+
+			// 座標
+			DirectX::XMFLOAT3 scale;
+			DirectX::XMStoreFloat3(&scale, objectData.scaling);
+			newObject->SetScale(scale);
+
+
+			eventBox_->Initialize(model, newObject);
+		}
+		else {
+			// モデルを指定して3Dオブジェクトを生成
+			Object3D* newObject = Object3D::Create(1.0f);
+			//newObject->SetModel(playerModel);
+			newObject->SetModel(model);
+
+
+			// 座標
+			DirectX::XMFLOAT3 pos;
+			DirectX::XMStoreFloat3(&pos, objectData.translation);
+			newObject->SetPosition(pos);
+
+			// 回転角
+			DirectX::XMFLOAT3 rot;
+			DirectX::XMStoreFloat3(&rot, objectData.rotation);
+			newObject->SetRotation({ rot.x,rot.y - 90,rot.z });
+
+
+			// 座標
+			DirectX::XMFLOAT3 scale;
+			DirectX::XMStoreFloat3(&scale, objectData.scaling);
+			newObject->SetScale(scale);
+
+			// 配列に登録
+			objects.push_back(newObject);
+		}
+
+	}
 }
 
 void GameCore::Finalize()
@@ -119,6 +209,9 @@ void GameCore::Finalize()
 	testModel_->fbxScene_->Destroy();
 
 	FbxLoader::GetInstance()->Finalize();
+
+	models.clear();
+	objects.clear();
 
 	windows_->Release();
 }
@@ -139,6 +232,12 @@ void GameCore::Update()
 	//testObj_->Update();
 
 	//sound_->PlayWave("Alarm01.wav");
+
+	eventBox_->Update();
+
+	for (auto& object : objects) {
+		object->Update();
+	}
 
 	imGuiM_->Begin();
 
@@ -162,6 +261,12 @@ void GameCore::Draw()
 
 	//fbx
 	//testObj_->Draw();
+
+	eventBox_->Draw();
+
+	for (auto& object : objects) {
+		object->Draw();
+	}
 
 	Object3D::PostDraw();
 

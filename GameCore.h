@@ -27,6 +27,12 @@ using namespace DirectX;
 
 #include "PostEffect.h"
 
+#include "LevelLoader.h"
+#include <fstream>
+#include <cassert>
+#include <map>
+#include "EventBox.h"
+
 class GameCore
 {
 private:
@@ -55,6 +61,12 @@ private:
 
 	std::unique_ptr<Model> playerModel_;
 	std::unique_ptr<Object3D> playerObject_;
+
+	std::unique_ptr<Model> enemyModel_;
+	std::unique_ptr<Model> bossModel_;
+	std::unique_ptr<Model> cubeModel_;
+
+	std::unique_ptr<EventBox> eventBox_;
 
 	//FBX
 	std::unique_ptr<FbxModel> testModel_;
@@ -85,6 +97,12 @@ private:
 
 	//サウンド
 	std::unique_ptr<Sound> sound_ = std::make_unique<Sound>();
+
+	//レベルエディタ
+	LevelData* levelData_ = nullptr;
+
+	std::map<std::string, Model*> models;
+	std::vector<Object3D*> objects;
 
 public:
 
