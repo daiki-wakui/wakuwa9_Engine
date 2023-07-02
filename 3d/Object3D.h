@@ -177,6 +177,7 @@ public: // メンバ関数
 	const XMFLOAT3& GetPosition() const { return position_; }
 	const XMFLOAT3& GetRotation() const { return rotation_; }
 	const XMFLOAT3& GetScale() const { return scale_; }
+	const XMMATRIX& GetMat() { return matWorld_; }
 
 	/// <summary>
 	/// 座標の設定
@@ -188,6 +189,9 @@ public: // メンバ関数
 
 	//setter
 	void SetModel(Model* model) { model_ = model; };
+
+	// ローカルワールド変換行列
+	XMMATRIX matWorld_ = {};
 
 private: // メンバ変数
 
@@ -203,8 +207,7 @@ private: // メンバ変数
 	XMFLOAT3 rotation_ = { 0,0,0 };
 	// ローカル座標
 	XMFLOAT3 position_ = { 0,0,0 };
-	// ローカルワールド変換行列
-	XMMATRIX matWorld_ = {};
+	
 	// 親オブジェクト
 	Object3D* parent_ = nullptr;
 

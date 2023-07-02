@@ -2,7 +2,7 @@
 #include "Model.h"
 #include "Object3D.h"
 #include "KeyBoard.h"
-//#include "PlayerBullet.h"
+#include "PlayerBullet.h"
 #include <memory>
 #include <list>
 #include "Vector3.h"
@@ -12,8 +12,12 @@ class Player
 private:
 
 	Model* playerModel_;
+	Model* bulletModel_;
+
+
 	Object3D* playerObject_;
 	Object3D* podObject_;
+	Object3D* bulletObject_;
 	KeyBoard* input_;
 
 	Model* hpModel_;
@@ -29,7 +33,7 @@ private:
 	float dashPower = 5.0f;
 	bool isStep = false;
 
-	//std::list<std::unique_ptr<PlayerBullet>> bullets_;
+	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 	int coolTime = 7;
 
 	bool isMove = false;
@@ -41,6 +45,7 @@ public:
 	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, Object3D* podObject);
 	void Update();
 	void Draw();
+	void SetBulletModel(Model* model,Object3D* obj);
 
 	int GetCoolTime() const { return coolTime; };
 
@@ -50,7 +55,7 @@ public:
 	bool GetIsStep() const { return isStep; }
 
 	
-	//const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
+	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
 
 	DirectX::XMFLOAT3 GetWorldPos();
 

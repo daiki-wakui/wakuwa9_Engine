@@ -66,6 +66,8 @@ private:
 	std::unique_ptr<Model> podModel_;
 	std::unique_ptr<Object3D> podObject_;
 
+	std::unique_ptr<Object3D> bulletObject_;
+
 
 	std::unique_ptr<Model> enemyModel_;
 	std::unique_ptr<Model> bossModel_;

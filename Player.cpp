@@ -13,17 +13,17 @@ void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* in
 	//	hpObj_[i] = Object3D::Create(hpModel_, { (1.0f),(1.0f),(1.0f) });
 	//}
 
-	//bullets_.clear();
+	bullets_.clear();
 }
 
 void Player::clear() {
-	//bullets_.clear();
+	bullets_.clear();
 }
 
 void Player::Update()
 {
-	const float MoveLimitX = 148.0f;
-	const float MoveLimitZ = 134.0f;
+	const float MoveLimitX = 1000.0f;
+	const float MoveLimitZ = 1000.0f;
 
 	Vector3 CameraVec = { 0,0,0 };
 	Vector3 CameraRot = { 0,0,0 };
@@ -224,27 +224,27 @@ void Player::Update()
 		const float kBulletSpeed = 2.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
 
-	//	velocity.multiplyMat4(playerObject_->matWorld_);
+		velocity.multiplyMat4(playerObject_->matWorld_);
 		velocity.normalize();
 		velocity *= kBulletSpeed;
 
 		//弾の生成と初期化
-		/*std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(posPod, velocity);
-		bullets_.push_back(std::move(newBullet));*/
+		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+		newBullet->Initialize(posPod, velocity, bulletModel_, bulletObject_);
+		bullets_.push_back(std::move(newBullet));
 
 		coolTime = 8;
 	}
 
 	//弾の更新処理
-	//for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
-	//	bullet->Update();
-	//}
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
+		bullet->Update();
+	}
 
-	////デスフラグが立った弾を削除
-	//bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
-	//	return bullet->IsDead();
-	//	});
+	//デスフラグが立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
+		return bullet->IsDead();
+		});
 }
 
 void Player::Draw()
@@ -256,9 +256,15 @@ void Player::Draw()
 		hpObj_[i]->Draw();
 	}*/
 
-	//for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
-	//	bullet->Draw();
-	//}
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
+		bullet->Draw();
+	}
+}
+
+void Player::SetBulletModel(Model* model,Object3D* obj)
+{
+	bulletModel_ = model;
+	bulletObject_ = obj;
 }
 
 void Player::OnCollision()

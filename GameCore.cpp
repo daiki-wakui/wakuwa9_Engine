@@ -93,6 +93,10 @@ void GameCore::Initialize()
 	podObject_->SetModel(podModel_.get());
 	podObject_->Initialize();
 
+	bulletObject_ = std::make_unique<Object3D>();
+	bulletObject_->SetModel(cubeModel_.get());
+	bulletObject_->Initialize();
+
 	skyObject_ = std::make_unique<Object3D>();
 	skyObject_->SetModel(skydomModel_.get());
 	skyObject_->Initialize();
@@ -212,6 +216,7 @@ void GameCore::Initialize()
 	}
 
 	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_.get(), podObject_.get());
+	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
 }
 
 void GameCore::Finalize()
