@@ -54,6 +54,7 @@ public:
 	bool IsDead() const { return isDead; }
 	bool GetIsStep() const { return isStep; }
 
+	int GetHP() const { return HP; }
 	
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
 

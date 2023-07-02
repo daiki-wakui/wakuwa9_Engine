@@ -99,6 +99,10 @@ private:
 
 	std::unique_ptr<Sprite> backSprite_ = std::make_unique<Sprite>();
 
+	std::unique_ptr<Sprite> playerHPSprite_ = std::make_unique<Sprite>();
+	std::unique_ptr<Sprite> bossHPSprite_ = std::make_unique<Sprite>();
+
+
 	int32_t state = 1;
 
 	//‰æ‘œ
@@ -108,6 +112,10 @@ private:
 
 	int32_t backTex_ = 0;
 	int32_t postTex = 100;
+
+	int32_t playerHP_ = 0;
+	int32_t bossHP_ = 0;
+
 
 	bool HitBox = false;
 

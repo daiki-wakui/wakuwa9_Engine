@@ -28,3 +28,12 @@ void Boss::Draw()
 {
 	object_->Draw();
 }
+
+void Boss::OnCollision()
+{
+	hp--;
+
+	if (hp <= 0) {
+		arive_ = false;
+	}
+}

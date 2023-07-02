@@ -21,7 +21,12 @@ void GameCore::Initialize()
 	tex2_ = spBasis_->TextureData(L"Resources/test.png");
 	tex3_ = spBasis_->TextureData(L"Resources/title.png");
 
+	
+
 	backTex_ = spBasis_->TextureData(L"Resources/backTitle.png");
+
+	playerHP_ = spBasis_->TextureData(L"Resources/playerHP.png");
+	bossHP_ = spBasis_->TextureData(L"Resources/red.png");
 
 	spBasis_->TextureSetting();
 
@@ -32,6 +37,12 @@ void GameCore::Initialize()
 	backSprite_->Create(640, 360);
 	backSprite_->SetSize({ 1280,720 });
 	backSprite_->Update();
+
+	playerHPSprite_->Initialize(spBasis_.get(), windows_.get());
+	playerHPSprite_->Create(100, 30);
+
+	bossHPSprite_->Initialize(spBasis_.get(), windows_.get());
+	bossHPSprite_->Create(640, 30);
 
 	postEffect_->SetDirectX(spBasis_.get(), windows_.get(),keyboard_.get());
 	postEffect_->Initialize(0);
@@ -308,8 +319,14 @@ void GameCore::Update()
 
 	if (HitBox == true) {
 		boss_->Update();
-
+		bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
+		bossHPSprite_->Update();
 	}
+
+	playerHPSprite_->SetSize({ 32.0f * (float)player_->GetHP(),16.0f });
+	playerHPSprite_->Update();
+
+	
 	
 	XMFLOAT3 posA, posB;
 
@@ -356,6 +373,8 @@ void GameCore::Update()
 
 		if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && HitBox == true) {
 			bullet->isDead_ = true;
+			boss_->OnCollision();
+
 			//enemy->OnCollision();
 
 			//if (enemy->IsDead() == true) {
@@ -364,6 +383,8 @@ void GameCore::Update()
 			//SoundPlayWave(xAudio2.Get(), soundData2);
 		}
 	}
+
+	posA = player_->GetWorldPos();
 
 	//©‹@‚Æ“G‚Ì’e‚Ì“–‚½‚è”»’è
 	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
@@ -381,13 +402,15 @@ void GameCore::Update()
 			dis.y = posB.y - posA.y;
 			dis.z = posB.z - posA.z;
 
-			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
+			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
 
 				bullet->isDead_ = true;
+				player_->OnCollision();
+
 				/*if (isPlayerDamege == 0 && invincible == 0) {
 					
 					isPlayerDamege = 1;
-					player->OnCollision();
+					
 					SoundPlayWave(xAudio2.Get(), soundData5);
 				}*/
 			}
@@ -453,22 +476,31 @@ void GameCore::Draw()
 	for (auto& object : objects) {
 		object->Draw();
 	}
-
-	player_->Draw();
-
+	
+	if (player_->IsDead() == false) {
+		player_->Draw();
+	}
+	
 	for (std::unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Draw();
 	}
 
-	if (HitBox == true) {
+	if (HitBox == true && boss_->GetArive() == true) {
 		boss_->Draw();
 	}
 	
 
 	Object3D::PostDraw();
 
-	sprite_->Draw(tex1_);
+	//sprite_->Draw(tex1_);
 
+	playerHPSprite_->Draw(playerHP_);
+
+	if (HitBox == true && boss_->GetArive() == true) {
+		bossHPSprite_->Draw(bossHP_);
+
+	}
+	
 	postEffect_->PostDrawScene(directX_->GetCommandList());
 
 	// •`‰æ‘Oˆ—
