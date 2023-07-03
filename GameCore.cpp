@@ -5,6 +5,7 @@ void GameCore::Initialize()
 	//windowsAPI‰Šú‰»
 	windows_->Initalize();
 
+
 	//DirectX‰Šú‰»
 	directX_->Initialize(windows_.get());
 
