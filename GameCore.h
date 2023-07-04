@@ -140,6 +140,8 @@ private:
 	std::map<std::string, Model*> models;
 	std::vector<Object3D*> objects;
 
+	std::unique_ptr<Object3D> newObject[100] = {};
+
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
 	//Player* player = new Player;
 	//player->Initialize(playerModel_, playerObject, input_, podObject);
