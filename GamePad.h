@@ -3,7 +3,7 @@
 #include <Xinput.h>
 #include <cstdint>
 
-#pragma comment (lib, "xinput.lib")
+
 
 class GamePad
 {
@@ -21,5 +21,10 @@ public:
     bool PushButtonB();
     bool PushButtonX();
     bool PushButtonY();
+
+    bool InputLStickLeft();
+    bool InputLStickRight();
+    bool InputLStickUp();
+    bool InputLStickDown();
 };
 

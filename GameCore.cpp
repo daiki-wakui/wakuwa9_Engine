@@ -343,7 +343,7 @@ void GameCore::Update()
 
 	//ƒ^ƒCƒgƒ‹
 	if (scene == 0) {
-		if (gamePad_->PushButtonX()) {
+		if (gamePad_->InputLStickRight()) {
 			int a = 0;
 			a++;
 		}

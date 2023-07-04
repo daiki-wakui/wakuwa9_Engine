@@ -15,7 +15,7 @@ int32_t WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int32_t) {
 	//ゲームループ
 	while (true) {
 		//×ボタンで終了メッセージがきたら
-		if (game.GetWindows()->gameloopExit(msg) == true) {
+		if (game.GetWindows()->gameloopExit(msg) == true || game.GetInput()->keyInstantPush(DIK_ESCAPE) == true) {
 			break;	//ゲームループ終了
 		}
 

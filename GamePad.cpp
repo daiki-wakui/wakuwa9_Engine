@@ -1,4 +1,5 @@
 #include "GamePad.h"
+#pragma comment (lib, "xinput.lib")
 
 void GamePad::SetDeadZone(short& sThumb, const short& deaadzone)
 {
@@ -61,6 +62,43 @@ bool GamePad::PushButtonX()
 bool GamePad::PushButtonY()
 {
     if (state.Gamepad.wButtons & XINPUT_GAMEPAD_Y) {
+        return true;
+    }
+
+    return false;
+}
+
+bool GamePad::InputLStickLeft()
+{
+
+    if (state.Gamepad.sThumbLX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
+        return true;
+    }
+
+    return false;
+}
+
+bool GamePad::InputLStickRight()
+{
+    if (state.Gamepad.sThumbLX >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
+        return true;
+    }
+
+    return false;
+}
+
+bool GamePad::InputLStickUp()
+{
+    if (state.Gamepad.sThumbLY >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
+       return true;
+    }
+
+    return false;
+}
+
+bool GamePad::InputLStickDown()
+{
+    if (state.Gamepad.sThumbLY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
         return true;
     }
 
