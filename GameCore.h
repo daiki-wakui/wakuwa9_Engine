@@ -35,6 +35,7 @@ using namespace DirectX;
 #include "Player.h"
 #include "Enemy.h"
 #include "Boss.h"
+#include "GamePad.h"
 
 class GameCore
 {
@@ -45,6 +46,8 @@ private:
 
 	//keyboradクラスの生成
 	std::unique_ptr<KeyBoard> keyboard_ = std::make_unique<KeyBoard>();
+
+	std::unique_ptr<GamePad> gamePad_ = std::make_unique<GamePad>();
 
 	//DirectXの基盤生成クラス
 	std::unique_ptr<DirectXBasis> directX_ = std::make_unique<DirectXBasis>();

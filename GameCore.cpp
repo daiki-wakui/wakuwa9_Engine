@@ -12,6 +12,10 @@ void GameCore::Initialize()
 	//keyborad初期化
 	keyboard_->Initialize(windows_->GetHInstancee(), windows_->GetHwnd());
 
+	gamePad_->Update();
+
+	
+
 	imGuiM_->Initialize(windows_.get(), directX_.get());
 
 	spBasis_->Initialize(directX_.get());
@@ -321,6 +325,8 @@ void GameCore::Update()
 	//keyborad更新処理
 	keyboard_->Update();
 
+	gamePad_->Update();
+
 	lightGroup->Update();
 
 	sprite_->Update();
@@ -333,8 +339,15 @@ void GameCore::Update()
 
 	//sound_->PlayWave("Alarm01.wav");
 
+	
+
 	//タイトル
 	if (scene == 0) {
+		if (gamePad_->PushButtonX()) {
+			int a = 0;
+			a++;
+		}
+
 		if (keyboard_->keyInstantPush(DIK_SPACE)) {
 			scene = 1;
 			player_->HP = 5;

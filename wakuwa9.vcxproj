@@ -114,6 +114,7 @@
     <ClCompile Include="EventBox.cpp" />
     <ClCompile Include="FbxObject3d.cpp" />
     <ClCompile Include="GameCore.cpp" />
+    <ClCompile Include="GamePad.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Input\KeyBoard.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="EventBox.h" />
     <ClInclude Include="FbxObject3d.h" />
     <ClInclude Include="GameCore.h" />
+    <ClInclude Include="GamePad.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Input\KeyBoard.h" />
     <ClInclude Include="LevelLoader.h" />
