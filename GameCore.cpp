@@ -194,6 +194,7 @@ void GameCore::Initialize()
 	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
 	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
 
+	// レベルデータからオブジェクトを生成、配置
 	for (int32_t i = 0; i < levelData_->objects.size(); i++) {
 		// ファイル名から登録済みモデルを検索
 		Model* model = nullptr;
@@ -275,89 +276,6 @@ void GameCore::Initialize()
 		}
 
 	}
-
-	// レベルデータからオブジェクトを生成、配置
-	//for (auto& objectData : levelData_->objects) {
-	//	// ファイル名から登録済みモデルを検索
-	//	Model* model = nullptr;
-	//	decltype(models)::iterator it = models.find(objectData.fileName);
-	//	if (it != models.end()) {
-	//		model = it->second;
-	//	}
-
-	//	if (objectData.fileName == "camera") {
-
-	//		DirectX::XMFLOAT3 eye;
-	//		DirectX::XMStoreFloat3(&eye, objectData.translation);
-	//		Object3D::CameraMoveVector(eye);
-
-	//		continue;
-	//	}
-
-	//	if (model == nullptr) {
-	//		continue;
-	//	}
-
-	//	if (objectData.fileName == "IventBlock") {
-	//		// モデルを指定して3Dオブジェクトを生成
-	//		//Object3D* newObject = Object3D::Create(1.0f);
-	//		////newObject->SetModel(playerModel);
-	//		//newObject->SetModel(model);
-
-	//		std::unique_ptr<Object3D> newObject = std::make_unique<Object3D>();
-	//		newObject->SetModel(model);
-	//		newObject->Initialize();
-
-	//		// 座標
-	//		DirectX::XMFLOAT3 pos;
-	//		DirectX::XMStoreFloat3(&pos, objectData.translation);
-	//		newObject->SetPosition(pos);
-
-	//		// 回転角
-	//		DirectX::XMFLOAT3 rot;
-	//		DirectX::XMStoreFloat3(&rot, objectData.rotation);
-	//		newObject->SetRotation({ rot.x,rot.y,rot.z });
-
-
-	//		// 座標
-	//		DirectX::XMFLOAT3 scale;
-	//		DirectX::XMStoreFloat3(&scale, objectData.scaling);
-	//		newObject->SetScale(scale);
-
-
-	//		eventBox_->Initialize(model, newObject.get());
-	//	}
-	//	else {
-	//		// モデルを指定して3Dオブジェクトを生成
-	//		//Object3D* newObject = Object3D::Create(1.0f);
-	//		////newObject->SetModel(playerModel);
-	//		//newObject->SetModel(model);
-
-	//		std::unique_ptr<Object3D> newObject = std::make_unique<Object3D>();
-	//		newObject->SetModel(model);
-	//		newObject->Initialize();
-
-	//		// 座標
-	//		DirectX::XMFLOAT3 pos;
-	//		DirectX::XMStoreFloat3(&pos, objectData.translation);
-	//		newObject->SetPosition(pos);
-
-	//		// 回転角
-	//		DirectX::XMFLOAT3 rot;
-	//		DirectX::XMStoreFloat3(&rot, objectData.rotation);
-	//		newObject->SetRotation({ rot.x,rot.y,rot.z });
-
-
-	//		// 座標
-	//		DirectX::XMFLOAT3 scale;
-	//		DirectX::XMStoreFloat3(&scale, objectData.scaling);
-	//		newObject->SetScale(scale);
-
-	//		// 配列に登録
-	//		objects.push_back(newObject.get());
-	//	}
-
-	//}
 
 	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_.get(), podObject_.get());
 	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
