@@ -2,7 +2,7 @@
 #include "SpriteBasis.h"
 #include "WindowsApp.h"
 #include <DirectXMath.h>
-using namespace DirectX;
+
 #include <cstdint>
 
 enum VertexNumber
@@ -15,7 +15,7 @@ enum VertexNumber
 
 class Sprite
 {
-public:
+private:
 
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
@@ -51,48 +51,48 @@ protected:
 
 	//頂点データ構造体
 	struct Vertex {
-		XMFLOAT3 pos;
-		XMFLOAT2 uv;
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMFLOAT2 uv;
 	};
 
 	//定数バッファ用データ構造体(マテリアル)
 	struct ConstBufferDataMaterial {
-		XMFLOAT4 color;	//色(RGBA)
+		DirectX::XMFLOAT4 color;	//色(RGBA)
 	};
 
 	//定数バッファ用データ構造体(3D変換行列)
 	struct CounstBufferDataTransform {
-		XMMATRIX mat;	//3D変換行列
+		DirectX::XMMATRIX mat;	//3D変換行列
 	};
 
 	CounstBufferDataTransform* constMapTransform_ = nullptr;
 
 	Vertex vertices_[4];
 
-	XMMATRIX matWorld_;
-	XMMATRIX matScale_;
-	XMMATRIX matRot_;
-	XMMATRIX matTrans_;
-	XMMATRIX matProjection_;
+	DirectX::XMMATRIX matWorld_;
+	DirectX::XMMATRIX matScale_;
+	DirectX::XMMATRIX matRot_;
+	DirectX::XMMATRIX matTrans_;
+	DirectX::XMMATRIX matProjection_;
 
-	XMFLOAT2 position_ = { 0,0 };
+	DirectX::XMFLOAT2 position_ = { 0,0 };
 	float rotation_ = 0;
-	XMFLOAT2 size_ = { 100.0f,100.0f };
-	XMFLOAT2 anchorPoint_ = { 0.5f,0.5f };
+	DirectX::XMFLOAT2 size_ = { 100.0f,100.0f };
+	DirectX::XMFLOAT2 anchorPoint_ = { 0.5f,0.5f };
 
 public:
 
-	const XMFLOAT2& GetPosition() const { return position_; };
-	void SetPosition(const XMFLOAT2& position) { position_ = position; };
+	const DirectX::XMFLOAT2& GetPosition() const { return position_; };
+	void SetPosition(const DirectX::XMFLOAT2& position) { position_ = position; };
 
 	const float GetRotation() const { return rotation_; };
 	void SetRotation(const float rotation) { rotation_ = rotation; };
 
-	const XMFLOAT2& GetSize() const { return size_; };
-	void SetSize(const XMFLOAT2& size) { size_ = size; };
+	const DirectX::XMFLOAT2& GetSize() const { return size_; };
+	void SetSize(const DirectX::XMFLOAT2& size) { size_ = size; };
 
-	const XMFLOAT2& GetAncP() const { return anchorPoint_; };
-	void SetAncP(const XMFLOAT2& anchorPoint) { anchorPoint_ = anchorPoint; };
+	const DirectX::XMFLOAT2& GetAncP() const { return anchorPoint_; };
+	void SetAncP(const DirectX::XMFLOAT2& anchorPoint) { anchorPoint_ = anchorPoint; };
 
 	void Create(float x, float y);
 

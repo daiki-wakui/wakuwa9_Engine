@@ -407,9 +407,6 @@ void PostEffect::Crate()
 	matWorld_ *= matTrans_;
 
 	constMapTransform_->mat = matWorld_ * matProjection_;
-
-	XMFLOAT2 pos = { 0,0 };
-
 }
 
 void PostEffect::SetDirectX(SpriteBasis* spBasis, WindowsApp* winApp, KeyBoard* key)

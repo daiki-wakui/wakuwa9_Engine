@@ -1,4 +1,5 @@
 #include "GameCore.h"
+using namespace DirectX;
 
 void GameCore::Initialize()
 {

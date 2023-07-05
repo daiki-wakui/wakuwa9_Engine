@@ -1,4 +1,5 @@
 #include "Sprite.h"
+using namespace DirectX;
 
 void Sprite::Create(float x, float y)
 {
