@@ -29,6 +29,7 @@ private:
 	XMFLOAT3 pos_;
 	XMFLOAT3 posPod_;
 	XMFLOAT3 eye_;
+	XMFLOAT3 target_;
 
 	XMFLOAT3 move_ = { 0,0,0 };
 

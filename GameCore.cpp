@@ -210,9 +210,9 @@ void GameCore::Initialize()
 
 		if (levelData_->objects[i].fileName == "camera") {
 
-			DirectX::XMFLOAT3 eye;
+			/*DirectX::XMFLOAT3 eye;
 			DirectX::XMStoreFloat3(&eye, levelData_->objects[i].translation);
-			Object3D::CameraMoveVector(eye);
+			Object3D::CameraMoveVector(eye);*/
 
 			continue;
 		}
@@ -381,9 +381,9 @@ void GameCore::Update()
 			});
 
 		//“G‚Ì“®‚«
-		for (std::unique_ptr<Enemy>& enemy : enemys_) {
+		/*for (std::unique_ptr<Enemy>& enemy : enemys_) {
 			enemy->Update();
-		}
+		}*/
 
 		if (HitBox == true) {
 			boss_->Update();

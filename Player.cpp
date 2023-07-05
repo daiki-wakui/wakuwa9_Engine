@@ -41,17 +41,21 @@ void Player::Update()
 	rot_ = playerObject_->GetRotation();
 	pos_ = playerObject_->GetPosition();
 	eye_ = playerObject_->GetEye();
+	target_ = playerObject_->GetTarget();
 
 	CameraVec.x = eye_.x - pos_.x;
 	CameraVec.z = eye_.z - pos_.z;
 	CameraVec.normalize();
 	CameraRot = tmpVecY.cross(CameraVec);
 
+	float inputX = inputPad_->GetInputPadLX();
+	float inputY = inputPad_->GetInputPadLY();
+
+
 	//isMove = 0;
 
-	
-
 	if (input_->keyPush(DIK_RIGHT)||inputPad_->InputLStickRight()) {
+		rot_.y = 90.0f;
 
 		if (pos_.x >= MoveLimitX - 20) {
 			isStep = false;
@@ -63,7 +67,7 @@ void Player::Update()
 		else {
 			pos_.x ++;
 			move_ = { 1,0,0 };
-			Object3D::CameraMoveVector(move_);
+			//Object3D::CameraMoveVector(move_);
 
 			if (isStep == true) {
 				pos_.x += dashPower;
@@ -74,6 +78,7 @@ void Player::Update()
 		}
 	}
 	if (input_->keyPush(DIK_LEFT)||inputPad_->InputLStickLeft()) {
+		rot_.y = -90.0f;
 
 		if (pos_.x <= -MoveLimitX + 20) {
 			isStep = false;
@@ -85,7 +90,7 @@ void Player::Update()
 		else {
 			pos_.x--;
 			move_ = { -1,0,0 };
-			Object3D::CameraMoveVector(move_);
+			//Object3D::CameraMoveVector(move_);
 
 			//Object3D::CameraMoveVector({ -1.0f,0.0f,0.0f });
 
@@ -101,6 +106,7 @@ void Player::Update()
 
 	}
 	if (input_->keyPush(DIK_UP)||inputPad_->InputLStickUp()) {
+		rot_.y = 0.0f;
 
 		if (pos_.z >= MoveLimitZ - 20) {
 			isStep = false;
@@ -113,7 +119,7 @@ void Player::Update()
 			pos_.z++;
 
 			move_ = { 0,0,1 };
-			Object3D::CameraMoveVector(move_);
+			//Object3D::CameraMoveVector(move_);
 			//Object3D::CameraMoveVector({ 0.0f,0.0f,1.0f });
 
 			if (isStep == true) {
@@ -128,6 +134,7 @@ void Player::Update()
 
 	}
 	if (input_->keyPush(DIK_DOWN)||inputPad_->InputLStickDown()) {
+		rot_.y = 180.0f;
 
 		if (pos_.z <= (-MoveLimitZ - 20) + 20) {
 			isStep = false;
@@ -139,7 +146,7 @@ void Player::Update()
 		else {
 
 			move_ = { 0,0,-1 };
-			Object3D::CameraMoveVector(move_);
+			//Object3D::CameraMoveVector(move_);
 			//Object3D::CameraMoveVector({ 0.0f,0.0f,-1.0f });
 			pos_.z--;
 
@@ -156,30 +163,63 @@ void Player::Update()
 
 	if (isMove == 0) {
 		if (input_->keyPush(DIK_D)) {
+			//rot_.y+=2;
 
-
-			if (rot_.y >= 18.0f) {
-				rot_.y = 18.0f;
-			}
-			else {
-				rot_.y++;
-				Vector3 rot = CameraRot / 2;
-				Object3D::CameraEyeMoveVector(rot);
-			}
+			rot_.y = 90.0f;
 		}
 		if (input_->keyPush(DIK_A)) {
+			//rot_.y-=2;
 
-
-			if (rot_.y <= -18.0f) {
-				rot_.y = -18.0f;
-			}
-			else {
-				rot_.y--;
-				Vector3 rot = -CameraRot/2;
-				Object3D::CameraEyeMoveVector(rot);
-			}
+			rot_.y = -90.0f;
 		}
 	}
+
+	Vector3 toCameraPosXZ;
+	toCameraPosXZ.x = eye_.x - target_.x;
+	toCameraPosXZ.y = eye_.y - target_.y;
+	toCameraPosXZ.z = eye_.z - target_.z;
+
+	
+	float height = toCameraPosXZ.y;
+	toCameraPosXZ.y = 0.0f;
+	float toCameraXZLen = toCameraPosXZ.length();
+	toCameraPosXZ.normalize();
+
+	XMFLOAT3 terget = pos_;
+	//terget.y += 50.0f;
+
+	XMFLOAT3 toNewCameraPos;
+	toNewCameraPos.x = eye_.x - terget.x;
+	toNewCameraPos.y = eye_.y - terget.y;
+	toNewCameraPos.z = eye_.z - terget.z;
+
+	toNewCameraPos.y = 0.0f;
+
+	Vector3 toNewCameraPosv;
+
+	toNewCameraPosv.x = toNewCameraPos.x;
+	toNewCameraPosv.y = toNewCameraPos.y;
+	toNewCameraPosv.z = toNewCameraPos.z;
+
+	toNewCameraPosv.normalize();
+
+	float weight = 0.7f;
+
+	toNewCameraPosv = toNewCameraPosv * weight + toCameraPosXZ * (1.0f - weight);
+	toNewCameraPosv.normalize();
+	toNewCameraPosv *= toCameraXZLen;
+	toNewCameraPosv.y = height;
+
+	XMFLOAT3 newEye;
+	newEye.x = terget.x + toNewCameraPosv.x;
+	newEye.y = terget.y + toNewCameraPosv.y;
+	newEye.z = terget.z + toNewCameraPosv.z;
+
+	eye_ = newEye;
+	target_ = terget;
+
+	playerObject_->SetEye(eye_);
+	playerObject_->SetTarget(target_);
 
 	posPod_ = pos_;
 
@@ -218,24 +258,24 @@ void Player::Update()
 	playerObject_->Update();
 	podObject_->Update();
 
-	coolTime--;
+	//coolTime--;
 
-	if (coolTime < 0) {
-		//’e‚Ì‘¬“x
-		const float kBulletSpeed = 2.0f;
-		Vector3 velocity(0, 0, kBulletSpeed);
+	//if (coolTime < 0) {
+	//	//’e‚Ì‘¬“x
+	//	const float kBulletSpeed = 2.0f;
+	//	Vector3 velocity(0, 0, kBulletSpeed);
 
-		velocity.multiplyMat4(playerObject_->matWorld_);
-		velocity.normalize();
-		velocity *= kBulletSpeed;
+	//	velocity.multiplyMat4(playerObject_->matWorld_);
+	//	velocity.normalize();
+	//	velocity *= kBulletSpeed;
 
-		//’e‚Ì¶¬‚Æ‰Šú‰»
-		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(posPod_, velocity, bulletModel_, bulletObject_);
-		bullets_.push_back(std::move(newBullet));
+	//	//’e‚Ì¶¬‚Æ‰Šú‰»
+	//	std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+	//	newBullet->Initialize(posPod_, velocity, bulletModel_, bulletObject_);
+	//	bullets_.push_back(std::move(newBullet));
 
-		coolTime = 8;
-	}
+	//	coolTime = 8;
+	//}
 
 	//’e‚ÌXVˆ—
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {

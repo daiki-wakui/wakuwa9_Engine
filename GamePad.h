@@ -26,5 +26,8 @@ public:
     bool InputLStickRight();
     bool InputLStickUp();
     bool InputLStickDown();
+
+    float GetInputPadLX() const { return state.Gamepad.sThumbLX; }
+    float GetInputPadLY() const { return state.Gamepad.sThumbLY; }
 };
 
