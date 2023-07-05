@@ -1,11 +1,12 @@
 #include "Player.h"
 
-void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, Object3D* podObject)
+void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject)
 {
 	playerModel_ = playerModel;
 	playerObject_ = playerObject;
 	podObject_ = podObject;
 	input_ = input;
+	inputPad_ = inputPad;
 
 	//hpModel_ = Model::LoadFromObj("Cube");
 
@@ -50,7 +51,7 @@ void Player::Update()
 
 	
 
-	if (input_->keyPush(DIK_RIGHT)) {
+	if (input_->keyPush(DIK_RIGHT)||inputPad_->InputLStickRight()) {
 
 		if (pos_.x >= MoveLimitX - 20) {
 			isStep = false;
@@ -72,7 +73,7 @@ void Player::Update()
 			}
 		}
 	}
-	if (input_->keyPush(DIK_LEFT)) {
+	if (input_->keyPush(DIK_LEFT)||inputPad_->InputLStickLeft()) {
 
 		if (pos_.x <= -MoveLimitX + 20) {
 			isStep = false;
@@ -99,7 +100,7 @@ void Player::Update()
 		}
 
 	}
-	if (input_->keyPush(DIK_UP)) {
+	if (input_->keyPush(DIK_UP)||inputPad_->InputLStickUp()) {
 
 		if (pos_.z >= MoveLimitZ - 20) {
 			isStep = false;
@@ -126,7 +127,7 @@ void Player::Update()
 		}
 
 	}
-	if (input_->keyPush(DIK_DOWN)) {
+	if (input_->keyPush(DIK_DOWN)||inputPad_->InputLStickDown()) {
 
 		if (pos_.z <= (-MoveLimitZ - 20) + 20) {
 			isStep = false;

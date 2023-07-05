@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "Object3D.h"
 #include "KeyBoard.h"
+#include "GamePad.h"
 #include "PlayerBullet.h"
 #include <memory>
 #include <list>
@@ -19,6 +20,7 @@ private:
 	Object3D* podObject_;
 	Object3D* bulletObject_;
 	KeyBoard* input_;
+	GamePad* inputPad_;
 
 	Model* hpModel_;
 	Object3D* hpObj_[5];
@@ -42,7 +44,7 @@ public:
 	int HP = 5;
 	bool isDead = false;
 
-	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, Object3D* podObject);
+	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject);
 	void Update();
 	void Draw();
 	void SetBulletModel(Model* model,Object3D* obj);

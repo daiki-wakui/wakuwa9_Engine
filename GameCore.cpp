@@ -281,7 +281,7 @@ void GameCore::Initialize()
 
 	}
 
-	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_.get(), podObject_.get());
+	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_.get(), gamePad_.get(), podObject_.get());
 	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
 
 	newEnemy->Initialize(enemyObject_.get(), {-25,0,30}, player_.get());

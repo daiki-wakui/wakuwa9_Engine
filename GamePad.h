@@ -9,7 +9,7 @@ class GamePad
 {
 private:
     XINPUT_STATE state;
-    XINPUT_STATE prevState;
+    XINPUT_STATE oldState;
 
     int32_t te = 0;
 private:

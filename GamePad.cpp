@@ -10,21 +10,10 @@ void GamePad::SetDeadZone(short& sThumb, const short& deaadzone)
 
 void GamePad::Update()
 {
+    //ëOâÒÇÃì¸óÕèÓïÒ
+    oldState = state;
 
-    DWORD dwResult;
-
-    dwResult = XInputGetState(0, &state);
-
-    if (dwResult == ERROR_SUCCESS)
-    {
-        // Controller is connected
-        te++;
-    }
-    else
-    {
-        // Controller is not connected
-        te = 100;
-    }
+    XInputGetState(0, &state);
 
     SetDeadZone(state.Gamepad.sThumbLX, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
     SetDeadZone(state.Gamepad.sThumbLY, XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE);
@@ -32,75 +21,42 @@ void GamePad::Update()
     SetDeadZone(state.Gamepad.sThumbRY, XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
 }
 
-bool GamePad::PushButtonA()
-{
-    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-        return true;
-    }
-
+bool GamePad::PushButtonA(){
+    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A) {return true;}
     return false;
 }
 
-bool GamePad::PushButtonB()
-{
-    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
-        return true;
-    }
-
+bool GamePad::PushButtonB(){
+    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_B) {return true;}
     return false;
 }
 
-bool GamePad::PushButtonX()
-{
-    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_X) {
-        return true;
-    }
-
+bool GamePad::PushButtonX(){
+    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_X) {return true;}
     return false;
 }
 
-bool GamePad::PushButtonY()
-{
-    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_Y) {
-        return true;
-    }
-
+bool GamePad::PushButtonY(){
+    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_Y) {return true;}
     return false;
 }
 
-bool GamePad::InputLStickLeft()
-{
-
-    if (state.Gamepad.sThumbLX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
-        return true;
-    }
-
+bool GamePad::InputLStickLeft(){
+    if (state.Gamepad.sThumbLX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {return true;}
     return false;
 }
 
-bool GamePad::InputLStickRight()
-{
-    if (state.Gamepad.sThumbLX >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
-        return true;
-    }
-
+bool GamePad::InputLStickRight(){
+    if (state.Gamepad.sThumbLX >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {return true;}
     return false;
 }
 
-bool GamePad::InputLStickUp()
-{
-    if (state.Gamepad.sThumbLY >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
-       return true;
-    }
-
+bool GamePad::InputLStickUp(){
+    if (state.Gamepad.sThumbLY >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {return true;}
     return false;
 }
 
-bool GamePad::InputLStickDown()
-{
-    if (state.Gamepad.sThumbLY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
-        return true;
-    }
-
+bool GamePad::InputLStickDown(){
+    if (state.Gamepad.sThumbLY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {return true;}
     return false;
 }

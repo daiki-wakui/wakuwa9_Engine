@@ -58,6 +58,12 @@
     <Filter Include="ヘッダー ファイル\Engine\Audio">
       <UniqueIdentifier>{3ced2a45-35ff-4ce1-a5ba-6d97ddc31bc9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Application">
+      <UniqueIdentifier>{58f780c9-d863-4974-b5ac-90528434e42c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application">
+      <UniqueIdentifier>{2f1271b4-2fc6-41e9-8b9d-3c4cb9b508b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -102,31 +108,13 @@
     <ClCompile Include="Audio\Sound.cpp">
       <Filter>ソース ファイル\Engine\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="ImGuiManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="3d\FbxLoader.cpp">
       <Filter>ソース ファイル\Engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="3d\FbxModel.cpp">
       <Filter>ソース ファイル\Engine\3d</Filter>
     </ClCompile>
-    <ClCompile Include="FbxObject3d.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="GameCore.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="2d\PostEffect.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelLoader.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="EventBox.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
@@ -135,23 +123,41 @@
     <ClCompile Include="Matrix4.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBullet.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Boss.cpp">
+      <Filter>ソース ファイル\Application</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Application</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBullet.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Application</Filter>
     </ClCompile>
-    <ClCompile Include="Boss.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>ソース ファイル\Application</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Engine\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="FbxObject3d.cpp">
+      <Filter>ソース ファイル\Engine\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="EventBox.cpp">
+      <Filter>ソース ファイル\Engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="GamePad.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiManager.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
+      <Filter>ソース ファイル\Engine\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="2d\PostEffect.cpp">
+      <Filter>ソース ファイル\Engine\2d</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -194,31 +200,13 @@
     <ClInclude Include="Audio\Sound.h">
       <Filter>ヘッダー ファイル\Engine\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="ImGuiManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="3d\FbxLoader.h">
       <Filter>ヘッダー ファイル\Engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\FbxModel.h">
       <Filter>ヘッダー ファイル\Engine\3d</Filter>
     </ClInclude>
-    <ClInclude Include="FbxObject3d.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="GameCore.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="2d\PostEffect.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelLoader.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="EventBox.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Vector3.h">
@@ -230,23 +218,41 @@
     <ClInclude Include="resource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBullet.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Boss.h">
+      <Filter>ヘッダー ファイル\Application</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Application</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBullet.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Application</Filter>
     </ClInclude>
-    <ClInclude Include="Boss.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Player.h">
+      <Filter>ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>ヘッダー ファイル\Application</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="EventBox.h">
+      <Filter>ヘッダー ファイル\Engine\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="FbxObject3d.h">
+      <Filter>ヘッダー ファイル\Engine\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLoader.h">
+      <Filter>ヘッダー ファイル\Engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="GamePad.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>ヘッダー ファイル\Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiManager.h">
+      <Filter>ヘッダー ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="2d\PostEffect.h">
+      <Filter>ヘッダー ファイル\Engine\2d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
