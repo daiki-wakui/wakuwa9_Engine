@@ -72,23 +72,23 @@ bool GamePad::InputLStick()
     return false;
 }
 
-float GamePad::GetLStickAngle()
+float GamePad::GetLStickAngle(float angle)
 {
     if (InputLStick() == false) {
-        return 0.0f;
+        return angle;
     }
 
     float inputX = GetInputPadLX();
     float inputY = GetInputPadLY();
 
     float radian;
-    float angle;
+    float resultAngle;
 
     Vector2 stickL = { inputX,inputY };
     stickL.normalize();
 
     radian = std::atan2(stickL.cross({ 0,1 }), -stickL.dot({ 0,-1 }));
-    angle = radian * (180 / (float)PI);
+    resultAngle = radian * (180 / (float)PI);
 
-    return angle;
+    return resultAngle;
 }

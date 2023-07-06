@@ -44,6 +44,8 @@ private:
 
 	const double PI = 3.141492;
 
+
+	float angle_;
 public:
 	int HP = 5;
 	bool isDead = false;

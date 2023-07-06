@@ -29,7 +29,7 @@ public:
 
     bool InputLStick();
 
-    float GetLStickAngle();
+    float GetLStickAngle(float angle);
 
     float GetInputPadLX() const { return state.Gamepad.sThumbLX; }
     float GetInputPadLY() const { return state.Gamepad.sThumbLY; }

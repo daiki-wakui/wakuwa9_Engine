@@ -55,9 +55,9 @@ void Player::Update()
 	float inputY = inputPad_->GetInputPadLY();
 
 	float radian;*/
-	float angle;
+	
 
-	angle = inputPad_->GetLStickAngle();
+	angle_ = inputPad_->GetLStickAngle(angle_);
 
 	/*Vector2 stickL = { inputX,inputY };
 	stickL.normalize();
@@ -65,7 +65,7 @@ void Player::Update()
 	radian = std::atan2(stickL.cross({ 0,1 }), -stickL.dot({ 0,-1 }));
 	angle = radian * (180 / (float)PI);*/
 
-	rot_.y = angle;
+	rot_.y = angle_;
 
 	//isMove = 0;
 
