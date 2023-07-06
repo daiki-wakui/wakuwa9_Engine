@@ -34,6 +34,10 @@ private:
 
 	XMFLOAT3 move_ = { 0,0,0 };
 
+	Vector3 frontVec = {0,0,0};
+	Vector3 moveXVec = { 0,0,0 };
+	Vector3 tmpVecY = { 0,1,0 };
+
 	float dashPower = 5.0f;
 	bool isStep = false;
 
@@ -63,6 +67,9 @@ public:
 	bool GetIsStep() const { return isStep; }
 
 	int GetHP() const { return HP; }
+
+	void Shot();
+	void PlayerCamera();
 	
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
 
