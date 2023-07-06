@@ -1,5 +1,8 @@
 #include "Player.h"
 
+#include <cmath>
+
+
 void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject)
 {
 	playerModel_ = playerModel;
@@ -51,11 +54,21 @@ void Player::Update()
 	float inputX = inputPad_->GetInputPadLX();
 	float inputY = inputPad_->GetInputPadLY();
 
+	float radian;
+	float angle;
+
+	Vector2 stickL = { inputX,inputY };
+	stickL.normalize();
+
+	radian = std::atan2(stickL.cross({ 0,1 }), -stickL.dot({ 0,-1 }));
+	angle = radian * (180 / (float)PI);
+
+	rot_.y = angle;
 
 	//isMove = 0;
 
 	if (input_->keyPush(DIK_RIGHT)||inputPad_->InputLStickRight()) {
-		rot_.y = 90.0f;
+		//rot_.y = 90.0f;
 
 		if (pos_.x >= MoveLimitX - 20) {
 			isStep = false;
@@ -78,7 +91,7 @@ void Player::Update()
 		}
 	}
 	if (input_->keyPush(DIK_LEFT)||inputPad_->InputLStickLeft()) {
-		rot_.y = -90.0f;
+		//rot_.y = -90.0f;
 
 		if (pos_.x <= -MoveLimitX + 20) {
 			isStep = false;
@@ -106,7 +119,7 @@ void Player::Update()
 
 	}
 	if (input_->keyPush(DIK_UP)||inputPad_->InputLStickUp()) {
-		rot_.y = 0.0f;
+		//rot_.y = 0.0f;
 
 		if (pos_.z >= MoveLimitZ - 20) {
 			isStep = false;
@@ -134,7 +147,7 @@ void Player::Update()
 
 	}
 	if (input_->keyPush(DIK_DOWN)||inputPad_->InputLStickDown()) {
-		rot_.y = 180.0f;
+		//rot_.y = 180.0f;
 
 		if (pos_.z <= (-MoveLimitZ - 20) + 20) {
 			isStep = false;
@@ -174,52 +187,52 @@ void Player::Update()
 		}
 	}
 
-	Vector3 toCameraPosXZ;
-	toCameraPosXZ.x = eye_.x - target_.x;
-	toCameraPosXZ.y = eye_.y - target_.y;
-	toCameraPosXZ.z = eye_.z - target_.z;
+	//Vector3 toCameraPosXZ;
+	//toCameraPosXZ.x = eye_.x - target_.x;
+	//toCameraPosXZ.y = eye_.y - target_.y;
+	//toCameraPosXZ.z = eye_.z - target_.z;
 
-	
-	float height = toCameraPosXZ.y;
-	toCameraPosXZ.y = 0.0f;
-	float toCameraXZLen = toCameraPosXZ.length();
-	toCameraPosXZ.normalize();
+	//
+	//float height = toCameraPosXZ.y;
+	//toCameraPosXZ.y = 0.0f;
+	//float toCameraXZLen = toCameraPosXZ.length();
+	//toCameraPosXZ.normalize();
 
-	XMFLOAT3 terget = pos_;
-	//terget.y += 50.0f;
+	//XMFLOAT3 terget = pos_;
+	////terget.y += 50.0f;
 
-	XMFLOAT3 toNewCameraPos;
-	toNewCameraPos.x = eye_.x - terget.x;
-	toNewCameraPos.y = eye_.y - terget.y;
-	toNewCameraPos.z = eye_.z - terget.z;
+	//XMFLOAT3 toNewCameraPos;
+	//toNewCameraPos.x = eye_.x - terget.x;
+	//toNewCameraPos.y = eye_.y - terget.y;
+	//toNewCameraPos.z = eye_.z - terget.z;
 
-	toNewCameraPos.y = 0.0f;
+	//toNewCameraPos.y = 0.0f;
 
-	Vector3 toNewCameraPosv;
+	//Vector3 toNewCameraPosv;
 
-	toNewCameraPosv.x = toNewCameraPos.x;
-	toNewCameraPosv.y = toNewCameraPos.y;
-	toNewCameraPosv.z = toNewCameraPos.z;
+	//toNewCameraPosv.x = toNewCameraPos.x;
+	//toNewCameraPosv.y = toNewCameraPos.y;
+	//toNewCameraPosv.z = toNewCameraPos.z;
 
-	toNewCameraPosv.normalize();
+	//toNewCameraPosv.normalize();
 
-	float weight = 0.7f;
+	//float weight = 0.7f;
 
-	toNewCameraPosv = toNewCameraPosv * weight + toCameraPosXZ * (1.0f - weight);
-	toNewCameraPosv.normalize();
-	toNewCameraPosv *= toCameraXZLen;
-	toNewCameraPosv.y = height;
+	//toNewCameraPosv = toNewCameraPosv * weight + toCameraPosXZ * (1.0f - weight);
+	//toNewCameraPosv.normalize();
+	//toNewCameraPosv *= toCameraXZLen;
+	//toNewCameraPosv.y = height;
 
-	XMFLOAT3 newEye;
-	newEye.x = terget.x + toNewCameraPosv.x;
-	newEye.y = terget.y + toNewCameraPosv.y;
-	newEye.z = terget.z + toNewCameraPosv.z;
+	//XMFLOAT3 newEye;
+	//newEye.x = terget.x + toNewCameraPosv.x;
+	//newEye.y = terget.y + toNewCameraPosv.y;
+	//newEye.z = terget.z + toNewCameraPosv.z;
 
-	eye_ = newEye;
-	target_ = terget;
+	//eye_ = newEye;
+	//target_ = terget;
 
-	playerObject_->SetEye(eye_);
-	playerObject_->SetTarget(target_);
+	//playerObject_->SetEye(eye_);
+	//playerObject_->SetTarget(target_);
 
 	posPod_ = pos_;
 
@@ -227,7 +240,7 @@ void Player::Update()
 	posPod_.y += 7;
 
 	playerObject_->SetRotation(rot_);
-	playerObject_->SetPosition(pos_);
+	//playerObject_->SetPosition(pos_);
 	podObject_->SetPosition(posPod_);
 
 	//XMFLOAT3 lifePos[5];

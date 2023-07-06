@@ -7,6 +7,7 @@
 #include <memory>
 #include <list>
 #include "Vector3.h"
+#include "Vector2.h"
 
 class Player
 {
@@ -40,6 +41,8 @@ private:
 	int coolTime = 7;
 
 	bool isMove = false;
+
+	const double PI = 3.141492;
 
 public:
 	int HP = 5;
