@@ -1,6 +1,8 @@
 #include "GamePad.h"
 #pragma comment (lib, "xinput.lib")
 
+#include <cmath>
+
 void GamePad::SetDeadZone(short& sThumb, const short& deaadzone)
 {
     if ((sThumb < deaadzone) && sThumb > -deaadzone) {
@@ -59,4 +61,34 @@ bool GamePad::InputLStickUp(){
 bool GamePad::InputLStickDown(){
     if (state.Gamepad.sThumbLY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {return true;}
     return false;
+}
+
+bool GamePad::InputLStick()
+{
+    if (state.Gamepad.sThumbLX <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { return true; }
+    if (state.Gamepad.sThumbLX >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { return true; }
+    if (state.Gamepad.sThumbLY >= XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { return true; }
+    if (state.Gamepad.sThumbLY <= -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) { return true; }
+    return false;
+}
+
+float GamePad::GetLStickAngle()
+{
+    if (InputLStick() == false) {
+        return 0.0f;
+    }
+
+    float inputX = GetInputPadLX();
+    float inputY = GetInputPadLY();
+
+    float radian;
+    float angle;
+
+    Vector2 stickL = { inputX,inputY };
+    stickL.normalize();
+
+    radian = std::atan2(stickL.cross({ 0,1 }), -stickL.dot({ 0,-1 }));
+    angle = radian * (180 / (float)PI);
+
+    return angle;
 }

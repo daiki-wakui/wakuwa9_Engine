@@ -51,17 +51,19 @@ void Player::Update()
 	CameraVec.normalize();
 	CameraRot = tmpVecY.cross(CameraVec);
 
-	float inputX = inputPad_->GetInputPadLX();
+	/*float inputX = inputPad_->GetInputPadLX();
 	float inputY = inputPad_->GetInputPadLY();
 
-	float radian;
+	float radian;*/
 	float angle;
 
-	Vector2 stickL = { inputX,inputY };
+	angle = inputPad_->GetLStickAngle();
+
+	/*Vector2 stickL = { inputX,inputY };
 	stickL.normalize();
 
 	radian = std::atan2(stickL.cross({ 0,1 }), -stickL.dot({ 0,-1 }));
-	angle = radian * (180 / (float)PI);
+	angle = radian * (180 / (float)PI);*/
 
 	rot_.y = angle;
 
