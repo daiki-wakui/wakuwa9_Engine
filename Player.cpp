@@ -75,15 +75,20 @@ void Player::Update()
 	if (inputPad_->InputLStickRight()) {
 		pos_.x -= moveXVec.x;
 		pos_.z -= moveXVec.z;
+		//rot_.z-=0.5f;
 	}
 	else if (inputPad_->InputLStickLeft()) {
 		pos_.x += moveXVec.x;
 		pos_.z += moveXVec.z;
+		//rot_.z += 0.5f;
 	}
 
-	PlayerCamera();
+	radi_ = std::atan2(pos_.z - eye_.z, pos_.x - eye_.x);
+	angle_ = radi_ * (180 / (float)PI)-90;
 
-	
+	rot_.y = -angle_;
+
+	PlayerCamera();
 
 	posPod_ = pos_;
 
@@ -199,7 +204,7 @@ void Player::PlayerCamera(){
 
 	toNewCameraPosv.normalize();
 
-	float weight = 0.2f;
+	float weight = 0.3f;
 
 	toNewCameraPosv = toNewCameraPosv * weight + toCameraPosXZ * (1.0f - weight);
 	toNewCameraPosv.normalize();
@@ -213,6 +218,31 @@ void Player::PlayerCamera(){
 
 	eye_ = newEye;
 	target_ = terget;
+
+	bool Rstick = false;
+
+	if (inputPad_->InputRStickRight()) {
+		cameraAngle_ += 2;
+		Rstick = true;
+	}
+	else if (inputPad_->InputRStickLeft()) {
+		cameraAngle_ -= 2;
+		Rstick = true;
+	}
+
+	if (Rstick == true) {
+		r_ = cameraAngle_ * 3.14f / 180.0f;
+
+		eye_.x = pos_.x + (sinf(r_) * toCameraXZLen);
+		eye_.z = pos_.z + (cosf(r_) * toCameraXZLen);
+		//ye.y = 20;
+
+		Rstick = false;
+	}
+
+	
+
+	//playerObject_->SetEye(eye);
 
 	playerObject_->SetEye(eye_);
 	playerObject_->SetTarget(target_);

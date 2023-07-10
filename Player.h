@@ -48,8 +48,17 @@ private:
 
 	const double PI = 3.141492;
 
+	float radi_;
+	//float angle_
+
 
 	float angle_;
+
+	float cameraAngle_ = 180.0f;
+	float r_;
+
+	float rLen_ = 30;
+
 public:
 	int HP = 5;
 	bool isDead = false;
