@@ -11,8 +11,6 @@ void PostEffect::Initialize(int32_t num)
 {
 	HRESULT result;
 
-	//Sprite::Initialize(spBasis_, winApp_);
-
 	VertexData();
 	IndexData();
 
@@ -39,11 +37,6 @@ void PostEffect::Initialize(int32_t num)
 	for (int32_t i = 0; i < 4; i++) {
 		clearValue.Color[i] = sCLEAR_COLOR[i];
 	}
-
-	/*clearValue.Color[0] = sCLEAR_COLOR[0];
-	clearValue.Color[1] = sCLEAR_COLOR[1];
-	clearValue.Color[2] = sCLEAR_COLOR[2];
-	clearValue.Color[3] = sCLEAR_COLOR[3];*/
 
 	//テクスチャバッファの生成
 	for (int32_t i = 0; i < 2; i++) {

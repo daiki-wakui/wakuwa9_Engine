@@ -11,12 +11,6 @@ void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* in
 	input_ = input;
 	inputPad_ = inputPad;
 
-	//hpModel_ = Model::LoadFromObj("Cube");
-
-	//for (int i = 0; i < 5; i++) {
-	//	hpObj_[i] = Object3D::Create(hpModel_, { (1.0f),(1.0f),(1.0f) });
-	//}
-
 	bullets_.clear();
 }
 
@@ -33,29 +27,9 @@ void Player::Update()
 	pos_ = playerObject_->GetPosition();
 	eye_ = playerObject_->GetEye();
 	target_ = playerObject_->GetTarget();
-	
 
-	/*angle_ = inputPad_->GetLStickAngle(angle_);
-
-	rot_.y = 0;
-	rot_.y += angle_;*/
-
-	//Œü‚«‚É‚æ‚Á‚ÄˆÚ“®‚·‚é•ûŒü‚ð•Ï‚¦‚é
-	/*if (inputPad_->InputLStick()) {
-		const float kBulletSpeed = 1.0f;
-		Vector3 velocity(0, 0, kBulletSpeed);
-
-		velocity.multiplyMat4(playerObject_->matWorld_);
-		velocity.normalize();
-		velocity *= kBulletSpeed;
-
-		pos_.x += velocity.x;
-		pos_.y += velocity.y;
-		pos_.z += velocity.z;
-	}*/
 
 	frontVec.x = eye_.x - target_.x;
-	//frontVec.y = eye_.y - target_.y;
 	frontVec.z = eye_.z - target_.z;
 
 	frontVec.normalize();
@@ -75,12 +49,10 @@ void Player::Update()
 	if (inputPad_->InputLStickRight()) {
 		pos_.x -= moveXVec.x;
 		pos_.z -= moveXVec.z;
-		//rot_.z-=0.5f;
 	}
 	else if (inputPad_->InputLStickLeft()) {
 		pos_.x += moveXVec.x;
 		pos_.z += moveXVec.z;
-		//rot_.z += 0.5f;
 	}
 
 	radi_ = std::atan2(pos_.z - eye_.z, pos_.x - eye_.x);
@@ -235,14 +207,9 @@ void Player::PlayerCamera(){
 
 		eye_.x = pos_.x + (sinf(r_) * toCameraXZLen);
 		eye_.z = pos_.z + (cosf(r_) * toCameraXZLen);
-		//ye.y = 20;
 
 		Rstick = false;
 	}
-
-	
-
-	//playerObject_->SetEye(eye);
 
 	playerObject_->SetEye(eye_);
 	playerObject_->SetTarget(target_);

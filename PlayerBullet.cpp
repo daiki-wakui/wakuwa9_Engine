@@ -5,24 +5,17 @@ void PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* m
 	tPos_ = pos;
 	velocity_ = velocity;
 
-	/*pos_.x = tPos_.x;
-	pos_.y = tPos_.y;
-	pos_.z = tPos_.z;*/
-
 	bulletModel_ = model;
 
 	bulletObject_ = std::make_unique<Object3D>();
 	bulletObject_->SetModel(bulletModel_);
 	bulletObject_->Initialize();
 
-	//bulletObject_ = Object3D::Create(bulletModel_, { (1.0f),(1.0f),(1.0f) });
-
 	bulletObject_->SetPosition(tPos_);
 }
 
 void PlayerBullet::Update()
 {
-	//tPos_ = bulletObject_->GetPosition();
 	tPos_.x += velocity_.x;
 	tPos_.y += velocity_.y;
 	tPos_.z += velocity_.z;

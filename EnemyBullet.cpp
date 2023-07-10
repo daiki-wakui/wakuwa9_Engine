@@ -20,7 +20,6 @@ void EnemyBullet::Update()
 	tPos_.y -= velocity_.y / 5;
 	tPos_.z -= velocity_.z / 5;
 
-	//tPos_.z--;
 	bulletObject_->SetPosition(tPos_);
 
 	bulletObject_->Update();
