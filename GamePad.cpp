@@ -92,3 +92,57 @@ float GamePad::GetLStickAngle(float angle)
 
     return resultAngle;
 }
+
+bool GamePad::InputRStickLeft()
+{
+    if (state.Gamepad.sThumbRX <= -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) { return true; }
+    return false;
+}
+
+bool GamePad::InputRStickRight()
+{
+    if (state.Gamepad.sThumbRX >= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) { return true; }
+    return false;
+}
+
+bool GamePad::InputRStickUp()
+{
+    if (state.Gamepad.sThumbRY >= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) { return true; }
+    return false;
+}
+
+bool GamePad::InputRStickDown()
+{
+    if (state.Gamepad.sThumbRY <= -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) { return true; }
+    return false;
+}
+
+bool GamePad::InputRStick()
+{
+    if (state.Gamepad.sThumbRX <= -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) { return true; }
+    if (state.Gamepad.sThumbRX >= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) { return true; }
+    if (state.Gamepad.sThumbRY >= XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) { return true; }
+    if (state.Gamepad.sThumbRY <= -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) { return true; }
+    return false;
+}
+
+float GamePad::GetRStickAngle(float angle)
+{
+    if (InputRStick() == false) {
+        return angle;
+    }
+
+    float inputX = GetInputPadRX();
+    float inputY = GetInputPadRY();
+
+    float radian;
+    float resultAngle;
+
+    Vector2 stickR = { inputX,inputY };
+    stickR.normalize();
+
+    radian = std::atan2(stickR.cross({ 0,1 }), -stickR.dot({ 0,-1 }));
+    resultAngle = radian * (180 / (float)PI);
+
+    return resultAngle;
+}

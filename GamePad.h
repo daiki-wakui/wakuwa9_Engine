@@ -33,5 +33,17 @@ public:
 
     float GetInputPadLX() const { return state.Gamepad.sThumbLX; }
     float GetInputPadLY() const { return state.Gamepad.sThumbLY; }
+
+    bool InputRStickLeft();
+    bool InputRStickRight();
+    bool InputRStickUp();
+    bool InputRStickDown();
+
+    bool InputRStick();
+
+    float GetRStickAngle(float angle);
+
+    float GetInputPadRX() const { return state.Gamepad.sThumbRX; }
+    float GetInputPadRY() const { return state.Gamepad.sThumbRY; }
 };
 

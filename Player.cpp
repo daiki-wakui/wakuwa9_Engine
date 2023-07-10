@@ -35,9 +35,10 @@ void Player::Update()
 	target_ = playerObject_->GetTarget();
 	
 
-	//angle_ = inputPad_->GetLStickAngle(angle_);
+	/*angle_ = inputPad_->GetLStickAngle(angle_);
 
-	//rot_.y = angle_;
+	rot_.y = 0;
+	rot_.y += angle_;*/
 
 	//Œü‚«‚É‚æ‚Á‚ÄˆÚ“®‚·‚é•ûŒü‚ð•Ï‚¦‚é
 	/*if (inputPad_->InputLStick()) {
@@ -58,7 +59,7 @@ void Player::Update()
 	frontVec.z = eye_.z - target_.z;
 
 	frontVec.normalize();
-	frontVec /= 1.2f;
+	frontVec /= 1.5f;
 
 	if (inputPad_->InputLStickUp()) {
 		pos_.x -= frontVec.x;
@@ -96,7 +97,7 @@ void Player::Update()
 	playerObject_->Update();
 	podObject_->Update();
 
-	//Shot();
+	Shot();
 }
 
 void Player::Draw()
@@ -198,7 +199,7 @@ void Player::PlayerCamera(){
 
 	toNewCameraPosv.normalize();
 
-	float weight = 0.7f;
+	float weight = 0.2f;
 
 	toNewCameraPosv = toNewCameraPosv * weight + toCameraPosXZ * (1.0f - weight);
 	toNewCameraPosv.normalize();
