@@ -61,6 +61,8 @@ private:
 
 	float toCameraXZLen;
 
+	bool Rstick = false;
+
 public:
 	int HP = 5;
 	bool isDead = false;

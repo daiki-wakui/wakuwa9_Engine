@@ -260,17 +260,7 @@ void GameCore::Initialize()
 	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_.get(), gamePad_.get(), podObject_.get());
 	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
 
-	//newEnemy->Initialize(enemyObject_.get(), {-25,0,30}, player_.get());
-	//newEnemy->SetBulletModel(cubeModel_.get());
-	//newEnemy2->Initialize(enemyObject2_.get(), {0,0,30}, player_.get());
-	//newEnemy2->SetBulletModel(cubeModel_.get());
-	//newEnemy3->Initialize(enemyObject3_.get(), {25,0,30}, player_.get());
-	//newEnemy3->SetBulletModel(cubeModel_.get());
-
 	//“G‚ð“o˜^‚·‚é
-	//enemys_.push_back(std::move(newEnemy));
-	//enemys_.push_back(std::move(newEnemy2));
-	//enemys_.push_back(std::move(newEnemy3));
 
 	boss_->Initialize(enemyModel_.get(), bossObject_.get());
 }
@@ -374,9 +364,9 @@ void GameCore::Update()
 			});
 
 		//“G‚Ì“®‚«
-		for (std::unique_ptr<Enemy>& enemy : enemys_) {
+		/*for (std::unique_ptr<Enemy>& enemy : enemys_) {
 			enemy->Update();
-		}
+		}*/
 
 		if (HitBox == true) {
 			boss_->Update();
