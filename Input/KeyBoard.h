@@ -4,11 +4,6 @@
 #include <dinput.h>
 #include <wrl.h>
 
-#pragma comment(lib,"dinput8.lib")
-#pragma comment(lib,"dxguid.lib")
-
-//#define DIRECTINPUT_VERSION	0x0800
-
 using namespace DirectX;
 
 class KeyBoard

@@ -1,5 +1,8 @@
 #include "KeyBoard.h"
 
+#pragma comment(lib,"dinput8.lib")
+#pragma comment(lib,"dxguid.lib")
+
 void KeyBoard::Initialize(HINSTANCE hInstance, HWND hwnd)
 {
 	HRESULT result;
