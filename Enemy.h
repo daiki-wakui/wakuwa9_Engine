@@ -23,11 +23,11 @@ private:
 	Model* bulletModel_;
 
 
-	bool isDead = false;
+	bool isDead_ = false;
 
-	int HP = 5;
+	int32_t hp_ = 5;
 
-	int coolTime = 10;
+	int32_t coolTime_ = 10;
 
 	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 
@@ -39,7 +39,7 @@ public:
 	void Update();
 	void Draw();
 
-	bool IsDead() const { return isDead; }
+	bool IsDead() const { return isDead_; }
 
 	void OnCollision();
 

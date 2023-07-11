@@ -23,9 +23,6 @@ private:
 	KeyBoard* input_;
 	GamePad* inputPad_;
 
-	Model* hpModel_;
-	Object3D* hpObj_[5];
-
 	XMFLOAT3 rot_;
 	XMFLOAT3 pos_;
 	XMFLOAT3 posPod_;
@@ -42,27 +39,23 @@ private:
 	bool isStep = false;
 
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
-	int coolTime = 7;
+	int32_t coolTime = 7;
 
 	bool isMove = false;
 
 	const double PI = 3.141492;
 
 	float radi_;
-	//float angle_
-
 
 	float angle_;
 
 	float cameraAngle_ = 180.0f;
 	float r_;
 
-	float rLen_ = 30;
-
 	float toCameraXZLen;
 
 public:
-	int HP = 5;
+	int32_t HP = 5;
 	bool isDead = false;
 
 	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject);

@@ -6,7 +6,7 @@ void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int 
 	pos_ = pos;
 	pos_.y += 10;
 	player_ = player;
-	HP = hp;
+	hp_ = hp;
 
 	enemyObject_->SetScale({ 3,3,3 });
 
@@ -18,9 +18,9 @@ void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int 
 void Enemy::Update()
 {
 
-	coolTime--;
+	coolTime_--;
 
-	if (coolTime == 0) {
+	if (coolTime_ == 0) {
 		playerPos = player_->GetWorldPos();
 		enemyPos = GetWorldPos();
 
@@ -40,7 +40,7 @@ void Enemy::Update()
 		//’e‚ğ“o˜^‚·‚é
 		bullets_.push_back(std::move(newBullet));
 
-		coolTime = 50;
+		coolTime_ = 50;
 	}
 
 	//ƒfƒXƒtƒ‰ƒO‚ª—§‚Á‚½’e‚ğíœ
@@ -68,10 +68,10 @@ void Enemy::Draw()
 
 void Enemy::OnCollision()
 {
-	HP--;
+	hp_--;
 
-	if (HP <= 0) {
-		isDead = true;
+	if (hp_ <= 0) {
+		isDead_ = true;
 	}
 }
 

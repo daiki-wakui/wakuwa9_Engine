@@ -70,6 +70,10 @@ void Player::Update()
 		rot_.y = -angle_;
 	}
 	else if (inputPad_->InputLStick() && inputPad_->InputRStick() == false) {
+		radi_ = std::atan2(pos_.z - eye_.z, pos_.x - eye_.x);
+
+		angle_ = radi_ * (180 / (float)PI) - 90;
+
 		rot_.y = -angle_;
 	}
 	
