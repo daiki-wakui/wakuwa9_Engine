@@ -2,6 +2,7 @@
 #include "SpriteBasis.h"
 #include "WindowsApp.h"
 #include <DirectXMath.h>
+using namespace DirectX;
 
 #include <cstdint>
 

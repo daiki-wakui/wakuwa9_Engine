@@ -56,7 +56,7 @@ public: // 静的メンバ関数
 	//静的初期化
 	static void StaticInitialize(ID3D12Device* device);
 
-	
+
 	//インスタンス生成
 	void Create();
 
@@ -66,19 +66,19 @@ private: //静的メンバ変数
 	static ID3D12Device* sDevice;
 
 public: //メンバ関数
-	
+
 	//初期化
 	void Initialize();
 
-	
+
 	//更新
 	void Update();
 
-	
+
 	//描画
 	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex);
 
-	
+
 	//定数バッファ転送
 	void TransferConstBuffer();
 

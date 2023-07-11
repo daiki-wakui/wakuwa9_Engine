@@ -132,8 +132,12 @@ private: // 静的メンバ変数
 	//static DirectionalLight* light;
 	static LightGroup* sLightGroup;
 
+	//ライト
+	//static DirectionalLight* light;
+	static LightGroup* lightGroup;
+
 private:// 静的メンバ関数
-	
+
 
 	/// <summary>
 	/// カメラ初期化

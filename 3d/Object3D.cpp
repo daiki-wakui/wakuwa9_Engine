@@ -322,9 +322,9 @@ bool Object3D::Initialize()
 		IID_PPV_ARGS(&constBuffB0_));
 	assert(SUCCEEDED(result));
 
-	
 
-	
+
+
 
 	return true;
 }
@@ -363,7 +363,7 @@ void Object3D::Update()
 	constMap->cameraPos = GetEye();
 	constBuffB0_->Unmap(0, nullptr);
 
-	
+
 }
 
 void Object3D::Draw()

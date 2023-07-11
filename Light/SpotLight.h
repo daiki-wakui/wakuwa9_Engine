@@ -76,3 +76,5 @@ public: //ƒƒ“ƒoŠÖ”
 	inline bool IsActive() { return active_; };
 };
 
+
+

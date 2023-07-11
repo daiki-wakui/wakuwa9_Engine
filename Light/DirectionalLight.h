@@ -25,15 +25,15 @@ public: //サブクラス
 	};
 
 public: //メンバ関数
-	
+
 	//ライト方向をセット
 	inline void SetLightDir(const XMVECTOR& lightdir) { lightdir_ = DirectX::XMVector3Normalize(lightdir); }
 
-	
+
 	//ライト方向を取得
 	inline const XMVECTOR& GetLightDir() { return lightdir_; }
 
-	
+
 	//ライト色をセット
 	inline void SetLightColor(const XMFLOAT3& lightcolor) { lightcolor_ = lightcolor; }
 
@@ -43,7 +43,7 @@ public: //メンバ関数
 	//有効フラグをセット
 	inline void SetActive(bool active) { active_ = active; }
 
-	
+
 	//有効チェック
 	inline bool IsActive() { return active_; }
 

@@ -2,6 +2,7 @@
 #include "DirectXBasis.h"
 #include <string>
 #include <d3dcompiler.h>
+#pragma comment(lib, "d3dcompiler.lib")
 #include <DirectXMath.h>
 #include <DirectXTex.h>
 #include <array>
@@ -34,6 +35,7 @@ private:
 	int32_t texNum_ = -1;
 	UINT incrementSize_;
 
+
 public:
 	ID3DBlob* vsBlob_ = nullptr; // 頂点シェーダオブジェクト
 	ID3DBlob* psBlob_ = nullptr; // ピクセルシェーダオブジェクト
@@ -51,7 +53,7 @@ public:
 
 	int32_t TextureData(const wchar_t* name);
 
-	
+
 	UINT GetincrementSize() const { return incrementSize_; };
 
 	void LoadShader();

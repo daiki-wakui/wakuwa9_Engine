@@ -410,7 +410,7 @@ void Model::CreateBuffers() {
 		constMap1->alpha = material.alpha;
 		constBuffB1_->Unmap(0, nullptr);
 	}
-	
+
 }
 
 void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial) {
@@ -429,7 +429,7 @@ void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial
 		// シェーダリソースビューをセット
 		cmdList->SetGraphicsRootDescriptorTable(2, gpuDescHandleSRV_);
 	}
-	
+
 	// 描画コマンド
 	cmdList->DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }
