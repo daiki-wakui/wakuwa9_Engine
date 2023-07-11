@@ -120,15 +120,13 @@ void Player::Shot(){
 	if (coolTime < 0) {
 		//íeÇÃë¨ìx
 		const float kBulletSpeed = 2.0f;
-		Vector3 velocity(0, 0, kBulletSpeed);
 
-		velocity.multiplyMat4(playerObject_->matWorld_);
-		velocity.normalize();
-		velocity *= kBulletSpeed;
+		frontVec *= -kBulletSpeed;
+
 
 		//íeÇÃê∂ê¨Ç∆èâä˙âª
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(posPod_, velocity, bulletModel_, bulletObject_);
+		newBullet->Initialize(posPod_, frontVec, bulletModel_, bulletObject_);
 		bullets_.push_back(std::move(newBullet));
 
 		coolTime = 8;
