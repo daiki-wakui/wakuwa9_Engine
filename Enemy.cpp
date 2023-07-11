@@ -46,7 +46,7 @@ void Enemy::Update()
 	//デスフラグが立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
 		return bullet->IsDead();
-		});
+	});
 
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
 		bullet->Update();

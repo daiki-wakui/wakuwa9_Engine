@@ -119,7 +119,7 @@ void Player::Shot(){
 
 	if (coolTime < 0) {
 		//’e‚Ì‘¬“x
-		const float kBulletSpeed = 2.0f;
+		const float kBulletSpeed = 5.0f;
 
 		frontVec *= -kBulletSpeed;
 
@@ -144,6 +144,8 @@ void Player::Shot(){
 }
 
 void Player::PlayerCamera(){
+
+	
 
 	Vector3 toCameraPosXZ;
 	toCameraPosXZ.x = eye_.x - target_.x;
@@ -207,6 +209,9 @@ void Player::PlayerCamera(){
 		eye_.z = pos_.z + (cosf(r_) * toCameraXZLen);
 
 		Rstick = false;
+	}
+	else {
+
 	}
 
 	playerObject_->SetEye(eye_);

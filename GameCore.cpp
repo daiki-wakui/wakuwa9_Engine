@@ -195,7 +195,7 @@ void GameCore::Initialize()
 
 	//models.insert(std::make_pair(std::string("player"), playerModel_.get()));
 	//models.insert(std::make_pair(std::string("enemy"), floorModel));
-	//models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
+	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
 	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
 
@@ -208,76 +208,51 @@ void GameCore::Initialize()
 			model = it->second;
 		}
 
-		if (levelData_->objects[i].fileName == "camera") {
-
-			/*DirectX::XMFLOAT3 eye;
-			DirectX::XMStoreFloat3(&eye, levelData_->objects[i].translation);
-			Object3D::CameraMoveVector(eye);*/
-
-			continue;
-		}
-
+		//対応するモデルがなければ飛ばす
 		if (model == nullptr) {
 			continue;
 		}
+		//blender上のカメラセット
+		if (levelData_->objects[i].fileName == "camera") {
 
+			DirectX::XMFLOAT3 eye;
+			DirectX::XMStoreFloat3(&eye, levelData_->objects[i].translation);
+			Object3D::CameraMoveVector(eye);
+
+			continue;
+		}
+
+		//eventボックスの配置
 		if (levelData_->objects[i].fileName == "IventBlock") {
-			// モデルを指定して3Dオブジェクトを生成
-			//Object3D* newObject = Object3D::Create(1.0f);
-			////newObject->SetModel(playerModel);
-			//newObject->SetModel(model);
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
 
-			newObject[i] = std::make_unique<Object3D>();
-			newObject[i]->SetModel(model);
-			newObject[i]->Initialize();
+			eventBox_->Initialize(model, newObject[objSize].get());
+			objSize++;
+		}
+		else if (levelData_->objects[i].fileName == "enemySpawn") {
 
-			// 座標
-			DirectX::XMFLOAT3 pos;
-			DirectX::XMStoreFloat3(&pos, levelData_->objects[i].translation);
-			newObject[i]->SetPosition(pos);
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
 
-			// 回転角
-			DirectX::XMFLOAT3 rot;
-			DirectX::XMStoreFloat3(&rot, levelData_->objects[i].rotation);
-			newObject[i]->SetRotation({rot.x,rot.y,rot.z});
+			//オブジェクト生成と座標情報代入
+			newEnemy[enemySize] = std::make_unique<Enemy>();
 
+			newEnemy[enemySize]->Initialize(newObject[objSize].get(), newObject[objSize]->GetPosition(), player_.get());
+			newEnemy[enemySize]->SetBulletModel(cubeModel_.get());
 
-			// 座標
-			DirectX::XMFLOAT3 scale;
-			DirectX::XMStoreFloat3(&scale, levelData_->objects[i].scaling);
-			newObject[i]->SetScale(scale);
+			enemys_.push_back(std::move(newEnemy[enemySize]));
 
-
-			eventBox_->Initialize(model, newObject[i].get());
+			objSize++;
+			enemySize++;
 		}
 		else {
-			// モデルを指定して3Dオブジェクトを生成
-			//Object3D* newObject = Object3D::Create(1.0f);
-			////newObject->SetModel(playerModel);
-			//newObject->SetModel(model);
-
-			newObject[i] = std::make_unique<Object3D>();
-			newObject[i]->SetModel(model);
-			newObject[i]->Initialize();
-
-			// 座標
-			DirectX::XMFLOAT3 pos;
-			DirectX::XMStoreFloat3(&pos, levelData_->objects[i].translation);
-			newObject[i]->SetPosition(pos);
-
-			// 回転角
-			DirectX::XMFLOAT3 rot;
-			DirectX::XMStoreFloat3(&rot, levelData_->objects[i].rotation);
-			newObject[i]->SetRotation({rot.x,rot.y,rot.z});
-
-
-			// 座標
-			DirectX::XMFLOAT3 scale;
-			DirectX::XMStoreFloat3(&scale, levelData_->objects[i].scaling);
-			newObject[i]->SetScale(scale);
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
 
 			// 配列に登録
-			objects.push_back(newObject[i].get());
+			objects.push_back(newObject[objSize].get());
+			objSize++;
 		}
 
 	}
@@ -285,17 +260,17 @@ void GameCore::Initialize()
 	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_.get(), gamePad_.get(), podObject_.get());
 	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
 
-	newEnemy->Initialize(enemyObject_.get(), {-25,0,30}, player_.get());
-	newEnemy->SetBulletModel(cubeModel_.get());
-	newEnemy2->Initialize(enemyObject2_.get(), {0,0,30}, player_.get());
-	newEnemy2->SetBulletModel(cubeModel_.get());
-	newEnemy3->Initialize(enemyObject3_.get(), {25,0,30}, player_.get());
-	newEnemy3->SetBulletModel(cubeModel_.get());
+	//newEnemy->Initialize(enemyObject_.get(), {-25,0,30}, player_.get());
+	//newEnemy->SetBulletModel(cubeModel_.get());
+	//newEnemy2->Initialize(enemyObject2_.get(), {0,0,30}, player_.get());
+	//newEnemy2->SetBulletModel(cubeModel_.get());
+	//newEnemy3->Initialize(enemyObject3_.get(), {25,0,30}, player_.get());
+	//newEnemy3->SetBulletModel(cubeModel_.get());
 
 	//敵を登録する
-	enemys_.push_back(std::move(newEnemy));
-	enemys_.push_back(std::move(newEnemy2));
-	enemys_.push_back(std::move(newEnemy3));
+	//enemys_.push_back(std::move(newEnemy));
+	//enemys_.push_back(std::move(newEnemy2));
+	//enemys_.push_back(std::move(newEnemy3));
 
 	boss_->Initialize(enemyModel_.get(), bossObject_.get());
 }
@@ -316,9 +291,27 @@ void GameCore::Finalize()
 	windows_->Release();
 }
 
-void GameCore::Inport()
+void GameCore::Inport(Model* model , int32_t size)
 {
+	newObject[objSize] = std::make_unique<Object3D>();
+	newObject[objSize]->SetModel(model);
+	newObject[objSize]->Initialize();
 
+	// 座標
+	DirectX::XMFLOAT3 pos;
+	DirectX::XMStoreFloat3(&pos, levelData_->objects[size].translation);
+	newObject[objSize]->SetPosition(pos);
+
+	// 回転角
+	DirectX::XMFLOAT3 rot;
+	DirectX::XMStoreFloat3(&rot, levelData_->objects[size].rotation);
+	newObject[objSize]->SetRotation({ rot.x,rot.y,rot.z });
+
+
+	// 座標
+	DirectX::XMFLOAT3 scale;
+	DirectX::XMStoreFloat3(&scale, levelData_->objects[size].scaling);
+	newObject[objSize]->SetScale(scale);
 }
 
 void GameCore::Update()
@@ -381,9 +374,9 @@ void GameCore::Update()
 			});
 
 		//敵の動き
-		/*for (std::unique_ptr<Enemy>& enemy : enemys_) {
+		for (std::unique_ptr<Enemy>& enemy : enemys_) {
 			enemy->Update();
-		}*/
+		}
 
 		if (HitBox == true) {
 			boss_->Update();
@@ -445,13 +438,6 @@ void GameCore::Update()
 		if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && HitBox == true) {
 			bullet->isDead_ = true;
 			boss_->OnCollision();
-
-			//enemy->OnCollision();
-
-			//if (enemy->IsDead() == true) {
-			//	//knockDownNum++;
-			//}
-			//SoundPlayWave(xAudio2.Get(), soundData2);
 		}
 	}
 
@@ -477,13 +463,6 @@ void GameCore::Update()
 
 				bullet->isDead_ = true;
 				player_->OnCollision();
-
-				/*if (isPlayerDamege == 0 && invincible == 0) {
-					
-					isPlayerDamege = 1;
-					
-					SoundPlayWave(xAudio2.Get(), soundData5);
-				}*/
 			}
 		}
 	}

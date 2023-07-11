@@ -144,6 +144,12 @@ private:
 
 	std::unique_ptr<Object3D> newObject[100] = {};
 
+	std::unique_ptr<Enemy> newEnemy[100] = {};
+
+	int32_t objSize = 0;
+	int32_t enemySize = 0;
+
+
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
 	//Player* player = new Player;
 	//player->Initialize(playerModel_, playerObject, input_, podObject);
@@ -152,7 +158,7 @@ private:
 
 	std::list<std::unique_ptr<Enemy>> enemys_;
 
-	std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
+	//std::unique_ptr<Enemy> newEnemy = std::make_unique<Enemy>();
 	std::unique_ptr<Enemy> newEnemy2 = std::make_unique<Enemy>();
 	std::unique_ptr<Enemy> newEnemy3 = std::make_unique<Enemy>();
 
@@ -165,7 +171,7 @@ public:
 
 	void Finalize();
 
-	void Inport();
+	void Inport(Model* model,int32_t size);
 
 	//ñàÉtÉåÅ[ÉÄ
 	void Update();

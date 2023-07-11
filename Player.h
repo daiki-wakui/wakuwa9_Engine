@@ -59,6 +59,8 @@ private:
 
 	float rLen_ = 30;
 
+	float toCameraXZLen;
+
 public:
 	int HP = 5;
 	bool isDead = false;
