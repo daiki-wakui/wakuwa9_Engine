@@ -364,9 +364,9 @@ void GameCore::Update()
 			});
 
 		//“G‚Ì“®‚«
-		/*for (std::unique_ptr<Enemy>& enemy : enemys_) {
+		for (std::unique_ptr<Enemy>& enemy : enemys_) {
 			enemy->Update();
-		}*/
+		}
 
 		if (HitBox == true) {
 			boss_->Update();
