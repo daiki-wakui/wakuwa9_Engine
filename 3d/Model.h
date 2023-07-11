@@ -124,16 +124,6 @@ private:
 	//頂点法線スムージング用データ
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;
 
-
-	// 頂点データの数を取得
-	inline size_t GetVertexCount() { return vertices.size(); }
-
-	// エッジ平面化データの追加
-	void AddSmoothData(unsigned short indexPosition, unsigned short indexVertex);
-
-	//平面化された頂点法線の計算
-	void CalculateSmoothedVertexNormals();
-
 	//マテリアル
 	Material material;
 
