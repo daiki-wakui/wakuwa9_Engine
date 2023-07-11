@@ -7,10 +7,6 @@ class PostEffect :  public Sprite
 {
 private:
 
-	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-
-private:
-
 	ComPtr<ID3D12Resource> texBuff_[2] = {};
 
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;

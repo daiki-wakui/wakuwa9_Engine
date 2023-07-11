@@ -1,8 +1,6 @@
 #include "GameCore.h"
 using namespace DirectX;
 
-#pragma comment(lib, "d3dcompiler.lib")
-
 void GameCore::Initialize()
 {
 	//windowsAPI‰Šú‰»
