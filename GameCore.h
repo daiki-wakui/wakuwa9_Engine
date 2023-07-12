@@ -74,9 +74,6 @@ private:
 
 
 	std::unique_ptr<Model> enemyModel_;
-	std::unique_ptr<Object3D> enemyObject_;
-	std::unique_ptr<Object3D> enemyObject2_;
-	std::unique_ptr<Object3D> enemyObject3_;
 	std::unique_ptr<Object3D> bossObject_;
 
 
@@ -159,7 +156,7 @@ private:
 	std::unique_ptr<Enemy> newEnemy2 = std::make_unique<Enemy>();
 	std::unique_ptr<Enemy> newEnemy3 = std::make_unique<Enemy>();
 
-	int32_t scene = 0;
+	int32_t scene = 1;
 
 public:
 

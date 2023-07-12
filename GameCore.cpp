@@ -146,17 +146,6 @@ void GameCore::Initialize()
 	objectFloor_->SetScale(XMFLOAT3({ 5,5,5 }));
 	objectFloor_->SetPosition({ 0,-10,0 });
 
-	enemyObject_ = std::make_unique<Object3D>();
-	enemyObject_->SetModel(enemyModel_.get());
-	enemyObject_->Initialize();
-
-	enemyObject2_ = std::make_unique<Object3D>();
-	enemyObject2_->SetModel(enemyModel_.get());
-	enemyObject2_->Initialize();
-
-	enemyObject3_ = std::make_unique<Object3D>();
-	enemyObject3_->SetModel(enemyModel_.get());
-	enemyObject3_->Initialize();
 
 	bossObject_ = std::make_unique<Object3D>();
 	bossObject_->SetModel(enemyModel_.get());
@@ -194,7 +183,7 @@ void GameCore::Initialize()
 	levelData_ = LevelLoader::LoadFile("obj");
 
 	//models.insert(std::make_pair(std::string("player"), playerModel_.get()));
-	//models.insert(std::make_pair(std::string("enemy"), floorModel));
+	models.insert(std::make_pair(std::string("boss"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
 	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
@@ -246,6 +235,17 @@ void GameCore::Initialize()
 			objSize++;
 			enemySize++;
 		}
+		else if (levelData_->objects[i].fileName == "boss") {
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
+
+
+			newObject[objSize]->SetScale({ 15,15,15 });
+			boss_->Initialize(model, newObject[objSize].get());
+
+
+			objSize++;
+		}
 		else {
 			//オブジェクト生成と座標情報代入
 			Inport(model, i);
@@ -262,7 +262,7 @@ void GameCore::Initialize()
 
 	//敵を登録する
 
-	boss_->Initialize(enemyModel_.get(), bossObject_.get());
+	
 }
 
 void GameCore::Finalize()
@@ -564,6 +564,8 @@ void GameCore::Draw()
 	directX_->PreDraw();
 
 	postEffect_->Draw();
+
+	imGuiM_->Draw();
 
 	//描画後処理
 	directX_->PostDraw();
