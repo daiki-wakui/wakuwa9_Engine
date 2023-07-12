@@ -146,3 +146,39 @@ float GamePad::GetRStickAngle(float angle)
 
     return resultAngle;
 }
+
+bool GamePad::LTrigger()
+{
+    if (state.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
+        return true;
+    }
+
+    return false;
+}
+
+bool GamePad::RTrigger()
+{
+    if (state.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
+        return true;
+    }
+
+    return false;
+}
+
+bool GamePad::PushButtonLB()
+{
+    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) {
+        return true;
+    }
+
+    return false;
+}
+
+bool GamePad::PushButtonRB()
+{
+    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+        return true;
+    }
+
+    return false;
+}

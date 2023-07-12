@@ -107,9 +107,6 @@ private:
 	std::unique_ptr<Sprite> titleSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> gameoverSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> gameclearSprite_ = std::make_unique<Sprite>();
-	
-
-	int32_t state = 1;
 
 	//‰æ‘œ
 	int32_t tex1_ = 0;
@@ -162,7 +159,7 @@ private:
 	std::unique_ptr<Enemy> newEnemy2 = std::make_unique<Enemy>();
 	std::unique_ptr<Enemy> newEnemy3 = std::make_unique<Enemy>();
 
-	int32_t scene = 1;
+	int32_t scene = 0;
 
 public:
 

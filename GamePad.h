@@ -45,5 +45,10 @@ public:
 
     float GetInputPadRX() const { return state.Gamepad.sThumbRX; }
     float GetInputPadRY() const { return state.Gamepad.sThumbRY; }
+
+    bool LTrigger();
+    bool RTrigger();
+    bool PushButtonLB();
+    bool PushButtonRB();
 };
 
