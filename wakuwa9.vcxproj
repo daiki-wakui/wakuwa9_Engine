@@ -113,6 +113,7 @@
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
+    <ClCompile Include="Framework.cpp" />
     <ClCompile Include="GameCore.cpp" />
     <ClCompile Include="GamePad.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBullet.h" />
+    <ClInclude Include="Framework.h" />
     <ClInclude Include="GameCore.h" />
     <ClInclude Include="GamePad.h" />
     <ClInclude Include="ImGuiManager.h" />
