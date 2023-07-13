@@ -116,6 +116,7 @@
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="GameCore.cpp" />
     <ClCompile Include="GamePad.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Input\KeyBoard.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Framework.h" />
     <ClInclude Include="GameCore.h" />
     <ClInclude Include="GamePad.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Input\KeyBoard.h" />
     <ClInclude Include="LevelLoader.h" />
