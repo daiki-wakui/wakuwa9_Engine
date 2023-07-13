@@ -1,30 +1,31 @@
 #include "GameCore.h"
+#include "Framework.h"
+#include <memory>
 
 int32_t WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int32_t) {
 
-	GameCore game;
+	//GameCore game;
 
-	game.Initialize();
-	MSG msg{};
+	std::unique_ptr<Framework> game_ = std::make_unique<GameCore>();
 
-	OutputDebugStringA("文字列リテラルを出力するよ\n");
+	/*game.Initialize();
+	MSG msg{};*/
 
-	std::string a("stringに埋め込んだ文字列を取得するよ\n");
-	OutputDebugStringA(a.c_str());
+	game_->Run();
 
 	//ゲームループ
-	while (true) {
-		//×ボタンで終了メッセージがきたら
-		if (game.GetWindows()->gameloopExit(msg) == true || game.GetInput()->keyInstantPush(DIK_ESCAPE) == true) {
-			break;	//ゲームループ終了
-		}
+	//while (true) {
+	//	//×ボタンで終了メッセージがきたら
+	//	if (game.GetIsEnd()) {
+	//		break;	//ゲームループ終了
+	//	}
 
-		game.Update();
+	//	game.Update();
 
-		game.Draw();
-	}
+	//	game.Draw();
+	//}
 
-	game.Finalize();
+	//game.Finalize();
 
 	return 0;
 }

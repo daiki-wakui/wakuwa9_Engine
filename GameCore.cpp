@@ -281,6 +281,15 @@ void GameCore::Finalize()
 	windows_->Release();
 }
 
+void GameCore::IsEnd()
+{
+	//×ボタンで終了メッセージがきたら
+	if (GetWindows()->gameloopExit(msg) == true || GetInput()->keyInstantPush(DIK_ESCAPE) == true) {
+		isEndGame_ = true;	//ゲームループ終了
+	}
+
+}
+
 void GameCore::Inport(Model* model , int32_t size)
 {
 	newObject[objSize] = std::make_unique<Object3D>();
@@ -306,6 +315,8 @@ void GameCore::Inport(Model* model , int32_t size)
 
 void GameCore::Update()
 {
+	IsEnd();
+
 	//keyborad更新処理
 	keyboard_->Update();
 

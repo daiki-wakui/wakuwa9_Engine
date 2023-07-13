@@ -35,8 +35,9 @@
 #include "Enemy.h"
 #include "Boss.h"
 #include "GamePad.h"
+#include "Framework.h"
 
-class GameCore
+class GameCore : public Framework 
 {
 private:
 
@@ -158,19 +159,26 @@ private:
 
 	int32_t scene = 1;
 
+	MSG msg{};
+
+	bool isEndGame_ = false;
+
 public:
 
 	//èâä˙âª
-	void Initialize();
+	void Initialize() override;
 
-	void Finalize();
-
-	void Inport(Model* model,int32_t size);
-
+	void Finalize() override;
+	
 	//ñàÉtÉåÅ[ÉÄ
-	void Update();
+	void Update() override;
 
-	void Draw();
+	void Draw() override;
+
+	void IsEnd() override;
+
+	void Inport(Model* model, int32_t size);
+
 
 	WindowsApp* GetWindows() { return windows_.get(); }
 	DirectXBasis* GetDirectX() { return directX_.get(); }
