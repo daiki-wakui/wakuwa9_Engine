@@ -1,6 +1,7 @@
 #pragma once
 #include "Framework.h"
 #include "GameScene.h"
+#include "TitleScene.h"
 
 #include "PostEffect.h"
 
@@ -27,7 +28,7 @@ private:
 	ImGuiManager* imGuiM_ = Framework::GetImGui();
 	Sound* sound_ = Framework::GetSound();
 
-	std::unique_ptr<GameScene> gamescene_ = std::make_unique<GameScene>();
+	std::unique_ptr<TitleScene> gamescene_ = std::make_unique<TitleScene>();
 
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_ = std::make_unique<PostEffect>();
