@@ -29,6 +29,14 @@ class GameCore : public Framework
 {
 private:
 
+	DirectXBasis* directX_ = Framework::GetDirectX();
+	SpriteBasis* spBasis_ = Framework::GetSpBasis();
+	WindowsApp* windows_ = Framework::GetWindows();
+	KeyBoard* keyboard_ = Framework::GetInput();
+	GamePad* gamePad_ = Framework::GetInputPad();
+	ImGuiManager* imGuiM_ = Framework::GetImGui();
+	Sound* sound_ = Framework::GetSound();
+
 	//OBJÇ©ÇÁÉÇÉfÉãÇì«Ç›çûÇﬁ
 	std::unique_ptr<Model> floorModel_;
 	std::unique_ptr<Model> skydomModel_;
@@ -140,11 +148,5 @@ public:
 	void Draw() override;
 
 	void Inport(Model* model, int32_t size);
-
-
-	WindowsApp* GetWindows() { return windows_.get(); }
-	DirectXBasis* GetDirectX() { return directX_.get(); }
-	ImGuiManager* GetImGui() { return imGuiM_.get(); }
-	KeyBoard* GetInput() { return keyboard_.get(); }
 };
 

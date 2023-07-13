@@ -24,39 +24,39 @@ void GameCore::Initialize()
 
 	spBasis_->TextureSetting();
 
-	sprite_->Initialize(spBasis_.get(), windows_.get());
+	sprite_->Initialize(spBasis_, windows_);
 	sprite_->Create(50, 50);
 
-	backSprite_->Initialize(spBasis_.get(), windows_.get());
+	backSprite_->Initialize(spBasis_, windows_);
 	backSprite_->Create(640, 360);
 	backSprite_->SetSize({ 1280,720 });
 	backSprite_->Update();
 
-	playerHPSprite_->Initialize(spBasis_.get(), windows_.get());
+	playerHPSprite_->Initialize(spBasis_, windows_);
 	playerHPSprite_->Create(100, 30);
 
-	bossHPSprite_->Initialize(spBasis_.get(), windows_.get());
+	bossHPSprite_->Initialize(spBasis_, windows_);
 	bossHPSprite_->Create(640, 30);
 
-	titleSprite_->Initialize(spBasis_.get(), windows_.get());
+	titleSprite_->Initialize(spBasis_, windows_);
 	titleSprite_->Create(640, 360);
 	titleSprite_->SetSize({ 1280,720 });
 	titleSprite_->Update();
 
-	gameoverSprite_->Initialize(spBasis_.get(), windows_.get());
+	gameoverSprite_->Initialize(spBasis_, windows_);
 	gameoverSprite_->Create(640, 360);
 	gameoverSprite_->SetSize({ 1280,720 });
 	gameoverSprite_->Update();
 
-	gameclearSprite_->Initialize(spBasis_.get(), windows_.get());
+	gameclearSprite_->Initialize(spBasis_, windows_);
 	gameclearSprite_->Create(640, 360);
 	gameclearSprite_->SetSize({ 1280,720 });
 	gameclearSprite_->Update();
 
-	postEffect_->SetDirectX(spBasis_.get(), windows_.get(),keyboard_.get());
+	postEffect_->SetDirectX(spBasis_, windows_,keyboard_);
 	postEffect_->Initialize(0);
 
-	gaussianEffect_->SetDirectX(spBasis_.get(), windows_.get(), keyboard_.get());
+	gaussianEffect_->SetDirectX(spBasis_, windows_, keyboard_);
 	gaussianEffect_->Initialize(1);
 	
 	//OBJ‚©‚çƒ‚ƒfƒ‹‚ð“Ç‚Ýž‚Þ
@@ -213,7 +213,7 @@ void GameCore::Initialize()
 
 	}
 
-	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_.get(), gamePad_.get(), podObject_.get());
+	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
 	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
 }
 

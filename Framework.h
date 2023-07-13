@@ -16,7 +16,7 @@
 
 class Framework
 {
-public:
+private:
 	MSG msg{};
 
 	bool isEndGame_ = false;
@@ -71,5 +71,8 @@ public:
 	DirectXBasis* GetDirectX() { return directX_.get(); }
 	ImGuiManager* GetImGui() { return imGuiM_.get(); }
 	KeyBoard* GetInput() { return keyboard_.get(); }
+	GamePad* GetInputPad() { return gamePad_.get(); }
+	SpriteBasis* GetSpBasis() { return spBasis_.get(); }
+	Sound* GetSound() { return sound_.get(); }
 };
 
