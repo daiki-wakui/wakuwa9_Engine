@@ -1,62 +1,33 @@
 #pragma once
-#include "WindowsApp.h"
-#include "KeyBoard.h"
-#include "DirectXBasis.h"
-#include "ImGuiManager.h"
+#include "Framework.h"
+
 #include "Sprite.h"
-#include "SpriteBasis.h"
 #include "Sound.h"
-#include "DirectionalLight.h"
-#include "LightGroup.h"
-#include "Object3D.h"
 #include "Model.h"
-#include "FbxLoader.h"
-#include "FbxObject3d.h"
-#include "DirectionalLight.h"
-
-#include <memory>
-
-#include <string>
-#include <DirectXTex.h>
-
-#include <DirectXMath.h>
-#include <d3dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
-#include <cstdint>
 
 #include "PostEffect.h"
 
 #include "LevelLoader.h"
-#include <fstream>
-#include <cassert>
-#include <map>
+
 #include "EventBox.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Boss.h"
-#include "GamePad.h"
-#include "Framework.h"
+
+#include <fstream>
+#include <cassert>
+#include <map>
+
+#include <memory>
+#include <string>
+#include <DirectXTex.h>
+#include <DirectXMath.h>
+#include <d3dcompiler.h>
+#include <cstdint>
 
 class GameCore : public Framework 
 {
 private:
-
-	//windowsAPIの生成クラス
-	std::unique_ptr<WindowsApp> windows_ = std::make_unique<WindowsApp>();
-
-	//keyboradクラスの生成
-	std::unique_ptr<KeyBoard> keyboard_ = std::make_unique<KeyBoard>();
-
-	std::unique_ptr<GamePad> gamePad_ = std::make_unique<GamePad>();
-
-	//DirectXの基盤生成クラス
-	std::unique_ptr<DirectXBasis> directX_ = std::make_unique<DirectXBasis>();
-
-	//imgui
-	std::unique_ptr<ImGuiManager> imGuiM_ = std::make_unique<ImGuiManager>();
-
-	//ライトグループ
-	std::unique_ptr<LightGroup> lightGroup = std::make_unique<LightGroup>();
 
 	//OBJからモデルを読み込む
 	std::unique_ptr<Model> floorModel_;
@@ -91,9 +62,7 @@ private:
 	std::unique_ptr<FbxModel> testModel_;
 	std::unique_ptr<FbxObject3d> testObj_;
 
-	//スプライト基盤
-	std::unique_ptr<SpriteBasis> spBasis_ = std::make_unique<SpriteBasis>();
-
+	
 	//スプライト
 	std::unique_ptr<Sprite> sprite_ = std::make_unique<Sprite>();
 
@@ -128,8 +97,7 @@ private:
 	std::unique_ptr<PostEffect> gaussianEffect_ = std::make_unique<PostEffect>();
 
 
-	//サウンド
-	std::unique_ptr<Sound> sound_ = std::make_unique<Sound>();
+	
 
 	//レベルエディタ
 	LevelData* levelData_ = nullptr;
@@ -159,10 +127,6 @@ private:
 
 	int32_t scene = 1;
 
-	MSG msg{};
-
-	bool isEndGame_ = false;
-
 public:
 
 	//初期化
@@ -174,8 +138,6 @@ public:
 	void Update() override;
 
 	void Draw() override;
-
-	void IsEnd() override;
 
 	void Inport(Model* model, int32_t size);
 

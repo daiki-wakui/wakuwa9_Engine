@@ -5,11 +5,19 @@
 #include "KeyBoard.h"
 #include "GamePad.h"
 #include "LightGroup.h"
+#include "SpriteBasis.h"
+#include "Sound.h"
 
+#include "Object3D.h"
+#include "FbxLoader.h"
+#include "FbxObject3d.h"
+
+#include <memory>
 
 class Framework
 {
-private:
+public:
+	MSG msg{};
 
 	bool isEndGame_ = false;
 
@@ -29,6 +37,12 @@ private:
 
 	//ライトグループ
 	std::unique_ptr<LightGroup> lightGroup = std::make_unique<LightGroup>();
+
+	//スプライト基盤
+	std::unique_ptr<SpriteBasis> spBasis_ = std::make_unique<SpriteBasis>();
+
+	//サウンド
+	std::unique_ptr<Sound> sound_ = std::make_unique<Sound>();
 
 public:
 

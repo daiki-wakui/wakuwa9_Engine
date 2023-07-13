@@ -1,34 +1,17 @@
 #include "GameCore.h"
+#pragma comment(lib, "d3dcompiler.lib")
+
 using namespace DirectX;
 
 void GameCore::Initialize()
 {
-	//windowsAPI初期化
-	windows_->Initalize();
-
-
-	//DirectX初期化
-	directX_->Initialize(windows_.get());
-
-	//keyborad初期化
-	keyboard_->Initialize(windows_->GetHInstancee(), windows_->GetHwnd());
-
-	gamePad_->Update();
-
-	
-
-	imGuiM_->Initialize(windows_.get(), directX_.get());
-
-	spBasis_->Initialize(directX_.get());
+	Framework::Initialize();
 
 	postTex = spBasis_->TextureData(L"Resources/white1x1.png");
 
 	tex1_ = spBasis_->TextureData(L"Resources/001.png");
 	tex2_ = spBasis_->TextureData(L"Resources/test.png");
-	//tex3_ = spBasis_->TextureData(L"Resources/title.png");
-
 	
-
 	backTex_ = spBasis_->TextureData(L"Resources/backTitle.png");
 
 	playerHP_ = spBasis_->TextureData(L"Resources/playerHP.png");
@@ -75,24 +58,7 @@ void GameCore::Initialize()
 
 	gaussianEffect_->SetDirectX(spBasis_.get(), windows_.get(), keyboard_.get());
 	gaussianEffect_->Initialize(1);
-
-	Object3D::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
-
-	//Fbx初期化
-	FbxLoader::GetInstance()->Initialize(directX_->GetDevice());
-
-	XMFLOAT3 eye = Object3D::GetEye();
-	XMFLOAT3 target = Object3D::GetTarget();
-	XMFLOAT3 up = Object3D::GetUp();
-
-	FbxObject3d::SetCamera(eye, target, up);
-
-	FbxObject3d::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
-
-	//DirectionalLight::StaticInitalize(dxBasis->GetDevice());
-
-
-
+	
 	//OBJからモデルを読み込む
 	playerModel_ = std::make_unique<Model>();
 	playerModel_->LoadFromObj("player");
@@ -164,20 +130,9 @@ void GameCore::Initialize()
 	
 	testObj_->PlayAnimation();
 
-	LightGroup::StaticInitialize(directX_->GetDevice());
-
-	//ライト生成
-	lightGroup->Initialize();
-	//3Dオブジェクトにライトをセット
-	Object3D::SetLightGroup(lightGroup.get());
-
-	//オーディオ初期化
-	sound_->Initialize();
-
+	
 	sound_->LoadWave("PerituneMaterial.wav");
 	sound_->LoadWave("Alarm01.wav");
-
-
 
 	// レベルデータの読み込み
 	levelData_ = LevelLoader::LoadFile("obj");
@@ -230,6 +185,7 @@ void GameCore::Initialize()
 			newEnemy[enemySize]->Initialize(newObject[objSize].get(), newObject[objSize]->GetPosition(), player_.get());
 			newEnemy[enemySize]->SetBulletModel(cubeModel_.get());
 
+			//敵を登録する
 			enemys_.push_back(std::move(newEnemy[enemySize]));
 
 			objSize++;
@@ -259,35 +215,16 @@ void GameCore::Initialize()
 
 	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_.get(), gamePad_.get(), podObject_.get());
 	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
-
-	//敵を登録する
-
-	
 }
 
 void GameCore::Finalize()
 {
-	imGuiM_->Finalize();
-	
-	sound_->Finalize();
-
-	testModel_->fbxScene_->Destroy();
-
-	FbxLoader::GetInstance()->Finalize();
+	testModel_->fbxScene_->Destroy();	
 
 	models.clear();
 	objects.clear();
 
-	windows_->Release();
-}
-
-void GameCore::IsEnd()
-{
-	//×ボタンで終了メッセージがきたら
-	if (GetWindows()->gameloopExit(msg) == true || GetInput()->keyInstantPush(DIK_ESCAPE) == true) {
-		isEndGame_ = true;	//ゲームループ終了
-	}
-
+	Framework::Finalize();
 }
 
 void GameCore::Inport(Model* model , int32_t size)
@@ -315,14 +252,7 @@ void GameCore::Inport(Model* model , int32_t size)
 
 void GameCore::Update()
 {
-	IsEnd();
-
-	//keyborad更新処理
-	keyboard_->Update();
-
-	gamePad_->Update();
-
-	lightGroup->Update();
+	Framework::Update();
 
 	sprite_->Update();
 
@@ -333,8 +263,6 @@ void GameCore::Update()
 	//testObj_->Update();
 
 	//sound_->PlayWave("Alarm01.wav");
-
-	
 
 	//タイトル
 	if (scene == 0) {
