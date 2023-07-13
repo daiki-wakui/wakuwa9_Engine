@@ -108,6 +108,7 @@
     <ClCompile Include="3d\Model.cpp" />
     <ClCompile Include="3d\Object3D.cpp" />
     <ClCompile Include="Audio\Sound.cpp" />
+    <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="Base\DirectXBasis.cpp" />
     <ClCompile Include="Base\WindowsApp.cpp" />
     <ClCompile Include="Boss.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="3d\Model.h" />
     <ClInclude Include="3d\Object3D.h" />
     <ClInclude Include="Audio\Sound.h" />
+    <ClInclude Include="BaseScene.h" />
     <ClInclude Include="Base\DirectXBasis.h" />
     <ClInclude Include="Base\WindowsApp.h" />
     <ClInclude Include="Boss.h" />
