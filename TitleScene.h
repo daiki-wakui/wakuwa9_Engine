@@ -1,11 +1,12 @@
 #pragma once
 #include "Framework.h"
+#include "BaseScene.h"
 
 #include "Model.h"
 #include "Sprite.h"
 #include "Sound.h"
 
-class TitleScene
+class TitleScene : public BaseScene
 {
 private:
 
@@ -29,16 +30,16 @@ public:
 	void SetInputInfo(KeyBoard* keyboard, GamePad* gamePad);
 
 	//‰Šú‰»
-	void Initialize();
+	void Initialize() override;
 
 	//I—¹
-	void Finalize();
+	void Finalize()override;
 
 	//–ˆƒtƒŒ[ƒ€
-	void Update();
+	void Update()override;
 
 	//•`‰æ
-	void Draw();
+	void Draw()override;
 
 };
 

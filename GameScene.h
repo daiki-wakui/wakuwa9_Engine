@@ -1,5 +1,6 @@
 #pragma once
 #include "Framework.h"
+#include "BaseScene.h"
 
 #include "Model.h"
 #include "Sprite.h"
@@ -10,7 +11,7 @@
 
 #include "LevelLoader.h"
 
-class GameScene
+class GameScene : public BaseScene
 {
 private:
 
@@ -116,16 +117,16 @@ public:
 	void SetInputInfo(KeyBoard* keyboard, GamePad* gamePad);
 
 	//‰Šú‰»
-	void Initialize();
+	void Initialize()override;
 
 	//I—¹
-	void Finalize();
+	void Finalize()override;
 
 	//–ˆƒtƒŒ[ƒ€
-	void Update();
+	void Update()override;
 
 	//•`‰æ
-	void Draw();
+	void Draw()override;
 
 
 	void Inport(Model* model, int32_t size);
