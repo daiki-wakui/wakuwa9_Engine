@@ -66,7 +66,7 @@ void Framework::Update()
 
 	lightGroup->Update();
 
-	sceneManager_->Update();
+	//sceneManager_->Update();
 }
 
 void Framework::IsEnd(){

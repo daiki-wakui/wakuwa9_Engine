@@ -7,9 +7,9 @@ void GameCore::Initialize()
 {
 	Framework::Initialize();
 
-	//gamescene_->SetBasis(windows_, directX_, imGuiM_, spBasis_, sound_);
-	//gamescene_->SetInputInfo(keyboard_, gamePad_);
-	//gamescene_->Initialize();
+	gamescene_->SetBasis(windows_, directX_, imGuiM_, spBasis_, sound_);
+	gamescene_->SetInputInfo(keyboard_, gamePad_);
+	gamescene_->Initialize();
 
 	
 	postEffect_->SetDirectX(spBasis_, windows_, keyboard_);
@@ -17,22 +17,18 @@ void GameCore::Initialize()
 
 	gaussianEffect_->SetDirectX(spBasis_, windows_, keyboard_);
 	gaussianEffect_->Initialize(1);
-	
 
-	/*scene->SetBasis(windows_, directX_, imGuiM_, spBasis_, sound_);
-	scene->SetInputInfo(keyboard_, gamePad_);*/
+	//TitleScene::SetBasis(windows_, directX_, imGuiM_, spBasis_, sound_);
+	//TitleScene::SetInputInfo(keyboard_, gamePad_);
 
-	TitleScene::SetBasis(windows_, directX_, imGuiM_, spBasis_, sound_);
-	TitleScene::SetInputInfo(keyboard_, gamePad_);
-
-	Framework::sceneManager_->SetNextScene(scene.get());
+	//Framework::sceneManager_->SetNextScene(scene.get());
 	//Framework::sceneManager_->SetNextScene(scene);
 
 }
 
 void GameCore::Finalize()
 {
-	//gamescene_->Finalize();
+	gamescene_->Finalize();
 	Framework::Finalize();
 }
 
@@ -40,7 +36,7 @@ void GameCore::Update()
 {
 	Framework::Update();
 
-	//gamescene_->Update();
+	gamescene_->Update();
 
 	imGuiM_->Begin();
 
@@ -55,10 +51,10 @@ void GameCore::Draw()
 	Object3D::PreDraw(directX_->GetCommandList());
 	FbxObject3d::PreSet(directX_->GetCommandList());
 
-	//gamescene_->Draw();
+	gamescene_->Draw();
 
-	//SceneManager::Draw();
-	Framework::sceneManager_->Draw();
+	
+	//Framework::sceneManager_->Draw();
 
 	Object3D::PostDraw();
 
