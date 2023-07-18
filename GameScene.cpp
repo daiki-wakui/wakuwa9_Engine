@@ -140,84 +140,7 @@ void GameScene::Initialize()
 	sound_->LoadWave("PerituneMaterial.wav");
 	sound_->LoadWave("Alarm01.wav");
 
-	// レベルデータの読み込み
-	levelData_ = LevelLoader::LoadFile("obj");
-
-	//models.insert(std::make_pair(std::string("player"), playerModel_.get()));
-	models.insert(std::make_pair(std::string("boss"), enemyModel_.get()));
-	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
-	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
-	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
-
-	// レベルデータからオブジェクトを生成、配置
-	for (int32_t i = 0; i < levelData_->objects.size(); i++) {
-		// ファイル名から登録済みモデルを検索
-		Model* model = nullptr;
-		decltype(models)::iterator it = models.find(levelData_->objects[i].fileName);
-		if (it != models.end()) {
-			model = it->second;
-		}
-
-		//対応するモデルがなければ飛ばす
-		if (model == nullptr) {
-			continue;
-		}
-		//blender上のカメラセット
-		if (levelData_->objects[i].fileName == "camera") {
-
-			DirectX::XMFLOAT3 eye;
-			DirectX::XMStoreFloat3(&eye, levelData_->objects[i].translation);
-			Object3D::CameraMoveVector(eye);
-
-			continue;
-		}
-
-		//eventボックスの配置
-		if (levelData_->objects[i].fileName == "IventBlock") {
-			//オブジェクト生成と座標情報代入
-			Inport(model, i);
-
-			eventBox_->Initialize(model, newObject[objSize].get());
-			objSize++;
-		}
-		else if (levelData_->objects[i].fileName == "enemySpawn") {
-
-			//オブジェクト生成と座標情報代入
-			Inport(model, i);
-
-			//オブジェクト生成と座標情報代入
-			newEnemy[enemySize] = std::make_unique<Enemy>();
-
-			newEnemy[enemySize]->Initialize(newObject[objSize].get(), newObject[objSize]->GetPosition(), player_.get());
-			newEnemy[enemySize]->SetBulletModel(cubeModel_.get());
-
-			//敵を登録する
-			enemys_.push_back(std::move(newEnemy[enemySize]));
-
-			objSize++;
-			enemySize++;
-		}
-		else if (levelData_->objects[i].fileName == "boss") {
-			//オブジェクト生成と座標情報代入
-			Inport(model, i);
-
-
-			newObject[objSize]->SetScale({ 15,15,15 });
-			boss_->Initialize(model, newObject[objSize].get());
-
-
-			objSize++;
-		}
-		else {
-			//オブジェクト生成と座標情報代入
-			Inport(model, i);
-
-			// 配列に登録
-			objects.push_back(newObject[objSize].get());
-			objSize++;
-		}
-
-	}
+	ReLoad();
 
 	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
 	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
@@ -370,7 +293,7 @@ void GameScene::Update()
 			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
 
 				bullet->isDead_ = true;
-				player_->OnCollision();
+				//player_->OnCollision();
 			}
 		}
 	}
@@ -459,8 +382,96 @@ void GameScene::Draw()
 		}
 	}
 
+}
+
+void GameScene::EditorLoad()
+{
+	objects.clear();
+	enemys_.clear();
+	ReLoad();
+
+}
+
+void GameScene::ReLoad()
+{
+	// レベルデータの読み込み
+	levelData_ = LevelLoader::LoadFile("obj");
+
+	//models.insert(std::make_pair(std::string("player"), playerModel_.get()));
+	models.insert(std::make_pair(std::string("boss"), enemyModel_.get()));
+	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
+	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
+	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
+
+	// レベルデータからオブジェクトを生成、配置
+	for (int32_t i = 0; i < levelData_->objects.size(); i++) {
+		// ファイル名から登録済みモデルを検索
+		Model* model = nullptr;
+		decltype(models)::iterator it = models.find(levelData_->objects[i].fileName);
+		if (it != models.end()) {
+			model = it->second;
+		}
+
+		//対応するモデルがなければ飛ばす
+		if (model == nullptr) {
+			continue;
+		}
+		//blender上のカメラセット
+		if (levelData_->objects[i].fileName == "camera") {
+
+			DirectX::XMFLOAT3 eye;
+			DirectX::XMStoreFloat3(&eye, levelData_->objects[i].translation);
+			Object3D::CameraMoveVector(eye);
+
+			continue;
+		}
+
+		//eventボックスの配置
+		if (levelData_->objects[i].fileName == "IventBlock") {
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
+
+			eventBox_->Initialize(model, newObject[objSize].get());
+			objSize++;
+		}
+		else if (levelData_->objects[i].fileName == "enemySpawn") {
+
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
+
+			//オブジェクト生成と座標情報代入
+			newEnemy[enemySize] = std::make_unique<Enemy>();
+
+			newEnemy[enemySize]->Initialize(newObject[objSize].get(), newObject[objSize]->GetPosition(), player_.get());
+			newEnemy[enemySize]->SetBulletModel(cubeModel_.get());
+
+			//敵を登録する
+			enemys_.push_back(std::move(newEnemy[enemySize]));
+
+			objSize++;
+			enemySize++;
+		}
+		else if (levelData_->objects[i].fileName == "boss") {
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
 
 
+			newObject[objSize]->SetScale({ 15,15,15 });
+			boss_->Initialize(model, newObject[objSize].get());
+
+
+			objSize++;
+		}
+		else {
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
+
+			// 配列に登録
+			objects.push_back(newObject[objSize].get());
+			objSize++;
+		}
+
+	}
 }
 
 void GameScene::Inport(Model* model, int32_t size)

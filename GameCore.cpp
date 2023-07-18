@@ -59,6 +59,11 @@ void GameCore::Update()
 	}
 	
 	imGuiM_->Begin();
+	ImGui::Text("Editor");
+
+	if (ImGui::Button("ReLoad")) {
+		gamescene_->EditorLoad();
+	}
 
 	imGuiM_->End();
 }

@@ -95,7 +95,7 @@ private:
 
 	std::list<std::unique_ptr<Enemy>> enemys_;
 
-	int32_t scene = 1;
+	int32_t scene = 0;
 
 
 	//レベルエディタ
@@ -128,6 +128,9 @@ public:
 	//描画
 	void Draw()override;
 
+	void EditorLoad();
+
+	void ReLoad();
 
 	void Inport(Model* model, int32_t size);
 };
