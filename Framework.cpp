@@ -40,10 +40,13 @@ void Framework::Initialize()
 
 	//オーディオ初期化
 	sound_->Initialize();
+
+	sceneManager_ = std::make_unique<SceneManager>();
 }
 
 void Framework::Finalize()
 {
+
 	imGuiM_->Finalize();
 
 	sound_->Finalize();
@@ -62,6 +65,8 @@ void Framework::Update()
 	gamePad_->Update();
 
 	lightGroup->Update();
+
+	sceneManager_->Update();
 }
 
 void Framework::IsEnd(){

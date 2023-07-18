@@ -28,12 +28,17 @@ private:
 	ImGuiManager* imGuiM_ = Framework::GetImGui();
 	Sound* sound_ = Framework::GetSound();
 
-	std::unique_ptr<GameScene> gamescene_ = std::make_unique<GameScene>();
+	//std::unique_ptr<GameScene> gamescene_ = std::make_unique<GameScene>();
 
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_ = std::make_unique<PostEffect>();
 	std::unique_ptr<PostEffect> gaussianEffect_ = std::make_unique<PostEffect>();
 	
+	std::unique_ptr<BaseScene> scene = std::make_unique<TitleScene>();
+
+	//BaseScene* scene = new TitleScene();
+
+
 public:
 
 	//初期化

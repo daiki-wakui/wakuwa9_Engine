@@ -10,7 +10,21 @@
 
 class BaseScene
 {
+private:
+
+	DirectXBasis* directX_ = nullptr;
+	SpriteBasis* spBasis_ = nullptr;
+	WindowsApp* windows_ = nullptr;
+	ImGuiManager* imGuiM_ = nullptr;
+	Sound* sound_ = nullptr;
+
+	KeyBoard* keyboard_ = nullptr;
+	GamePad* gamePad_ = nullptr;
+
 public:
+
+	void SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound);
+	void SetInputInfo(KeyBoard* keyboard, GamePad* gamePad);
 
 	~BaseScene() = default;
 

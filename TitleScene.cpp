@@ -1,18 +1,26 @@
 #include "TitleScene.h"
 
+WindowsApp* TitleScene::windows_ = nullptr;
+DirectXBasis* TitleScene::directX_ = nullptr;
+ImGuiManager* TitleScene::imGuiM_ = nullptr;
+SpriteBasis* TitleScene::spBasis_ = nullptr;
+Sound* TitleScene::sound_ = nullptr;
+KeyBoard* TitleScene::keyboard_ = nullptr;
+GamePad* TitleScene::gamePad_ = nullptr;
+
 void TitleScene::SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound)
 {
-	windows_ = windows;
-	directX_ = directX;
-	imGuiM_ = imGuiM;
-	spBasis_ = spBasis;
-	sound_ = sound;
+	TitleScene::windows_ = windows;
+	TitleScene::directX_ = directX;
+	TitleScene::imGuiM_ = imGuiM;
+	TitleScene::spBasis_ = spBasis;
+	TitleScene::sound_ = sound;
 }
 
 void TitleScene::SetInputInfo(KeyBoard* keyboard, GamePad* gamePad)
 {
-	keyboard_ = keyboard;
-	gamePad_ = gamePad;
+	TitleScene::keyboard_ = keyboard;
+	TitleScene::gamePad_ = gamePad;
 }
 
 void TitleScene::Initialize()
