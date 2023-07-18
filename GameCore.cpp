@@ -11,6 +11,10 @@ void GameCore::Initialize()
 	gamescene_->SetInputInfo(keyboard_, gamePad_);
 	gamescene_->Initialize();
 
+	titlescene_->SetBasis(windows_, directX_, imGuiM_, spBasis_, sound_);
+	titlescene_->SetInputInfo(keyboard_, gamePad_);
+	titlescene_->Initialize();
+
 	
 	postEffect_->SetDirectX(spBasis_, windows_, keyboard_);
 	postEffect_->Initialize(0);
@@ -28,6 +32,7 @@ void GameCore::Initialize()
 
 void GameCore::Finalize()
 {
+	titlescene_->Finalize();
 	gamescene_->Finalize();
 	Framework::Finalize();
 }
@@ -36,8 +41,23 @@ void GameCore::Update()
 {
 	Framework::Update();
 
-	gamescene_->Update();
+	if (keyboard_->keyInstantPush(DIK_G)) {
+		state++;
 
+		if (state > 1) {
+			state = 0;
+		}
+	}
+
+	if (state == 0) {
+		gamescene_->Update();
+
+	}
+	else {
+		titlescene_->Update();
+
+	}
+	
 	imGuiM_->Begin();
 
 	imGuiM_->End();
@@ -51,8 +71,14 @@ void GameCore::Draw()
 	Object3D::PreDraw(directX_->GetCommandList());
 	FbxObject3d::PreSet(directX_->GetCommandList());
 
-	gamescene_->Draw();
-
+	if (state == 0) {
+		gamescene_->Draw();
+	}
+	else {
+		titlescene_->Draw();
+	}
+	
+	
 	
 	//Framework::sceneManager_->Draw();
 

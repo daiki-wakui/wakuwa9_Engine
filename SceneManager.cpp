@@ -11,14 +11,15 @@ void SceneManager::Update()
 	if (nextScene_) {
 
 		if (scene_) {
-			//scene_->Finalize();
-			//delete scene_;
+			scene_->Finalize();
+			delete scene_;
 		}
 
 		scene_ = nextScene_;
 
 		nextScene_ = nullptr;
 
+		
 		scene_->Initialize();
 	}
 
