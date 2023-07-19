@@ -134,7 +134,7 @@ void Player::Shot(){
 
 	if (coolTime < 0) {
 		//’e‚Ì‘¬“x
-		const float kBulletSpeed = 10.0f;
+		const float kBulletSpeed = 15.0f;
 
 		frontVec *= -kBulletSpeed;
 
