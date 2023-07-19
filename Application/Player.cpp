@@ -55,7 +55,20 @@ void Player::Update()
 		pos_.z += moveXVec.z;
 	}
 
-	
+	frame++;
+
+	if (input_->keyInstantPush(DIK_SPACE)) {
+		isJump = true;
+		jumpPower = 5.0f;
+	}
+
+	if (isJump == true) {
+		
+		jumpPower = 7.0f - 9.8f * frame / 50;
+		pos_.y += jumpPower;
+
+
+	}
 
 	if (inputPad_->InputRStick() == false && inputPad_->InputLStick() == false) {
 		RotateAngle();
@@ -77,6 +90,12 @@ void Player::Update()
 
 	posPod_.x += 5;
 	posPod_.y += 7;
+
+	//posPod_.z += 10;
+
+	
+	//posPod_.y = 1.25f * sinf(3.14f * frame * 70) + 15;
+
 
 	playerObject_->SetRotation(rot_);
 	playerObject_->SetPosition(pos_);

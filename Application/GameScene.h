@@ -95,7 +95,7 @@ private:
 
 	std::list<std::unique_ptr<Enemy>> enemys_;
 
-	int32_t scene = 0;
+	int32_t scene = 1;
 
 
 	//レベルエディタ

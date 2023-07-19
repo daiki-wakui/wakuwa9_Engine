@@ -217,8 +217,6 @@ void GameScene::Update()
 
 		playerHPSprite_->SetSize({ 32.0f * (float)player_->GetHP(),16.0f });
 		playerHPSprite_->Update();
-
-
 	}
 
 
@@ -388,6 +386,7 @@ void GameScene::EditorLoad()
 {
 	objects.clear();
 	enemys_.clear();
+
 	ReLoad();
 
 }

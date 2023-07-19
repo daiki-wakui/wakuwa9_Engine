@@ -54,6 +54,12 @@ private:
 
 	float toCameraXZLen;
 
+	bool isJump = false;
+
+	float jumpPower = 4.0f;
+
+	int32_t frame = 0;
+
 public:
 	int32_t HP = 5;
 	bool isDead = false;
