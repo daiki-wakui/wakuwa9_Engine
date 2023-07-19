@@ -86,7 +86,7 @@ void Player::Update()
 	podObject_->Update();
 
 
-	if (inputPad_->RTrigger()) {
+	if (inputPad_->PushButtonRB()) {
 		coolTime--;
 	}
 	Shot();
@@ -134,7 +134,7 @@ void Player::Shot(){
 
 	if (coolTime < 0) {
 		//íeÇÃë¨ìx
-		const float kBulletSpeed = 5.0f;
+		const float kBulletSpeed = 10.0f;
 
 		frontVec *= -kBulletSpeed;
 
@@ -144,7 +144,7 @@ void Player::Shot(){
 		newBullet->Initialize(posPod_, frontVec, bulletModel_, bulletObject_);
 		bullets_.push_back(std::move(newBullet));
 
-		coolTime = 8;
+		coolTime = 4;
 	}
 
 	//íeÇÃçXêVèàóù
