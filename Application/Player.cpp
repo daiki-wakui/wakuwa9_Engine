@@ -35,22 +35,22 @@ void Player::Update()
 	frontVec.normalize();
 	frontVec /= 1.5f;
 
-	if (inputPad_->InputLStickUp()) {
+	if (inputPad_->InputLStickUp()||input_->keyPush(DIK_UP)) {
 		pos_.x -= frontVec.x;
 		pos_.z -= frontVec.z;
 	}
-	else if (inputPad_->InputLStickDown()) {
+	else if (inputPad_->InputLStickDown()||input_->keyPush(DIK_DOWN)) {
 		pos_.x += frontVec.x;
 		pos_.z += frontVec.z;
 	}
 
 	moveXVec = tmpVecY.cross(frontVec);
 
-	if (inputPad_->InputLStickRight()) {
+	if (inputPad_->InputLStickRight()||input_->keyPush(DIK_RIGHT)) {
 		pos_.x -= moveXVec.x;
 		pos_.z -= moveXVec.z;
 	}
-	else if (inputPad_->InputLStickLeft()) {
+	else if (inputPad_->InputLStickLeft()||input_->keyPush(DIK_LEFT)) {
 		pos_.x += moveXVec.x;
 		pos_.z += moveXVec.z;
 	}
@@ -58,28 +58,18 @@ void Player::Update()
 	
 
 	if (inputPad_->InputRStick() == false && inputPad_->InputLStick() == false) {
-		radi_ = std::atan2(pos_.z - eye_.z, pos_.x - eye_.x);
-
-		angle_ = radi_ * (180 / (float)PI) - 90;
+		RotateAngle();
 	}
 	else if (inputPad_->InputLStick() && inputPad_->InputRStick()) {
-		radi_ = std::atan2(pos_.z - eye_.z, pos_.x - eye_.x);
-
-		angle_ = radi_ * (180 / (float)PI) - 90;
+		RotateAngle();
 
 		rot_.y = -angle_;
 	}
 	else if (inputPad_->InputLStick() && inputPad_->InputRStick() == false) {
-		radi_ = std::atan2(pos_.z - eye_.z, pos_.x - eye_.x);
-
-		angle_ = radi_ * (180 / (float)PI) - 90;
+		RotateAngle();
 
 		rot_.y = -angle_;
 	}
-	
-	
-
-	
 
 	PlayerCamera();
 
@@ -95,6 +85,10 @@ void Player::Update()
 	playerObject_->Update();
 	podObject_->Update();
 
+
+	if (inputPad_->RTrigger()) {
+		coolTime--;
+	}
 	Shot();
 }
 
@@ -136,7 +130,7 @@ DirectX::XMFLOAT3 Player::GetWorldPos()
 
 void Player::Shot(){
 
-	coolTime--;
+	
 
 	if (coolTime < 0) {
 		//’e‚Ì‘¬“x
@@ -226,4 +220,10 @@ void Player::PlayerCamera(){
 
 	playerObject_->SetEye(eye_);
 	playerObject_->SetTarget(target_);
+}
+
+void Player::RotateAngle()
+{
+	radi_ = std::atan2(pos_.z - eye_.z, pos_.x - eye_.x);
+	angle_ = radi_ * (180 / (float)PI) - 90;
 }

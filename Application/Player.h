@@ -74,6 +74,7 @@ public:
 
 	void Shot();
 	void PlayerCamera();
+	void RotateAngle();
 	
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
 
