@@ -57,7 +57,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)Light;$(ProjectDir)Base;$(ProjectDir)Input;$(ProjectDir)Audio;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)Light;$(ProjectDir)Base;$(ProjectDir)Input;$(ProjectDir)Audio;$(ProjectDir)Math;$(ProjectDir)Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -80,7 +80,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)Light;$(ProjectDir)Base;$(ProjectDir)Input;$(ProjectDir)Audio;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)Light;$(ProjectDir)Base;$(ProjectDir)Input;$(ProjectDir)Audio;$(ProjectDir)Math;$(ProjectDir)Application;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -107,17 +107,20 @@
     <ClCompile Include="3d\FbxObject3d.cpp" />
     <ClCompile Include="3d\Model.cpp" />
     <ClCompile Include="3d\Object3D.cpp" />
+    <ClCompile Include="Application\Boss.cpp" />
+    <ClCompile Include="Application\Enemy.cpp" />
+    <ClCompile Include="Application\EnemyBullet.cpp" />
+    <ClCompile Include="Application\GameScene.cpp" />
+    <ClCompile Include="Application\Player.cpp" />
+    <ClCompile Include="Application\PlayerBullet.cpp" />
+    <ClCompile Include="Application\TitleScene.cpp" />
     <ClCompile Include="Audio\Sound.cpp" />
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="Base\DirectXBasis.cpp" />
     <ClCompile Include="Base\WindowsApp.cpp" />
-    <ClCompile Include="Boss.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="Framework.cpp" />
     <ClCompile Include="GameCore.cpp" />
     <ClCompile Include="GamePad.cpp" />
-    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Input\KeyBoard.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
@@ -127,13 +130,10 @@
     <ClCompile Include="Light\PointLight.cpp" />
     <ClCompile Include="Light\SpotLight.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Matrix4.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerBullet.cpp" />
+    <ClCompile Include="Math\Matrix4.cpp" />
+    <ClCompile Include="Math\Vector2.cpp" />
+    <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="TitleScene.cpp" />
-    <ClCompile Include="Vector2.cpp" />
-    <ClCompile Include="Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\PostEffect.h" />
@@ -146,17 +146,20 @@
     <ClInclude Include="3d\FbxObject3d.h" />
     <ClInclude Include="3d\Model.h" />
     <ClInclude Include="3d\Object3D.h" />
+    <ClInclude Include="Application\Boss.h" />
+    <ClInclude Include="Application\Enemy.h" />
+    <ClInclude Include="Application\EnemyBullet.h" />
+    <ClInclude Include="Application\GameScene.h" />
+    <ClInclude Include="Application\Player.h" />
+    <ClInclude Include="Application\PlayerBullet.h" />
+    <ClInclude Include="Application\TitleScene.h" />
     <ClInclude Include="Audio\Sound.h" />
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="Base\DirectXBasis.h" />
     <ClInclude Include="Base\WindowsApp.h" />
-    <ClInclude Include="Boss.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="GameCore.h" />
     <ClInclude Include="GamePad.h" />
-    <ClInclude Include="GameScene.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Input\KeyBoard.h" />
     <ClInclude Include="LevelLoader.h" />
@@ -165,14 +168,11 @@
     <ClInclude Include="Light\LightGroup.h" />
     <ClInclude Include="Light\PointLight.h" />
     <ClInclude Include="Light\SpotLight.h" />
-    <ClInclude Include="Matrix4.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="Math\Matrix4.h" />
+    <ClInclude Include="Math\Vector2.h" />
+    <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="TitleScene.h" />
-    <ClInclude Include="Vector2.h" />
-    <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">
