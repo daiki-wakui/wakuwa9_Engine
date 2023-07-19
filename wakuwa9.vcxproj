@@ -115,13 +115,14 @@
     <ClCompile Include="Application\PlayerBullet.cpp" />
     <ClCompile Include="Application\TitleScene.cpp" />
     <ClCompile Include="Audio\Sound.cpp" />
-    <ClCompile Include="BaseScene.cpp" />
+    <ClCompile Include="Base\BaseScene.cpp" />
     <ClCompile Include="Base\DirectXBasis.cpp" />
+    <ClCompile Include="Base\Framework.cpp" />
+    <ClCompile Include="Base\GameCore.cpp" />
+    <ClCompile Include="Base\SceneManager.cpp" />
     <ClCompile Include="Base\WindowsApp.cpp" />
-    <ClCompile Include="Framework.cpp" />
-    <ClCompile Include="GameCore.cpp" />
-    <ClCompile Include="GamePad.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
+    <ClCompile Include="Input\GamePad.cpp" />
     <ClCompile Include="Input\KeyBoard.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="Light\CircleShadow.cpp" />
@@ -133,7 +134,6 @@
     <ClCompile Include="Math\Matrix4.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
-    <ClCompile Include="SceneManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\PostEffect.h" />
@@ -154,13 +154,14 @@
     <ClInclude Include="Application\PlayerBullet.h" />
     <ClInclude Include="Application\TitleScene.h" />
     <ClInclude Include="Audio\Sound.h" />
-    <ClInclude Include="BaseScene.h" />
+    <ClInclude Include="Base\BaseScene.h" />
     <ClInclude Include="Base\DirectXBasis.h" />
+    <ClInclude Include="Base\Framework.h" />
+    <ClInclude Include="Base\GameCore.h" />
+    <ClInclude Include="Base\SceneManager.h" />
     <ClInclude Include="Base\WindowsApp.h" />
-    <ClInclude Include="Framework.h" />
-    <ClInclude Include="GameCore.h" />
-    <ClInclude Include="GamePad.h" />
     <ClInclude Include="ImGuiManager.h" />
+    <ClInclude Include="Input\GamePad.h" />
     <ClInclude Include="Input\KeyBoard.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Light\CircleShadow.h" />
@@ -172,7 +173,6 @@
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="SceneManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">
