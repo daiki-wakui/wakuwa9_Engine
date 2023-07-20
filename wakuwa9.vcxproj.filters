@@ -76,6 +76,24 @@
     <Filter Include="ソース ファイル\Application\Scene">
       <UniqueIdentifier>{05876918-75f2-45fb-9d32-35b8209c0d63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="リソース ファイル\シェーダーファイル\Basuc">
+      <UniqueIdentifier>{7d3795ca-55c3-4c9c-b442-cd37b01b30cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\シェーダーファイル\FBX">
+      <UniqueIdentifier>{de2a9b1f-431b-413f-8427-dfbee6a0ffb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\シェーダーファイル\Gaussian">
+      <UniqueIdentifier>{10dc6ae8-4c07-4397-9d88-233ceca56af1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\シェーダーファイル\OBJ">
+      <UniqueIdentifier>{6033ddd6-04be-466b-9072-e9231d27507e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\シェーダーファイル\PostEffect">
+      <UniqueIdentifier>{8005ca79-e03c-422c-8272-42bfd7456cc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル\シェーダーファイル\Sprite">
+      <UniqueIdentifier>{69c28f7b-81fb-4c6d-8d42-634b75897760}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -188,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="Application\GameScene.cpp">
       <Filter>ソース ファイル\Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleManager.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -302,62 +323,77 @@
     <ClInclude Include="Application\GameScene.h">
       <Filter>ヘッダー ファイル\Application\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="ParticleManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
+      <Filter>リソース ファイル\シェーダーファイル\Basuc</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\BasicVShader.hlsl">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\OBJPixelShader.hlsl">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\OBJVertexShader.hlsl">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\SpriteVS.hlsl">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\SpritePS.hlsl">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\PostEffectVS.hlsl">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\shaders\PostEffectPS.hlsl">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
+      <Filter>リソース ファイル\シェーダーファイル\Basuc</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
+      <Filter>リソース ファイル\シェーダーファイル\FBX</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\FBXVS.hlsl">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
+      <Filter>リソース ファイル\シェーダーファイル\FBX</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\GaussianPS.hlsl">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
+      <Filter>リソース ファイル\シェーダーファイル\Gaussian</Filter>
     </FxCompile>
     <FxCompile Include="Resources\shaders\GaussianVS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル\Gaussian</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\OBJPixelShader.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル\OBJ</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\OBJVertexShader.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル\OBJ</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffectPS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\PostEffectVS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\SpriteVS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル\Sprite</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\SpritePS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル\Sprite</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticleGS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticlePS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticleVS.hlsl">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
-    </None>
-    <None Include="Resources\shaders\OBJShaderHeader.hlsli">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
-    </None>
-    <None Include="Resources\shaders\Sprite.hlsli">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
-    </None>
-    <None Include="Resources\shaders\PostEffect.hlsli">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
+      <Filter>リソース ファイル\シェーダーファイル\Basuc</Filter>
     </None>
     <None Include="Resources\shaders\FBX.hlsli">
-      <Filter>リソース ファイル\シェーダーファイル</Filter>
+      <Filter>リソース ファイル\シェーダーファイル\FBX</Filter>
     </None>
     <None Include="Resources\shaders\Gaussian.hlsli">
+      <Filter>リソース ファイル\シェーダーファイル\Gaussian</Filter>
+    </None>
+    <None Include="Resources\shaders\OBJShaderHeader.hlsli">
+      <Filter>リソース ファイル\シェーダーファイル\OBJ</Filter>
+    </None>
+    <None Include="Resources\shaders\PostEffect.hlsli">
+      <Filter>リソース ファイル\シェーダーファイル\PostEffect</Filter>
+    </None>
+    <None Include="Resources\shaders\Sprite.hlsli">
+      <Filter>リソース ファイル\シェーダーファイル\Sprite</Filter>
+    </None>
+    <None Include="Resources\shaders\Particle.hlsli">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </None>
   </ItemGroup>
