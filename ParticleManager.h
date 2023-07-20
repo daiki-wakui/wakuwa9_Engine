@@ -22,26 +22,18 @@ private: // エイリアス
 
 public: // サブクラス
 	// 頂点データ構造体
-	//struct VertexPosNormalUv
-	//{
-	//	XMFLOAT3 pos; // xyz座標
-	//	XMFLOAT3 normal; // 法線ベクトル
-	//	XMFLOAT2 uv;  // uv座標
-	//};
-
-	//頂点データ構造体
-	struct VertexPos
+	struct VertexPosNormalUv
 	{
-		XMFLOAT3 pos;	//xyz座標
-		float scale;
+		XMFLOAT3 pos; // xyz座標
+		XMFLOAT3 normal; // 法線ベクトル
+		XMFLOAT2 uv;  // uv座標
 	};
 
 	// 定数バッファ用データ構造体
 	struct ConstBufferData
 	{
-		//XMFLOAT4 color;	// 色 (RGBA)
+		XMFLOAT4 color;	// 色 (RGBA)
 		XMMATRIX mat;	// ３Ｄ変換行列
-		XMMATRIX matBillboard;
 	};
 
 private: // 定数
@@ -49,10 +41,8 @@ private: // 定数
 	static const float radius;				// 底面の半径
 	static const float prizmHeight;			// 柱の高さ
 	static const int planeCount = division * 2 + division * 2;		// 面の数
-	//static const int vertexCount = 1;		// 頂点数
-	//static const int vertexCount = 30;		// 頂点数
-	static const int vertexCount = 1024;
-	//	static const int indexCount = 3 * 2;	//インデックス数
+	static const int vertexCount = 4;		// 頂点数
+	static const int indexCount = 3 * 2;	//インデックス数
 
 public: // 静的メンバ関数
 	/// <summary>
@@ -129,7 +119,7 @@ private: // 静的メンバ変数
 	// 頂点バッファ
 	static ComPtr<ID3D12Resource> vertBuff;
 	// インデックスバッファ
-//	static ComPtr<ID3D12Resource> indexBuff;
+	static ComPtr<ID3D12Resource> indexBuff;
 	// テクスチャバッファ
 	static ComPtr<ID3D12Resource> texbuff;
 	// シェーダリソースビューのハンドル(CPU)
@@ -149,12 +139,11 @@ private: // 静的メンバ変数
 	// 頂点バッファビュー
 	static D3D12_VERTEX_BUFFER_VIEW vbView;
 	// インデックスバッファビュー
-//	static D3D12_INDEX_BUFFER_VIEW ibView;
+	static D3D12_INDEX_BUFFER_VIEW ibView;
 	// 頂点データ配列
-//	static VertexPosNormalUv vertices[vertexCount];
-	static VertexPos vertices[vertexCount];
+	static VertexPosNormalUv vertices[vertexCount];
 	// 頂点インデックス配列
-//	static unsigned short indices[indexCount];
+	static unsigned short indices[indexCount];
 
 	//ビルボード行列
 	static XMMATRIX matBillborad;
@@ -211,50 +200,28 @@ public: // メンバ関数
 	/// 座標の取得
 	/// </summary>
 	/// <returns>座標</returns>
-	/*const XMFLOAT3& GetPosition() const { return position; }
+	const XMFLOAT3& GetPosition() const { return position; }
 
 	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
-	void SetPosition(const XMFLOAT3& position) { this->position = position; }*/
-
-	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel,
-		float start_scale, float end_scale);
+	void SetPosition(const XMFLOAT3& position) { this->position = position; }
 
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuff; // 定数バッファ
-	//// 色
-	//XMFLOAT4 color = { 1,1,1,1 };
+	// 色
+	XMFLOAT4 color = { 1,1,1,1 };
 	// ローカルスケール
 	XMFLOAT3 scale = { 1,1,1 };
-	//// X,Y,Z軸回りのローカル回転角
-	//XMFLOAT3 rotation = { 0,0,0 };
-	//// ローカル座標
-	//XMFLOAT3 position = { 0,0,0 };
-	//// ローカルワールド変換行列
-	//XMMATRIX matWorld;
-	//// 親オブジェクト
-	//ParticleManager* parent = nullptr;
-
-	struct Particle
-	{
-		using XMFLOAT3 = DirectX::XMFLOAT3;
-
-		XMFLOAT3 position = {};
-		XMFLOAT3 velocity = {};
-		XMFLOAT3 accel = {};
-		int frame = 0;
-		int num_frame = 0;
-		float scale = 1.0f;
-		float s_scale = 1.0f;
-		float e_scale = 0.0f;
-	};
-
-	std::forward_list<Particle> particles;
-
-
-
+	// X,Y,Z軸回りのローカル回転角
+	XMFLOAT3 rotation = { 0,0,0 };
+	// ローカル座標
+	XMFLOAT3 position = { 0,0,0 };
+	// ローカルワールド変換行列
+	XMMATRIX matWorld;
+	// 親オブジェクト
+	ParticleManager* parent = nullptr;
 };
 
 const DirectX::XMFLOAT3 operator+(const DirectX::XMFLOAT3& lhs, const DirectX::XMFLOAT3& rhs);
