@@ -41,7 +41,7 @@ void GameCore::Update()
 {
 	Framework::Update();
 
-	if (keyboard_->keyInstantPush(DIK_G)) {
+	if (keyboard_->keyInstantPush(DIK_SPACE)) {
 		state++;
 
 		if (state > 1) {
@@ -49,12 +49,16 @@ void GameCore::Update()
 		}
 	}
 
+	if (keyboard_->keyInstantPush(DIK_T)) {
+		state = 0;
+	}
+
 	if (state == 0) {
-		gamescene_->Update();
+		titlescene_->Update();
 
 	}
 	else {
-		titlescene_->Update();
+		gamescene_->Update();
 
 	}
 	
@@ -77,10 +81,10 @@ void GameCore::Draw()
 	FbxObject3d::PreSet(directX_->GetCommandList());
 
 	if (state == 0) {
-		gamescene_->Draw();
+		titlescene_->Draw();
 	}
 	else {
-		titlescene_->Draw();
+		gamescene_->Draw();
 	}
 	
 	

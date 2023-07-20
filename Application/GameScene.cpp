@@ -158,7 +158,6 @@ void GameScene::Update()
 {
 	sprite_->Update();
 
-	//playerObject_->Update();
 	skyObject_->Update();
 	objectFloor_->Update();
 
@@ -166,61 +165,39 @@ void GameScene::Update()
 
 	//sound_->PlayWave("Alarm01.wav");
 
-	//ƒ^ƒCƒgƒ‹
-	if (scene == 0) {
-		if (gamePad_->PushButtonRB()) {
-			int a = 0;
-			a++;
-		}
-
-		if (keyboard_->keyInstantPush(DIK_SPACE)) {
-			scene = 1;
-			player_->HP = 5;
-			player_->isDead = false;
-			boss_->arive_ = true;
-			boss_->hp = 50;
-			HitBox = false;
-		}
-	}
 	//ƒQ[ƒ€‰æ–Ê
-	if (scene == 1) {
-		if (keyboard_->keyInstantPush(DIK_T)) {
-			scene = 0;
-		}
+	eventBox_->Update();
 
-		eventBox_->Update();
-
-		for (auto& object : objects) {
-			object->Update();
-		}
-
-		if (player_->IsDead() == false) {
-			player_->Update();
-
-		}
-
-		//enemy‚ÌŽ€–Sƒtƒ‰ƒO
-		enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
-			return enemy->IsDead();
-			});
-
-		//“G‚Ì“®‚«
-		for (std::unique_ptr<Enemy>& enemy : enemys_) {
-			enemy->Update();
-		}
-
-		if (HitBox == true) {
-			boss_->Update();
-			bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
-			bossHPSprite_->Update();
-		}
-
-		playerHPSprite_->SetSize({ 32.0f * (float)player_->GetHP(),16.0f });
-		playerHPSprite_->Update();
+	for (auto& object : objects) {
+		object->Update();
 	}
 
+	if (player_->IsDead() == false) {
+		player_->Update();
+
+	}
+
+	//enemy‚ÌŽ€–Sƒtƒ‰ƒO
+	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
+		return enemy->IsDead();
+		});
+
+	//“G‚Ì“®‚«
+	for (std::unique_ptr<Enemy>& enemy : enemys_) {
+		enemy->Update();
+	}
+
+	if (HitBox == true) {
+		boss_->Update();
+		bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
+		bossHPSprite_->Update();
+	}
+
+	playerHPSprite_->SetSize({ 32.0f * (float)player_->GetHP(),16.0f });
+	playerHPSprite_->Update();
 
 
+	//“–‚½‚è”»’è
 	XMFLOAT3 posA, posB;
 
 	//Ž©’eƒŠƒXƒg‚ÌŽæ“¾
@@ -325,61 +302,47 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-	if (scene == 0) {
 
+	//eventBox_->Draw();
+
+	for (auto& object : objects) {
+		object->Draw();
 	}
 
-	if (scene == 1) {
-		//eventBox_->Draw();
+	if (player_->IsDead() == false) {
+		player_->Draw();
+	}
 
-		for (auto& object : objects) {
-			object->Draw();
-		}
+	for (std::unique_ptr<Enemy>& enemy : enemys_) {
+		enemy->Draw();
+	}
 
-		if (player_->IsDead() == false) {
-			player_->Draw();
-		}
-
-		for (std::unique_ptr<Enemy>& enemy : enemys_) {
-			enemy->Draw();
-		}
-
-		if (HitBox == true && boss_->GetArive() == true) {
-			boss_->Draw();
-		}
+	if (HitBox == true && boss_->GetArive() == true) {
+		boss_->Draw();
 	}
 
 	//obj
-	//playerObject_->Draw();
 	skyObject_->Draw();
-	//objectFloor_->Draw();
-
+	
 	//fbx
 	//testObj_->Draw();
 
 	//sprite_->Draw(tex1_);
 
-	if (scene == 0) {
-		titleSprite_->Draw(title_);
+	playerHPSprite_->Draw(playerHP_);
+
+	if (HitBox == true && boss_->GetArive() == true) {
+		bossHPSprite_->Draw(bossHP_);
+
 	}
 
-	if (scene == 1) {
-		playerHPSprite_->Draw(playerHP_);
-
-		if (HitBox == true && boss_->GetArive() == true) {
-			bossHPSprite_->Draw(bossHP_);
-
-		}
-
-		if (player_->IsDead() == true) {
-			gameoverSprite_->Draw(gameover_);
-		}
-
-		if (boss_->GetArive() == false) {
-			gameclearSprite_->Draw(gameclear_);
-		}
+	if (player_->IsDead() == true) {
+		gameoverSprite_->Draw(gameover_);
 	}
 
+	if (boss_->GetArive() == false) {
+		gameclearSprite_->Draw(gameclear_);
+	}
 }
 
 void GameScene::EditorLoad()

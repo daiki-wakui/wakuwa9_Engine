@@ -20,8 +20,6 @@ void Player::clear() {
 
 void Player::Update()
 {
-	const float MoveLimitX = 1000.0f;
-	const float MoveLimitZ = 1000.0f;
 
 	rot_ = playerObject_->GetRotation();
 	pos_ = playerObject_->GetPosition();
@@ -55,7 +53,7 @@ void Player::Update()
 		pos_.z += moveXVec.z;
 	}
 
-	frame++;
+	/*frame++;
 
 	if (input_->keyInstantPush(DIK_SPACE)) {
 		isJump = true;
@@ -66,9 +64,7 @@ void Player::Update()
 		
 		jumpPower = 7.0f - 9.8f * frame / 50;
 		pos_.y += jumpPower;
-
-
-	}
+	}*/
 
 	if (inputPad_->InputRStick() == false && inputPad_->InputLStick() == false) {
 		RotateAngle();
@@ -91,9 +87,6 @@ void Player::Update()
 	posPod_.x += 5;
 	posPod_.y += 7;
 
-	//posPod_.z += 10;
-
-	
 	//posPod_.y = 1.25f * sinf(3.14f * frame * 70) + 15;
 
 
@@ -148,8 +141,6 @@ DirectX::XMFLOAT3 Player::GetWorldPos()
 }
 
 void Player::Shot(){
-
-	
 
 	if (coolTime < 0) {
 		//’e‚Ì‘¬“x
