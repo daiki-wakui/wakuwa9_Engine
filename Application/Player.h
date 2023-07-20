@@ -29,13 +29,15 @@ private:
 	XMFLOAT3 eye_;
 	XMFLOAT3 target_;
 
-	XMFLOAT3 move_ = { 0,0,0 };
+	Vector3 move_ = { 0,0,0 };
 
 	Vector3 frontVec = {0,0,0};
 	Vector3 moveXVec = { 0,0,0 };
 	Vector3 tmpVecY = { 0,1,0 };
 
-	float dashPower = 5.0f;
+	Vector3 bulletVec_ = { 0,0,0 };
+
+	//float dashPower = 5.0f;
 	bool isStep = false;
 
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
@@ -59,6 +61,10 @@ private:
 	float jumpPower = 4.0f;
 
 	int32_t frame = 0;
+
+	bool dash = false;
+	float dashPower_;
+	float dashPower2_;
 
 public:
 	int32_t HP = 5;

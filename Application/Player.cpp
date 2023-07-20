@@ -1,7 +1,7 @@
 #include "Player.h"
 
 #include <cmath>
-
+#include <algorithm>
 
 void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject)
 {
@@ -33,6 +33,22 @@ void Player::Update()
 	frontVec.normalize();
 	frontVec /= 1.5f;
 
+	bulletVec_ = frontVec;
+
+	if (dash) {
+		dashPower_ += 0.2f;
+
+		dashPower_ = min(dashPower_, 3.0f);
+
+	/*	
+		if (inputPad_->InputLStickLeft() || inputPad_->InputLStickRight()) {
+			dashPower /= 2;
+		}*/
+
+		frontVec.x *= dashPower_;
+		frontVec.z *= dashPower_;
+	}
+
 	if (inputPad_->InputLStickUp()||input_->keyPush(DIK_UP)) {
 		pos_.x -= frontVec.x;
 		pos_.z -= frontVec.z;
@@ -44,6 +60,20 @@ void Player::Update()
 
 	moveXVec = tmpVecY.cross(frontVec);
 
+	//if (dash) {
+	//	dashPower2_ += 0.2f;
+
+	//	dashPower2_ = min(dashPower2_, 3.0f);
+
+
+	//	/*if (inputPad_->InputLStickUp() || inputPad_->InputLStickDown()) {
+	//		dashPower /= 2;
+	//	}*/
+
+	//	moveXVec.x *= dashPower2_;
+	//	moveXVec.z *= dashPower2_;
+	//}
+
 	if (inputPad_->InputLStickRight()||input_->keyPush(DIK_RIGHT)) {
 		pos_.x -= moveXVec.x;
 		pos_.z -= moveXVec.z;
@@ -52,6 +82,18 @@ void Player::Update()
 		pos_.x += moveXVec.x;
 		pos_.z += moveXVec.z;
 	}
+	
+	if (!inputPad_->InputLStick()) {
+		dash = false;
+		dashPower_ = 1.0f;
+		dashPower2_ = 1.0f;
+	}
+
+
+	if (inputPad_->RTrigger()) {
+		dash = true;
+	}
+
 
 	/*frame++;
 
@@ -146,12 +188,12 @@ void Player::Shot(){
 		//íeÇÃë¨ìx
 		const float kBulletSpeed = 15.0f;
 
-		frontVec *= -kBulletSpeed;
+		bulletVec_ *= -kBulletSpeed;
 
 
 		//íeÇÃê∂ê¨Ç∆èâä˙âª
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(posPod_, frontVec, bulletModel_, bulletObject_);
+		newBullet->Initialize(posPod_, bulletVec_, bulletModel_, bulletObject_);
 		bullets_.push_back(std::move(newBullet));
 
 		coolTime = 4;
