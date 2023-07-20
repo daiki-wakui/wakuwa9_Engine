@@ -38,7 +38,7 @@ void Player::Update()
 	if (dash) {
 		dashPower_ += 0.2f;
 
-		dashPower_ = min(dashPower_, 2.0f);
+		dashPower_ = min(dashPower_, 1.5f);
 
 	/*	
 		if (inputPad_->InputLStickLeft() || inputPad_->InputLStickRight()) {
@@ -57,22 +57,11 @@ void Player::Update()
 		frontMove_.x = frontVec.x;
 		frontMove_.z = frontVec.z;
 	}
+	else {
+		frontMove_ *= friction;
+	}
 
 	moveXVec = tmpVecY.cross(frontVec);
-
-	//if (dash) {
-	//	dashPower2_ += 0.2f;
-
-	//	dashPower2_ = min(dashPower2_, 3.0f);
-
-
-	//	/*if (inputPad_->InputLStickUp() || inputPad_->InputLStickDown()) {
-	//		dashPower /= 2;
-	//	}*/
-
-	//	moveXVec.x *= dashPower2_;
-	//	moveXVec.z *= dashPower2_;
-	//}
 
 	if (inputPad_->InputLStickRight()||input_->keyPush(DIK_RIGHT)) {
 		sideMove_.x = -moveXVec.x;
@@ -82,12 +71,13 @@ void Player::Update()
 		sideMove_.x = moveXVec.x;
 		sideMove_.z = moveXVec.z;
 	}
+	else {
+		sideMove_ *= friction;
+	}
 	
 	if (!inputPad_->InputLStick()) {
 		dash = false;
 		dashPower_ = 1.0f;
-		sideMove_ *= friction;
-		frontMove_ *= friction;
 	}
 
 
@@ -123,10 +113,25 @@ void Player::Update()
 	else if (inputPad_->InputLStick() && inputPad_->InputRStick()) {
 		RotateAngle();
 
+		
+
 		rot_.y = -angle_;
 	}
-	else if (inputPad_->InputLStick() && inputPad_->InputRStick() == false) {
+
+
+	if (inputPad_->InputLStickLeft() && inputPad_->InputRStick() == false) {
 		RotateAngle();
+
+		addAngle += 0.1f;
+		angle_ += addAngle;
+
+		rot_.y = -angle_;
+	}
+	if (inputPad_->InputLStickRight() && inputPad_->InputRStick() == false) {
+		RotateAngle();
+
+		addAngle -= 0.1f;
+		angle_ += addAngle;
 
 		rot_.y = -angle_;
 	}

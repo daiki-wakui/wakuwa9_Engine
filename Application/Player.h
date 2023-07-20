@@ -67,6 +67,8 @@ private:
 	float dashPower_;
 	float friction = 0.8f;
 
+	float addAngle = 0.0f;
+
 public:
 	int32_t HP = 5;
 	bool isDead = false;
