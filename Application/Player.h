@@ -29,7 +29,8 @@ private:
 	XMFLOAT3 eye_;
 	XMFLOAT3 target_;
 
-	Vector3 move_ = { 0,0,0 };
+	Vector3 sideMove_ = { 0,0,0 };
+	Vector3 frontMove_ = { 0,0,0 };
 
 	Vector3 frontVec = {0,0,0};
 	Vector3 moveXVec = { 0,0,0 };
@@ -64,7 +65,7 @@ private:
 
 	bool dash = false;
 	float dashPower_;
-	float dashPower2_;
+	float friction = 0.8f;
 
 public:
 	int32_t HP = 5;

@@ -38,7 +38,7 @@ void Player::Update()
 	if (dash) {
 		dashPower_ += 0.2f;
 
-		dashPower_ = min(dashPower_, 3.0f);
+		dashPower_ = min(dashPower_, 2.0f);
 
 	/*	
 		if (inputPad_->InputLStickLeft() || inputPad_->InputLStickRight()) {
@@ -50,12 +50,12 @@ void Player::Update()
 	}
 
 	if (inputPad_->InputLStickUp()||input_->keyPush(DIK_UP)) {
-		pos_.x -= frontVec.x;
-		pos_.z -= frontVec.z;
+		frontMove_.x = -frontVec.x;
+		frontMove_.z = -frontVec.z;
 	}
 	else if (inputPad_->InputLStickDown()||input_->keyPush(DIK_DOWN)) {
-		pos_.x += frontVec.x;
-		pos_.z += frontVec.z;
+		frontMove_.x = frontVec.x;
+		frontMove_.z = frontVec.z;
 	}
 
 	moveXVec = tmpVecY.cross(frontVec);
@@ -75,18 +75,19 @@ void Player::Update()
 	//}
 
 	if (inputPad_->InputLStickRight()||input_->keyPush(DIK_RIGHT)) {
-		pos_.x -= moveXVec.x;
-		pos_.z -= moveXVec.z;
+		sideMove_.x = -moveXVec.x;
+		sideMove_.z = -moveXVec.z;
 	}
 	else if (inputPad_->InputLStickLeft()||input_->keyPush(DIK_LEFT)) {
-		pos_.x += moveXVec.x;
-		pos_.z += moveXVec.z;
+		sideMove_.x = moveXVec.x;
+		sideMove_.z = moveXVec.z;
 	}
 	
 	if (!inputPad_->InputLStick()) {
 		dash = false;
 		dashPower_ = 1.0f;
-		dashPower2_ = 1.0f;
+		sideMove_ *= friction;
+		frontMove_ *= friction;
 	}
 
 
@@ -94,6 +95,14 @@ void Player::Update()
 		dash = true;
 	}
 
+
+	pos_.x += frontMove_.x;
+	pos_.y += frontMove_.y;
+	pos_.z += frontMove_.z;
+
+	pos_.x += sideMove_.x;
+	pos_.y += sideMove_.y;
+	pos_.z += sideMove_.z;
 
 	/*frame++;
 
