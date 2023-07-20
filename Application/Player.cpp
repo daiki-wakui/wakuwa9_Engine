@@ -40,11 +40,6 @@ void Player::Update()
 
 		dashPower_ = min(dashPower_, 1.5f);
 
-	/*	
-		if (inputPad_->InputLStickLeft() || inputPad_->InputLStickRight()) {
-			dashPower /= 2;
-		}*/
-
 		frontVec.x *= dashPower_;
 		frontVec.z *= dashPower_;
 	}
