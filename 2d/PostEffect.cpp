@@ -9,6 +9,7 @@ const float PostEffect::sCLEAR_COLOR[4] = { 0.1f,0.1f,0.5f,0.0f };//緑っぽい色
 
 void PostEffect::Initialize(int32_t num)
 {
+
 	HRESULT result;
 
 	VertexData();
@@ -367,7 +368,6 @@ void PostEffect::Crate()
 	assert(SUCCEEDED(result_));
 
 	//定数バッファのマッピング(color)
-	ConstBufferDataMaterial* constMapMaterial = nullptr;
 	result_ = constBuffMaterial_->Map(0, nullptr, (void**)&constMapMaterial);	//マッピング
 	assert(SUCCEEDED(result_));
 
@@ -377,9 +377,8 @@ void PostEffect::Crate()
 
 	//値を書きこんで自動転送
 	constMapMaterial->color = XMFLOAT4(1, 1, 1, 1);	//色変更
-	constMapMaterial->power = 0.1f;
-
-
+	//constMapMaterial->power = 0.1f;
+	
 	//左上を原点に設定
 	matProjection_ =
 		XMMatrixOrthographicOffCenterLH(
@@ -413,6 +412,15 @@ void PostEffect::SetDirectX(SpriteBasis* spBasis, WindowsApp* winApp, KeyBoard* 
 
 PostEffect::PostEffect()
 {
+
+}
+
+void PostEffect::Update()
+{
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+	std::uniform_real_distribution<float> noizPower(0.1f, 1.0f);
+	constMapMaterial->power = noizPower(engine);
 
 }
 

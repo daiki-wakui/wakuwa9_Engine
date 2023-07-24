@@ -41,6 +41,8 @@ void GameCore::Update()
 {
 	Framework::Update();
 
+	postEffect_->Update();
+
 	if (keyboard_->keyInstantPush(DIK_SPACE)) {
 		state++;
 

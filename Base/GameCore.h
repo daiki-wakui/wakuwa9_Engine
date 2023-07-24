@@ -16,6 +16,8 @@
 #include <d3dcompiler.h>
 #include <cstdint>
 
+
+
 class GameCore : public Framework 
 {
 private:

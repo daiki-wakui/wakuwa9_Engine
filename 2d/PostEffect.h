@@ -3,6 +3,8 @@
 #include <cstdint>
 #include "KeyBoard.h"
 
+#include <random>
+
 class PostEffect :  public Sprite
 {
 private:
@@ -43,6 +45,10 @@ private:
 
 	static const float sCLEAR_COLOR[4];
 
+	ConstBufferDataMaterial* constMapMaterial = nullptr;
+
+	float noizpow;
+
 public:
 
 	void Initialize(int32_t num = 0);
@@ -59,6 +65,8 @@ public:
 
 	//コンストラクタ
 	PostEffect();
+
+	void Update();
 
 	//描画
 	void Draw();
