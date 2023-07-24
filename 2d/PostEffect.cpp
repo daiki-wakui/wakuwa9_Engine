@@ -377,6 +377,8 @@ void PostEffect::Crate()
 
 	//値を書きこんで自動転送
 	constMapMaterial->color = XMFLOAT4(1, 1, 1, 1);	//色変更
+	constMapMaterial->power = 0.1f;
+
 
 	//左上を原点に設定
 	matProjection_ =

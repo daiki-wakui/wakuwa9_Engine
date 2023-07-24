@@ -59,6 +59,7 @@ protected:
 	//定数バッファ用データ構造体(マテリアル)
 	struct ConstBufferDataMaterial {
 		DirectX::XMFLOAT4 color;	//色(RGBA)
+		float power;
 	};
 
 	//定数バッファ用データ構造体(3D変換行列)
