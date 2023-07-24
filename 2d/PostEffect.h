@@ -49,6 +49,8 @@ private:
 
 	float noizpow;
 
+	int32_t frame = 0;
+
 public:
 
 	void Initialize(int32_t num = 0);

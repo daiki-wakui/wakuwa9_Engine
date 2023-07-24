@@ -1,6 +1,7 @@
 #include "PostEffect.h"
 #include <d3dx12.h>
 #include <cassert>
+#include <algorithm>
 
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
@@ -417,14 +418,28 @@ PostEffect::PostEffect()
 
 void PostEffect::Update()
 {
+	frame++;
+
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
 	std::uniform_real_distribution<float> noizPower(0.1f, 1.0f);
-	std::uniform_real_distribution<float> noizPower2(-0.5f, 0.5f);
-	constMapMaterial->power = noizPower(engine);
-	//constMapMaterial->power = 0.1f;
+	std::uniform_real_distribution<float> noizPower2(-0.02f, 0.02f);
 
-	constMapMaterial->shiftPower = noizPower2(engine);
+	if (frame >= 30) {
+
+		constMapMaterial->power = noizPower(engine);
+		//constMapMaterial->power = 0.1f;
+
+		constMapMaterial->shiftPower = noizPower2(engine);
+	}
+	else {
+		constMapMaterial->power = 0;
+		constMapMaterial->shiftPower = 0;
+	}
+
+	if (frame >= 60) {
+		frame = 0;
+	}
 }
 
 void PostEffect::CreateGraphicsPipelineState(int32_t num)
