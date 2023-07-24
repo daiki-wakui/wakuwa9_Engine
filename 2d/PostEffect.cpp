@@ -420,8 +420,11 @@ void PostEffect::Update()
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
 	std::uniform_real_distribution<float> noizPower(0.1f, 1.0f);
+	std::uniform_real_distribution<float> noizPower2(-0.5f, 0.5f);
 	constMapMaterial->power = noizPower(engine);
+	//constMapMaterial->power = 0.1f;
 
+	constMapMaterial->shiftPower = noizPower2(engine);
 }
 
 void PostEffect::CreateGraphicsPipelineState(int32_t num)

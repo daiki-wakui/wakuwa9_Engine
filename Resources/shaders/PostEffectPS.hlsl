@@ -27,9 +27,9 @@ float4 main(VSOutput input) : SV_TARGET
 
 	float shift = 0.008f;
 
-	float r = tex.Sample(smp, input.uv + float2(-shift,0)).r;
+	float r = tex.Sample(smp, input.uv + float2(-shiftPower/100,0)).r;
 	float g = tex.Sample(smp, input.uv + float2(0,0)).g;
-	float b = tex.Sample(smp, input.uv + float2(shift,0)).b;
+	float b = tex.Sample(smp, input.uv + float2(shiftPower/100,0)).b;
 
 	texcolor1.rgb = float3(r,g,b);
 
@@ -59,12 +59,13 @@ float4 main(VSOutput input) : SV_TARGET
 	//float4 color = texcolor1;
 
 	//êFîΩì]ë„ì¸
-	float4 color = maxColor - texcolor1;
+	float4 color = tex.Sample(smp,float2(input.uv.x+shiftPower,input.uv.y));
+
 	//float4 color = texcolor1;
 
 
 	//ÇµÇ‹ÇµÇ‹èàóù
-	if (fmod(input.uv.y, power) < 0.05f) {
+	if (fmod(input.uv.y,power) < 0.05f) {
 		texcolor1 = color;
 	}
 
