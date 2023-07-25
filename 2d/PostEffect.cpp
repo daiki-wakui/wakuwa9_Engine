@@ -416,30 +416,43 @@ PostEffect::PostEffect()
 
 }
 
-void PostEffect::Update()
+void PostEffect::Update(Player* player)
 {
-	frame++;
+	if (player->GetIsHit()) {
+		isEffect_ = true;
+		frame_ = 20;
+	}
 
-	std::random_device seed_gen;
-	std::mt19937_64 engine(seed_gen());
-	std::uniform_real_distribution<float> noizPower(0.1f, 1.0f);
-	std::uniform_real_distribution<float> noizPower2(-0.02f, 0.02f);
+	if (isEffect_) {
+		frame_--;
 
-	if (frame >= 30) {
+		if (frame_ <= 30) {
+			std::random_device seed_gen;
+			std::mt19937_64 engine(seed_gen());
+			std::uniform_real_distribution<float> noizPower(0.1f, 1.0f);
+			std::uniform_real_distribution<float> noizPower2(-0.02f, 0.02f);
 
-		constMapMaterial->power = noizPower(engine);
-		//constMapMaterial->power = 0.1f;
+			constMapMaterial->power = noizPower(engine);
+			//constMapMaterial->power = 0.1f;
 
-		constMapMaterial->shiftPower = noizPower2(engine);
+			constMapMaterial->shiftPower = noizPower2(engine);
+			player->SetIsHit(false);
+		}
+
+		if (frame_ <= 0) {
+
+			isEffect_ = false;
+			constMapMaterial->power = 0;
+			constMapMaterial->shiftPower = 0;
+			frame_ = 60;
+			
+		}
 	}
 	else {
 		constMapMaterial->power = 0;
 		constMapMaterial->shiftPower = 0;
 	}
-
-	if (frame >= 60) {
-		frame = 0;
-	}
+	
 }
 
 void PostEffect::CreateGraphicsPipelineState(int32_t num)

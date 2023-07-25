@@ -69,7 +69,13 @@ private:
 
 	float addAngle = 0.0f;
 
+	bool isHit_ = false;
+
 public:
+
+	bool GetIsHit() { return isHit_; }
+	void SetIsHit(bool isHit) { isHit_ = isHit; }
+
 	int32_t HP = 5;
 	bool isDead = false;
 
@@ -81,7 +87,7 @@ public:
 	int GetCoolTime() const { return coolTime; };
 
 	void clear();
-	void OnCollision();
+	bool OnCollision();
 	bool IsDead() const { return isDead; }
 	bool GetIsStep() const { return isStep; }
 

@@ -3,6 +3,8 @@
 #include <cstdint>
 #include "KeyBoard.h"
 
+#include "Player.h"
+
 #include <random>
 
 class PostEffect :  public Sprite
@@ -49,9 +51,12 @@ private:
 
 	float noizpow;
 
-	int32_t frame = 0;
+	int32_t frame_ = 0;
+	bool isEffect_ = false;
 
 public:
+
+	void SetIsEffect(bool isEffect) { isEffect_ = isEffect; }
 
 	void Initialize(int32_t num = 0);
 
@@ -68,7 +73,7 @@ public:
 	//コンストラクタ
 	PostEffect();
 
-	void Update();
+	void Update(Player* player);
 
 	//描画
 	void Draw();

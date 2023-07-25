@@ -41,10 +41,11 @@ void GameCore::Update()
 {
 	Framework::Update();
 
-	postEffect_->Update();
+	postEffect_->Update(gamescene_->GetPlayer());
 
 	if (keyboard_->keyInstantPush(DIK_SPACE)) {
 		state++;
+		postEffect_->SetIsEffect(false);
 
 		if (state > 1) {
 			state = 0;
@@ -57,7 +58,7 @@ void GameCore::Update()
 
 	if (state == 0) {
 		titlescene_->Update();
-
+		postEffect_->SetIsEffect(true);
 	}
 	else {
 		gamescene_->Update();

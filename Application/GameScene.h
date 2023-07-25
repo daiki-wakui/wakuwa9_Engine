@@ -110,6 +110,9 @@ private:
 
 public:
 
+	Player* GetPlayer() { return player_.get(); }
+	
+
 	void SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound_);
 	void SetInputInfo(KeyBoard* keyboard, GamePad* gamePad);
 

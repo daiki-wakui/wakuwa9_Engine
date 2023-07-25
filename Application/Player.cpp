@@ -108,13 +108,16 @@ void Player::Update()
 	else if (inputPad_->InputLStick() && inputPad_->InputRStick()) {
 		RotateAngle();
 
-		
+		rot_.y = -angle_;
+	}
+	else if (inputPad_->InputLStick() && inputPad_->InputRStick() == false) {
+		RotateAngle();
 
 		rot_.y = -angle_;
 	}
 
 
-	if (inputPad_->InputLStickLeft() && inputPad_->InputRStick() == false) {
+	/*if (inputPad_->InputLStickLeft() && inputPad_->InputRStick() == false) {
 		RotateAngle();
 
 		addAngle += 0.1f;
@@ -129,7 +132,7 @@ void Player::Update()
 		angle_ += addAngle;
 
 		rot_.y = -angle_;
-	}
+	}*/
 
 	PlayerCamera();
 
@@ -171,13 +174,17 @@ void Player::SetBulletModel(Model* model,Object3D* obj)
 	bulletObject_ = obj;
 }
 
-void Player::OnCollision()
+bool Player::OnCollision()
 {
+	isHit_ = true;
+
 	HP--;
 
 	if (HP <= 0) {
 		isDead = true;
 	}
+
+	return true;
 }
 
 DirectX::XMFLOAT3 Player::GetWorldPos()
