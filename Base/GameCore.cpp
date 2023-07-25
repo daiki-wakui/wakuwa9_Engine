@@ -28,6 +28,8 @@ void GameCore::Initialize()
 	//Framework::sceneManager_->SetNextScene(scene.get());
 	//Framework::sceneManager_->SetNextScene(scene);
 
+	object3d->Initialize();
+	object3d->Update();
 }
 
 void GameCore::Finalize()
@@ -40,6 +42,8 @@ void GameCore::Finalize()
 void GameCore::Update()
 {
 	Framework::Update();
+
+	object3d->Update();
 
 	postEffect_->Update(gamescene_->GetPlayer());
 
@@ -96,7 +100,10 @@ void GameCore::Draw()
 
 	Object3D::PostDraw();
 
-	
+	// 3Dオブジェクト描画前処理
+	ParticleManager::PreDraw(directX_->GetCommandList());
+	object3d->Draw();
+	ParticleManager::PostDraw();
 	
 	postEffect_->PostDrawScene(directX_->GetCommandList());
 

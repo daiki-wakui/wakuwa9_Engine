@@ -13,6 +13,7 @@
 #include "Object3D.h"
 #include "FbxLoader.h"
 #include "FbxObject3d.h"
+#include "ParticleManager.h"
 
 #include <memory>
 

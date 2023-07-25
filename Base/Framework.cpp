@@ -19,6 +19,9 @@ void Framework::Initialize()
 
 	Object3D::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
 
+	ParticleManager::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
+
+
 	//Fbx‰Šú‰»
 	FbxLoader::GetInstance()->Initialize(directX_->GetDevice());
 	

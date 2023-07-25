@@ -4,6 +4,7 @@
 #include "TitleScene.h"
 
 #include "PostEffect.h"
+#include "ParticleManager.h"
 
 #include <fstream>
 #include <cassert>
@@ -42,6 +43,9 @@ private:
 	std::unique_ptr<TitleScene> titlescene_ = std::make_unique<TitleScene>();
 
 	int32_t state = 0;
+
+	std::unique_ptr<ParticleManager> object3d = std::make_unique<ParticleManager>();
+
 
 public:
 
