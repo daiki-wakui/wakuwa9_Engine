@@ -44,7 +44,7 @@ private:
 
 	int32_t state = 0;
 
-	std::unique_ptr<ParticleManager> object3d = std::make_unique<ParticleManager>();
+	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
 
 
 public:
