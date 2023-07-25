@@ -352,6 +352,9 @@
     <FxCompile Include="Resources\shaders\ParticleVertexShader.hlsl">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\ParticleGeometryShader.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">

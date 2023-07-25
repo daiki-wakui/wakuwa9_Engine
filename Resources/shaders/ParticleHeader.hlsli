@@ -11,3 +11,10 @@ struct VSOutput
     float3 normal : NORMAL; // 法線ベクトル
     float2 uv : TEXCOORD; // uv値
 };
+
+struct GSOutput
+{
+    float4 svpos : SV_POSITION;
+    float3 normal : NORMAL;
+    float2 uv : TEXCOORD;
+};
