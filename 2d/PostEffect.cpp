@@ -416,7 +416,7 @@ PostEffect::PostEffect()
 
 }
 
-void PostEffect::Update()
+void PostEffect::Update(KeyBoard* key)
 {
 	frame++;
 
@@ -425,21 +425,36 @@ void PostEffect::Update()
 	std::uniform_real_distribution<float> noizPower(0.1f, 1.0f);
 	std::uniform_real_distribution<float> noizPower2(-0.02f, 0.02f);
 
-	if (frame >= 30) {
+	if (key->keyInstantPush(DIK_SPACE)) {
+		state++;
 
-		constMapMaterial->power = noizPower(engine);
-		//constMapMaterial->power = 0.1f;
+		if (state > 1) {
+			state = 0;
+		}
+	}
 
-		constMapMaterial->shiftPower = noizPower2(engine);
+	if (state == 1) {
+		if (frame >= 30) {
+
+			constMapMaterial->power = noizPower(engine);
+			//constMapMaterial->power = 0.1f;
+
+			constMapMaterial->shiftPower = noizPower2(engine);
+		}
+		else {
+			constMapMaterial->power = 0;
+			constMapMaterial->shiftPower = 0;
+		}
+
+		if (frame >= 60) {
+			frame = 0;
+		}
 	}
 	else {
 		constMapMaterial->power = 0;
 		constMapMaterial->shiftPower = 0;
 	}
-
-	if (frame >= 60) {
-		frame = 0;
-	}
+	
 }
 
 void PostEffect::CreateGraphicsPipelineState(int32_t num)

@@ -50,6 +50,7 @@ private:
 	float noizpow;
 
 	int32_t frame = 0;
+	int32_t state = 0;
 
 public:
 
@@ -68,7 +69,7 @@ public:
 	//コンストラクタ
 	PostEffect();
 
-	void Update();
+	void Update(KeyBoard* key);
 
 	//描画
 	void Draw();

@@ -41,7 +41,7 @@ void GameCore::Update()
 {
 	Framework::Update();
 
-	postEffect_->Update();
+	
 
 	if (keyboard_->keyInstantPush(DIK_SPACE)) {
 		state++;
@@ -55,21 +55,16 @@ void GameCore::Update()
 		state = 0;
 	}
 
-	if (state == 0) {
-		titlescene_->Update();
 
-	}
-	else {
-		gamescene_->Update();
+	titlescene_->Update();
+	postEffect_->Update(keyboard_);
 
-	}
-	
 	imGuiM_->Begin();
-	ImGui::Text("Editor");
+	/*ImGui::Text("Editor");
 
 	if (ImGui::Button("ReLoad")) {
 		gamescene_->EditorLoad();
-	}
+	}*/
 
 	imGuiM_->End();
 }
@@ -86,7 +81,8 @@ void GameCore::Draw()
 		titlescene_->Draw();
 	}
 	else {
-		gamescene_->Draw();
+		//gamescene_->Draw();
+		titlescene_->Draw();
 	}
 	
 	

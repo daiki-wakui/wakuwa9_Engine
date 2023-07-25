@@ -61,6 +61,13 @@ float4 main(VSOutput input) : SV_TARGET
 	//êFîΩì]ë„ì¸
 	float4 color = tex.Sample(smp,float2(input.uv.x+shiftPower,input.uv.y));
 
+	r = tex.Sample(smp, float2(input.uv.x+shiftPower,input.uv.y) + float2(-shiftPower/5,0)).r;
+	g = tex.Sample(smp, float2(input.uv.x+shiftPower,input.uv.y) + float2(0,0)).g;
+	b = tex.Sample(smp, float2(input.uv.x+shiftPower,input.uv.y) + float2(shiftPower/5,0)).b;
+
+	color.rgb = float3(r,g,b);
+
+	//color.rgb += float3(r,g,b);
 	//float4 color = texcolor1;
 
 
