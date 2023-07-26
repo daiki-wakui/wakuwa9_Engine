@@ -140,7 +140,6 @@ void Player::Update()
 	posPod_ = pos_;
 
 	posPod_.x += 5;
-	//posPod_.y += 7;
 
 	posPod_.y = sinf(3.14f * frame * 40)*0.5f + 18;
 
