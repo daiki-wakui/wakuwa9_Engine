@@ -29,6 +29,8 @@ void TitleScene::Initialize()
 
 	title_ = spBasis_->TextureData(L"Resources/title.png");;
 
+	scene_ = spBasis_->TextureData(L"Resources/scene.png");
+
 	spBasis_->TextureSetting();
 
 
@@ -36,6 +38,11 @@ void TitleScene::Initialize()
 	titleSprite_->Create(640, 360);
 	titleSprite_->SetSize({ 1280,720 });
 	titleSprite_->Update();
+
+	sceneSprite_->Initialize(spBasis_, windows_);
+	sceneSprite_->Create(640, 360);
+	sceneSprite_->SetSize({ 0,0 });
+	sceneSprite_->Update();
 
 
 	skydomModel_ = std::make_unique<Model>();
@@ -56,6 +63,26 @@ void TitleScene::Update()
 {
 	titleSprite_->Update();
 
+	if (start_) {
+		pos = sceneSprite_->GetSize();
+
+		power++;
+
+		pos.x += power;
+		pos.y += power;
+
+		if (pos.y > 1920) {
+			pos.y = 1920;
+			change_ = true;
+			start_ = false;
+		}
+	}
+
+	sceneSprite_->SetSize(pos);
+	
+
+	sceneSprite_->Update();
+
 	skyObject_->Update();
 }
 
@@ -65,5 +92,7 @@ void TitleScene::Draw()
 
 	skyObject_->Draw();
 
+
+	sceneSprite_->Draw(scene_);
 	titleSprite_->Draw(title_);
 }

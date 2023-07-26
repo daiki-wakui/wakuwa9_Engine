@@ -74,12 +74,19 @@ void GameCore::Update()
 	postEffect_->Update(gamescene_->GetPlayer());
 
 	if (keyboard_->keyInstantPush(DIK_SPACE)) {
-		state++;
+		/*state++;
 		postEffect_->SetIsEffect(false);
 
 		if (state > 1) {
 			state = 0;
-		}
+		}*/
+
+		titlescene_->SetStart(true);
+	}
+
+	if (titlescene_->GetChange()) {
+		state = 1;
+		postEffect_->SetIsEffect(false);
 	}
 
 	if (keyboard_->keyInstantPush(DIK_T)) {
@@ -88,7 +95,7 @@ void GameCore::Update()
 
 	if (state == 0) {
 		titlescene_->Update();
-		//postEffect_->SetIsEffect(true);
+		postEffect_->SetIsEffect(true);
 	}
 	else {
 		gamescene_->Update();

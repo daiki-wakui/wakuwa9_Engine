@@ -88,8 +88,8 @@ void Sprite::Create(float x, float y)
 
 	constMapTransform_->mat = matWorld_ * matProjection_;
 
-	XMFLOAT2 pos = { 0,0 };
-
+	/*position_.x = x;
+	position_.y = y;*/
 }
 
 void Sprite::Initialize(SpriteBasis* spBasis, WindowsApp* winApp)
