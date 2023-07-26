@@ -89,7 +89,8 @@ void Player::Update()
 	pos_.y += sideMove_.y;
 	pos_.z += sideMove_.z;
 
-	/*frame++;
+	frame++;
+	/*
 
 	if (input_->keyInstantPush(DIK_SPACE)) {
 		isJump = true;
@@ -139,9 +140,9 @@ void Player::Update()
 	posPod_ = pos_;
 
 	posPod_.x += 5;
-	posPod_.y += 7;
+	//posPod_.y += 7;
 
-	//posPod_.y = 1.25f * sinf(3.14f * frame * 70) + 15;
+	posPod_.y = sinf(3.14f * frame * 40)*0.5f + 18;
 
 
 	playerObject_->SetRotation(rot_);
