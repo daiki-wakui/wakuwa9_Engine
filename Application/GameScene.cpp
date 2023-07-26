@@ -31,6 +31,7 @@ void GameScene::Initialize()
 	gameover_ = spBasis_->TextureData(L"Resources/gameover.png");
 	gameclear_ = spBasis_->TextureData(L"Resources/gameclear.png");
 
+	scene_ = spBasis_->TextureData(L"Resources/scene.png");
 
 	spBasis_->TextureSetting();
 
@@ -63,7 +64,10 @@ void GameScene::Initialize()
 	gameclearSprite_->SetSize({ 1280,720 });
 	gameclearSprite_->Update();
 
-
+	sceneSprite_->Initialize(spBasis_, windows_);
+	sceneSprite_->Create(640, 360);
+	sceneSprite_->SetSize({ 1920,1920 });
+	sceneSprite_->Update();
 
 	//OBJ‚©‚çƒ‚ƒfƒ‹‚ğ“Ç‚İ‚Ş
 	playerModel_ = std::make_unique<Model>();
@@ -159,7 +163,24 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
-	
+	if (start_) {
+		pos = sceneSprite_->GetSize();
+
+		power--;
+
+		pos.x += power;
+		pos.y += power;
+
+		if (pos.y < 0) {
+			pos.y = 0;
+			pos.x = 0;
+			//change_ = true;
+			start_ = false;
+		}
+
+		sceneSprite_->SetSize(pos);
+	}
+	sceneSprite_->Update();
 
 	particleMan_->Update();
 
@@ -370,6 +391,8 @@ void GameScene::Draw()
 	if (boss_->GetArive() == false) {
 		gameclearSprite_->Draw(gameclear_);
 	}
+
+	sceneSprite_->Draw(scene_);
 }
 
 void GameScene::pDraw()

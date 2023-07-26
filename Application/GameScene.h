@@ -87,6 +87,9 @@ private:
 	int32_t gameover_ = 0;
 	int32_t gameclear_ = 0;
 
+	int32_t scene_ = 0;
+
+
 	bool HitBox = false;
 
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
@@ -110,10 +113,21 @@ private:
 
 	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
 	bool BulletEffect = false;
+
+	std::unique_ptr<Sprite> sceneSprite_ = std::make_unique<Sprite>();
+	bool start_ = false;
+	bool change_ = false;
+	XMFLOAT2 pos = { 0,0 };
+	float power = -1;
+
 public:
 
 	Player* GetPlayer() { return player_.get(); }
 	
+	bool GetChange() { return change_; }
+	void SetChange(bool change) { change_ = change; }
+	bool GetStart() { return start_; }
+	void SetStart(bool start) { start_ = start; }
 
 	void SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound_);
 	void SetInputInfo(KeyBoard* keyboard, GamePad* gamePad);

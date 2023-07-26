@@ -80,6 +80,7 @@ void GameCore::Update()
 
 	if (titlescene_->GetChange()) {
 		state = 1;
+		gamescene_->SetStart(true);
 		postEffect_->SetIsEffect(false);
 	}
 

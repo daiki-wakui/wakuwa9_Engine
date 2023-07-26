@@ -73,6 +73,7 @@ void TitleScene::Update()
 
 		if (pos.y > 1920) {
 			pos.y = 1920;
+			pos.x = 1920;
 			change_ = true;
 			start_ = false;
 		}

@@ -42,7 +42,7 @@ private:
 
 	std::unique_ptr<TitleScene> titlescene_ = std::make_unique<TitleScene>();
 
-	int32_t state = 1;
+	int32_t state = 0;
 
 	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
 
