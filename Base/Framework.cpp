@@ -19,8 +19,7 @@ void Framework::Initialize()
 
 	Object3D::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
 
-	ParticleManager::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
-
+	
 
 	//Fbx初期化
 	FbxLoader::GetInstance()->Initialize(directX_->GetDevice());
@@ -32,6 +31,10 @@ void Framework::Initialize()
 	FbxObject3d::SetCamera(eye, target, up);
 
 	FbxObject3d::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
+
+	ParticleManager::SetCamera(eye, target, up);
+	ParticleManager::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
+
 
 	//ライトグループ初期化
 	LightGroup::StaticInitialize(directX_->GetDevice());

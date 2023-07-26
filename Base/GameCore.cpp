@@ -43,6 +43,15 @@ void GameCore::Update()
 {
 	Framework::Update();
 
+	// ƒJƒƒ‰ˆÚ“®
+	if (keyboard_->keyPush(DIK_W) || keyboard_->keyPush(DIK_A) || keyboard_->keyPush(DIK_S) || keyboard_->keyPush(DIK_D))
+	{
+		if (keyboard_->keyPush(DIK_W)) { ParticleManager::CameraMoveEyeVector({ 0.0f,+1.0f,0.0f }); }
+		else if (keyboard_->keyPush(DIK_S)) { ParticleManager::CameraMoveEyeVector({ 0.0f,-1.0f,0.0f }); }
+		if (keyboard_->keyPush(DIK_D)) { ParticleManager::CameraMoveEyeVector({ +1.0f,0.0f,0.0f }); }
+		else if (keyboard_->keyPush(DIK_A)) { ParticleManager::CameraMoveEyeVector({ -1.0f,0.0f,0.0f }); }
+	}
+
 	particleMan_->Update();
 
 	postEffect_->Update(gamescene_->GetPlayer());
@@ -62,7 +71,7 @@ void GameCore::Update()
 
 	if (state == 0) {
 		titlescene_->Update();
-		postEffect_->SetIsEffect(true);
+		//postEffect_->SetIsEffect(true);
 	}
 	else {
 		gamescene_->Update();
