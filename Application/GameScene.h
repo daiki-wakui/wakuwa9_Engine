@@ -108,6 +108,8 @@ private:
 	int32_t objSize = 0;
 	int32_t enemySize = 0;
 
+	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
+	bool BulletEffect = false;
 public:
 
 	Player* GetPlayer() { return player_.get(); }
@@ -127,6 +129,8 @@ public:
 
 	//•`‰æ
 	void Draw()override;
+
+	void pDraw();
 
 	void EditorLoad();
 

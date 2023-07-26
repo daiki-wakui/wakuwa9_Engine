@@ -48,9 +48,9 @@ void Enemy::Update()
 		return bullet->IsDead();
 	});
 
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
+	/*for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
 		bullet->Update();
-	}
+	}*/
 
 	enemyObject_->SetPosition(pos_);
 

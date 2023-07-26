@@ -8,6 +8,7 @@
 #include <list>
 #include "Vector3.h"
 #include "Vector2.h"
+#include "ParticleManager.h"
 
 class Player
 {

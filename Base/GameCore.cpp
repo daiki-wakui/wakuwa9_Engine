@@ -28,9 +28,6 @@ void GameCore::Initialize()
 	//Framework::sceneManager_->SetNextScene(scene.get());
 	//Framework::sceneManager_->SetNextScene(scene);
 
-	particleMan_->Initialize();
-	particleMan_->Update();
-
 	//for (int i = 0; i < 100; i++) {
 	//	const float md_pos = 10.0f;
 	//	XMFLOAT3 pos{};
@@ -72,27 +69,7 @@ void GameCore::Update()
 		else if (keyboard_->keyPush(DIK_A)) { ParticleManager::CameraMoveEyeVector({ -1.0f,0.0f,0.0f }); }
 	}
 
-	for (int i = 0; i < 3; i++) {
-		const float md_pos = 10.0f;
-		XMFLOAT3 pos{};
-		pos.x = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
-		pos.y = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
-		pos.z = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
-
-		const float md_vel = 0.1f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-
-		XMFLOAT3 acc{};
-		const float md_acc = 0.001f;
-		acc.y = -(float)rand() / RAND_MAX * md_acc;
-
-		particleMan_->Add(60, pos, vel, acc, 1.0f, 0.0f);
-	}
-
-	particleMan_->Update();
+	
 
 	postEffect_->Update(gamescene_->GetPlayer());
 
@@ -135,6 +112,7 @@ void GameCore::Draw()
 	
 	Object3D::PreDraw(directX_->GetCommandList());
 	FbxObject3d::PreSet(directX_->GetCommandList());
+	
 
 	if (state == 0) {
 		titlescene_->Draw();
@@ -142,16 +120,13 @@ void GameCore::Draw()
 	else {
 		gamescene_->Draw();
 	}
-	
-	
-	
-	//Framework::sceneManager_->Draw();
 
 	Object3D::PostDraw();
-
 	// 3Dオブジェクト描画前処理
 	ParticleManager::PreDraw(directX_->GetCommandList());
-	particleMan_->Draw();
+	
+	gamescene_->pDraw();
+
 	ParticleManager::PostDraw();
 	
 	postEffect_->PostDrawScene(directX_->GetCommandList());

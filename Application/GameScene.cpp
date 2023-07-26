@@ -144,6 +144,9 @@ void GameScene::Initialize()
 
 	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
 	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
+
+	particleMan_->Initialize();
+	particleMan_->Update();
 }
 
 void GameScene::Finalize()
@@ -156,6 +159,10 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
+	
+
+	particleMan_->Update();
+
 	sprite_->Update();
 
 	skyObject_->Update();
@@ -268,7 +275,7 @@ void GameScene::Update()
 			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
 
 				bullet->isDead_ = true;
-				player_->OnCollision();
+				//player_->OnCollision();
 			}
 		}
 	}
@@ -294,8 +301,28 @@ void GameScene::Update()
 
 			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
 				bullet->isDead_ = true;
-				enemy->OnCollision();
+				//enemy->OnCollision();
+				BulletEffect = true;
 			}
+		}
+
+		if (BulletEffect) {
+			for (int i = 0; i < 3; i++) {
+				XMFLOAT3 pos = posA;
+
+				const float md_vel = 10.0f;
+				XMFLOAT3 vel{};
+				vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+				vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+				vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+
+				XMFLOAT3 acc{};
+				const float md_acc = 0.001f;
+				acc.y = -(float)rand() / RAND_MAX * md_acc;
+
+				particleMan_->Add(60, pos, vel, acc, 2.0f, 0.0f);
+			}
+			BulletEffect = false;
 		}
 	}
 }
@@ -343,6 +370,11 @@ void GameScene::Draw()
 	if (boss_->GetArive() == false) {
 		gameclearSprite_->Draw(gameclear_);
 	}
+}
+
+void GameScene::pDraw()
+{
+	particleMan_->Draw();
 }
 
 void GameScene::EditorLoad()

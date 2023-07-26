@@ -288,6 +288,9 @@ void Player::PlayerCamera(){
 
 	playerObject_->SetEye(eye_);
 	playerObject_->SetTarget(target_);
+	ParticleManager::SetEye(eye_);
+	ParticleManager::SetTarget(target_);
+
 }
 
 void Player::RotateAngle()
