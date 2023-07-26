@@ -282,6 +282,11 @@ void ParticleManager::InitializeGraphicsPipeline()
 		//	D3D12_APPEND_ALIGNED_ELEMENT,
 		//	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		//},
+		{//スケール
+			"TEXCOORD",0,DXGI_FORMAT_R32_FLOAT,0,
+			D3D12_APPEND_ALIGNED_ELEMENT,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0
+		},
 	};
 
 	// グラフィックスパイプラインの流れを設定
@@ -797,6 +802,10 @@ void ParticleManager::Update()
 		//速度による移動
 		it->position = it->position + it->velocity;
 
+
+		float f = (float)it->frame / it->num_frame;
+		it->scale = (it->e_scale - it->s_scale) * f;
+		it->scale += it->s_scale;
 	}
 
 	// 頂点バッファへデータ転送
@@ -807,6 +816,7 @@ void ParticleManager::Update()
 			it != particles.end();
 			it++) {
 			vertMap->pos = it->position;
+			vertMap->scale = it->scale;
 			vertMap++;
 		}
 		vertBuff->Unmap(0, nullptr);
@@ -849,7 +859,7 @@ void ParticleManager::Draw()
 	cmdList->DrawInstanced((UINT)std::distance(particles.begin(), particles.end()), 1, 0, 0);
 }
 
-void ParticleManager::Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel)
+void ParticleManager::Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale)
 {
 	particles.emplace_front();
 	Particle& p = particles.front();
@@ -857,6 +867,9 @@ void ParticleManager::Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOA
 	p.velocity = velocity;
 	p.accel = accel;
 	p.num_frame = life;
+	p.scale = start_scale;
+	p.s_scale = start_scale;
+	p.e_scale = end_scale;
 }
 
 

@@ -9,6 +9,7 @@ cbuffer cbuff0 : register(b0)
 struct VSOutput
 {
     float4 pos : POSITION; // システム用頂点座標
+    float scale : TEXCOORD;
 	//float3 normal :NORMAL; // 法線ベクトル
 	//float2 uv  :TEXCOORD; // uv値
 };

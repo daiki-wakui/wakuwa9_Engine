@@ -33,6 +33,7 @@ public: // サブクラス
 	struct VertexPos
 	{
 		XMFLOAT3 pos;	//xyz座標
+		float scale;
 	};
 
 	// 定数バッファ用データ構造体
@@ -210,8 +211,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel);
-
+	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel,
+		float start_scale, float end_scale);
 
 private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuff; // 定数バッファ
@@ -228,6 +229,9 @@ private: // メンバ変数
 		XMFLOAT3 accel = {};
 		int frame = 0;
 		int num_frame = 0;
+		float scale = 1.0f;
+		float s_scale = 1.0f;
+		float e_scale = 0.0f;
 	};
 
 	std::forward_list<Particle> particles;

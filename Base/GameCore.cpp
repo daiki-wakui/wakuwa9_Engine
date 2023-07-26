@@ -89,7 +89,7 @@ void GameCore::Update()
 		const float md_acc = 0.001f;
 		acc.y = -(float)rand() / RAND_MAX * md_acc;
 
-		particleMan_->Add(60, pos, vel, acc);
+		particleMan_->Add(60, pos, vel, acc, 1.0f, 0.0f);
 	}
 
 	particleMan_->Update();
