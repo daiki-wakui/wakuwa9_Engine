@@ -48,6 +48,7 @@ void TitleScene::Initialize()
 
 	sound_->LoadWave("PerituneMaterial.wav");
 	sound_->LoadWave("Start.wav");
+	sound_->LoadWave("Alarm01.wav");
 }
 
 void TitleScene::Finalize()
@@ -59,7 +60,7 @@ void TitleScene::Update()
 	titleSprite_->Update();
 
 	if (!playBGM_) {
-		sound_->PlayWave("PerituneMaterial.wav",0.5f);
+		sound_->PlayLoopWave("PerituneMaterial.wav",0.5f);
 		playBGM_ = true;
 	}
 

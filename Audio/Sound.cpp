@@ -141,6 +141,35 @@ void Sound::PlayWave(const std::string& filename, float volue)
 	buf.pAudioData = soundData.pBuffer_;
 	buf.AudioBytes = soundData.bufferSize_;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
+	
+	soundData.pSoundVoice_ = pSoundVoice;
+	soundData.pSoundVoice_->SetVolume(volue);
+
+	//波形データの再生
+	result = pSoundVoice->SubmitSourceBuffer(&buf);
+	result = pSoundVoice->Start();
+}
+
+void Sound::PlayLoopWave(const std::string& filename, float volue)
+{
+	HRESULT result;
+
+	std::map<std::string, SoundData>::iterator it = soundDatas_.find(filename);
+	assert(it != soundDatas_.end());
+
+	SoundData& soundData = it->second;
+
+	//波形フォーマットを元にSourceVoiceの生成
+	IXAudio2SourceVoice* pSoundVoice = nullptr;
+	result = xAudio2_->CreateSourceVoice(&pSoundVoice, &soundData.wfex_);
+	assert(SUCCEEDED(result));
+
+	//再生する波形データの設定
+	XAUDIO2_BUFFER buf{};
+	buf.pAudioData = soundData.pBuffer_;
+	buf.AudioBytes = soundData.bufferSize_;
+	buf.Flags = XAUDIO2_END_OF_STREAM;
+	buf.LoopCount = XAUDIO2_LOOP_INFINITE;
 
 	soundData.pSoundVoice_ = pSoundVoice;
 	soundData.pSoundVoice_->SetVolume(volue);

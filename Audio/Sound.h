@@ -59,6 +59,8 @@ public:
 	void Unload(SoundData* soundData);
 
 	void PlayWave(const std::string& filename, float volue = 1.0f);
+	void PlayLoopWave(const std::string& filename, float volue = 1.0f);
+
 
 	void StopWAVE(const std::string& filename);
 

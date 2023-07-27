@@ -203,7 +203,6 @@ void GameScene::Update()
 
 	if (keyboard_->keyInstantPush(DIK_B)) {
 		sound_->PlayWave("Alarm01.wav");
-		
 	}
 	
 
