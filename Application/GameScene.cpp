@@ -163,6 +163,7 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
+	sceneSprite_->Update();
 	if (start_) {
 		pos = sceneSprite_->GetSize();
 
@@ -180,7 +181,6 @@ void GameScene::Update()
 
 		sceneSprite_->SetSize(pos);
 	}
-	sceneSprite_->Update();
 
 	particleMan_->Update();
 
@@ -212,7 +212,7 @@ void GameScene::Update()
 
 	//“G‚Ì“®‚«
 	for (std::unique_ptr<Enemy>& enemy : enemys_) {
-		enemy->Update();
+		enemy->Update(!start_);
 	}
 
 	if (HitBox == true) {

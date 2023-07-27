@@ -93,7 +93,7 @@ void TitleScene::Draw()
 
 	skyObject_->Draw();
 
-
-	sceneSprite_->Draw(scene_);
 	titleSprite_->Draw(title_);
+	sceneSprite_->Draw(scene_);
+	
 }

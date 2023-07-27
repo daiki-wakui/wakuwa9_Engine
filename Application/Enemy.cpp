@@ -15,10 +15,12 @@ void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int 
 	bullets_.clear();
 }
 
-void Enemy::Update()
+void Enemy::Update(bool shot)
 {
 
-	coolTime_--;
+	if (shot) {
+		coolTime_--;
+	}
 
 	if (coolTime_ == 0) {
 		playerPos = player_->GetWorldPos();
