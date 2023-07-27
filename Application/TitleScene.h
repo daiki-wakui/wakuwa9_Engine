@@ -10,14 +10,14 @@ class TitleScene : public BaseScene
 {
 private:
 
-	static DirectXBasis* directX_;
-	static SpriteBasis* spBasis_;
-	static WindowsApp* windows_;
-	static ImGuiManager* imGuiM_;
-	static Sound* sound_;
+	DirectXBasis* directX_ = nullptr;
+	SpriteBasis* spBasis_ = nullptr;
+	WindowsApp* windows_ = nullptr;
+	ImGuiManager* imGuiM_ = nullptr;
+	Sound* sound_ = nullptr;
 
-	static KeyBoard* keyboard_;
-	static GamePad* gamePad_;
+	KeyBoard* keyboard_ = nullptr;
+	GamePad* gamePad_ = nullptr;
 
 	std::unique_ptr<Sprite> titleSprite_ = std::make_unique<Sprite>();
 
@@ -48,8 +48,8 @@ public:
 	bool GetStart() { return start_; }
 	void SetStart(bool start) { start_ = start; }
 
-	static void SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound_);
-	static void SetInputInfo(KeyBoard* keyboard, GamePad* gamePad);
+	void SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound_);
+	void SetInputInfo(KeyBoard* keyboard, GamePad* gamePad);
 
 	//èâä˙âª
 	void Initialize() override;
