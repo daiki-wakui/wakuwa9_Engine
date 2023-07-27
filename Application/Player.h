@@ -4,11 +4,14 @@
 #include "KeyBoard.h"
 #include "GamePad.h"
 #include "PlayerBullet.h"
-#include <memory>
-#include <list>
+
 #include "Vector3.h"
 #include "Vector2.h"
 #include "ParticleManager.h"
+
+#include <memory>
+#include <list>
+
 
 class Player
 {

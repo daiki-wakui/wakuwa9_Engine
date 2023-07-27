@@ -2,10 +2,13 @@
 #include "Model.h"
 #include "Object3D.h"
 #include "KeyBoard.h"
-#include <memory>
-#include <list>
+
 #include "EnemyBullet.h"
 #include "Player.h"
+
+#include <memory>
+#include <list>
+
 
 class Enemy
 {

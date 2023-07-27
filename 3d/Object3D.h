@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Model.h"
+#include "DirectionalLight.h"
+#include "LightGroup.h"
+#include "Vector3.h"
 
 #include <Windows.h>
 #include <wrl.h>
@@ -8,10 +11,7 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include <string>
-#include "DirectionalLight.h"
-#include "LightGroup.h"
 #include <cstdint>
-#include "Vector3.h"
 
 class Object3D
 {

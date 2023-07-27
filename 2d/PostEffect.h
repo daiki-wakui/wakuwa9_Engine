@@ -1,10 +1,9 @@
 #pragma once
 #include "Sprite.h"
-#include <cstdint>
 #include "KeyBoard.h"
-
 #include "Player.h"
 
+#include <cstdint>
 #include <random>
 
 class PostEffect :  public Sprite

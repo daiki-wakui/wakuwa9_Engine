@@ -1,5 +1,6 @@
 #pragma once
 #include "DirectXBasis.h"
+
 #include <string>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>

@@ -1,8 +1,8 @@
 #pragma once
 #include "SpriteBasis.h"
 #include "WindowsApp.h"
-#include <DirectXMath.h>
 
+#include <DirectXMath.h>
 #include <cstdint>
 
 enum VertexNumber

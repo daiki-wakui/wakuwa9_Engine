@@ -1,9 +1,10 @@
 #pragma once
+
+#include "Vector2.h"
+
 #include <Windows.h>
 #include <Xinput.h>
 #include <cstdint>
-#include "Vector2.h"
-
 
 class GamePad
 {

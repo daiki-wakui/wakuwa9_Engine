@@ -9,7 +9,6 @@
 #include <fstream>
 #include <cassert>
 #include <map>
-
 #include <memory>
 #include <string>
 #include <DirectXTex.h>

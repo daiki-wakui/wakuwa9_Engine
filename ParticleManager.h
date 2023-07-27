@@ -6,9 +6,6 @@
 #include <d3dx12.h>
 #include <forward_list>
 
-/// <summary>
-/// 3Dオブジェクト
-/// </summary>
 class ParticleManager
 {
 private: // エイリアス

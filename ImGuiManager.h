@@ -1,7 +1,9 @@
 #pragma once
-#include <wrl.h>
+
 #include "WindowsApp.h"
 #include "DirectXBasis.h"
+
+#include <wrl.h>
 #include <imgui.h>
 
 class ImGuiManager

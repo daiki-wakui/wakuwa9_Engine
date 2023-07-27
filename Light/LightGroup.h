@@ -1,15 +1,15 @@
 #pragma once
 
+#include "DirectionalLight.h"
+#include "PointLight.h"
+#include "SpotLight.h"
+#include "CircleShadow.h"
+
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d12.h>
 #include <DirectXMath.h>
 #include <d3dx12.h>
-
-#include "DirectionalLight.h"
-#include "PointLight.h"
-#include "SpotLight.h"
-#include "CircleShadow.h"
 #include <cstdint>
 
 //ƒ‰ƒCƒg

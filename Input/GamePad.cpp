@@ -1,7 +1,8 @@
 #include "GamePad.h"
-#pragma comment (lib, "xinput.lib")
 
 #include <cmath>
+
+#pragma comment (lib, "xinput.lib")
 
 void GamePad::SetDeadZone(short& sThumb, const short& deaadzone)
 {
