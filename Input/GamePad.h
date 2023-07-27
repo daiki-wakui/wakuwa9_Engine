@@ -17,6 +17,12 @@ private:
 public:
 
     void Update();
+
+    bool PushInstantA();
+    bool PushInstantB();
+    bool PushInstantX();
+    bool PushInstantY();
+
     bool PushButtonA();
     bool PushButtonB();
     bool PushButtonX();

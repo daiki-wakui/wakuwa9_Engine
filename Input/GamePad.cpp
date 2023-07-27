@@ -23,6 +23,42 @@ void GamePad::Update()
     SetDeadZone(state.Gamepad.sThumbRY, XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE);
 }
 
+bool GamePad::PushInstantA()
+{
+    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A && oldState.Gamepad.wButtons != XINPUT_GAMEPAD_A) {
+        return true;
+    }
+
+    return false;
+}
+
+bool GamePad::PushInstantB()
+{
+    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_B && oldState.Gamepad.wButtons != XINPUT_GAMEPAD_B) {
+        return true;
+    }
+
+    return false;
+}
+
+bool GamePad::PushInstantX()
+{
+    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_X && oldState.Gamepad.wButtons != XINPUT_GAMEPAD_X) {
+        return true;
+    }
+
+    return false;
+}
+
+bool GamePad::PushInstantY()
+{
+    if (state.Gamepad.wButtons & XINPUT_GAMEPAD_Y && oldState.Gamepad.wButtons != XINPUT_GAMEPAD_Y) {
+        return true;
+    }
+
+    return false;
+}
+
 bool GamePad::PushButtonA(){
     if (state.Gamepad.wButtons & XINPUT_GAMEPAD_A) {return true;}
     return false;
