@@ -90,7 +90,7 @@ public:
 	bool GetIsHit() { return isHit_; }
 	void SetIsHit(bool isHit) { isHit_ = isHit; }
 
-	int32_t HP = 5;
+	int32_t HP = 99;
 	bool isDead = false;
 
 	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject);

@@ -427,8 +427,9 @@ void PostEffect::Update(Player* player)
 
 	if (isEffect_) {
 		frame_--;
+		noiseTimer_--;
 
-		if (frame_ <= 30) {
+		if (frame_ <= 30 && noiseTimer_ < 0) {
 			std::random_device seed_gen;
 			std::mt19937_64 engine(seed_gen());
 			std::uniform_real_distribution<float> noizPower(0.1f, 1.0f);
@@ -439,6 +440,8 @@ void PostEffect::Update(Player* player)
 
 			constMapMaterial->shiftPower = noizPower2(engine);
 			player->SetIsHit(false);
+
+			noiseTimer_ = 2;
 		}
 
 		if (frame_ <= 0) {

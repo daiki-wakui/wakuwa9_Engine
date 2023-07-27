@@ -340,7 +340,7 @@ void GameScene::Update()
 			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
 
 				bullet->isDead_ = true;
-				//player_->OnCollision();
+				player_->OnCollision();
 			}
 		}
 	}

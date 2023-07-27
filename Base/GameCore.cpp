@@ -42,9 +42,12 @@ void GameCore::Update()
 
 	//タイトルシーンからゲームシーンへ
 	if (titlescene_->GetChange()) {
+		if (state == 0) {
+			postEffect_->SetIsEffect(false);
+		}
 		state = 1;	//ゲームシーン
 		gamescene_->SetStart(true);
-		postEffect_->SetIsEffect(false);
+		
 	}
 
 	//タイトルシーンに戻る

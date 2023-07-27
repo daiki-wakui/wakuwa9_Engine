@@ -27,9 +27,9 @@ float4 main(VSOutput input) : SV_TARGET
 
 	float shift = 0.008f;
 
-	float r = tex.Sample(smp, input.uv + float2(-shiftPower/5,0)).r;
+	float r = tex.Sample(smp, input.uv + float2(-shiftPower/4,0)).r;
 	float g = tex.Sample(smp, input.uv + float2(0,0)).g;
-	float b = tex.Sample(smp, input.uv + float2(shiftPower/5,0)).b;
+	float b = tex.Sample(smp, input.uv + float2(shiftPower/4,0)).b;
 
 	texcolor1.rgb = float3(r,g,b);
 

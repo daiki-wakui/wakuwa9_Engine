@@ -55,6 +55,8 @@ private:
 	float noizpow;
 
 	int32_t frame_ = 0;
+	int32_t noiseTimer_ = 0;
+
 	bool isEffect_ = false;
 
 public:
