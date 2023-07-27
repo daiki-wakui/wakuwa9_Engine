@@ -120,6 +120,8 @@ private:
 	XMFLOAT2 pos = { 0,0 };
 	float power = -1;
 
+	bool playBGM = false;
+
 public:
 
 	Player* GetPlayer() { return player_.get(); }

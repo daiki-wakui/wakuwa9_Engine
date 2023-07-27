@@ -122,7 +122,7 @@ void Sound::Unload(SoundData* soundData)
 	soundData->wfex_ = {};
 }
 
-void Sound::PlayWave(const std::string& filename)
+void Sound::PlayWave(const std::string& filename, float volue)
 {
 	HRESULT result;
 
@@ -143,6 +143,7 @@ void Sound::PlayWave(const std::string& filename)
 	buf.Flags = XAUDIO2_END_OF_STREAM;
 
 	soundData.pSoundVoice_ = pSoundVoice;
+	soundData.pSoundVoice_->SetVolume(volue);
 
 	//波形データの再生
 	result = pSoundVoice->SubmitSourceBuffer(&buf);

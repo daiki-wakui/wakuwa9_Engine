@@ -53,6 +53,8 @@ void TitleScene::Initialize()
 	skyObject_->Initialize();
 	skyObject_->SetScale(XMFLOAT3({ 400,400,400 }));
 	skyObject_->SetPosition({ 0,0,100 });
+
+	sound_->LoadWave("PerituneMaterial.wav");
 }
 
 void TitleScene::Finalize()
@@ -63,7 +65,14 @@ void TitleScene::Update()
 {
 	titleSprite_->Update();
 
+	if (!playBGM_) {
+		sound_->PlayWave("PerituneMaterial.wav",0.5f);
+		playBGM_ = true;
+	}
+
 	if (start_) {
+		sound_->StopWAVE("PerituneMaterial.wav");
+
 		pos = sceneSprite_->GetSize();
 
 		power++;

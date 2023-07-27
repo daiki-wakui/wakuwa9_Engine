@@ -38,6 +38,9 @@ private:
 	bool change_ = false;
 
 	std::unique_ptr<Sprite> sceneSprite_ = std::make_unique<Sprite>();
+
+	bool playBGM_ = false;
+
 public:
 
 	bool GetChange() { return change_; }

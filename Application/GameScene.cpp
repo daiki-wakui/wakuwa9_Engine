@@ -143,6 +143,7 @@ void GameScene::Initialize()
 
 	sound_->LoadWave("PerituneMaterial.wav");
 	sound_->LoadWave("Alarm01.wav");
+	sound_->LoadWave("Electric Wild.wav");
 
 	ReLoad();
 
@@ -177,6 +178,12 @@ void GameScene::Update()
 			pos.x = 0;
 			//change_ = true;
 			start_ = false;
+
+			if (!playBGM) {
+				sound_->PlayWave("Electric Wild.wav");
+				playBGM = true;
+			}
+			
 		}
 
 		sceneSprite_->SetSize(pos);
@@ -191,7 +198,11 @@ void GameScene::Update()
 
 	//testObj_->Update();
 
-	//sound_->PlayWave("Alarm01.wav");
+	if (keyboard_->keyInstantPush(DIK_B)) {
+		sound_->PlayWave("Alarm01.wav");
+		
+	}
+	
 
 	//ƒQ[ƒ€‰æ–Ê
 	eventBox_->Update();
