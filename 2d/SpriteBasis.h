@@ -2,7 +2,6 @@
 #include "DirectXBasis.h"
 #include <string>
 #include <d3dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib")
 #include <DirectXMath.h>
 #include <DirectXTex.h>
 #include <array>

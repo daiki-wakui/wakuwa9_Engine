@@ -1,5 +1,9 @@
 #include "DirectXBasis.h"
 
+#pragma comment(lib,"d3d12.lib")
+#pragma comment(lib,"dxgi.lib")
+#pragma comment(lib,"winmm.lib")
+
 //‘S‘Ì‚Ì‰Šú‰»
 void DirectXBasis::Initialize(WindowsApp* winApp){
 	assert(winApp);

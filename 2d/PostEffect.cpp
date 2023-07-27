@@ -6,6 +6,8 @@
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
+using namespace DirectX;
+
 const float PostEffect::sCLEAR_COLOR[4] = { 0.1f,0.1f,0.5f,0.0f };//óŒÇ¡Ç€Ç¢êF
 
 void PostEffect::Initialize(int32_t num)

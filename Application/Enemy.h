@@ -9,6 +9,13 @@
 
 class Enemy
 {
+private: // エイリアス
+	// DirectX::を省略
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMMATRIX = DirectX::XMMATRIX;
+
 private:
 	Object3D* enemyObject_;
 	KeyBoard* input_;
@@ -43,7 +50,7 @@ public:
 
 	void OnCollision();
 
-	XMFLOAT3 GetWorldPos();
+	DirectX::XMFLOAT3 GetWorldPos();
 
 	void SetBulletModel(Model* model);
 	

@@ -1,5 +1,7 @@
 #include "Framework.h"
 
+using namespace DirectX;
+
 void Framework::Initialize()
 {
 	//windowsAPI‰Šú‰»

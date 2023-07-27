@@ -77,7 +77,7 @@ void Enemy::OnCollision()
 	}
 }
 
-XMFLOAT3 Enemy::GetWorldPos()
+DirectX::XMFLOAT3 Enemy::GetWorldPos()
 {
 	XMFLOAT3 worldPos;
 
