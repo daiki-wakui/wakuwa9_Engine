@@ -50,7 +50,7 @@ public:
 		IXAudio2SourceVoice* pSoundVoice_;
 	};
 
-	void Initialize(const std::string& directoryPath = "Resources/");
+	void Initialize(const std::string& directoryPath = "Resources/Sound/");
 
 	void Finalize();
 
