@@ -143,7 +143,10 @@ void GameScene::Initialize()
 
 	sound_->LoadWave("PerituneMaterial.wav");
 	sound_->LoadWave("Alarm01.wav");
-	sound_->LoadWave("Electric Wild.wav");
+	sound_->LoadWave("ElectricWild.wav");
+	sound_->LoadWave("Alone.wav");
+	sound_->LoadWave("Shot.wav");
+	sound_->LoadWave("Hit.wav");
 
 	ReLoad();
 
@@ -179,9 +182,9 @@ void GameScene::Update()
 			//change_ = true;
 			start_ = false;
 
-			if (!playBGM) {
-				sound_->PlayWave("Electric Wild.wav");
-				playBGM = true;
+			if (!playBGM_) {
+				sound_->PlayWave("ElectricWild.wav");
+				playBGM_ = true;
 			}
 			
 		}
@@ -213,7 +216,10 @@ void GameScene::Update()
 
 	if (player_->IsDead() == false) {
 		player_->Update();
-
+		if (player_->GetIsShot()) {
+			sound_->PlayWave("Shot.wav");
+			player_->SetIsShot(false);
+		}
 	}
 
 	//enemy‚ÌŽ€–Sƒtƒ‰ƒO
@@ -227,6 +233,13 @@ void GameScene::Update()
 	}
 
 	if (HitBox == true) {
+		sound_->StopWAVE("ElectricWild.wav");
+
+		if (!bossBGM_) {
+			sound_->PlayWave("Alone.wav");
+			bossBGM_ = true;
+		}
+
 		boss_->Update();
 		bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
 		bossHPSprite_->Update();
@@ -282,7 +295,28 @@ void GameScene::Update()
 
 		if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && HitBox == true) {
 			bullet->isDead_ = true;
+			BulletEffect = true;
 			boss_->OnCollision();
+			sound_->PlayWave("Hit.wav");
+		}
+
+		if (BulletEffect) {
+			for (int i = 0; i < 3; i++) {
+				XMFLOAT3 pos = posA;
+
+				const float md_vel = 10.0f;
+				XMFLOAT3 vel{};
+				vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+				vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+				vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+
+				XMFLOAT3 acc{};
+				const float md_acc = 0.001f;
+				acc.y = -(float)rand() / RAND_MAX * md_acc;
+
+				particleMan_->Add(60, pos, vel, acc, 2.0f, 0.0f);
+			}
+			BulletEffect = false;
 		}
 	}
 
@@ -333,8 +367,9 @@ void GameScene::Update()
 
 			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
 				bullet->isDead_ = true;
-				//enemy->OnCollision();
+				enemy->OnCollision();
 				BulletEffect = true;
+				sound_->PlayWave("Hit.wav");
 			}
 		}
 

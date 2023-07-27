@@ -127,7 +127,8 @@ private:
 	XMFLOAT2 pos = { 0,0 };
 	float power = -1;
 
-	bool playBGM = false;
+	bool playBGM_ = false;
+	bool bossBGM_ = false;
 
 public:
 

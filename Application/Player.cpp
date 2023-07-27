@@ -201,6 +201,8 @@ DirectX::XMFLOAT3 Player::GetWorldPos()
 void Player::Shot(){
 
 	if (coolTime < 0) {
+		isShot_ = true;
+
 		//íeÇÃë¨ìx
 		const float kBulletSpeed = 15.0f;
 
@@ -212,7 +214,7 @@ void Player::Shot(){
 		newBullet->Initialize(posPod_, bulletVec_, bulletModel_, bulletObject_);
 		bullets_.push_back(std::move(newBullet));
 
-		coolTime = 4;
+		coolTime = 5;
 	}
 
 	//íeÇÃçXêVèàóù

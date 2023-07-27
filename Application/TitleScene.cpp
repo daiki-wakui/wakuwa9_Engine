@@ -47,6 +47,7 @@ void TitleScene::Initialize()
 	skyObject_->SetPosition({ 0,0,100 });
 
 	sound_->LoadWave("PerituneMaterial.wav");
+	sound_->LoadWave("Start.wav");
 }
 
 void TitleScene::Finalize()
@@ -63,11 +64,16 @@ void TitleScene::Update()
 	}
 
 	if (start_) {
+
+		if (power < 2) {
+			sound_->PlayWave("Start.wav");
+		}
+
 		sound_->StopWAVE("PerituneMaterial.wav");
 
 		pos = sceneSprite_->GetSize();
 
-		power++;
+		power+=2;
 
 		pos.x += power;
 		pos.y += power;

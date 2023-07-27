@@ -78,8 +78,11 @@ private:
 	float addAngle = 0.0f;
 
 	bool isHit_ = false;
+	bool isShot_ = false;
 
 public:
+	bool GetIsShot() { return isShot_; }
+	void SetIsShot(bool isShot) { isShot_ = isShot; }
 
 	bool GetIsHit() { return isHit_; }
 	void SetIsHit(bool isHit) { isHit_ = isHit; }
