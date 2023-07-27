@@ -519,8 +519,8 @@ void GameScene::ReLoad()
 
 
 			newObject[objSize]->SetScale({ 15,15,15 });
-			boss_->Initialize(model, newObject[objSize].get());
-
+			boss_->Initialize(model,newObject[objSize]->GetPosition(), newObject[objSize].get(), player_.get());
+			boss_->SetBulletModel(cubeModel_.get());
 
 			objSize++;
 		}

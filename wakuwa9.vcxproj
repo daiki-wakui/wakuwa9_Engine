@@ -121,6 +121,7 @@
     <ClCompile Include="Base\GameCore.cpp" />
     <ClCompile Include="Base\SceneManager.cpp" />
     <ClCompile Include="Base\WindowsApp.cpp" />
+    <ClCompile Include="BossBullet.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
     <ClCompile Include="Input\GamePad.cpp" />
     <ClCompile Include="Input\KeyBoard.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Base\GameCore.h" />
     <ClInclude Include="Base\SceneManager.h" />
     <ClInclude Include="Base\WindowsApp.h" />
+    <ClInclude Include="BossBullet.h" />
     <ClInclude Include="ImGuiManager.h" />
     <ClInclude Include="Input\GamePad.h" />
     <ClInclude Include="Input\KeyBoard.h" />
