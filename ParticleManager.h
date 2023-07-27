@@ -21,13 +21,6 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public: // サブクラス
-	// 頂点データ構造体
-	//struct VertexPosNormalUv
-	//{
-	//	XMFLOAT3 pos; // xyz座標
-	//	XMFLOAT3 normal; // 法線ベクトル
-	//	XMFLOAT2 uv;  // uv座標
-	//};
 
 	//頂点データ構造体
 	struct VertexPos
@@ -50,62 +43,20 @@ private: // 定数
 	static const float prizmHeight;			// 柱の高さ
 	static const int planeCount = division * 2 + division * 2;		// 面の数
 	static const int vertexCount = 1024;		// 頂点数
-	//	static const int indexCount = 3 * 2;	//インデックス数
 
 public: // 静的メンバ関数
-	/// <summary>
-	/// 静的初期化
-	/// </summary>
-	/// <param name="device">デバイス</param>
-	/// <param name="window_width">画面幅</param>
-	/// <param name="window_height">画面高さ</param>
+	
 	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
-
-	/// <summary>
-	/// 描画前処理
-	/// </summary>
-	/// <param name="cmdList">描画コマンドリスト</param>
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
-
-	/// <summary>
-	/// 描画後処理
-	/// </summary>
 	static void PostDraw();
 
-	/// <summary>
-	/// 3Dオブジェクト生成
-	/// </summary>
-	/// <returns></returns>
-	static ParticleManager* Create();
-
-	/// <summary>
-	/// 視点座標の取得
-	/// </summary>
-	/// <returns>座標</returns>
 	static const XMFLOAT3& GetEye() { return eye; }
-
-	/// <summary>
-	/// 視点座標の設定
-	/// </summary>
-	/// <param name="position">座標</param>
-	static void SetEye(XMFLOAT3 eye);
-
-	/// <summary>
-	/// 注視点座標の取得
-	/// </summary>
-	/// <returns>座標</returns>
 	static const XMFLOAT3& GetTarget() { return target; }
 
-	/// <summary>
-	/// 注視点座標の設定
-	/// </summary>
-	/// <param name="position">座標</param>
+	static void SetEye(XMFLOAT3 eye);
 	static void SetTarget(XMFLOAT3 target);
 
-	/// <summary>
-	/// ベクトルによる移動
-	/// </summary>
-	/// <param name="move">移動量</param>
+	
 	static void CameraMoveVector(XMFLOAT3 move);
 
 	//ベクトルによる視点移動
@@ -152,13 +103,8 @@ private: // 静的メンバ変数
 	static XMFLOAT3 up;
 	// 頂点バッファビュー
 	static D3D12_VERTEX_BUFFER_VIEW vbView;
-	// インデックスバッファビュー
-//	static D3D12_INDEX_BUFFER_VIEW ibView;
 	// 頂点データ配列
-//	static VertexPosNormalUv vertices[vertexCount];
 	static VertexPos vertices[vertexCount];
-	// 頂点インデックス配列
-//	static unsigned short indices[indexCount];
 
 	//ビルボード行列
 	static XMMATRIX matBillborad;
@@ -166,49 +112,29 @@ private: // 静的メンバ変数
 	static XMMATRIX matBillboradY;
 
 private:// 静的メンバ関数
-	/// <summary>
-	/// デスクリプタヒープの初期化
-	/// </summary>
+
+	//デスクリプタヒープの初期化
 	static void InitializeDescriptorHeap();
 
-	/// <summary>
-	/// カメラ初期化
-	/// </summary>
-	/// <param name="window_width">画面横幅</param>
-	/// <param name="window_height">画面縦幅</param>
+	//カメラ初期化
 	static void InitializeCamera(int window_width, int window_height);
 
-	/// <summary>
-	/// グラフィックパイプライン生成
-	/// </summary>
-	/// <returns>成否</returns>
+	//グラフィックパイプライン生成
 	static void InitializeGraphicsPipeline();
 
-	/// <summary>
-	/// テクスチャ読み込み
-	/// </summary>
+	//テクスチャ読み込み
 	static void LoadTexture();
 
-	/// <summary>
-	/// モデル作成
-	/// </summary>
+	//モデル作成
 	static void CreateModel();
 
-	/// <summary>
-	/// ビュー行列を更新
-	/// </summary>
+	//ビュー行列を更新
 	static void UpdateViewMatrix();
 
 public: // メンバ関数
-	bool Initialize();
-	/// <summary>
-	/// 毎フレーム処理
-	/// </summary>
-	void Update();
 
-	/// <summary>
-	/// 描画
-	/// </summary>
+	bool Initialize();
+	void Update();
 	void Draw();
 
 	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel,

@@ -1,8 +1,8 @@
 #include "GameCore.h"
 #pragma comment(lib, "d3dcompiler.lib")
-
 using namespace DirectX;
 
+//初期化
 void GameCore::Initialize()
 {
 	Framework::Initialize();
@@ -15,40 +15,11 @@ void GameCore::Initialize()
 	titlescene_->SetInputInfo(keyboard_, gamePad_);
 	titlescene_->Initialize();
 
-	
 	postEffect_->SetDirectX(spBasis_, windows_, keyboard_);
 	postEffect_->Initialize(0);
-
-	gaussianEffect_->SetDirectX(spBasis_, windows_, keyboard_);
-	gaussianEffect_->Initialize(1);
-
-	//TitleScene::SetBasis(windows_, directX_, imGuiM_, spBasis_, sound_);
-	//TitleScene::SetInputInfo(keyboard_, gamePad_);
-
-	//Framework::sceneManager_->SetNextScene(scene.get());
-	//Framework::sceneManager_->SetNextScene(scene);
-
-	//for (int i = 0; i < 100; i++) {
-	//	const float md_pos = 10.0f;
-	//	XMFLOAT3 pos{};
-	//	pos.x = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
-	//	pos.y = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
-	//	pos.z = (float)rand() / RAND_MAX * md_pos - md_pos / 2.0f;
-
-	//	const float md_vel = 0.1f;
-	//	XMFLOAT3 vel{};
-	//	vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-	//	vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-	//	vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-
-	//	XMFLOAT3 acc{};
-	//	const float md_acc = 0.001f;
-	//	acc.y = -(float)rand() / RAND_MAX * md_acc;
-
-	//	particleMan_->Add(60, pos, vel, acc);
-	//}
 }
 
+//後始末
 void GameCore::Finalize()
 {
 	titlescene_->Finalize();
@@ -56,50 +27,46 @@ void GameCore::Finalize()
 	Framework::Finalize();
 }
 
+//更新処理
 void GameCore::Update()
 {
 	Framework::Update();
 
-	// カメラ移動
-	if (keyboard_->keyPush(DIK_W) || keyboard_->keyPush(DIK_A) || keyboard_->keyPush(DIK_S) || keyboard_->keyPush(DIK_D))
-	{
-		if (keyboard_->keyPush(DIK_W)) { ParticleManager::CameraMoveEyeVector({ 0.0f,+1.0f,0.0f }); }
-		else if (keyboard_->keyPush(DIK_S)) { ParticleManager::CameraMoveEyeVector({ 0.0f,-1.0f,0.0f }); }
-		if (keyboard_->keyPush(DIK_D)) { ParticleManager::CameraMoveEyeVector({ +1.0f,0.0f,0.0f }); }
-		else if (keyboard_->keyPush(DIK_A)) { ParticleManager::CameraMoveEyeVector({ -1.0f,0.0f,0.0f }); }
-	}
-
-	
-
+	//ノイズのエフェクト
 	postEffect_->Update(gamescene_->GetPlayer());
 
-	if (keyboard_->keyInstantPush(DIK_SPACE)) {
-
+	//タイトルシーンからシーン遷移開始
+	if (keyboard_->keyInstantPush(DIK_SPACE) || gamePad_->PushInstantB()) {
 		titlescene_->SetStart(true);
 	}
 
+	//タイトルシーンからゲームシーンへ
 	if (titlescene_->GetChange()) {
-		state = 1;
+		state = 1;	//ゲームシーン
 		gamescene_->SetStart(true);
 		postEffect_->SetIsEffect(false);
 	}
 
+	//タイトルシーンに戻る
 	if (keyboard_->keyInstantPush(DIK_T)) {
 		state = 0;
 	}
 
+	//タイトルシーンの更新処理
 	if (state == 0) {
 		titlescene_->Update();
 		postEffect_->SetIsEffect(true);
 	}
+	//ゲームシーンの更新処理
 	else {
 		gamescene_->Update();
-
 	}
 	
+	//デバックImGui
 	imGuiM_->Begin();
 	ImGui::Text("Editor");
 
+	//オブジェクト読み込み直す
 	if (ImGui::Button("ReLoad")) {
 		gamescene_->EditorLoad();
 	}
@@ -107,37 +74,43 @@ void GameCore::Update()
 	imGuiM_->End();
 }
 
+//描画処理
 void GameCore::Draw()
 {
-
+	//描画前準備
 	postEffect_->PreDrawScene(directX_->GetCommandList());
-	
 	Object3D::PreDraw(directX_->GetCommandList());
 	FbxObject3d::PreSet(directX_->GetCommandList());
 	
-
+	//タイトルシーン描画
 	if (state == 0) {
 		titlescene_->Draw();
 	}
+	//ゲームシーン描画
 	else {
 		gamescene_->Draw();
 	}
 
 	Object3D::PostDraw();
-	// 3Dオブジェクト描画前処理
+
+	//パーティクル描画前準備
 	ParticleManager::PreDraw(directX_->GetCommandList());
-	
+	//パーティクル描画
 	gamescene_->pDraw();
 
 	ParticleManager::PostDraw();
 	
+	//ここまでの描画にポストエフェクトをかける
 	postEffect_->PostDrawScene(directX_->GetCommandList());
 
-	// 描画前処理
+
+	//描画前処理
 	directX_->PreDraw();
 
+	//ポストエフェクトをかけた描画
 	postEffect_->Draw();
 
+	//imgui
 	imGuiM_->Draw();
 
 	//描画後処理

@@ -34,16 +34,11 @@ private:
 	
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_ = std::make_unique<PostEffect>();
-	std::unique_ptr<PostEffect> gaussianEffect_ = std::make_unique<PostEffect>();
-	
-	std::unique_ptr<BaseScene> scene = std::make_unique<TitleScene>();
 
 	std::unique_ptr<GameScene> gamescene_ = std::make_unique<GameScene>();
-
 	std::unique_ptr<TitleScene> titlescene_ = std::make_unique<TitleScene>();
 
 	int32_t state = 0;
-
 	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
 
 
