@@ -214,7 +214,7 @@ void Player::Shot(){
 		newBullet->Initialize(posPod_, bulletVec_, bulletModel_, bulletObject_);
 		bullets_.push_back(std::move(newBullet));
 
-		coolTime = 5;
+		coolTime = 4;
 	}
 
 	//’e‚ÌXVˆ—
