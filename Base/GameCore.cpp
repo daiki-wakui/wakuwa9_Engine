@@ -17,6 +17,9 @@ void GameCore::Initialize()
 
 	postEffect_->SetDirectX(spBasis_, windows_, keyboard_);
 	postEffect_->Initialize(0);
+
+	sound_->LoadWave("PerituneMaterial.wav");
+	sound_->LoadWave("ElectricWild.wav");
 }
 
 //後始末
@@ -38,6 +41,7 @@ void GameCore::Update()
 	//タイトルシーンからシーン遷移開始
 	if (keyboard_->keyInstantPush(DIK_SPACE) || gamePad_->PushInstantB()) {
 		titlescene_->SetStart(true);
+		gamescene_->SetChange(false);
 	}
 
 	//タイトルシーンからゲームシーンへ
@@ -52,7 +56,10 @@ void GameCore::Update()
 
 	//タイトルシーンに戻る
 	if (keyboard_->keyInstantPush(DIK_T)) {
-		state = 0;
+		titlescene_->SetStart(false);
+		gamescene_->SetStart(false);
+		titlescene_->SetChange(false);
+		gamescene_->SetChange(true);
 	}
 
 	//タイトルシーンの更新処理
@@ -63,6 +70,10 @@ void GameCore::Update()
 	//ゲームシーンの更新処理
 	else {
 		gamescene_->Update();
+	}
+
+	if (gamescene_->GetChange()) {
+		state = 0;
 	}
 	
 	//デバックImGui

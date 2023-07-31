@@ -90,6 +90,8 @@ private:
 
 	bool wallHit_ = false;
 
+	int32_t	invincibleFrame_ = 0;
+	bool isInvincible_ = false;
 
 public:
 	bool GetIsShot() { return isShot_; }
@@ -98,7 +100,9 @@ public:
 	bool GetIsHit() { return isHit_; }
 	void SetIsHit(bool isHit) { isHit_ = isHit; }
 
-	int32_t HP = 99;
+	bool Getinvincible() const { return isInvincible_; }
+
+	int32_t HP = 3;
 	bool isDead = false;
 
 	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject);

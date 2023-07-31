@@ -157,6 +157,7 @@ void GameScene::Initialize()
 	sound_->LoadWave("Alone.wav");
 	sound_->LoadWave("Shot.wav");
 	sound_->LoadWave("Hit.wav");
+	sound_->LoadWave("noise.wav");
 
 	ReLoad();
 
@@ -192,15 +193,24 @@ void GameScene::Update()
 			pos.x = 0;
 			//change_ = true;
 			start_ = false;
+			
 
 			if (!playBGM_) {
 				sound_->PlayWave("ElectricWild.wav");
 				playBGM_ = true;
+				Reset();
 			}
 			
 		}
 
 		sceneSprite_->SetSize(pos);
+	}
+
+	if (change_) {
+		sound_->StopWAVE("ElectricWild.wav");
+		playBGM_ = false;
+		power = 1;
+		sceneSprite_->SetSize({ 1920,1920 });
 	}
 
 	particleMan_->Update();
@@ -217,9 +227,10 @@ void GameScene::Update()
 	//testObj_->Update();
 
 	if (keyboard_->keyInstantPush(DIK_B)) {
-		sound_->PlayWave("Alarm01.wav");
+		Reset();
 	}
 	
+
 
 	//ƒQ[ƒ€‰æ–Ê
 	eventBox_->Update();
@@ -359,6 +370,10 @@ void GameScene::Update()
 			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
 
 				bullet->isDead_ = true;
+
+				if (!player_->Getinvincible()) {
+					sound_->PlayWave("noise.wav");
+				}
 				player_->OnCollision();
 			}
 		}
@@ -384,9 +399,6 @@ void GameScene::Update()
 
 			coll->OnCollision();
 			player_->wallHit();
-
-			int a = 0;
-			a++;
 		}
 		else {
 			coll->hit_ = false;
@@ -630,4 +642,21 @@ void GameScene::Inport(Model* model, int32_t size)
 	DirectX::XMFLOAT3 scale;
 	DirectX::XMStoreFloat3(&scale, levelData_->objects[size].scaling);
 	newObject[objSize]->SetScale(scale);
+}
+
+void GameScene::Reset()
+{
+
+	player_.reset();
+	playerObject_->Initialize();
+	playerObject_->SetScale(XMFLOAT3({ 1,1,1 }));
+	playerObject_->SetPosition({ 0,0,0 });
+	playerObject_->SetRotation({ 0,0,0 });
+	playerObject_->SetCamera({ 0, 20, -30.0f }, { 0, 10, 0 });
+
+	player_ = std::make_unique<Player>();
+	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
+	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
+
+	EditorLoad();
 }

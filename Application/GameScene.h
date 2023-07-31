@@ -172,5 +172,7 @@ public:
 	void ReLoad();
 
 	void Inport(Model* model, int32_t size);
+
+	void Reset();
 };
 

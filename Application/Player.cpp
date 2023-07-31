@@ -162,6 +162,13 @@ void Player::Update()
 	Shot();
 
 	wallHit_ = false;
+
+	invincibleFrame_--;
+	invincibleFrame_ = max(invincibleFrame_, 0);
+
+	if (invincibleFrame_ == 0) {
+		isInvincible_ = false;
+	}
 }
 
 void Player::Draw()
@@ -182,9 +189,13 @@ void Player::SetBulletModel(Model* model,Object3D* obj)
 
 bool Player::OnCollision()
 {
-	isHit_ = true;
+	if (!isInvincible_) {
+		HP--;
 
-	HP--;
+		isHit_ = true;
+		isInvincible_ = true;
+		invincibleFrame_ = 200;
+	}
 
 	if (HP <= 0) {
 		isDead = true;

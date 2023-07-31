@@ -49,6 +49,7 @@ void TitleScene::Initialize()
 	sound_->LoadWave("PerituneMaterial.wav");
 	sound_->LoadWave("Start.wav");
 	sound_->LoadWave("Alarm01.wav");
+	sound_->LoadWave("ElectricWild.wav");
 }
 
 void TitleScene::Finalize()
@@ -58,6 +59,8 @@ void TitleScene::Finalize()
 void TitleScene::Update()
 {
 	titleSprite_->Update();
+
+	
 
 	if (!playBGM_) {
 		sound_->PlayLoopWave("PerituneMaterial.wav",0.5f);
@@ -84,11 +87,16 @@ void TitleScene::Update()
 			pos.x = 1920;
 			change_ = true;
 			start_ = false;
+			playBGM_ = false;
+			power = 1;
 		}
 	}
 
 	sceneSprite_->SetSize(pos);
 	
+	if (change_) {
+		pos = { 0,0 };
+	}
 
 	sceneSprite_->Update();
 
@@ -102,6 +110,10 @@ void TitleScene::Draw()
 	skyObject_->Draw();
 
 	titleSprite_->Draw(title_);
+
+	if (start_) {
+	//	sceneSprite_->Draw(scene_);
+	}
 	sceneSprite_->Draw(scene_);
 	
 }
