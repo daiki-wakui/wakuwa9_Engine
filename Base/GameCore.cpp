@@ -127,7 +127,7 @@ void GameCore::Draw()
 	titlescene_->OffDraw();
 
 	//imgui
-	imGuiM_->Draw();
+	//imGuiM_->Draw();
 
 	//•`‰æŒãˆ—
 	directX_->PostDraw();
