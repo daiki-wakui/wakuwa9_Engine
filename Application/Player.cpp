@@ -61,10 +61,20 @@ void Player::Update()
 	if (inputPad_->InputLStickRight()||input_->keyPush(DIK_RIGHT)) {
 		sideMove_.x = -moveXVec.x;
 		sideMove_.z = -moveXVec.z;
+
+		if (wallHit_) {
+			//frontMove_ = -frontMove_;
+			sideMove_ = {0,0,0};
+		}
 	}
 	else if (inputPad_->InputLStickLeft()||input_->keyPush(DIK_LEFT)) {
 		sideMove_.x = moveXVec.x;
 		sideMove_.z = moveXVec.z;
+
+		//if (wallHit_) {
+		//	//frontMove_ = -frontMove_;
+		//	sideMove_ = { 0,0,0 };
+		//}
 	}
 	else {
 		sideMove_ *= friction;
@@ -81,6 +91,7 @@ void Player::Update()
 	}
 
 
+
 	pos_.x += frontMove_.x;
 	pos_.y += frontMove_.y;
 	pos_.z += frontMove_.z;
@@ -88,7 +99,7 @@ void Player::Update()
 	pos_.x += sideMove_.x;
 	pos_.y += sideMove_.y;
 	pos_.z += sideMove_.z;
-
+	
 	frame++;
 	/*
 
@@ -156,6 +167,8 @@ void Player::Update()
 		coolTime--;
 	}
 	Shot();
+
+	wallHit_ = false;
 }
 
 void Player::Draw()
@@ -185,6 +198,11 @@ bool Player::OnCollision()
 	}
 
 	return true;
+}
+
+void Player::wallHit()
+{
+	wallHit_ = true;
 }
 
 DirectX::XMFLOAT3 Player::GetWorldPos()
