@@ -23,6 +23,8 @@ void TitleScene::Initialize()
 
 	scene_ = spBasis_->TextureData(L"Resources/scene.png");
 
+	fillter_ = spBasis_->TextureData(L"Resources/fillter.png");
+
 	spBasis_->TextureSetting();
 
 
@@ -36,6 +38,10 @@ void TitleScene::Initialize()
 	sceneSprite_->SetSize({ 0,0 });
 	sceneSprite_->Update();
 
+	fillSprite_->Initialize(spBasis_, windows_);
+	fillSprite_->Create(640, 360);
+	fillSprite_->SetSize({ 1280,720 });
+	fillSprite_->Update();
 
 	skydomModel_ = std::make_unique<Model>();
 	skydomModel_->LoadFromObj("world");
@@ -119,4 +125,9 @@ void TitleScene::Draw()
 	}
 	sceneSprite_->Draw(scene_);
 	
+}
+
+void TitleScene::OffDraw()
+{
+	fillSprite_->Draw(fillter_);
 }

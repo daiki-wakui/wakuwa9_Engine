@@ -124,6 +124,8 @@ void GameCore::Draw()
 	//ポストエフェクトをかけた描画
 	postEffect_->Draw();
 
+	titlescene_->OffDraw();
+
 	//imgui
 	imGuiM_->Draw();
 

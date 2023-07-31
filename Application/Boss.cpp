@@ -46,7 +46,7 @@ void Boss::Update()
 		//弾を登録する
 		bullets_.push_back(std::move(newBullet));
 
-		coolTime_ = 3;
+		coolTime_ = 6;
 	}
 
 	//デスフラグが立った弾を削除

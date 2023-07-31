@@ -47,5 +47,7 @@ public:
 
 	int32_t GetHP() const { return hp; }
 	bool GetArive() const { return arive_; }
+
+	const std::list<std::unique_ptr<BossBullet>>& GetBullets() { return bullets_; }
 };
 

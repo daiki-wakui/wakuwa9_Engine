@@ -28,6 +28,9 @@ private:
 
 	std::unique_ptr<Sprite> titleSprite_ = std::make_unique<Sprite>();
 
+	std::unique_ptr<Sprite> fillSprite_ = std::make_unique<Sprite>();
+
+
 	std::unique_ptr<Model> skydomModel_;
 	std::unique_ptr<Object3D> skyObject_;
 
@@ -37,6 +40,8 @@ private:
 	int32_t title_ = 0;
 
 	int32_t scene_ = 0;
+
+	int32_t fillter_ = 0;
 
 	XMFLOAT2 pos = {0,0};
 	float power = 1;
@@ -70,5 +75,6 @@ public:
 	//•`‰æ
 	void Draw()override;
 
+	void OffDraw();
 };
 

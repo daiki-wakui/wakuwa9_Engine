@@ -196,7 +196,7 @@ void GameScene::Update()
 			
 			
 			if (!playBGM_) {
-				sound_->PlayWave("ElectricWild.wav");
+				sound_->PlayWave("ElectricWild.wav",0.5f);
 				playBGM_ = true;
 				Reset();
 			}
@@ -273,7 +273,10 @@ void GameScene::Update()
 			bossBGM_ = true;
 		}
 
-		boss_->Update();
+		if (HitBox == true && boss_->GetArive() == true) {
+			boss_->Update();
+		}
+		
 		bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
 		bossHPSprite_->Update();
 	}
@@ -380,6 +383,32 @@ void GameScene::Update()
 				}
 				player_->OnCollision();
 			}
+		}
+	}
+
+	//ボス弾と自機の当たり判定
+	for (const std::unique_ptr<BossBullet>& bullet : boss_->GetBullets()) {
+		//敵弾の座標
+		posB = bullet->GetWorldPos();
+
+		//AとBの距離
+		float r1 = 7.0f;	//敵のスケール
+		float r2 = 1.0f;	//弾のスケール
+		float r = r1 + r2;
+
+		XMFLOAT3 dis;
+		dis.x = posB.x - posA.x;
+		dis.y = posB.y - posA.y;
+		dis.z = posB.z - posA.z;
+
+		if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
+
+			bullet->isDead_ = true;
+
+			if (!player_->Getinvincible()) {
+				sound_->PlayWave("noise.wav");
+			}
+			player_->OnCollision();
 		}
 	}
 
@@ -650,7 +679,8 @@ void GameScene::Inport(Model* model, int32_t size)
 
 void GameScene::Reset()
 {
-
+	bossBGM_ = false;
+	HitBox = false;
 	player_.reset();
 	playerObject_->Initialize();
 	playerObject_->SetScale(XMFLOAT3({ 1,1,1 }));
