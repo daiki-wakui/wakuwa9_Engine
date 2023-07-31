@@ -61,20 +61,10 @@ void Player::Update()
 	if (inputPad_->InputLStickRight()||input_->keyPush(DIK_RIGHT)) {
 		sideMove_.x = -moveXVec.x;
 		sideMove_.z = -moveXVec.z;
-
-		if (wallHit_) {
-			//frontMove_ = -frontMove_;
-			sideMove_ = {0,0,0};
-		}
 	}
 	else if (inputPad_->InputLStickLeft()||input_->keyPush(DIK_LEFT)) {
 		sideMove_.x = moveXVec.x;
 		sideMove_.z = moveXVec.z;
-
-		//if (wallHit_) {
-		//	//frontMove_ = -frontMove_;
-		//	sideMove_ = { 0,0,0 };
-		//}
 	}
 	else {
 		sideMove_ *= friction;
@@ -90,7 +80,10 @@ void Player::Update()
 		dash = true;
 	}
 
-
+	if (wallHit_) {
+		frontMove_ = -frontMove_;
+		sideMove_ = -sideMove_;
+	}
 
 	pos_.x += frontMove_.x;
 	pos_.y += frontMove_.y;
