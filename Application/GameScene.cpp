@@ -100,7 +100,7 @@ void GameScene::Initialize()
 	playerObject_->SetModel(playerModel_.get());
 	playerObject_->Initialize();
 	playerObject_->SetScale(XMFLOAT3({ 1,1,1 }));
-	playerObject_->SetPosition({ 0,10,0 });
+	playerObject_->SetPosition({ 0,0,0 });
 
 	podObject_ = std::make_unique<Object3D>();
 	podObject_->SetModel(podModel_.get());
@@ -113,7 +113,7 @@ void GameScene::Initialize()
 	skyObject_ = std::make_unique<Object3D>();
 	skyObject_->SetModel(skydomModel_.get());
 	skyObject_->Initialize();
-	skyObject_->SetScale(XMFLOAT3({ 400,400,400 }));
+	skyObject_->SetScale(XMFLOAT3({ 600,600,600 }));
 	skyObject_->SetPosition({ 0,0,100 });
 
 	objectFloor_ = std::make_unique<Object3D>();
@@ -196,6 +196,8 @@ void GameScene::Update()
 
 	sprite_->Update();
 
+	skyObject_->SetPosition(player_->GetWorldPos());
+
 	skyObject_->Update();
 	objectFloor_->Update();
 
@@ -229,6 +231,10 @@ void GameScene::Update()
 	//敵の動き
 	for (std::unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Update(!start_);
+	}
+
+	for (std::unique_ptr<CollisionBox>& collision : collisions_) {
+		collision->Update();
 	}
 
 	if (HitBox == true) {
@@ -345,6 +351,36 @@ void GameScene::Update()
 		}
 	}
 
+	//
+	posA = player_->GetWorldPos();
+
+	for (const std::unique_ptr<CollisionBox>& coll : collisions_) {
+		posB = coll->GetWorldPos();
+
+		//AとBの距離
+		float r1 = 1.0f;
+		float r2 = coll->GetScale().x;
+		float r = r1 + r2;
+
+		XMFLOAT3 dis;
+		dis.x = posB.x - posA.x;
+		dis.y = posB.y - posA.y;
+		dis.z = posB.z - posA.z;
+
+		if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
+
+			coll->OnCollision();
+			player_->wallHit();
+
+			int a = 0;
+			a++;
+		}
+		else {
+			coll->hit_ = false;
+		}
+	}
+
+
 	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
 		posA = enemy->GetWorldPos();
 
@@ -410,6 +446,10 @@ void GameScene::Draw()
 		enemy->Draw();
 	}
 
+	for (std::unique_ptr<CollisionBox>& collision : collisions_) {
+		collision->Draw();
+	}
+
 	if (HitBox == true && boss_->GetArive() == true) {
 		boss_->Draw();
 	}
@@ -464,6 +504,9 @@ void GameScene::ReLoad()
 	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
 	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
+	models.insert(std::make_pair(std::string("FliedBlock"), cubeModel_.get()));
+	models.insert(std::make_pair(std::string("wallBlock"), cubeModel_.get()));
+
 
 	// レベルデータからオブジェクトを生成、配置
 	for (int32_t i = 0; i < levelData_->objects.size(); i++) {
@@ -495,6 +538,21 @@ void GameScene::ReLoad()
 
 			eventBox_->Initialize(model, newObject[objSize].get());
 			objSize++;
+		}
+		else if (levelData_->objects[i].fileName == "wallBlock") {
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
+
+			//オブジェクト生成と座標情報代入
+			collBox[collSize] = std::make_unique<CollisionBox>();
+
+			collBox[collSize]->Initialize(model, newObject[objSize].get());
+			collBox[collSize]->SetScale(newObject[objSize]->GetScale());
+
+			collisions_.push_back(std::move(collBox[collSize]));
+
+			objSize++;
+			collSize++;
 		}
 		else if (levelData_->objects[i].fileName == "enemySpawn") {
 

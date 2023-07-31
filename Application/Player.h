@@ -40,6 +40,8 @@ private:
 	XMFLOAT3 eye_;
 	XMFLOAT3 target_;
 
+	XMFLOAT3 tmpPos_;
+
 	Vector3 sideMove_ = { 0,0,0 };
 	Vector3 frontMove_ = { 0,0,0 };
 
@@ -83,6 +85,11 @@ private:
 	bool isHit_ = false;
 	bool isShot_ = false;
 
+	float moveLimitX = 119.0f;
+	float moveLimitZ = 119.0f;
+
+	bool wallHit_ = false;
+
 public:
 	bool GetIsShot() { return isShot_; }
 	void SetIsShot(bool isShot) { isShot_ = isShot; }
@@ -111,6 +118,8 @@ public:
 	void PlayerCamera();
 	void RotateAngle();
 	
+	void wallHit();
+
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
 
 	DirectX::XMFLOAT3 GetWorldPos();

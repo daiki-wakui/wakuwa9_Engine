@@ -80,6 +80,10 @@ void Player::Update()
 		dash = true;
 	}
 
+	if (wallHit_) {
+		frontMove_ = -frontMove_;
+		sideMove_ = -sideMove_;
+	}
 
 	pos_.x += frontMove_.x;
 	pos_.y += frontMove_.y;
@@ -88,7 +92,7 @@ void Player::Update()
 	pos_.x += sideMove_.x;
 	pos_.y += sideMove_.y;
 	pos_.z += sideMove_.z;
-
+	
 	frame++;
 	/*
 
@@ -156,6 +160,8 @@ void Player::Update()
 		coolTime--;
 	}
 	Shot();
+
+	wallHit_ = false;
 }
 
 void Player::Draw()
@@ -185,6 +191,11 @@ bool Player::OnCollision()
 	}
 
 	return true;
+}
+
+void Player::wallHit()
+{
+	wallHit_ = true;
 }
 
 DirectX::XMFLOAT3 Player::GetWorldPos()

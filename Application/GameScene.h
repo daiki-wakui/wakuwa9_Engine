@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "Boss.h"
+#include "CollisionBox.h"
 
 #include "LevelLoader.h"
 
@@ -115,8 +116,13 @@ private:
 
 	std::unique_ptr<Enemy> newEnemy[100] = {};
 
+	std::unique_ptr<CollisionBox> collBox[100] = {};
+
+	std::list<std::unique_ptr<CollisionBox>> collisions_;
+
 	int32_t objSize = 0;
 	int32_t enemySize = 0;
+	int32_t collSize = 0;
 
 	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
 	bool BulletEffect = false;
