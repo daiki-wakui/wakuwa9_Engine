@@ -90,6 +90,7 @@ private:
 
 	bool wallHit_ = false;
 
+
 public:
 	bool GetIsShot() { return isShot_; }
 	void SetIsShot(bool isShot) { isShot_ = isShot; }

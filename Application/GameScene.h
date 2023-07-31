@@ -116,7 +116,7 @@ private:
 
 	std::unique_ptr<Enemy> newEnemy[100] = {};
 
-	std::unique_ptr<CollisionBox> collBox[100] = {};
+	std::unique_ptr<CollisionBox> collBox[300] = {};
 
 	std::list<std::unique_ptr<CollisionBox>> collisions_;
 

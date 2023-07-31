@@ -446,9 +446,9 @@ void GameScene::Draw()
 		enemy->Draw();
 	}
 
-	for (std::unique_ptr<CollisionBox>& collision : collisions_) {
+	/*for (std::unique_ptr<CollisionBox>& collision : collisions_) {
 		collision->Draw();
-	}
+	}*/
 
 	if (HitBox == true && boss_->GetArive() == true) {
 		boss_->Draw();
