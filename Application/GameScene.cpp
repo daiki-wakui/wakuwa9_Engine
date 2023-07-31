@@ -33,6 +33,8 @@ void GameScene::Initialize()
 
 	scene_ = spBasis_->TextureData(L"Resources/scene.png");
 
+	fillter_ = spBasis_->TextureData(L"Resources/fillter.png");
+
 	spBasis_->TextureSetting();
 
 	sprite_->Initialize(spBasis_, windows_);
@@ -69,6 +71,11 @@ void GameScene::Initialize()
 	sceneSprite_->SetSize({ 1920,1920 });
 	sceneSprite_->Update();
 
+	fillSprite_->Initialize(spBasis_, windows_);
+	fillSprite_->Create(640, 360);
+	fillSprite_->SetSize({ 1280,720 });
+	fillSprite_->Update();
+
 	//OBJ‚©‚çƒ‚ƒfƒ‹‚ğ“Ç‚İ‚Ş
 	playerModel_ = std::make_unique<Model>();
 	playerModel_->LoadFromObj("player");
@@ -87,6 +94,9 @@ void GameScene::Initialize()
 
 	cubeModel_ = std::make_unique<Model>();
 	cubeModel_->LoadFromObj("cube");
+
+	filedCubeModel_ = std::make_unique<Model>();
+	filedCubeModel_->LoadFromObj("cube2");
 
 	filedModel_ = std::make_unique<Model>();
 	filedModel_->LoadFromObj("filed");
@@ -163,6 +173,7 @@ void GameScene::Finalize()
 
 	models.clear();
 	objects.clear();
+	collisions_.clear();
 }
 
 void GameScene::Update()
@@ -195,6 +206,8 @@ void GameScene::Update()
 	particleMan_->Update();
 
 	sprite_->Update();
+
+	fillSprite_->Update();
 
 	skyObject_->SetPosition(player_->GetWorldPos());
 
@@ -478,6 +491,8 @@ void GameScene::Draw()
 	}
 
 	sceneSprite_->Draw(scene_);
+
+	fillSprite_->Draw(fillter_);
 }
 
 void GameScene::pDraw()
@@ -504,7 +519,7 @@ void GameScene::ReLoad()
 	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
 	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
-	models.insert(std::make_pair(std::string("FliedBlock"), cubeModel_.get()));
+	models.insert(std::make_pair(std::string("FliedBlock"), filedCubeModel_.get()));
 	models.insert(std::make_pair(std::string("wallBlock"), cubeModel_.get()));
 
 

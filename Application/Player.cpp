@@ -145,7 +145,7 @@ void Player::Update()
 
 	posPod_.x += 5;
 
-	posPod_.y = sinf(3.14f * frame * 40)*0.5f + 18;
+	posPod_.y = sinf(3.14f * frame * 40)*0.5f + 10;
 
 
 	playerObject_->SetRotation(rot_);

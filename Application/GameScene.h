@@ -56,6 +56,7 @@ private:
 
 	std::unique_ptr<Model> bossModel_;
 	std::unique_ptr<Model> cubeModel_;
+	std::unique_ptr<Model> filedCubeModel_;
 
 	std::unique_ptr<Model> filedModel_;
 
@@ -80,6 +81,9 @@ private:
 	std::unique_ptr<Sprite> gameoverSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> gameclearSprite_ = std::make_unique<Sprite>();
 
+	std::unique_ptr<Sprite> fillSprite_ = std::make_unique<Sprite>();
+
+
 	//‰æ‘œ
 	int32_t tex1_ = 0;
 	int32_t tex2_ = 0;
@@ -97,6 +101,7 @@ private:
 
 	int32_t scene_ = 0;
 
+	int32_t fillter_ = 0;
 
 	bool HitBox = false;
 
@@ -116,7 +121,7 @@ private:
 
 	std::unique_ptr<Enemy> newEnemy[100] = {};
 
-	std::unique_ptr<CollisionBox> collBox[300] = {};
+	std::unique_ptr<CollisionBox> collBox[150] = {};
 
 	std::list<std::unique_ptr<CollisionBox>> collisions_;
 
