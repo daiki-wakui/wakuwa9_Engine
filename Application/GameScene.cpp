@@ -194,7 +194,7 @@ void GameScene::Update()
 			//change_ = true;
 			start_ = false;
 			
-
+			
 			if (!playBGM_) {
 				sound_->PlayWave("ElectricWild.wav");
 				playBGM_ = true;
@@ -208,6 +208,10 @@ void GameScene::Update()
 
 	if (change_) {
 		sound_->StopWAVE("ElectricWild.wav");
+		if (HitBox == true) {
+			sound_->StopWAVE("Alone.wav");
+		}
+		
 		playBGM_ = false;
 		power = 1;
 		sceneSprite_->SetSize({ 1920,1920 });

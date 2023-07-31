@@ -100,6 +100,9 @@ void TitleScene::Update()
 
 	sceneSprite_->Update();
 
+	skyObject_->SetPosition({ 0,0,100 });
+	skyObject_->SetCamera({ 0, 20, -30.0f }, { 0, 10, 0 });
+
 	skyObject_->Update();
 }
 
