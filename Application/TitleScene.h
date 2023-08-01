@@ -26,42 +26,31 @@ private:
 	KeyBoard* keyboard_ = nullptr;
 	GamePad* gamePad_ = nullptr;
 
-	std::unique_ptr<Sprite> titleSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> fillSprite_ = std::make_unique<Sprite>();
-
-
+private:	//メンバ変数
+	//天球
 	std::unique_ptr<Model> skydomModel_;
 	std::unique_ptr<Object3D> skyObject_;
 
-	//画像
-	int32_t tex1_ = 0;
-
-	int32_t title_ = 0;
-
-	int32_t scene_ = 0;
-
-	int32_t fillter_ = 0;
-
-	XMFLOAT2 pos = {0,0};
-	float power = 1;
-
-	bool start_ = false;
-	bool change_ = false;
-
+	//スプライト
+	std::unique_ptr<Sprite> titleSprite_ = std::make_unique<Sprite>();
+	std::unique_ptr<Sprite> fillSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> sceneSprite_ = std::make_unique<Sprite>();
 
+	//画像
+	int32_t titleImage_ = 0;
+	int32_t sceneChangeImage_ = 0;
+	int32_t filterImage_ = 0;
+	
+	//シーン遷移に使う値
+	XMFLOAT2 changeSize_ = {0,0};
+	float addSize_ = 1;
+	bool changeStart_ = false;
+	bool changeEnd_ = false;
+
+	//BGM
 	bool playBGM_ = false;
 
-public:
-
-	bool GetChange() { return change_; }
-	void SetChange(bool change) { change_ = change; }
-	bool GetStart() { return start_; }
-	void SetStart(bool start) { start_ = start; }
-
-	void SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound_);
-	void SetInputInfo(KeyBoard* keyboard, GamePad* gamePad);
+public:	//メンバ関数
 
 	//初期化
 	void Initialize() override;
@@ -76,5 +65,16 @@ public:
 	void Draw()override;
 
 	void OffDraw();
+
+public:	//setter,getter
+
+	bool GetChange() { return changeEnd_; }
+	void SetChange(bool change) { changeEnd_ = change; }
+	bool GetStart() { return changeStart_; }
+	void SetStart(bool start) { changeStart_ = start; }
+
+	void SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound_);
+	void SetInputInfo(KeyBoard* keyboard, GamePad* gamePad);
+
 };
 

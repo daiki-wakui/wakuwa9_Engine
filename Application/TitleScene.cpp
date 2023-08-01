@@ -17,13 +17,11 @@ void TitleScene::SetInputInfo(KeyBoard* keyboard, GamePad* gamePad)
 
 void TitleScene::Initialize()
 {
-	tex1_ = spBasis_->TextureData(L"Resources/backTitle.png");
+	titleImage_ = spBasis_->TextureData(L"Resources/title.png");;
 
-	title_ = spBasis_->TextureData(L"Resources/title.png");;
+	sceneChangeImage_ = spBasis_->TextureData(L"Resources/scene.png");
 
-	scene_ = spBasis_->TextureData(L"Resources/scene.png");
-
-	fillter_ = spBasis_->TextureData(L"Resources/fillter.png");
+	filterImage_ = spBasis_->TextureData(L"Resources/fillter.png");
 
 	spBasis_->TextureSetting();
 
@@ -73,61 +71,56 @@ void TitleScene::Update()
 		playBGM_ = true;
 	}
 
-	if (start_) {
+	if (changeStart_) {
 
-		if (power < 2) {
+		if (addSize_ < 2) {
 			sound_->PlayWave("Start.wav");
 		}
 
 		sound_->StopWAVE("PerituneMaterial.wav");
 
-		pos = sceneSprite_->GetSize();
+		changeSize_ = sceneSprite_->GetSize();
 
-		power+=2;
+		addSize_+=2;
 
-		pos.x += power;
-		pos.y += power;
+		changeSize_.x += addSize_;
+		changeSize_.y += addSize_;
 
-		if (pos.y > 1920) {
-			pos.y = 1920;
-			pos.x = 1920;
-			change_ = true;
-			start_ = false;
+		if (changeSize_.y > 1920) {
+			changeSize_.y = 1920;
+			changeSize_.x = 1920;
+			changeEnd_ = true;
+			changeStart_ = false;
 			playBGM_ = false;
-			power = 1;
+			addSize_ = 1;
 		}
 	}
 
-	sceneSprite_->SetSize(pos);
+	sceneSprite_->SetSize(changeSize_);
 	
-	if (change_) {
-		pos = { 0,0 };
+	if (changeEnd_) {
+		changeSize_ = { 0,0 };
 	}
 
 	sceneSprite_->Update();
 
 	skyObject_->SetPosition({ 0,0,100 });
 	skyObject_->SetCamera({ 0, 20, -30.0f }, { 0, 10, 0 });
-
 	skyObject_->Update();
 }
 
 void TitleScene::Draw()
 {
-	//titleSprite_->Draw(tex1_);
 
 	skyObject_->Draw();
 
-	titleSprite_->Draw(title_);
+	titleSprite_->Draw(titleImage_);
 
-	if (start_) {
-	//	sceneSprite_->Draw(scene_);
-	}
-	sceneSprite_->Draw(scene_);
+	sceneSprite_->Draw(sceneChangeImage_);
 	
 }
 
 void TitleScene::OffDraw()
 {
-	fillSprite_->Draw(fillter_);
+	fillSprite_->Draw(filterImage_);
 }

@@ -87,9 +87,6 @@ void Sprite::Create(float x, float y)
 	matWorld_ *= matTrans_;
 
 	constMapTransform_->mat = matWorld_ * matProjection_;
-
-	/*position_.x = x;
-	position_.y = y;*/
 }
 
 void Sprite::Initialize(SpriteBasis* spBasis, WindowsApp* winApp)
@@ -172,7 +169,6 @@ void Sprite::Draw(int32_t texNum)
 	spBasis_->GetDxBasis()->GetCommandList()->IASetIndexBuffer(&ibView_);
 
 	// 描画コマンド
-	//dxBasis->GetCommandList()->DrawInstanced(_countof(vertices), 1, 0, 0); // 全ての頂点を使って描画
 	spBasis_->GetDxBasis()->GetCommandList()->DrawIndexedInstanced(indexSize_, 1, 0, 0, 0); // 全ての頂点を使って描画
 }
 

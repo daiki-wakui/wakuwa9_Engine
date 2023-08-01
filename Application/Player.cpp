@@ -94,18 +94,6 @@ void Player::Update()
 	pos_.z += sideMove_.z;
 	
 	frame++;
-	/*
-
-	if (input_->keyInstantPush(DIK_SPACE)) {
-		isJump = true;
-		jumpPower = 5.0f;
-	}
-
-	if (isJump == true) {
-		
-		jumpPower = 7.0f - 9.8f * frame / 50;
-		pos_.y += jumpPower;
-	}*/
 
 	if (inputPad_->InputRStick() == false && inputPad_->InputLStick() == false) {
 		RotateAngle();
@@ -120,24 +108,6 @@ void Player::Update()
 
 		rot_.y = -angle_;
 	}
-
-
-	/*if (inputPad_->InputLStickLeft() && inputPad_->InputRStick() == false) {
-		RotateAngle();
-
-		addAngle += 0.1f;
-		angle_ += addAngle;
-
-		rot_.y = -angle_;
-	}
-	if (inputPad_->InputLStickRight() && inputPad_->InputRStick() == false) {
-		RotateAngle();
-
-		addAngle -= 0.1f;
-		angle_ += addAngle;
-
-		rot_.y = -angle_;
-	}*/
 
 	PlayerCamera();
 

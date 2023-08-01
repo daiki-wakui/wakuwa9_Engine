@@ -17,12 +17,6 @@ void GameScene::SetInputInfo(KeyBoard* keyboard, GamePad* gamePad)
 
 void GameScene::Initialize()
 {
-	postTex = spBasis_->TextureData(L"Resources/white1x1.png");
-
-	tex1_ = spBasis_->TextureData(L"Resources/001.png");
-	tex2_ = spBasis_->TextureData(L"Resources/test.png");
-
-	backTex_ = spBasis_->TextureData(L"Resources/backTitle.png");
 
 	playerHP_ = spBasis_->TextureData(L"Resources/playerHP.png");
 	bossHP_ = spBasis_->TextureData(L"Resources/red.png");
@@ -31,23 +25,16 @@ void GameScene::Initialize()
 	gameover_ = spBasis_->TextureData(L"Resources/gameover.png");
 	gameclear_ = spBasis_->TextureData(L"Resources/gameclear.png");
 
+	//シーン遷移時
 	scene_ = spBasis_->TextureData(L"Resources/scene.png");
 
+	//フィルター
 	fillter_ = spBasis_->TextureData(L"Resources/fillter.png");
 
 	spBasis_->TextureSetting();
 
-	sprite_->Initialize(spBasis_, windows_);
-	sprite_->Create(50, 50);
-
-	backSprite_->Initialize(spBasis_, windows_);
-	backSprite_->Create(640, 360);
-	backSprite_->SetSize({ 1280,720 });
-	backSprite_->Update();
-
 	playerHPSprite_->Initialize(spBasis_, windows_);
 	playerHPSprite_->Create(100, 30);
-
 	bossHPSprite_->Initialize(spBasis_, windows_);
 	bossHPSprite_->Create(640, 30);
 
@@ -83,9 +70,6 @@ void GameScene::Initialize()
 	podModel_ = std::make_unique<Model>();
 	podModel_->LoadFromObj("pod");
 
-	floorModel_ = std::make_unique<Model>();
-	floorModel_->LoadFromObj("floor");
-
 	skydomModel_ = std::make_unique<Model>();
 	skydomModel_->LoadFromObj("world");
 
@@ -106,7 +90,6 @@ void GameScene::Initialize()
 
 	//3Dオブジェクト生成
 	playerObject_ = std::make_unique<Object3D>();
-	//playerObject->SetModel(playerModel2);
 	playerObject_->SetModel(playerModel_.get());
 	playerObject_->Initialize();
 	playerObject_->SetScale(XMFLOAT3({ 1,1,1 }));
@@ -126,13 +109,6 @@ void GameScene::Initialize()
 	skyObject_->SetScale(XMFLOAT3({ 600,600,600 }));
 	skyObject_->SetPosition({ 0,0,100 });
 
-	objectFloor_ = std::make_unique<Object3D>();
-	objectFloor_->SetModel(floorModel_.get());
-	objectFloor_->Initialize();
-	objectFloor_->SetScale(XMFLOAT3({ 5,5,5 }));
-	objectFloor_->SetPosition({ 0,-10,0 });
-
-
 	bossObject_ = std::make_unique<Object3D>();
 	bossObject_->SetModel(enemyModel_.get());
 	bossObject_->Initialize();
@@ -140,16 +116,13 @@ void GameScene::Initialize()
 	bossObject_->SetPosition({ 0,20,370 });
 
 	//FBXファイル読み込み
-
 	testModel_ = std::make_unique<FbxModel>();
 	FbxLoader::GetInstance()->LoadModelFromFile(testModel_.get(), "boneTest");
 
 	testObj_ = std::make_unique<FbxObject3d>();
 	testObj_->Initialize();
 	testObj_->SetModel(testModel_.get());
-
 	testObj_->PlayAnimation();
-
 
 	sound_->LoadWave("PerituneMaterial.wav");
 	sound_->LoadWave("Alarm01.wav");
@@ -191,7 +164,6 @@ void GameScene::Update()
 		if (pos.y < 0) {
 			pos.y = 0;
 			pos.x = 0;
-			//change_ = true;
 			start_ = false;
 			
 			
@@ -208,7 +180,7 @@ void GameScene::Update()
 
 	if (change_) {
 		sound_->StopWAVE("ElectricWild.wav");
-		if (HitBox == true) {
+		if (hitBox_ == true) {
 			sound_->StopWAVE("Alone.wav");
 		}
 		
@@ -219,22 +191,15 @@ void GameScene::Update()
 
 	particleMan_->Update();
 
-	sprite_->Update();
-
 	fillSprite_->Update();
 
 	skyObject_->SetPosition(player_->GetWorldPos());
 
 	skyObject_->Update();
-	objectFloor_->Update();
-
-	//testObj_->Update();
 
 	if (keyboard_->keyInstantPush(DIK_B)) {
 		Reset();
 	}
-	
-
 
 	//ゲーム画面
 	eventBox_->Update();
@@ -265,7 +230,7 @@ void GameScene::Update()
 		collision->Update();
 	}
 
-	if (HitBox == true) {
+	if (hitBox_ == true) {
 		sound_->StopWAVE("ElectricWild.wav");
 
 		if (!bossBGM_) {
@@ -273,7 +238,7 @@ void GameScene::Update()
 			bossBGM_ = true;
 		}
 
-		if (HitBox == true && boss_->GetArive() == true) {
+		if (hitBox_ == true && boss_->GetArive() == true) {
 			boss_->Update();
 		}
 		
@@ -308,7 +273,7 @@ void GameScene::Update()
 
 	if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
 
-		HitBox = true;
+		hitBox_ = true;
 	}
 
 	//自機の弾とボスの当たり判定
@@ -329,7 +294,7 @@ void GameScene::Update()
 		dis.z = posB.z - posA.z;
 
 
-		if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && HitBox == true) {
+		if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && hitBox_ == true) {
 			bullet->isDead_ = true;
 			BulletEffect = true;
 			boss_->OnCollision();
@@ -489,7 +454,6 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-
 	//eventBox_->Draw();
 
 	for (auto& object : objects) {
@@ -504,11 +468,7 @@ void GameScene::Draw()
 		enemy->Draw();
 	}
 
-	/*for (std::unique_ptr<CollisionBox>& collision : collisions_) {
-		collision->Draw();
-	}*/
-
-	if (HitBox == true && boss_->GetArive() == true) {
+	if (hitBox_ == true && boss_->GetArive() == true) {
 		boss_->Draw();
 	}
 
@@ -518,11 +478,9 @@ void GameScene::Draw()
 	//fbx
 	//testObj_->Draw();
 
-	//sprite_->Draw(tex1_);
-
 	playerHPSprite_->Draw(playerHP_);
 
-	if (HitBox == true && boss_->GetArive() == true) {
+	if (hitBox_ == true && boss_->GetArive() == true) {
 		bossHPSprite_->Draw(bossHP_);
 
 	}
@@ -596,23 +554,23 @@ void GameScene::ReLoad()
 			//オブジェクト生成と座標情報代入
 			Inport(model, i);
 
-			eventBox_->Initialize(model, newObject[objSize].get());
-			objSize++;
+			eventBox_->Initialize(model, newObject[objSize_].get());
+			objSize_++;
 		}
 		else if (levelData_->objects[i].fileName == "wallBlock") {
 			//オブジェクト生成と座標情報代入
 			Inport(model, i);
 
 			//オブジェクト生成と座標情報代入
-			collBox[collSize] = std::make_unique<CollisionBox>();
+			collBox[collSize_] = std::make_unique<CollisionBox>();
 
-			collBox[collSize]->Initialize(model, newObject[objSize].get());
-			collBox[collSize]->SetScale(newObject[objSize]->GetScale());
+			collBox[collSize_]->Initialize(model, newObject[objSize_].get());
+			collBox[collSize_]->SetScale(newObject[objSize_]->GetScale());
 
-			collisions_.push_back(std::move(collBox[collSize]));
+			collisions_.push_back(std::move(collBox[collSize_]));
 
-			objSize++;
-			collSize++;
+			objSize_++;
+			collSize_++;
 		}
 		else if (levelData_->objects[i].fileName == "enemySpawn") {
 
@@ -620,35 +578,35 @@ void GameScene::ReLoad()
 			Inport(model, i);
 
 			//オブジェクト生成と座標情報代入
-			newEnemy[enemySize] = std::make_unique<Enemy>();
+			newEnemy[enemySize_] = std::make_unique<Enemy>();
 
-			newEnemy[enemySize]->Initialize(newObject[objSize].get(), newObject[objSize]->GetPosition(), player_.get());
-			newEnemy[enemySize]->SetBulletModel(cubeModel_.get());
+			newEnemy[enemySize_]->Initialize(newObject[objSize_].get(), newObject[objSize_]->GetPosition(), player_.get());
+			newEnemy[enemySize_]->SetBulletModel(cubeModel_.get());
 
 			//敵を登録する
-			enemys_.push_back(std::move(newEnemy[enemySize]));
+			enemys_.push_back(std::move(newEnemy[enemySize_]));
 
-			objSize++;
-			enemySize++;
+			objSize_++;
+			enemySize_++;
 		}
 		else if (levelData_->objects[i].fileName == "boss") {
 			//オブジェクト生成と座標情報代入
 			Inport(model, i);
 
 
-			newObject[objSize]->SetScale({ 15,15,15 });
-			boss_->Initialize(model,newObject[objSize]->GetPosition(), newObject[objSize].get(), player_.get());
+			newObject[objSize_]->SetScale({ 15,15,15 });
+			boss_->Initialize(model,newObject[objSize_]->GetPosition(), newObject[objSize_].get(), player_.get());
 			boss_->SetBulletModel(cubeModel_.get());
 
-			objSize++;
+			objSize_++;
 		}
 		else {
 			//オブジェクト生成と座標情報代入
 			Inport(model, i);
 
 			// 配列に登録
-			objects.push_back(newObject[objSize].get());
-			objSize++;
+			objects.push_back(newObject[objSize_].get());
+			objSize_++;
 		}
 
 	}
@@ -656,31 +614,31 @@ void GameScene::ReLoad()
 
 void GameScene::Inport(Model* model, int32_t size)
 {
-	newObject[objSize] = std::make_unique<Object3D>();
-	newObject[objSize]->SetModel(model);
-	newObject[objSize]->Initialize();
+	newObject[objSize_] = std::make_unique<Object3D>();
+	newObject[objSize_]->SetModel(model);
+	newObject[objSize_]->Initialize();
 
 	// 座標
 	DirectX::XMFLOAT3 pos;
 	DirectX::XMStoreFloat3(&pos, levelData_->objects[size].translation);
-	newObject[objSize]->SetPosition(pos);
+	newObject[objSize_]->SetPosition(pos);
 
 	// 回転角
 	DirectX::XMFLOAT3 rot;
 	DirectX::XMStoreFloat3(&rot, levelData_->objects[size].rotation);
-	newObject[objSize]->SetRotation({ rot.x,rot.y,rot.z });
+	newObject[objSize_]->SetRotation({ rot.x,rot.y,rot.z });
 
 
 	// 座標
 	DirectX::XMFLOAT3 scale;
 	DirectX::XMStoreFloat3(&scale, levelData_->objects[size].scaling);
-	newObject[objSize]->SetScale(scale);
+	newObject[objSize_]->SetScale(scale);
 }
 
 void GameScene::Reset()
 {
 	bossBGM_ = false;
-	HitBox = false;
+	hitBox_ = false;
 	player_.reset();
 	playerObject_->Initialize();
 	playerObject_->SetScale(XMFLOAT3({ 1,1,1 }));
