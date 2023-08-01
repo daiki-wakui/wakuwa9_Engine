@@ -57,7 +57,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)Light;$(ProjectDir)Base;$(ProjectDir)Input;$(ProjectDir)Audio;$(ProjectDir)Math;$(ProjectDir)Application;$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Light;$(ProjectDir)Base;$(ProjectDir)Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Math;$(ProjectDir)Application;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -80,7 +80,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)2d;$(ProjectDir)3d;$(ProjectDir)Light;$(ProjectDir)Base;$(ProjectDir)Input;$(ProjectDir)Audio;$(ProjectDir)Math;$(ProjectDir)Application;$(ProjectDir)Engine;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Light;$(ProjectDir)Base;$(ProjectDir)Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Math;$(ProjectDir)Application;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -97,18 +97,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="2d\ParticleManager.cpp" />
-    <ClCompile Include="2d\PostEffect.cpp" />
-    <ClCompile Include="2d\Sprite.cpp" />
-    <ClCompile Include="2d\SpriteBasis.cpp" />
-    <ClCompile Include="3d\Camera.cpp" />
-    <ClCompile Include="3d\CollisionBox.cpp" />
-    <ClCompile Include="3d\EventBox.cpp" />
-    <ClCompile Include="3d\FbxLoader.cpp" />
-    <ClCompile Include="3d\FbxModel.cpp" />
-    <ClCompile Include="3d\FbxObject3d.cpp" />
-    <ClCompile Include="3d\Model.cpp" />
-    <ClCompile Include="3d\Object3D.cpp" />
     <ClCompile Include="Application\Boss.cpp" />
     <ClCompile Include="Application\BossBullet.cpp" />
     <ClCompile Include="Application\Enemy.cpp" />
@@ -117,7 +105,6 @@
     <ClCompile Include="Application\Player.cpp" />
     <ClCompile Include="Application\PlayerBullet.cpp" />
     <ClCompile Include="Application\TitleScene.cpp" />
-    <ClCompile Include="Audio\Sound.cpp" />
     <ClCompile Include="Base\BaseScene.cpp" />
     <ClCompile Include="Base\DirectXBasis.cpp" />
     <ClCompile Include="Base\Framework.cpp" />
@@ -126,6 +113,22 @@
     <ClCompile Include="Base\LevelLoader.cpp" />
     <ClCompile Include="Base\SceneManager.cpp" />
     <ClCompile Include="Base\WindowsApp.cpp" />
+    <ClCompile Include="Engine\2d\ParticleManager.cpp" />
+    <ClCompile Include="Engine\2d\PostEffect.cpp" />
+    <ClCompile Include="Engine\2d\Sprite.cpp" />
+    <ClCompile Include="Engine\2d\SpriteBasis.cpp" />
+    <ClCompile Include="Engine\3d\Camera.cpp" />
+    <ClCompile Include="Engine\3d\CollisionBox.cpp" />
+    <ClCompile Include="Engine\3d\EventBox.cpp" />
+    <ClCompile Include="Engine\3d\FbxLoader.cpp" />
+    <ClCompile Include="Engine\3d\FbxModel.cpp" />
+    <ClCompile Include="Engine\3d\FbxObject3d.cpp" />
+    <ClCompile Include="Engine\3d\Model.cpp" />
+    <ClCompile Include="Engine\3d\Object3D.cpp" />
+    <ClCompile Include="Engine\Audio\Sound.cpp" />
+    <ClCompile Include="Engine\Math\Matrix4.cpp" />
+    <ClCompile Include="Engine\Math\Vector2.cpp" />
+    <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Input\GamePad.cpp" />
     <ClCompile Include="Input\KeyBoard.cpp" />
     <ClCompile Include="Light\CircleShadow.cpp" />
@@ -134,23 +137,8 @@
     <ClCompile Include="Light\PointLight.cpp" />
     <ClCompile Include="Light\SpotLight.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Math\Matrix4.cpp" />
-    <ClCompile Include="Math\Vector2.cpp" />
-    <ClCompile Include="Math\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="2d\ParticleManager.h" />
-    <ClInclude Include="2d\PostEffect.h" />
-    <ClInclude Include="2d\Sprite.h" />
-    <ClInclude Include="2d\SpriteBasis.h" />
-    <ClInclude Include="3d\Camera.h" />
-    <ClInclude Include="3d\CollisionBox.h" />
-    <ClInclude Include="3d\EventBox.h" />
-    <ClInclude Include="3d\FbxLoader.h" />
-    <ClInclude Include="3d\FbxModel.h" />
-    <ClInclude Include="3d\FbxObject3d.h" />
-    <ClInclude Include="3d\Model.h" />
-    <ClInclude Include="3d\Object3D.h" />
     <ClInclude Include="Application\Boss.h" />
     <ClInclude Include="Application\BossBullet.h" />
     <ClInclude Include="Application\Enemy.h" />
@@ -159,7 +147,6 @@
     <ClInclude Include="Application\Player.h" />
     <ClInclude Include="Application\PlayerBullet.h" />
     <ClInclude Include="Application\TitleScene.h" />
-    <ClInclude Include="Audio\Sound.h" />
     <ClInclude Include="Base\BaseScene.h" />
     <ClInclude Include="Base\DirectXBasis.h" />
     <ClInclude Include="Base\Framework.h" />
@@ -168,6 +155,22 @@
     <ClInclude Include="Base\LevelLoader.h" />
     <ClInclude Include="Base\SceneManager.h" />
     <ClInclude Include="Base\WindowsApp.h" />
+    <ClInclude Include="Engine\2d\ParticleManager.h" />
+    <ClInclude Include="Engine\2d\PostEffect.h" />
+    <ClInclude Include="Engine\2d\Sprite.h" />
+    <ClInclude Include="Engine\2d\SpriteBasis.h" />
+    <ClInclude Include="Engine\3d\Camera.h" />
+    <ClInclude Include="Engine\3d\CollisionBox.h" />
+    <ClInclude Include="Engine\3d\EventBox.h" />
+    <ClInclude Include="Engine\3d\FbxLoader.h" />
+    <ClInclude Include="Engine\3d\FbxModel.h" />
+    <ClInclude Include="Engine\3d\FbxObject3d.h" />
+    <ClInclude Include="Engine\3d\Model.h" />
+    <ClInclude Include="Engine\3d\Object3D.h" />
+    <ClInclude Include="Engine\Audio\Sound.h" />
+    <ClInclude Include="Engine\Math\Matrix4.h" />
+    <ClInclude Include="Engine\Math\Vector2.h" />
+    <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Input\GamePad.h" />
     <ClInclude Include="Input\KeyBoard.h" />
     <ClInclude Include="Light\CircleShadow.h" />
@@ -175,9 +178,6 @@
     <ClInclude Include="Light\LightGroup.h" />
     <ClInclude Include="Light\PointLight.h" />
     <ClInclude Include="Light\SpotLight.h" />
-    <ClInclude Include="Math\Matrix4.h" />
-    <ClInclude Include="Math\Vector2.h" />
-    <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
