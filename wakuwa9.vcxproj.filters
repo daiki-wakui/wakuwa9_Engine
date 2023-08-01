@@ -81,24 +81,6 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Light\CircleShadow.cpp">
-      <Filter>ソース ファイル\Engine\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="Light\DirectionalLight.cpp">
-      <Filter>ソース ファイル\Engine\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="Light\LightGroup.cpp">
-      <Filter>ソース ファイル\Engine\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="Light\PointLight.cpp">
-      <Filter>ソース ファイル\Engine\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="Light\SpotLight.cpp">
-      <Filter>ソース ファイル\Engine\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="Input\KeyBoard.cpp">
-      <Filter>ソース ファイル\Engine\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Boss.cpp">
       <Filter>ソース ファイル\Application</Filter>
     </ClCompile>
@@ -114,9 +96,6 @@
     <ClCompile Include="Application\PlayerBullet.cpp">
       <Filter>ソース ファイル\Application</Filter>
     </ClCompile>
-    <ClCompile Include="Input\GamePad.cpp">
-      <Filter>ソース ファイル\Engine\Input</Filter>
-    </ClCompile>
     <ClCompile Include="Application\TitleScene.cpp">
       <Filter>ソース ファイル\Application\Scene</Filter>
     </ClCompile>
@@ -125,30 +104,6 @@
     </ClCompile>
     <ClCompile Include="Application\BossBullet.cpp">
       <Filter>ソース ファイル\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\BaseScene.cpp">
-      <Filter>ソース ファイル\Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\DirectXBasis.cpp">
-      <Filter>ソース ファイル\Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\Framework.cpp">
-      <Filter>ソース ファイル\Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\GameCore.cpp">
-      <Filter>ソース ファイル\Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\ImGuiManager.cpp">
-      <Filter>ソース ファイル\Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\LevelLoader.cpp">
-      <Filter>ソース ファイル\Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\SceneManager.cpp">
-      <Filter>ソース ファイル\Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Base\WindowsApp.cpp">
-      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Matrix4.cpp">
       <Filter>ソース ファイル\Engine\Math</Filter>
@@ -198,26 +153,53 @@
     <ClCompile Include="Engine\3d\Object3D.cpp">
       <Filter>ソース ファイル\Engine\3d</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Input\GamePad.cpp">
+      <Filter>ソース ファイル\Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Input\KeyBoard.cpp">
+      <Filter>ソース ファイル\Engine\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Light\CircleShadow.cpp">
+      <Filter>ソース ファイル\Engine\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Light\DirectionalLight.cpp">
+      <Filter>ソース ファイル\Engine\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Light\LightGroup.cpp">
+      <Filter>ソース ファイル\Engine\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Light\PointLight.cpp">
+      <Filter>ソース ファイル\Engine\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Light\SpotLight.cpp">
+      <Filter>ソース ファイル\Engine\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\BaseScene.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\DirectXBasis.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Framework.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\GameCore.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\ImGuiManager.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\LevelLoader.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\SceneManager.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\WindowsApp.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Light\CircleShadow.h">
-      <Filter>ヘッダー ファイル\Engine\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Light\DirectionalLight.h">
-      <Filter>ヘッダー ファイル\Engine\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Light\LightGroup.h">
-      <Filter>ヘッダー ファイル\Engine\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Light\PointLight.h">
-      <Filter>ヘッダー ファイル\Engine\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Light\SpotLight.h">
-      <Filter>ヘッダー ファイル\Engine\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Input\KeyBoard.h">
-      <Filter>ヘッダー ファイル\Engine\Input</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -236,9 +218,6 @@
     <ClInclude Include="Application\PlayerBullet.h">
       <Filter>ヘッダー ファイル\Application</Filter>
     </ClInclude>
-    <ClInclude Include="Input\GamePad.h">
-      <Filter>ヘッダー ファイル\Engine\Input</Filter>
-    </ClInclude>
     <ClInclude Include="Application\TitleScene.h">
       <Filter>ヘッダー ファイル\Application\Scene</Filter>
     </ClInclude>
@@ -247,30 +226,6 @@
     </ClInclude>
     <ClInclude Include="Application\BossBullet.h">
       <Filter>ヘッダー ファイル\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\BaseScene.h">
-      <Filter>ヘッダー ファイル\Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\DirectXBasis.h">
-      <Filter>ヘッダー ファイル\Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\Framework.h">
-      <Filter>ヘッダー ファイル\Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\GameCore.h">
-      <Filter>ヘッダー ファイル\Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\ImGuiManager.h">
-      <Filter>ヘッダー ファイル\Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\LevelLoader.h">
-      <Filter>ヘッダー ファイル\Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\SceneManager.h">
-      <Filter>ヘッダー ファイル\Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\WindowsApp.h">
-      <Filter>ヘッダー ファイル\Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Matrix4.h">
       <Filter>ヘッダー ファイル\Engine\Math</Filter>
@@ -319,6 +274,51 @@
     </ClInclude>
     <ClInclude Include="Engine\3d\Object3D.h">
       <Filter>ヘッダー ファイル\Engine\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input\GamePad.h">
+      <Filter>ヘッダー ファイル\Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Input\KeyBoard.h">
+      <Filter>ヘッダー ファイル\Engine\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Light\CircleShadow.h">
+      <Filter>ヘッダー ファイル\Engine\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Light\DirectionalLight.h">
+      <Filter>ヘッダー ファイル\Engine\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Light\LightGroup.h">
+      <Filter>ヘッダー ファイル\Engine\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Light\PointLight.h">
+      <Filter>ヘッダー ファイル\Engine\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Light\SpotLight.h">
+      <Filter>ヘッダー ファイル\Engine\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\BaseScene.h">
+      <Filter>ヘッダー ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\DirectXBasis.h">
+      <Filter>ヘッダー ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Framework.h">
+      <Filter>ヘッダー ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\GameCore.h">
+      <Filter>ヘッダー ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\ImGuiManager.h">
+      <Filter>ヘッダー ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\LevelLoader.h">
+      <Filter>ヘッダー ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\SceneManager.h">
+      <Filter>ヘッダー ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\WindowsApp.h">
+      <Filter>ヘッダー ファイル\Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

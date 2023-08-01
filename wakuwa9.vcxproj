@@ -57,7 +57,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Light;$(ProjectDir)Base;$(ProjectDir)Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Math;$(ProjectDir)Application;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Math;$(ProjectDir)Application;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -80,7 +80,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Light;$(ProjectDir)Base;$(ProjectDir)Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Math;$(ProjectDir)Application;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Math;$(ProjectDir)Application;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -105,14 +105,6 @@
     <ClCompile Include="Application\Player.cpp" />
     <ClCompile Include="Application\PlayerBullet.cpp" />
     <ClCompile Include="Application\TitleScene.cpp" />
-    <ClCompile Include="Base\BaseScene.cpp" />
-    <ClCompile Include="Base\DirectXBasis.cpp" />
-    <ClCompile Include="Base\Framework.cpp" />
-    <ClCompile Include="Base\GameCore.cpp" />
-    <ClCompile Include="Base\ImGuiManager.cpp" />
-    <ClCompile Include="Base\LevelLoader.cpp" />
-    <ClCompile Include="Base\SceneManager.cpp" />
-    <ClCompile Include="Base\WindowsApp.cpp" />
     <ClCompile Include="Engine\2d\ParticleManager.cpp" />
     <ClCompile Include="Engine\2d\PostEffect.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
@@ -126,16 +118,24 @@
     <ClCompile Include="Engine\3d\Model.cpp" />
     <ClCompile Include="Engine\3d\Object3D.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
+    <ClCompile Include="Engine\Base\BaseScene.cpp" />
+    <ClCompile Include="Engine\Base\DirectXBasis.cpp" />
+    <ClCompile Include="Engine\Base\Framework.cpp" />
+    <ClCompile Include="Engine\Base\GameCore.cpp" />
+    <ClCompile Include="Engine\Base\ImGuiManager.cpp" />
+    <ClCompile Include="Engine\Base\LevelLoader.cpp" />
+    <ClCompile Include="Engine\Base\SceneManager.cpp" />
+    <ClCompile Include="Engine\Base\WindowsApp.cpp" />
+    <ClCompile Include="Engine\Input\GamePad.cpp" />
+    <ClCompile Include="Engine\Input\KeyBoard.cpp" />
+    <ClCompile Include="Engine\Light\CircleShadow.cpp" />
+    <ClCompile Include="Engine\Light\DirectionalLight.cpp" />
+    <ClCompile Include="Engine\Light\LightGroup.cpp" />
+    <ClCompile Include="Engine\Light\PointLight.cpp" />
+    <ClCompile Include="Engine\Light\SpotLight.cpp" />
     <ClCompile Include="Engine\Math\Matrix4.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
-    <ClCompile Include="Input\GamePad.cpp" />
-    <ClCompile Include="Input\KeyBoard.cpp" />
-    <ClCompile Include="Light\CircleShadow.cpp" />
-    <ClCompile Include="Light\DirectionalLight.cpp" />
-    <ClCompile Include="Light\LightGroup.cpp" />
-    <ClCompile Include="Light\PointLight.cpp" />
-    <ClCompile Include="Light\SpotLight.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -147,14 +147,6 @@
     <ClInclude Include="Application\Player.h" />
     <ClInclude Include="Application\PlayerBullet.h" />
     <ClInclude Include="Application\TitleScene.h" />
-    <ClInclude Include="Base\BaseScene.h" />
-    <ClInclude Include="Base\DirectXBasis.h" />
-    <ClInclude Include="Base\Framework.h" />
-    <ClInclude Include="Base\GameCore.h" />
-    <ClInclude Include="Base\ImGuiManager.h" />
-    <ClInclude Include="Base\LevelLoader.h" />
-    <ClInclude Include="Base\SceneManager.h" />
-    <ClInclude Include="Base\WindowsApp.h" />
     <ClInclude Include="Engine\2d\ParticleManager.h" />
     <ClInclude Include="Engine\2d\PostEffect.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
@@ -168,16 +160,24 @@
     <ClInclude Include="Engine\3d\Model.h" />
     <ClInclude Include="Engine\3d\Object3D.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />
+    <ClInclude Include="Engine\Base\BaseScene.h" />
+    <ClInclude Include="Engine\Base\DirectXBasis.h" />
+    <ClInclude Include="Engine\Base\Framework.h" />
+    <ClInclude Include="Engine\Base\GameCore.h" />
+    <ClInclude Include="Engine\Base\ImGuiManager.h" />
+    <ClInclude Include="Engine\Base\LevelLoader.h" />
+    <ClInclude Include="Engine\Base\SceneManager.h" />
+    <ClInclude Include="Engine\Base\WindowsApp.h" />
+    <ClInclude Include="Engine\Input\GamePad.h" />
+    <ClInclude Include="Engine\Input\KeyBoard.h" />
+    <ClInclude Include="Engine\Light\CircleShadow.h" />
+    <ClInclude Include="Engine\Light\DirectionalLight.h" />
+    <ClInclude Include="Engine\Light\LightGroup.h" />
+    <ClInclude Include="Engine\Light\PointLight.h" />
+    <ClInclude Include="Engine\Light\SpotLight.h" />
     <ClInclude Include="Engine\Math\Matrix4.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
-    <ClInclude Include="Input\GamePad.h" />
-    <ClInclude Include="Input\KeyBoard.h" />
-    <ClInclude Include="Light\CircleShadow.h" />
-    <ClInclude Include="Light\DirectionalLight.h" />
-    <ClInclude Include="Light\LightGroup.h" />
-    <ClInclude Include="Light\PointLight.h" />
-    <ClInclude Include="Light\SpotLight.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
