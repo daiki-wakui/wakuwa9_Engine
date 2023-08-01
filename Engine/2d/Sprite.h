@@ -68,6 +68,7 @@ protected:
 	};
 
 	CounstBufferDataTransform* constMapTransform_ = nullptr;
+	ConstBufferDataMaterial* constMapMaterial = nullptr;
 
 	Vertex vertices_[4];
 
@@ -81,6 +82,12 @@ protected:
 	float rotation_ = 0;
 	DirectX::XMFLOAT2 size_ = { 100.0f,100.0f };
 	DirectX::XMFLOAT2 anchorPoint_ = { 0.5f,0.5f };
+	DirectX::XMFLOAT4 color_ = { 1,1,1,1 };
+
+	//ç∂âEîΩì]
+	bool isFilpX_ = false;
+	//è„â∫îΩì]
+	bool isFilpY_ = false;
 
 public:
 
@@ -90,11 +97,20 @@ public:
 	const float GetRotation() const { return rotation_; };
 	void SetRotation(const float rotation) { rotation_ = rotation; };
 
+	const DirectX::XMFLOAT4& GetColor() const { return color_; };
+	void SetColor(const DirectX::XMFLOAT4& size) { color_ = size; };
+
 	const DirectX::XMFLOAT2& GetSize() const { return size_; };
 	void SetSize(const DirectX::XMFLOAT2& size) { size_ = size; };
 
 	const DirectX::XMFLOAT2& GetAncP() const { return anchorPoint_; };
 	void SetAncP(const DirectX::XMFLOAT2& anchorPoint) { anchorPoint_ = anchorPoint; };
+
+	const bool GetFilpX() const { return isFilpX_; };
+	void SetFilpX(const bool isFilpX) { isFilpX_ = isFilpX; };
+
+	const bool GetFilpY() const { return isFilpY_; };
+	void SetFilpY(const bool isFilpY) { isFilpY_ = isFilpY; };
 
 	void Create(float x, float y);
 

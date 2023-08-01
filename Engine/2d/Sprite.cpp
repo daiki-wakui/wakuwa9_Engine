@@ -54,7 +54,6 @@ void Sprite::Create(float x, float y)
 	assert(SUCCEEDED(result_));
 
 	//定数バッファのマッピング(color)
-	ConstBufferDataMaterial* constMapMaterial = nullptr;
 	result_ = constBuffMaterial_->Map(0, nullptr, (void**)&constMapMaterial);	//マッピング
 	assert(SUCCEEDED(result_));
 
@@ -105,6 +104,16 @@ void Sprite::Update()
 	float top = (0.0f - anchorPoint_.y) * size_.y;
 	float bottom = (1.0f - anchorPoint_.y) * size_.y;
 
+	//
+	if (isFilpX_) {
+		left = -left;
+		right = -right;
+	}
+	if (isFilpY_) {
+		top = -top;
+		bottom = -bottom;
+	}
+
 	vertices_[LB].pos = { left ,bottom,0.0f };
 	vertices_[LT].pos = { left ,top   ,0.0f };
 	vertices_[RB].pos = { right,bottom,0.0f };
@@ -133,6 +142,7 @@ void Sprite::Update()
 
 	constMapTransform_->mat = matWorld_ * matProjection_;
 
+	constMapMaterial->color = color_;	//色変更
 }
 
 void Sprite::Draw(int32_t texNum)

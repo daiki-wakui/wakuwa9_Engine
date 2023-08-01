@@ -29,6 +29,8 @@ void TitleScene::Initialize()
 	titleSprite_->Initialize(spBasis_, windows_);
 	titleSprite_->Create(640, 360);
 	titleSprite_->SetSize({ 1280,720 });
+	titleSprite_->SetColor({ 1,1,1,1 });
+	titleSprite_->SetFilpY(true);
 	titleSprite_->Update();
 
 	sceneSprite_->Initialize(spBasis_, windows_);
@@ -63,8 +65,6 @@ void TitleScene::Finalize()
 void TitleScene::Update()
 {
 	titleSprite_->Update();
-
-	
 
 	if (!playBGM_) {
 		sound_->PlayLoopWave("PerituneMaterial.wav",0.5f);
