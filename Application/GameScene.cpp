@@ -31,6 +31,8 @@ void GameScene::Initialize()
 	//フィルター
 	fillter_ = spBasis_->TextureData(L"Resources/fillter.png");
 
+	reticleImage_ = spBasis_->TextureData(L"Resources/reticle.png");
+
 	spBasis_->TextureSetting();
 
 	playerHPSprite_->Initialize(spBasis_, windows_);
@@ -41,10 +43,16 @@ void GameScene::Initialize()
 	gameoverSprite_->Initialize(spBasis_, windows_);
 	gameoverSprite_->Create(640, 360);
 	gameoverSprite_->SetSize({ 1280,720 });
+	gameoverSprite_->Update();
 
 	gameclearSprite_->Initialize(spBasis_, windows_);
 	gameclearSprite_->Create(640, 360);
 	gameclearSprite_->SetSize({ 1280,720 });
+	gameclearSprite_->Update();
+
+	reticleSprite_->Initialize(spBasis_, windows_);
+	reticleSprite_->Create(640, 360);
+	reticleSprite_->SetSize({ 0,0 });
 
 	sceneSprite_->Initialize(spBasis_, windows_);
 	sceneSprite_->Create(640, 360);
@@ -145,6 +153,26 @@ void GameScene::Finalize()
 void GameScene::Update()
 {
 	sceneSprite_->Update();
+
+	if (gamePad_->PushButtonRB()) {
+		reticleSize_ = reticleSprite_->GetSize();
+		reticleSize_.x += 300;
+		reticleSize_.y += 200;
+		reticleSize_.x = min(reticleSize_.x, 1280);	
+		reticleSize_.y = min(reticleSize_.y, 720);
+	}
+	else {
+		reticleSize_ = reticleSprite_->GetSize();
+		reticleSize_.x -= 300;
+		reticleSize_.y -= 200;
+		reticleSize_.x = max(reticleSize_.x, 0);
+		reticleSize_.y = max(reticleSize_.y, 0);
+	}
+
+	reticleSprite_->SetSize(reticleSize_);
+
+	reticleSprite_->Update();
+
 	if (start_) {
 		pos = sceneSprite_->GetSize();
 
@@ -486,6 +514,8 @@ void GameScene::Draw()
 	}
 
 	sceneSprite_->Draw(scene_);
+
+	reticleSprite_->Draw(reticleImage_);
 
 	fillSprite_->Draw(fillter_);
 }

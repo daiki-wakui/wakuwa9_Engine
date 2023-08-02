@@ -11,6 +11,7 @@
 #include "CollisionBox.h"
 
 #include "LevelLoader.h"
+#include "Easing.h"
 
 class GameScene : public BaseScene
 {
@@ -79,6 +80,9 @@ private:	//ƒƒ“ƒo•Ï”
 
 	std::unique_ptr<Sprite> sceneSprite_ = std::make_unique<Sprite>();
 
+	std::unique_ptr<Sprite> reticleSprite_ = std::make_unique<Sprite>();
+
+
 	//‰æ‘œ
 
 	//HP
@@ -91,6 +95,8 @@ private:	//ƒƒ“ƒo•Ï”
 	int32_t gameclear_ = 0;
 	int32_t scene_ = 0;
 	int32_t fillter_ = 0;
+
+	int32_t reticleImage_ = 0;
 
 	//player
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
@@ -127,6 +133,8 @@ private:	//ƒƒ“ƒo•Ï”
 	bool bossBGM_ = false;
 
 	bool hitBox_ = false;
+
+	XMFLOAT2 reticleSize_ = {0,720};
 
 public:
 
