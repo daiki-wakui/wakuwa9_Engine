@@ -129,6 +129,10 @@ void Player::Update()
 	if (inputPad_->PushButtonRB()) {
 		coolTime--;
 	}
+	else if (inputPad_->PushInstantA()) {
+		Missle();
+	}
+
 	Shot();
 
 	wallHit_ = false;
@@ -188,6 +192,17 @@ DirectX::XMFLOAT3 Player::GetWorldPos()
 	worldPos.z = pos_.z;
 
 	return worldPos;
+}
+
+void Player::Missle()
+{
+	//íeÇÃê∂ê¨Ç∆èâä˙âª
+	for (int i = 0; i < 4; i++) {
+		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
+		newBullet->Initialize(posPod_, bulletVec_, bulletModel_, bulletObject_);
+		newBullet->SetMissile(true);
+		bullets_.push_back(std::move(newBullet));
+	}
 }
 
 void Player::Shot(){

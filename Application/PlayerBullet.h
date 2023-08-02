@@ -20,6 +20,14 @@ private:
 	static const int32_t kLifeTime = 60 * 5;
 	int32_t deathTimer_ = kLifeTime;
 
+	bool missile_ = false;
+
+	Vector3 Start;
+	Vector3 End;
+	Vector3 p0;
+
+	float timer = 0;
+	float timerMax = 65;
 public:
 	bool isDead_ = false;
 
@@ -30,6 +38,9 @@ public:
 	void Draw();
 
 	DirectX::XMFLOAT3 GetWorldPos();
+
+	bool GetMissile() const { return missile_; }
+	void SetMissile(bool missile) { missile_ = missile; }
 };
 
 

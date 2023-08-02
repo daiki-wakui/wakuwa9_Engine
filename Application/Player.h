@@ -120,6 +120,8 @@ public:
 	int GetHP() const { return HP; }
 
 	void Shot();
+	void Missle();
+
 	void PlayerCamera();
 	void RotateAngle();
 	
