@@ -32,12 +32,10 @@ void TitleScene::Initialize()
 	titleSprite_->Create();
 	titleSprite_->SetSize({ 1280,720 });
 	titleSprite_->SetAncP({ 0,0 });
-	titleSprite_->Update();
 
 	sceneSprite_->Initialize(spBasis_, windows_);
 	sceneSprite_->Create(640, 360);
 	sceneSprite_->SetSize({ 0,0 });
-	sceneSprite_->Update();
 
 	fillSprite_->Initialize(spBasis_, windows_);
 	fillSprite_->Create(640, 360);

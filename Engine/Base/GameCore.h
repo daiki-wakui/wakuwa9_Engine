@@ -40,6 +40,7 @@ private:
 	int32_t state = 0;
 	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
 
+	int32_t isDebug;
 
 public:
 

@@ -75,6 +75,11 @@ void GameCore::Update()
 	if (gamescene_->GetChange()) {
 		state = 0;
 	}
+
+	if (keyboard_->keyInstantPush(DIK_P)) {
+		isDebug++;
+		isDebug = isDebug % 2;
+	}
 	
 	//デバックImGui
 	imGuiM_->Begin();
@@ -127,7 +132,10 @@ void GameCore::Draw()
 	titlescene_->OffDraw();
 
 	//imgui
-	//imGuiM_->Draw();
+	if (isDebug) {
+		imGuiM_->Draw();
+	}
+	
 
 	//描画後処理
 	directX_->PostDraw();

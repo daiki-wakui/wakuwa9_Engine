@@ -38,25 +38,17 @@ void GameScene::Initialize()
 	bossHPSprite_->Initialize(spBasis_, windows_);
 	bossHPSprite_->Create(640, 30);
 
-	titleSprite_->Initialize(spBasis_, windows_);
-	titleSprite_->Create(640, 360);
-	titleSprite_->SetSize({ 1280,720 });
-	titleSprite_->Update();
-
 	gameoverSprite_->Initialize(spBasis_, windows_);
 	gameoverSprite_->Create(640, 360);
 	gameoverSprite_->SetSize({ 1280,720 });
-	gameoverSprite_->Update();
 
 	gameclearSprite_->Initialize(spBasis_, windows_);
 	gameclearSprite_->Create(640, 360);
 	gameclearSprite_->SetSize({ 1280,720 });
-	gameclearSprite_->Update();
 
 	sceneSprite_->Initialize(spBasis_, windows_);
 	sceneSprite_->Create(640, 360);
 	sceneSprite_->SetSize({ 1920,1920 });
-	sceneSprite_->Update();
 
 	fillSprite_->Initialize(spBasis_, windows_);
 	fillSprite_->Create(640, 360);
