@@ -105,6 +105,7 @@
     <ClCompile Include="Application\Player.cpp" />
     <ClCompile Include="Application\PlayerBullet.cpp" />
     <ClCompile Include="Application\TitleScene.cpp" />
+    <ClCompile Include="Easing.cpp" />
     <ClCompile Include="Engine\2d\ParticleManager.cpp" />
     <ClCompile Include="Engine\2d\PostEffect.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Application\Player.h" />
     <ClInclude Include="Application\PlayerBullet.h" />
     <ClInclude Include="Application\TitleScene.h" />
+    <ClInclude Include="Easing.h" />
     <ClInclude Include="Engine\2d\ParticleManager.h" />
     <ClInclude Include="Engine\2d\PostEffect.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
