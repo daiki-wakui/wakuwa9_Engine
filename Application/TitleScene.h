@@ -40,6 +40,8 @@ private:	//メンバ変数
 	int32_t titleImage_ = 0;
 	int32_t sceneChangeImage_ = 0;
 	int32_t filterImage_ = 0;
+
+	int32_t testImage_ = 0;
 	
 	//シーン遷移に使う値
 	XMFLOAT2 changeSize_ = {0,0};

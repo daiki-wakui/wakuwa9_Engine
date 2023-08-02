@@ -3,7 +3,6 @@ using namespace DirectX;
 
 void Sprite::Create(float x, float y)
 {
-
 	//ヒープ設定(color)
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
 	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;	//GPUへの転送用
@@ -88,10 +87,14 @@ void Sprite::Create(float x, float y)
 	constMapTransform_->mat = matWorld_ * matProjection_;
 }
 
-void Sprite::Initialize(SpriteBasis* spBasis, WindowsApp* winApp)
+void Sprite::Initialize(SpriteBasis* spBasis, WindowsApp* winApp, int32_t texIndex)
 {
 	this->spBasis_ = spBasis;
 	this->winApp_ = winApp;
+
+	if (texIndex != UINT32_MAX) {
+		index_ = texIndex;
+	}
 
 	VertexData();
 	IndexData();
@@ -104,11 +107,12 @@ void Sprite::Update()
 	float top = (0.0f - anchorPoint_.y) * size_.y;
 	float bottom = (1.0f - anchorPoint_.y) * size_.y;
 
-	//
+	//左右反転
 	if (isFilpX_) {
 		left = -left;
 		right = -right;
 	}
+	//上下反転
 	if (isFilpY_) {
 		top = -top;
 		bottom = -bottom;
@@ -119,30 +123,9 @@ void Sprite::Update()
 	vertices_[RB].pos = { right,bottom,0.0f };
 	vertices_[RT].pos = { right,top   ,0.0f };
 
-	//GPU上のバッファに対応した仮想メモリ
-	Vertex* vertMap = nullptr;
-	result_ = vertBuff_->Map(0, nullptr, (void**)&vertMap);
-	assert(SUCCEEDED(result_));
-	//全頂点に対して
-	for (int32_t i = 0; i < _countof(vertices_); i++) {
-		vertMap[i] = vertices_[i];
-	}
-	//繋がりを解除
-	vertBuff_->Unmap(0, nullptr);
+	VertexDataTransfer();
 
-
-	matRot_ = XMMatrixIdentity();
-	matRot_ *= XMMatrixRotationZ(XMConvertToRadians(rotation_));	//Z 0度回転
-	matRot_ *= XMMatrixRotationX(XMConvertToRadians(0));	//X 0度回転
-	matRot_ *= XMMatrixRotationY(XMConvertToRadians(0));	//Y 0度回転
-	matWorld_ *= matRot_;
-
-	matTrans_ = XMMatrixTranslation(position_.x, position_.y, 0.0f);
-	matWorld_ *= matTrans_;
-
-	constMapTransform_->mat = matWorld_ * matProjection_;
-
-	constMapMaterial->color = color_;	//色変更
+	MatUpdate();
 }
 
 void Sprite::Draw(int32_t texNum)
@@ -230,16 +213,7 @@ void Sprite::VertexData()
 
 #pragma region  頂点バッファへのデータ転送
 
-	//GPU上のバッファに対応した仮想メモリ
-	Vertex* vertMap = nullptr;
-	result_ = vertBuff_->Map(0, nullptr, (void**)&vertMap);
-	assert(SUCCEEDED(result_));
-	//全頂点に対して
-	for (int32_t i = 0; i < _countof(vertices_); i++) {
-		vertMap[i] = vertices_[i];
-	}
-	//繋がりを解除
-	vertBuff_->Unmap(0, nullptr);
+	VertexDataTransfer();
 
 #pragma endregion
 
@@ -302,5 +276,60 @@ void Sprite::IndexData()
 	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
 	ibView_.Format = DXGI_FORMAT_R16_UINT;
 	ibView_.SizeInBytes = sizeIB;
+}
+
+void Sprite::MatUpdate()
+{
+	matRot_ = XMMatrixIdentity();
+	matRot_ *= XMMatrixRotationZ(XMConvertToRadians(rotation_));	//Z 0度回転
+	matRot_ *= XMMatrixRotationX(XMConvertToRadians(0));	//X 0度回転
+	matRot_ *= XMMatrixRotationY(XMConvertToRadians(0));	//Y 0度回転
+	matWorld_ *= matRot_;
+
+	matTrans_ = XMMatrixTranslation(position_.x, position_.y, 0.0f);
+	matWorld_ *= matTrans_;
+
+	constMapTransform_->mat = matWorld_ * matProjection_;
+
+	constMapMaterial->color = color_;	//色変更
+}
+
+void Sprite::RectTexture(const DirectX::XMFLOAT2& rectSize)
+{
+	ID3D12Resource* texBuff = spBasis_->GetTextureBuffer(index_);
+
+	if (texBuff) {
+		D3D12_RESOURCE_DESC resDesc = texBuff->GetDesc();
+
+		float tex_left = textureLeftTop_.x / (float)resDesc.Width;
+		float tex_right = (textureLeftTop_.x + rectSize.x) / (float)resDesc.Width;
+		float tex_top = textureLeftTop_.y / (float)resDesc.Height;
+		float tex_bottom = (textureLeftTop_.y + rectSize.y) / (float)resDesc.Height;
+
+		vertices_[LB].uv = { tex_left,tex_bottom };
+		vertices_[LT].uv = { tex_left,tex_top };
+		vertices_[RB].uv = { tex_right,tex_bottom };
+		vertices_[RT].uv = { tex_right,tex_top };
+
+		size_ = rectSize;
+	}
+
+	VertexDataTransfer();
+
+	MatUpdate();
+}
+
+void Sprite::VertexDataTransfer()
+{
+	//GPU上のバッファに対応した仮想メモリ
+	Vertex* vertMap = nullptr;
+	result_ = vertBuff_->Map(0, nullptr, (void**)&vertMap);
+	assert(SUCCEEDED(result_));
+	//全頂点に対して
+	for (int32_t i = 0; i < _countof(vertices_); i++) {
+		vertMap[i] = vertices_[i];
+	}
+	//繋がりを解除
+	vertBuff_->Unmap(0, nullptr);
 }
 

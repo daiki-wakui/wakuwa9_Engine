@@ -84,42 +84,53 @@ protected:
 	DirectX::XMFLOAT2 anchorPoint_ = { 0.5f,0.5f };
 	DirectX::XMFLOAT4 color_ = { 1,1,1,1 };
 
+	DirectX::XMFLOAT2 textureLeftTop_ = { 0,0 };
+	DirectX::XMFLOAT2 textureSize_ = { 128.0f,128.0f };
+
 	//ç∂âEîΩì]
 	bool isFilpX_ = false;
 	//è„â∫îΩì]
 	bool isFilpY_ = false;
 
-public:
+	int32_t index_;
 
-	const DirectX::XMFLOAT2& GetPosition() const { return position_; };
-	void SetPosition(const DirectX::XMFLOAT2& position) { position_ = position; };
+public:	//ÉÅÉìÉoä÷êî
 
-	const float GetRotation() const { return rotation_; };
-	void SetRotation(const float rotation) { rotation_ = rotation; };
+	void Create(float x = 0, float y = 0);
 
-	const DirectX::XMFLOAT4& GetColor() const { return color_; };
-	void SetColor(const DirectX::XMFLOAT4& size) { color_ = size; };
-
-	const DirectX::XMFLOAT2& GetSize() const { return size_; };
-	void SetSize(const DirectX::XMFLOAT2& size) { size_ = size; };
-
-	const DirectX::XMFLOAT2& GetAncP() const { return anchorPoint_; };
-	void SetAncP(const DirectX::XMFLOAT2& anchorPoint) { anchorPoint_ = anchorPoint; };
-
-	const bool GetFilpX() const { return isFilpX_; };
-	void SetFilpX(const bool isFilpX) { isFilpX_ = isFilpX; };
-
-	const bool GetFilpY() const { return isFilpY_; };
-	void SetFilpY(const bool isFilpY) { isFilpY_ = isFilpY; };
-
-	void Create(float x, float y);
-
-	void Initialize(SpriteBasis* spBasis, WindowsApp* winApp);
+	void Initialize(SpriteBasis* spBasis, WindowsApp* winApp, int32_t texIndex = UINT32_MAX);
 	void Update();
 	void Draw(int32_t texNum);
 
+	void MatUpdate();
+
 	void VertexData();
 	void IndexData();
+	void VertexDataTransfer();
+
+	void RectTexture(const DirectX::XMFLOAT2& rectSize);
+
+public:	//getter setter
+
+	const DirectX::XMFLOAT2& GetPosition() const { return position_; };
+	const float GetRotation() const { return rotation_; };
+	const DirectX::XMFLOAT4& GetColor() const { return color_; };
+	const DirectX::XMFLOAT2& GetSize() const { return size_; };
+	const DirectX::XMFLOAT2& GetAncP() const { return anchorPoint_; };
+	const bool GetFilpX() const { return isFilpX_; };
+	const bool GetFilpY() const { return isFilpY_; };
+	const DirectX::XMFLOAT2& GetTextureLeftTop_() const { return textureLeftTop_; };
+	const DirectX::XMFLOAT2& GetTextureSize_() const { return textureSize_; };
+
+	void SetPosition(const DirectX::XMFLOAT2& position) { position_ = position; };
+	void SetRotation(const float rotation) { rotation_ = rotation; };
+	void SetColor(const DirectX::XMFLOAT4& size) { color_ = size; };
+	void SetSize(const DirectX::XMFLOAT2& size) { size_ = size; };
+	void SetAncP(const DirectX::XMFLOAT2& anchorPoint) { anchorPoint_ = anchorPoint; };
+	void SetFilpX(const bool isFilpX) { isFilpX_ = isFilpX; };
+	void SetFilpY(const bool isFilpY) { isFilpY_ = isFilpY; };
+	void SetTextureLeftTop_(const DirectX::XMFLOAT2& textureLeftTop) { textureLeftTop_ = textureLeftTop; };
+	void SetTextureSize_(const DirectX::XMFLOAT2& textureSize) { textureSize_ = textureSize; };
 };
 
 

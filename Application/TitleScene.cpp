@@ -23,14 +23,16 @@ void TitleScene::Initialize()
 
 	filterImage_ = spBasis_->TextureData(L"Resources/fillter.png");
 
+	testImage_ = spBasis_->TextureData(L"Resources/testB.png");
+
 	spBasis_->TextureSetting();
 
 
-	titleSprite_->Initialize(spBasis_, windows_);
-	titleSprite_->Create(640, 360);
+	titleSprite_->Initialize(spBasis_, windows_, titleImage_);
+	titleSprite_->Create();
 	titleSprite_->SetSize({ 1280,720 });
-	titleSprite_->SetColor({ 1,1,1,1 });
-	titleSprite_->SetFilpY(true);
+	titleSprite_->SetAncP({ 0,0 });
+	titleSprite_->RectTexture({ 640,720 });
 	titleSprite_->Update();
 
 	sceneSprite_->Initialize(spBasis_, windows_);

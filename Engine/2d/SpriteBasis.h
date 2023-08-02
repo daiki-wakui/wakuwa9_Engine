@@ -61,6 +61,8 @@ public:
 	DirectXBasis* GetDxBasis() const { return dxBasis_; };
 	ID3D12RootSignature* GetRootSignature() const { return rootSignature_.Get(); };
 	ID3D12PipelineState* GetPipelineState() const { return pipelineState_.Get(); };
+
+	ID3D12Resource* GetTextureBuffer(int32_t index) const { return textrueBuffers_[index].Get(); }
 };
 
 
