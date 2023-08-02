@@ -32,7 +32,6 @@ void TitleScene::Initialize()
 	titleSprite_->Create();
 	titleSprite_->SetSize({ 1280,720 });
 	titleSprite_->SetAncP({ 0,0 });
-	titleSprite_->RectTexture({ 640,720 });
 	titleSprite_->Update();
 
 	sceneSprite_->Initialize(spBasis_, windows_);
