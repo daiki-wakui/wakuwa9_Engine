@@ -26,7 +26,7 @@ void PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* m
 	Start.y = tPos_.y;
 	Start.z = tPos_.z;
 
-	p0.x = posX(engine);
+	p0.x = Start.x + posX(engine);
 	p0.y = Start.y + 50;
 	p0.z = Start.z - 10;
 

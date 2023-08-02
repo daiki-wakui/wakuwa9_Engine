@@ -280,19 +280,12 @@ void GameScene::Update()
 
 	posB = eventBox_->GetWorldPos();
 
+	
 	//AとBの距離
 	float r1 = 3.0f;	//イベントのスケール
 	float r2 = 13.0f;	//自機のスケール
-	float r = r1 + r2;
 
-	XMFLOAT3 dis;
-	dis.x = posB.x - posA.x;
-	dis.y = posB.y - posA.y;
-	dis.z = posB.z - posA.z;
-
-
-	if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
-
+	if (Collison(posA, posB, r1, r2)) {
 		hitBox_ = true;
 	}
 
@@ -673,4 +666,20 @@ void GameScene::Reset()
 	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
 
 	EditorLoad();
+}
+
+bool GameScene::Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale)
+{
+	float r = aScale + bScale;
+
+	XMFLOAT3 dis;
+	dis.x = posb.x - posa.x;
+	dis.y = posb.y - posa.y;
+	dis.z = posb.z - posa.z;
+
+	if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
+		return true;
+	}
+
+	return false;
 }

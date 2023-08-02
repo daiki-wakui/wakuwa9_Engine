@@ -138,6 +138,8 @@ private:	//ƒƒ“ƒo•Ï”
 
 public:
 
+	bool Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale);
+
 	//‰Šú‰»
 	void Initialize()override;
 
