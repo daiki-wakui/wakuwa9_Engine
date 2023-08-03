@@ -33,6 +33,8 @@ void GameScene::Initialize()
 
 	reticleImage_ = spBasis_->TextureData(L"Resources/reticle.png");
 
+	tesImage_ = spBasis_->TextureData(L"Resources/test.png");
+
 	spBasis_->TextureSetting();
 
 	playerHPSprite_->Initialize(spBasis_, windows_);
@@ -62,6 +64,12 @@ void GameScene::Initialize()
 	fillSprite_->Create(640, 360);
 	fillSprite_->SetSize({ 1280,720 });
 	fillSprite_->Update();
+
+	sSprite_->Initialize(spBasis_, windows_);
+	sSprite_->Create(0, 0);
+	sSprite_->SetSize({ 128,128 });
+	sSprite_->SetAncP({ 0,0 });
+	sSprite_->Update();
 
 	//OBJ‚©‚çƒ‚ƒfƒ‹‚ğ“Ç‚İ‚Ş
 	playerModel_ = std::make_unique<Model>();
@@ -162,7 +170,7 @@ void GameScene::Finalize()
 void GameScene::Update()
 {
 	sceneSprite_->Update();
-
+	
 	if (gamePad_->PushButtonRB()) {
 		reticleSize_ = reticleSprite_->GetSize();
 		reticleSize_.x += 300;
@@ -247,6 +255,21 @@ void GameScene::Update()
 
 	//poriObject_->SetPosition(playerObject_->GetPosition());
 	poriObject_->Update(true);
+
+	screenPos_ = poriObject_->Screen();
+
+	/*spPos_ = sSprite_->GetPosition();
+
+	spPos_.x = screenPos_.x;
+	spPos_.y = screenPos_.y;*/
+
+	spPos_.x=1;
+	spPos_.y=1;
+
+	sSprite_->SetPosition(spPos_);
+
+	sSprite_->Update();
+
 
 	//enemy‚Ì€–Sƒtƒ‰ƒO
 	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
@@ -525,6 +548,8 @@ void GameScene::Draw()
 	reticleSprite_->Draw(reticleImage_);
 
 	fillSprite_->Draw(fillter_);
+
+	sSprite_->Draw(tesImage_);
 }
 
 void GameScene::pDraw()

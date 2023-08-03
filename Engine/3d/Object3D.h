@@ -204,6 +204,10 @@ public: // メンバ関数
 	// ローカルワールド変換行列
 	XMMATRIX matWorld_ = {};
 
+	XMFLOAT3 Screen();
+
+	XMFLOAT3 VTransform(XMFLOAT3 InV, XMMATRIX InM);
+
 private: // メンバ変数
 
 	//3Dモデル(借りてくる)

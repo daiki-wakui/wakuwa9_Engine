@@ -86,6 +86,7 @@ private:	//ƒƒ“ƒo•Ï”
 
 	std::unique_ptr<Sprite> reticleSprite_ = std::make_unique<Sprite>();
 
+	std::unique_ptr<Sprite> sSprite_ = std::make_unique<Sprite>();
 
 	//‰æ‘œ
 
@@ -101,6 +102,8 @@ private:	//ƒƒ“ƒo•Ï”
 	int32_t fillter_ = 0;
 
 	int32_t reticleImage_ = 0;
+
+	int32_t tesImage_ = 0;
 
 	//player
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
@@ -140,6 +143,8 @@ private:	//ƒƒ“ƒo•Ï”
 
 	XMFLOAT2 reticleSize_ = {0,720};
 
+	XMFLOAT3 screenPos_ = {};
+	XMFLOAT2 spPos_ = {};
 public:
 
 	bool Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale);

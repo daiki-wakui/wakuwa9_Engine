@@ -471,3 +471,43 @@ void Object3D::SetCamera(const XMFLOAT3& eye,const XMFLOAT3& terget)
 	SetTarget(setCamera_t);
 }
 
+XMFLOAT3 Object3D::Screen()
+{
+	XMMATRIX view = sMatView;
+	XMMATRIX proj = sMatProjection;
+
+	float w = 1280 / 2.0f;
+	float h = 720 / 2.0f;
+
+	XMMATRIX viewport = {
+		w, 0,0,0,
+		0,-h,0,0,
+		0, 0,1,0,
+		w, h,0,1
+	};
+
+	XMFLOAT3 pos = position_;
+
+	pos = VTransform(pos, view);
+	pos = VTransform(pos, proj);
+
+	pos.x /= pos.z;
+	pos.y /= pos.z;
+	pos.z /= pos.z;
+
+	pos = VTransform(pos, viewport);
+
+	return pos;
+}
+
+XMFLOAT3 Object3D::VTransform(XMFLOAT3 InV, XMMATRIX InM)
+{
+	XMFLOAT3 result;
+
+	result.x = InV.x * InM.r[0].m128_f32[0] + InV.y * InM.r[1].m128_f32[0] + InV.z * InM.r[2].m128_f32[0] + InM.r[3].m128_f32[0];
+	result.y = InV.x * InM.r[0].m128_f32[1] + InV.y * InM.r[1].m128_f32[1] + InV.z * InM.r[2].m128_f32[1] + InM.r[3].m128_f32[1];
+	result.z = InV.x * InM.r[0].m128_f32[2] + InV.y * InM.r[1].m128_f32[2] + InV.z * InM.r[2].m128_f32[2] + InM.r[3].m128_f32[2];
+
+	return result;
+}
+
