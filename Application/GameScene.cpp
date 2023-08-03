@@ -85,6 +85,15 @@ void GameScene::Initialize()
 	filedModel_ = std::make_unique<Model>();
 	filedModel_->LoadFromObj("filed");
 
+	poriModel_ = std::make_unique<Model>();
+	poriModel_->LoadFromObj("pori");
+
+	poriObject_ = std::make_unique<Object3D>();
+	poriObject_->SetModel(poriModel_.get());
+	poriObject_->Initialize();
+	poriObject_->SetScale({ 10,10,10 });
+	poriObject_->SetPosition({ 0,10,0 });
+
 
 	eventBox_ = std::make_unique<EventBox>();
 
@@ -216,6 +225,8 @@ void GameScene::Update()
 	skyObject_->SetPosition(player_->GetWorldPos());
 
 	skyObject_->Update();
+
+	poriObject_->Update();
 
 	if (keyboard_->keyInstantPush(DIK_B)) {
 		Reset();
@@ -488,6 +499,8 @@ void GameScene::Draw()
 	//obj
 	skyObject_->Draw();
 	
+	poriObject_->Draw();
+
 	//fbx
 	//testObj_->Draw();
 
