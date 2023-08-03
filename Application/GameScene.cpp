@@ -63,12 +63,13 @@ void GameScene::Initialize()
 	fillSprite_->Initialize(spBasis_, windows_);
 	fillSprite_->Create(640, 360);
 	fillSprite_->SetSize({ 1280,720 });
+	fillSprite_->SetPosition({ 640,360 });
 	fillSprite_->Update();
 
 	sSprite_->Initialize(spBasis_, windows_);
 	sSprite_->Create(0, 0);
-	sSprite_->SetSize({ 128,128 });
-	sSprite_->SetAncP({ 0,0 });
+	sSprite_->SetSize({ 128,64 });
+	//sSprite_->SetAncP({ 0,0 });
 	sSprite_->Update();
 
 	//OBJ‚©‚çƒ‚ƒfƒ‹‚ð“Ç‚Ýž‚Þ
@@ -256,15 +257,15 @@ void GameScene::Update()
 	//poriObject_->SetPosition(playerObject_->GetPosition());
 	poriObject_->Update(true);
 
-	screenPos_ = poriObject_->Screen();
+	screenPos_ = playerObject_->Screen();
 
-	/*spPos_ = sSprite_->GetPosition();
+	//spPos_ = sSprite_->GetPosition();
 
 	spPos_.x = screenPos_.x;
-	spPos_.y = screenPos_.y;*/
+	spPos_.y = screenPos_.y - 100;
 
-	spPos_.x=1;
-	spPos_.y=1;
+	//spPos_.x = 640;
+	//spPos_.y = 360;
 
 	sSprite_->SetPosition(spPos_);
 

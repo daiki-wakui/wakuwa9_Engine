@@ -35,11 +35,13 @@ void TitleScene::Initialize()
 
 	sceneSprite_->Initialize(spBasis_, windows_);
 	sceneSprite_->Create(640, 360);
+	sceneSprite_->SetPosition({ 640,360 });
 	sceneSprite_->SetSize({ 0,0 });
 
 	fillSprite_->Initialize(spBasis_, windows_);
 	fillSprite_->Create(640, 360);
 	fillSprite_->SetSize({ 1280,720 });
+	fillSprite_->SetPosition({ 640,360 });
 	fillSprite_->Update();
 
 	skydomModel_ = std::make_unique<Model>();

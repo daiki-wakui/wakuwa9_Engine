@@ -280,6 +280,8 @@ void Sprite::IndexData()
 
 void Sprite::MatUpdate()
 {
+	matWorld_ = XMMatrixIdentity();
+
 	matRot_ = XMMatrixIdentity();
 	matRot_ *= XMMatrixRotationZ(XMConvertToRadians(rotation_));	//Z 0“x‰ñ“]
 	matRot_ *= XMMatrixRotationX(XMConvertToRadians(0));	//X 0“x‰ñ“]
