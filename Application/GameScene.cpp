@@ -91,8 +91,8 @@ void GameScene::Initialize()
 	poriObject_ = std::make_unique<Object3D>();
 	poriObject_->SetModel(poriModel_.get());
 	poriObject_->Initialize();
-	poriObject_->SetScale({ 10,10,10 });
-	poriObject_->SetPosition({ 0,10,0 });
+	poriObject_->SetScale({ 5,5,5 });
+	poriObject_->SetPosition({ 0,10,10 });
 
 
 	eventBox_ = std::make_unique<EventBox>();
@@ -226,8 +226,6 @@ void GameScene::Update()
 
 	skyObject_->Update();
 
-	poriObject_->Update();
-
 	if (keyboard_->keyInstantPush(DIK_B)) {
 		Reset();
 	}
@@ -246,6 +244,9 @@ void GameScene::Update()
 			player_->SetIsShot(false);
 		}
 	}
+
+	//poriObject_->SetPosition(playerObject_->GetPosition());
+	poriObject_->Update(true);
 
 	//enemy‚ÌŽ€–Sƒtƒ‰ƒO
 	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {

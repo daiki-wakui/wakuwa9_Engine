@@ -136,6 +136,11 @@ private: // 静的メンバ変数
 	//static DirectionalLight* light;
 	static LightGroup* lightGroup;
 
+	//ビルボード行列
+	static XMMATRIX matBillborad;
+	//Y軸ビルボード行列
+	static XMMATRIX matBillboradY;
+
 private:// 静的メンバ関数
 
 
@@ -167,7 +172,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update();
+	void Update(bool billborad = false);
 
 	/// <summary>
 	/// 描画

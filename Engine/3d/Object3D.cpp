@@ -29,6 +29,9 @@ XMFLOAT3 Object3D::sUp = { 0, 1, 0 };
 //DirectionalLight* Object3D::light = nullptr;
 LightGroup* Object3D::sLightGroup = nullptr;
 
+XMMATRIX Object3D::matBillborad = XMMatrixIdentity();
+XMMATRIX Object3D::matBillboradY = XMMatrixIdentity();
+
 void Object3D::StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height)
 {
 	// nullptrチェック
@@ -129,10 +132,12 @@ void Object3D::CameraEyeMoveVector(Vector3& eye)
 void Object3D::InitializeCamera(int32_t window_width, int32_t window_height)
 {
 	// ビュー行列の生成
-	sMatView = XMMatrixLookAtLH(
-		XMLoadFloat3(&sEye),
-		XMLoadFloat3(&sTarget),
-		XMLoadFloat3(&sUp));
+	//sMatView = XMMatrixLookAtLH(
+	//	XMLoadFloat3(&sEye),
+	//	XMLoadFloat3(&sTarget),
+	//	XMLoadFloat3(&sUp));
+
+	UpdateViewMatrix();
 
 
 	// 透視投影による射影行列の生成
@@ -299,7 +304,73 @@ void Object3D::CreateModel()
 void Object3D::UpdateViewMatrix()
 {
 	// ビュー行列の更新
-	sMatView = XMMatrixLookAtLH(XMLoadFloat3(&sEye), XMLoadFloat3(&sTarget), XMLoadFloat3(&sUp));
+	//sMatView = XMMatrixLookAtLH(XMLoadFloat3(&sEye), XMLoadFloat3(&sTarget), XMLoadFloat3(&sUp));
+
+	XMVECTOR eyePosition = XMLoadFloat3(&sEye);
+	XMVECTOR targetPosition = XMLoadFloat3(&sTarget);
+	XMVECTOR upVector = XMLoadFloat3(&sUp);
+
+	XMVECTOR cameraAxisZ = XMVectorSubtract(targetPosition, eyePosition);
+
+	assert(!XMVector3Equal(cameraAxisZ, XMVectorZero()));
+	assert(!XMVector3IsInfinite(cameraAxisZ));
+	assert(!XMVector3Equal(upVector, XMVectorZero()));
+	assert(!XMVector3IsInfinite(upVector));
+
+	cameraAxisZ = XMVector3Normalize(cameraAxisZ);
+
+	XMVECTOR cameraAxisX;
+	cameraAxisX = XMVector3Cross(upVector, cameraAxisZ);
+	cameraAxisX = XMVector3Normalize(cameraAxisX);
+
+	XMVECTOR cameraAxisY;
+	cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
+
+	XMMATRIX matCameraRot;
+
+	matCameraRot.r[0] = cameraAxisX;
+	matCameraRot.r[1] = cameraAxisY;
+	matCameraRot.r[2] = cameraAxisZ;
+	matCameraRot.r[3] = XMVectorSet(0, 0, 0, 1);
+
+	sMatView = XMMatrixTranspose(matCameraRot);
+
+	XMVECTOR reverseEyePosition = XMVectorNegate(eyePosition);
+
+	XMVECTOR tX = XMVector3Dot(cameraAxisX, reverseEyePosition);
+	XMVECTOR tY = XMVector3Dot(cameraAxisY, reverseEyePosition);
+	XMVECTOR tZ = XMVector3Dot(cameraAxisZ, reverseEyePosition);
+
+	XMVECTOR translation = XMVectorSet(tX.m128_f32[0], tY.m128_f32[1], tZ.m128_f32[2], 1.0f);
+
+	sMatView.r[3] = translation;
+
+#pragma region  全方向ビルボード行列の計算
+
+	//ビルボード行列
+	matBillborad.r[0] = cameraAxisX;
+	matBillborad.r[1] = cameraAxisY;
+	matBillborad.r[2] = cameraAxisZ;
+	matBillborad.r[3] = XMVectorSet(0, 0, 0, 1);
+
+#pragma region
+
+#pragma region  Y軸ビルボード行列の計算
+
+	XMVECTOR ybillCameraAxisX, ybillCameraAxisY, ybillCameraAxisZ;
+
+	ybillCameraAxisX = cameraAxisX;
+
+	ybillCameraAxisY = XMVector3Normalize(upVector);
+	ybillCameraAxisZ = XMVector3Cross(ybillCameraAxisX, ybillCameraAxisY);
+
+	matBillboradY.r[0] = ybillCameraAxisX;
+	matBillboradY.r[1] = ybillCameraAxisY;
+	matBillboradY.r[2] = ybillCameraAxisZ;
+	matBillboradY.r[3] = XMVectorSet(0, 0, 0, 1);
+
+
+#pragma region
 }
 
 bool Object3D::Initialize()
@@ -329,7 +400,7 @@ bool Object3D::Initialize()
 	return true;
 }
 
-void Object3D::Update()
+void Object3D::Update(bool billborad)
 {
 	HRESULT result;
 	XMMATRIX matScale, matRot, matTrans;
@@ -347,6 +418,10 @@ void Object3D::Update()
 	matWorld_ *= matScale; // ワールド行列にスケーリングを反映
 	matWorld_ *= matRot; // ワールド行列に回転を反映
 	matWorld_ *= matTrans; // ワールド行列に平行移動を反映
+
+	if (billborad) {
+		matWorld_ *= matBillboradY;
+	}
 
 	// 親オブジェクトがあれば
 	if (parent_ != nullptr) {
