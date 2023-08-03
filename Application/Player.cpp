@@ -125,7 +125,7 @@ void Player::Update()
 		bulletVec_.y = (eye_.y - 9.5f) - posPod_.y;
 	}
 	else {
-		bulletVec_.y = (eye_.y - 9.0f) - posPod_.y;
+		bulletVec_.y = (eye_.y - 10.0f) - posPod_.y;
 	}
 
 	bulletVec_.normalize();

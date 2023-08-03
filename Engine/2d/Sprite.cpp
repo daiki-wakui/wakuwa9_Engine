@@ -85,6 +85,8 @@ void Sprite::Create(float x, float y)
 	matWorld_ *= matTrans_;
 
 	constMapTransform_->mat = matWorld_ * matProjection_;
+
+	SetPosition({ x,y });
 }
 
 void Sprite::Initialize(SpriteBasis* spBasis, WindowsApp* winApp, int32_t texIndex)
