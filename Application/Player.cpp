@@ -33,7 +33,7 @@ void Player::Update()
 	frontVec.normalize();
 	frontVec /= 1.5f;
 
-	bulletVec_ = frontVec;
+	//bulletVec_ = frontVec;
 
 	if (dash) {
 		dashPower_ += 0.2f;
@@ -117,6 +117,18 @@ void Player::Update()
 
 	posPod_.y = sinf(3.14f * frame * 40)*0.5f + 10;
 
+	bulletVec_.x = eye_.x - posPod_.x;
+	
+	bulletVec_.z = eye_.z - posPod_.z;
+
+	if (eye_.y < 20 && eye_.y > 14) {
+		bulletVec_.y = (eye_.y - 9.5f) - posPod_.y;
+	}
+	else {
+		bulletVec_.y = (eye_.y - 9.0f) - posPod_.y;
+	}
+
+	bulletVec_.normalize();
 
 	playerObject_->SetRotation(rot_);
 	playerObject_->SetPosition(pos_);
@@ -281,6 +293,8 @@ void Player::PlayerCamera(){
 	eye_ = newEye;
 	target_ = terget;
 
+	cameraTargetAngle_ = playerObject_->GetEye().y;
+
 	if (inputPad_->InputRStickRight()) {
 		cameraAngle_++;
 	}
@@ -288,8 +302,20 @@ void Player::PlayerCamera(){
 		cameraAngle_--;
 	}
 
+	if (inputPad_->InputRStickUp()) {
+		cameraTargetAngle_ += 0.25f;
+	}
+	else if (inputPad_->InputRStickDown()) {
+		cameraTargetAngle_ -= 0.25f;
+	}
+
 	if (inputPad_->InputRStick()) {
 		r_ = cameraAngle_ * 3.14f / 180.0f;
+		cameraTargetAngle_ = max(cameraTargetAngle_, 0.5f);
+		cameraTargetAngle_ = min(cameraTargetAngle_, 25.0f);
+
+
+		eye_.y = cameraTargetAngle_;
 
 		eye_.x = pos_.x + (sinf(r_) * toCameraXZLen);
 		eye_.z = pos_.z + (cosf(r_) * toCameraXZLen);

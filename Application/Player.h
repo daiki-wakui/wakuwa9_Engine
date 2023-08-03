@@ -66,7 +66,9 @@ private:
 	float angle_;
 
 	float cameraAngle_ = 180.0f;
+	float cameraTargetAngle_ = 0.0f;
 	float r_;
+	float r2_;
 
 	float toCameraXZLen;
 
