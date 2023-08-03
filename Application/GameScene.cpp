@@ -518,7 +518,7 @@ void GameScene::Draw()
 	//obj
 	skyObject_->Draw();
 	
-	poriObject_->Draw();
+	//poriObject_->Draw();
 
 	//fbx
 	//testObj_->Draw();
@@ -544,7 +544,7 @@ void GameScene::Draw()
 
 	fillSprite_->Draw(fillter_);
 
-	sSprite_->Draw(tesImage_);
+	//sSprite_->Draw(tesImage_);
 }
 
 void GameScene::pDraw()
@@ -573,7 +573,6 @@ void GameScene::ReLoad()
 	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
 	models.insert(std::make_pair(std::string("FliedBlock"), filedCubeModel_.get()));
 	models.insert(std::make_pair(std::string("wallBlock"), cubeModel_.get()));
-
 
 	// レベルデータからオブジェクトを生成、配置
 	for (int32_t i = 0; i < levelData_->objects.size(); i++) {

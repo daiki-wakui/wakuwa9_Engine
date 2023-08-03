@@ -406,7 +406,7 @@ void PostEffect::Update(Player* player)
 {
 	if (player->GetIsHit()) {
 		isEffect_ = true;
-		frame_ = 20;
+		frame_ = 30;
 	}
 
 	if (isEffect_) {
@@ -423,7 +423,7 @@ void PostEffect::Update(Player* player)
 			constMapMaterial->shiftPower = noizPower2(engine);
 			player->SetIsHit(false);
 
-			noiseTimer_ = 2;
+			noiseTimer_ = 4;
 		}
 
 		if (frame_ <= 0) {
