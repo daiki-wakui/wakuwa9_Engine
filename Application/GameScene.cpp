@@ -258,15 +258,19 @@ void GameScene::Update()
 	//poriObject_->SetPosition(playerObject_->GetPosition());
 	poriObject_->Update(true);
 
-	screenPos_ = enemys_.front()->GetObj()->Screen();
+	if (!enemys_.empty()) {
+		screenPos_ = enemys_.front()->GetObj()->Screen();
 
-	spPos_.x = screenPos_.x;
-	spPos_.y = screenPos_.y;
+		spPos_.x = screenPos_.x;
+		spPos_.y = screenPos_.y;
 
-	sSprite_->SetPosition(spPos_);
+		sSprite_->SetPosition(spPos_);
 
-	sSprite_->Update();
+		sSprite_->Update();
 
+		player_->SetEnemy(enemys_.front().get());
+	}
+	
 
 	//enemy‚ÌŽ€–Sƒtƒ‰ƒO
 	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
@@ -298,7 +302,7 @@ void GameScene::Update()
 		bossHPSprite_->Update();
 	}
 
-	playerHPSprite_->SetSize({ 32.0f * (float)player_->GetHP(),16.0f });
+	playerHPSprite_->SetSize({ 128,16.0f });
 	playerHPSprite_->Update();
 
 

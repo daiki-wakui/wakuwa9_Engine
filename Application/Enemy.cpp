@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "Player.h"
 
 void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int hp, int pattern)
 {
@@ -17,6 +18,24 @@ void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int 
 
 void Enemy::Update(bool shot)
 {
+	frame_++;
+
+	addMoveX_++;
+
+	if (addMoveX_ < 60) {
+		pos_.x += 0.1f;
+
+	}
+	else if (addMoveX_ > 60) {
+		pos_.x -= 0.1f;
+	}
+
+	if (addMoveX_ > 120) {
+		addMoveX_ = 0;
+	}
+	
+	pos_.y = sinf(3.14f * frame_ * 100) + 10;
+
 
 	if (shot) {
 		coolTime_--;

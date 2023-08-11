@@ -30,9 +30,9 @@ void PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* m
 	p0.y = Start.y + 50;
 	p0.z = Start.z - 10;
 
-	End.x = Start.x;
-	End.y = Start.y;
-	End.z = Start.z + 200;
+	End.x = velocity_.x;
+	End.y = velocity_.y;
+	End.z = velocity_.z;
 }
 
 void PlayerBullet::Update()

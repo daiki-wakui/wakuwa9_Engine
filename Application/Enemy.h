@@ -4,11 +4,11 @@
 #include "KeyBoard.h"
 
 #include "EnemyBullet.h"
-#include "Player.h"
 
 #include <memory>
 #include <list>
 
+class Player;
 
 class Enemy
 {
@@ -43,6 +43,8 @@ private:
 
 	int pattern_;
 
+	float addMoveX_ = 0;
+
 public:
 
 	void Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int hp = 3, int pattern = 1);
@@ -55,6 +57,8 @@ public:
 
 	DirectX::XMFLOAT3 GetWorldPos();
 	Object3D* GetObj();
+
+	int32_t frame_ = 0;
 
 	void SetBulletModel(Model* model);
 	

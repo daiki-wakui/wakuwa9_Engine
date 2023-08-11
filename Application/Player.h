@@ -12,6 +12,7 @@
 #include <memory>
 #include <list>
 
+class Enemy;
 
 class Player
 {
@@ -23,6 +24,8 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 private:
+
+	Enemy* targetEnemy_ = nullptr;
 
 	Model* playerModel_;
 	Model* bulletModel_;
@@ -128,6 +131,8 @@ public:
 	void RotateAngle();
 	
 	void wallHit();
+
+	void SetEnemy(Enemy* enemy);
 
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
 

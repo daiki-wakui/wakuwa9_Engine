@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Enemy.h"
 
 #include <cmath>
 #include <algorithm>
@@ -195,6 +196,11 @@ void Player::wallHit()
 	wallHit_ = true;
 }
 
+void Player::SetEnemy(Enemy* enemy)
+{
+	targetEnemy_ = enemy;
+}
+
 DirectX::XMFLOAT3 Player::GetWorldPos()
 {
 	DirectX::XMFLOAT3 worldPos;
@@ -208,10 +214,15 @@ DirectX::XMFLOAT3 Player::GetWorldPos()
 
 void Player::Missle()
 {
+	Vector3 target;
+	target.x = targetEnemy_->GetWorldPos().x;
+	target.y = targetEnemy_->GetWorldPos().y;
+	target.z = targetEnemy_->GetWorldPos().z;
+
 	//’e‚Ì¶¬‚Æ‰Šú‰»
 	for (int i = 0; i < 4; i++) {
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(posPod_, bulletVec_, bulletModel_, bulletObject_);
+		newBullet->Initialize(posPod_, target, bulletModel_, bulletObject_);
 		newBullet->SetMissile(true);
 		bullets_.push_back(std::move(newBullet));
 	}
