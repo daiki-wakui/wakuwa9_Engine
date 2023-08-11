@@ -35,6 +35,8 @@ void GameScene::Initialize()
 
 	tesImage_ = spBasis_->TextureData(L"Resources/test.png");
 
+	targetImage_ = spBasis_->TextureData(L"Resources/targetPoint.png");
+
 	spBasis_->TextureSetting();
 
 	playerHPSprite_->Initialize(spBasis_, windows_);
@@ -67,7 +69,7 @@ void GameScene::Initialize()
 
 	sSprite_->Initialize(spBasis_, windows_);
 	sSprite_->Create(0, 0);
-	sSprite_->SetSize({ 128,64 });
+	sSprite_->SetSize({ 32,32 });
 	//sSprite_->SetAncP({ 0,0 });
 	sSprite_->Update();
 
@@ -256,10 +258,10 @@ void GameScene::Update()
 	//poriObject_->SetPosition(playerObject_->GetPosition());
 	poriObject_->Update(true);
 
-	screenPos_ = playerObject_->Screen();
+	screenPos_ = enemys_.front()->GetObj()->Screen();
 
 	spPos_.x = screenPos_.x;
-	spPos_.y = screenPos_.y - 100;
+	spPos_.y = screenPos_.y;
 
 	sSprite_->SetPosition(spPos_);
 
@@ -544,7 +546,7 @@ void GameScene::Draw()
 
 	fillSprite_->Draw(fillter_);
 
-	//sSprite_->Draw(tesImage_);
+	sSprite_->Draw(targetImage_);
 }
 
 void GameScene::pDraw()
@@ -556,7 +558,6 @@ void GameScene::EditorLoad()
 {
 	objects.clear();
 	enemys_.clear();
-
 	ReLoad();
 
 }

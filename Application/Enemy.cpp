@@ -88,6 +88,15 @@ DirectX::XMFLOAT3 Enemy::GetWorldPos()
 	return worldPos;
 }
 
+Object3D* Enemy::GetObj()
+{
+	Object3D* obj;
+
+	obj = enemyObject_;
+
+	return obj;
+}
+
 void Enemy::SetBulletModel(Model* model)
 {
 	bulletModel_ = model;

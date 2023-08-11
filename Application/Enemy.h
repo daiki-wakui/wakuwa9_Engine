@@ -54,6 +54,7 @@ public:
 	void OnCollision();
 
 	DirectX::XMFLOAT3 GetWorldPos();
+	Object3D* GetObj();
 
 	void SetBulletModel(Model* model);
 	

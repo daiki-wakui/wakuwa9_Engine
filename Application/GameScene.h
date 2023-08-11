@@ -104,6 +104,7 @@ private:	//ƒƒ“ƒo•Ï”
 	int32_t reticleImage_ = 0;
 
 	int32_t tesImage_ = 0;
+	int32_t targetImage_ = 0;
 
 	//player
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
@@ -119,9 +120,9 @@ private:	//ƒƒ“ƒo•Ï”
 	std::list<std::unique_ptr<Enemy>> enemys_;
 	std::list<std::unique_ptr<CollisionBox>> collisions_;
 
-	std::unique_ptr<Object3D> newObject[100] = {};
-	std::unique_ptr<Enemy> newEnemy[100] = {};
-	std::unique_ptr<CollisionBox> collBox[150] = {};
+	std::unique_ptr<Object3D> newObject[1000] = {};
+	std::unique_ptr<Enemy> newEnemy[1000] = {};
+	std::unique_ptr<CollisionBox> collBox[1000] = {};
 
 	int32_t objSize_ = 0;
 	int32_t enemySize_ = 0;
