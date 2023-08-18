@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "Player.h"
+#include "Easing.h"
 
 void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int hp, int pattern)
 {
@@ -9,35 +10,50 @@ void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int 
 	player_ = player;
 	hp_ = hp;
 
+	vPos_.x = pos_.x;
+	vPos_.y = pos_.y;
+	vPos_.z = pos_.z;
+
 	enemyObject_->SetScale({ 3,3,3 });
 
 	pattern_ = pattern;
 
 	bullets_.clear();
+
+	start_.x = pos.x;
+	start_.y = pos.y;
+	start_.z = pos.z;
+
+	end_.x = start_.x;
+	end_.y = start_.y - 45;
+	end_.z = start_.z;
 }
 
 void Enemy::Update(bool shot)
 {
 
 	if (isMove_) {
-		frame_++;
 
-		addMoveX_++;
+		timer_++;
 
-		if (addMoveX_ < 60) {
-			pos_.x += 0.1f;
+		vPos_ = vPos_.lerp(start_, end_, Easing::EaseOutBack(timer_, timerMax_));
 
+		
+
+		if (timer_ > timerMax_) {
+			pos_.y = vPos_.y;
+			pos_.z = vPos_.z;
+
+			pos_.y = sinf(3.14f * frame_ * 50) + pos_.y;
+
+			frame_++;
 		}
-		else if (addMoveX_ > 60) {
-			pos_.x -= 0.1f;
+		else {
+			pos_.x = vPos_.x;
+			pos_.y = vPos_.y;
+			pos_.z = vPos_.z;
 		}
-
-		if (addMoveX_ > 120) {
-			addMoveX_ = 0;
-		}
-
-		pos_.y = sinf(3.14f * frame_ * 100) + 10;
-
+		
 
 		if (shot) {
 			coolTime_--;

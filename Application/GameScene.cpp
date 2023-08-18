@@ -455,7 +455,7 @@ void GameScene::Update()
 	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
 		//AとBの距離
 		float r1 = 3.0f;	//自機のスケール
-		float r2 = 100.0f;	//索敵範囲のスケール
+		float r2 = 175.0f;	//索敵範囲のスケール
 
 		posA = player_->GetWorldPos();
 		posB = enemy->GetWorldPos();
@@ -526,7 +526,10 @@ void GameScene::Draw()
 	}
 
 	for (std::unique_ptr<Enemy>& enemy : enemys_) {
-		enemy->Draw();
+		if (enemy->GetIsMove()) {
+			enemy->Draw();
+		}
+		
 	}
 
 	if (hitBox_ == true && boss_->GetArive() == true) {

@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "Object3D.h"
 #include "KeyBoard.h"
+#include "Vector3.h"
 
 #include "EnemyBullet.h"
 
@@ -24,6 +25,7 @@ private:
 	KeyBoard* input_;
 
 	XMFLOAT3 pos_;
+	Vector3 vPos_;
 
 	Player* player_ = nullptr;
 	XMFLOAT3 playerPos;
@@ -46,6 +48,13 @@ private:
 	float addMoveX_ = 0;
 
 	bool isMove_ = false;
+
+	Vector3 start_;
+	Vector3 end_;
+	Vector3 p0_;
+
+	float timer_ = 0;
+	float timerMax_ = 120;
 
 public:
 

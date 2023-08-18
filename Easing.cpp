@@ -33,3 +33,14 @@ float Easing::EaseInCubic(float timer, float maxtimer)
 	return t * t * t;
 }
 
+float Easing::EaseOutBack(float timer, float maxtimer)
+{
+	float c1 = 1.70158f;
+	float c3 = c1 + 1;
+
+	timer = (float)fmin(timer, maxtimer);
+	float t = timer / maxtimer;
+
+	return 1 + c3 * (float)pow(t - 1, 3) + c1 * (float)pow(t - 1, 2);
+}
+
