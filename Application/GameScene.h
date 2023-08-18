@@ -90,6 +90,8 @@ private:	//ƒƒ“ƒo•Ï”
 
 	std::unique_ptr<Sprite> iventSprite_ = std::make_unique<Sprite>();
 
+	std::unique_ptr<Sprite> RBSprite_ = std::make_unique<Sprite>();
+
 
 	int32_t pow_ = 0;
 	int32_t count_ = 0;
@@ -123,6 +125,7 @@ private:	//ƒƒ“ƒo•Ï”
 
 	int32_t iventImage_ = 0;
 	int32_t warningImage_ = 0;
+	int32_t manualImageRB_ = 0;
 
 	//player
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
@@ -174,6 +177,13 @@ private:	//ƒƒ“ƒo•Ï”
 	Vector3 endEye_ = { 360,10,600 };
 	float timer_ = 0;
 	float maxTime_ = 300;
+
+
+	XMFLOAT3 screenPosPlayer_ = {};
+	bool manualOK_ = false;
+	float alphaRB_ = 0;
+	float addYRB_ = 0;
+	XMFLOAT2 posRB_ = {};
 
 public:
 

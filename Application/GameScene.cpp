@@ -42,6 +42,8 @@ void GameScene::Initialize()
 
 	warningImage_ = spBasis_->TextureData(L"Resources/warning.png");
 
+	manualImageRB_ = spBasis_->TextureData(L"Resources/RB.png");
+
 	spBasis_->TextureSetting();
 
 	playerHPSprite_->Initialize(spBasis_, windows_);
@@ -77,6 +79,10 @@ void GameScene::Initialize()
 	sSprite_->SetSize({ 32,32 });
 	//sSprite_->SetAncP({ 0,0 });
 	sSprite_->Update();
+
+	RBSprite_->Initialize(spBasis_, windows_);
+	RBSprite_->Create(0, 0);
+	RBSprite_->SetSize({ 160,160 });
 
 	iventSprite_->Initialize(spBasis_, windows_);
 	iventSprite_->Create(640, 360);
@@ -191,6 +197,8 @@ void GameScene::Update()
 	iventSprite_->Update();
 	waringSprite_->Update();
 
+	RBSprite_->Update();
+
 	if (keyboard_->keyInstantPush(DIK_K)) {
 		if (isIvent_ == false) {
 			isIvent_ = true;
@@ -217,7 +225,20 @@ void GameScene::Update()
 
 	iventSprite_->SetColor({ 1,1,1,alpha_ });
 
+	if (!manualOK_) {
+		alphaRB_ += 0.15f;
+		alphaRB_ = min(alphaRB_, 1);
+		RBSprite_->SetColor({ 1,1,1,alphaRB_ });
+	}
+	else {
+		alphaRB_ -= 0.15f;
+		alphaRB_ = max(alphaRB_, 0);
+		RBSprite_->SetColor({ 1,1,1,alphaRB_ });
+	}
+
 	if (gamePad_->PushButtonRB()) {
+		manualOK_ = true;
+
 		reticleSize_ = reticleSprite_->GetSize();
 		reticleSize_.x += 300;
 		reticleSize_.y += 200;
@@ -314,6 +335,10 @@ void GameScene::Update()
 
 		player_->SetEnemy(enemys_.front().get());
 	}
+
+	screenPosPlayer_ = playerObject_->Screen();
+
+	RBSprite_->SetPosition({ screenPosPlayer_.x - 175,screenPosPlayer_.y-90 });
 
 	if (hitBox_ == true) {
 		sound_->StopWAVE("ElectricWild.wav");
@@ -677,6 +702,7 @@ void GameScene::Draw()
 	if (boss_->GetArive() == false) {
 		gameclearSprite_->Draw(gameclear_);
 	}
+	RBSprite_->Draw(manualImageRB_);
 
 	sceneSprite_->Draw(scene_);
 
@@ -688,6 +714,7 @@ void GameScene::Draw()
 	if (pow_ < 1 && hitBox_ && movieEnd_) {
 		waringSprite_->Draw(warningImage_);
 	}
+
 	
 	//sSprite_->Draw(targetImage_);
 }
