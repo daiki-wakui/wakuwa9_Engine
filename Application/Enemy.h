@@ -45,6 +45,8 @@ private:
 
 	float addMoveX_ = 0;
 
+	bool isMove_ = false;
+
 public:
 
 	void Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int hp = 3, int pattern = 1);
@@ -62,6 +64,10 @@ public:
 
 	void SetBulletModel(Model* model);
 	
+	bool GetIsMove() { return isMove_; }
+	void SetIsMove(bool isMove) { isMove_ = isMove; }
+
+
 	const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
 };
 

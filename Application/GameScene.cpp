@@ -452,6 +452,18 @@ void GameScene::Update()
 		}
 	}
 
+	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
+		//AとBの距離
+		float r1 = 3.0f;	//自機のスケール
+		float r2 = 100.0f;	//索敵範囲のスケール
+
+		posA = player_->GetWorldPos();
+		posB = enemy->GetWorldPos();
+
+		if (Collison(posA, posB, r1, r2)) {
+			enemy->SetIsMove(true);
+		}
+	}
 
 	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
 		posA = enemy->GetWorldPos();
@@ -550,7 +562,7 @@ void GameScene::Draw()
 
 	fillSprite_->Draw(fillter_);
 
-	sSprite_->Draw(targetImage_);
+	//sSprite_->Draw(targetImage_);
 }
 
 void GameScene::pDraw()
