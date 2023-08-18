@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "Easing.h"
 
 void GameScene::SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound)
 {
@@ -37,6 +38,8 @@ void GameScene::Initialize()
 
 	targetImage_ = spBasis_->TextureData(L"Resources/targetPoint.png");
 
+	iventImage_ = spBasis_->TextureData(L"Resources/Ivent.png");
+
 	spBasis_->TextureSetting();
 
 	playerHPSprite_->Initialize(spBasis_, windows_);
@@ -72,6 +75,13 @@ void GameScene::Initialize()
 	sSprite_->SetSize({ 32,32 });
 	//sSprite_->SetAncP({ 0,0 });
 	sSprite_->Update();
+
+	iventSprite_->Initialize(spBasis_, windows_);
+	iventSprite_->Create(640, 360);
+	iventSprite_->SetSize({ 1280,720 });
+	iventSprite_->SetColor({ 1,1,1,0 });
+	iventSprite_->Update();
+
 
 	//OBJ‚©‚çƒ‚ƒfƒ‹‚ğ“Ç‚İ‚Ş
 	playerModel_ = std::make_unique<Model>();
@@ -172,7 +182,76 @@ void GameScene::Finalize()
 void GameScene::Update()
 {
 	sceneSprite_->Update();
+	iventSprite_->Update();
+
+	if (keyboard_->keyInstantPush(DIK_K)) {
+		if (isIvent_ == false) {
+			isIvent_ = true;
+		}
+		else {
+			isIvent_ = false;
+			alpha_ = 0;
+			XMFLOAT3 eye = { 0,20,-30 };
+
+
+			Object3D::SetEye(eye);
+			
+			//playerObject_->SetEye(eye);
+			eye = { 0,10,0 };
+			Object3D::SetTarget(eye);
+			//playerObject_->SetTarget(eye);
+			timer_ = 0;
+			iventEye_ = { 360,20,700 };
+		}
+	}
+
+	if (isIvent_) {
+		alpha_ += 0.05f;
+		alpha_ = min(alpha_, 1);
+		timer_++;
+
+		iventEye_ = iventEye_.lerp(iventEye_, endEye_, Easing::EaseInCubic(timer_, maxTime_));
+
+		XMFLOAT3 eye;
+		eye.x = iventEye_.x;
+		eye.y = iventEye_.y;
+		eye.z = iventEye_.z;
+
+		XMFLOAT3 target;
+		target.x = iventTarget_.x;
+		target.y = iventTarget_.y;
+		target.z = iventTarget_.z;
+
+		Object3D::SetEye(eye);
+		Object3D::SetTarget(target);
+
+		/*playerObject_->SetEye(eye);
+		playerObject_->SetTarget(target);*/
+
+		if (timer_ > maxTime_) {
+			isIvent_ = false;
+			XMFLOAT3 eye = { 0,20,-30 };
+
+
+			Object3D::SetEye(eye);
+
+			//playerObject_->SetEye(eye);
+			eye = { 0,10,0 };
+			Object3D::SetTarget(eye);
+			//playerObject_->SetTarget(eye);
+			iventEye_ = { 360,20,700 };
+		}
+	}
+	else {
+  		alpha_ -= 0.05f;
+		alpha_ = max(alpha_, 0);
+	}
 	
+	XMFLOAT3 eye = Object3D::GetEye();
+	XMFLOAT3 target = Object3D::GetTarget();
+
+	iventSprite_->SetColor({ 1,1,1,alpha_ });
+
 	if (gamePad_->PushButtonRB()) {
 		reticleSize_ = reticleSprite_->GetSize();
 		reticleSize_.x += 300;
@@ -247,7 +326,7 @@ void GameScene::Update()
 		object->Update();
 	}
 
-	if (player_->IsDead() == false) {
+	if (player_->IsDead() == false && isIvent_ == false) {
 		player_->Update();
 		if (player_->GetIsShot()) {
 			sound_->PlayWave("Shot.wav");
@@ -292,6 +371,7 @@ void GameScene::Update()
 		if (!bossBGM_) {
 			sound_->PlayWave("Alone.wav");
 			bossBGM_ = true;
+			isIvent_ = true;
 		}
 
 		if (hitBox_ == true && boss_->GetArive() == true) {
@@ -521,7 +601,7 @@ void GameScene::Draw()
 		object->Draw();
 	}
 
-	if (player_->IsDead() == false) {
+	if (player_->IsDead() == false && isIvent_ == false) {
 		player_->Draw();
 	}
 
@@ -564,7 +644,7 @@ void GameScene::Draw()
 	reticleSprite_->Draw(reticleImage_);
 
 	fillSprite_->Draw(fillter_);
-
+	iventSprite_->Draw(iventImage_);
 	//sSprite_->Draw(targetImage_);
 }
 
@@ -710,7 +790,7 @@ void GameScene::Reset()
 	player_.reset();
 	playerObject_->Initialize();
 	playerObject_->SetScale(XMFLOAT3({ 1,1,1 }));
-	playerObject_->SetPosition({ 0,0,0 });
+	playerObject_->SetPosition({ 360,0,400 });
 	playerObject_->SetRotation({ 0,0,0 });
 	playerObject_->SetCamera({ 0, 20, -30.0f }, { 0, 10, 0 });
 

@@ -88,6 +88,9 @@ private:	//ƒƒ“ƒo•Ï”
 
 	std::unique_ptr<Sprite> sSprite_ = std::make_unique<Sprite>();
 
+	std::unique_ptr<Sprite> iventSprite_ = std::make_unique<Sprite>();
+
+
 	//‰æ‘œ
 
 	//HP
@@ -105,6 +108,8 @@ private:	//ƒƒ“ƒo•Ï”
 
 	int32_t tesImage_ = 0;
 	int32_t targetImage_ = 0;
+
+	int32_t iventImage_ = 0;
 
 	//player
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
@@ -146,6 +151,17 @@ private:	//ƒƒ“ƒo•Ï”
 
 	XMFLOAT3 screenPos_ = {};
 	XMFLOAT2 spPos_ = {};
+
+	float alpha_ = 0;
+	bool isIvent_ = false;
+
+	Vector3 iventEye_ = { 360,100,700 };
+	Vector3 iventTarget_ = { 360, 100,1000 };
+
+	Vector3 endEye_ = { 360,10,600 };
+	float timer_ = 0;
+	float maxTime_ = 300;
+
 public:
 
 	bool Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale);
