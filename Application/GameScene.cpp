@@ -40,6 +40,8 @@ void GameScene::Initialize()
 
 	iventImage_ = spBasis_->TextureData(L"Resources/Ivent.png");
 
+	warningImage_ = spBasis_->TextureData(L"Resources/warning.png");
+
 	spBasis_->TextureSetting();
 
 	playerHPSprite_->Initialize(spBasis_, windows_);
@@ -82,6 +84,10 @@ void GameScene::Initialize()
 	iventSprite_->SetColor({ 1,1,1,0 });
 	iventSprite_->Update();
 
+	waringSprite_->Initialize(spBasis_, windows_);
+	waringSprite_->Create(640, 360);
+	waringSprite_->SetSize({ 1280,720 });
+	waringSprite_->Update();
 
 	//OBJ‚©‚çƒ‚ƒfƒ‹‚ğ“Ç‚İ‚Ş
 	playerModel_ = std::make_unique<Model>();
@@ -183,6 +189,7 @@ void GameScene::Update()
 {
 	sceneSprite_->Update();
 	iventSprite_->Update();
+	waringSprite_->Update();
 
 	if (keyboard_->keyInstantPush(DIK_K)) {
 		if (isIvent_ == false) {
@@ -203,48 +210,6 @@ void GameScene::Update()
 			timer_ = 0;
 			iventEye_ = { 360,20,700 };
 		}
-	}
-
-	if (isIvent_) {
-		alpha_ += 0.05f;
-		alpha_ = min(alpha_, 1);
-		timer_++;
-
-		iventEye_ = iventEye_.lerp(iventEye_, endEye_, Easing::EaseInCubic(timer_, maxTime_));
-
-		XMFLOAT3 eye;
-		eye.x = iventEye_.x;
-		eye.y = iventEye_.y;
-		eye.z = iventEye_.z;
-
-		XMFLOAT3 target;
-		target.x = iventTarget_.x;
-		target.y = iventTarget_.y;
-		target.z = iventTarget_.z;
-
-		Object3D::SetEye(eye);
-		Object3D::SetTarget(target);
-
-		/*playerObject_->SetEye(eye);
-		playerObject_->SetTarget(target);*/
-
-		if (timer_ > maxTime_) {
-			isIvent_ = false;
-			XMFLOAT3 eye = { 0,20,-30 };
-
-
-			Object3D::SetEye(eye);
-
-			//playerObject_->SetEye(eye);
-			eye = { 0,10,0 };
-			Object3D::SetTarget(eye);
-			//playerObject_->SetTarget(eye);
-			iventEye_ = { 360,20,700 };
-		}
-	}
-	else {
-  		alpha_ -= 0.05f;
-		alpha_ = max(alpha_, 0);
 	}
 	
 	XMFLOAT3 eye = Object3D::GetEye();
@@ -349,7 +314,95 @@ void GameScene::Update()
 
 		player_->SetEnemy(enemys_.front().get());
 	}
+
+	if (hitBox_ == true) {
+		sound_->StopWAVE("ElectricWild.wav");
+
+		if (!bossBGM_) {
+			sound_->PlayWave("Alone.wav");
+			bossBGM_ = true;
+			isIvent_ = true;
+		}
+
+		if (hitBox_ == true && boss_->GetArive() == true) {
+			boss_->Update(isIvent_);
+		}
+
+		bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
+		bossHPSprite_->Update();
+	}
 	
+
+	if (hitBox_ && !isIvent_) {
+		if (count_ < 3) {
+			pow_++;
+			wSize_.y = waringSprite_->GetSize().y;
+		}
+		else {
+			pow_ = 0;
+		}
+
+		if (pow_ > 2) {
+			pow_ = 0;
+			count_++;
+		}
+
+		if (count_ == 3) {
+			popFrame_++;
+
+			if (popFrame_ > 60) {
+				wTimer_++;
+				wTimer_ = min(wTimer_, wMax_);
+
+				wSize_ = wSize_.lerp({ 1280,720,0 }, { 1280,0,0 }, Easing::EaseOutCubic(wTimer_, wMax_));
+
+				waringSprite_->SetSize({ wSize_.x,wSize_.y });
+			}
+		}
+	}
+	
+	if (isIvent_) {
+		alpha_ += 0.05f;
+		alpha_ = min(alpha_, 1);
+		timer_++;
+
+		iventEye_ = iventEye_.lerp(iventEye_, endEye_, Easing::EaseInCubic(timer_, maxTime_));
+
+		XMFLOAT3 eye;
+		eye.x = iventEye_.x;
+		eye.y = iventEye_.y;
+		eye.z = iventEye_.z;
+
+		XMFLOAT3 target;
+		target.x = iventTarget_.x;
+		target.y = iventTarget_.y;
+		target.z = iventTarget_.z;
+
+		Object3D::SetEye(eye);
+		Object3D::SetTarget(target);
+
+		/*playerObject_->SetEye(eye);
+		playerObject_->SetTarget(target);*/
+
+		if (timer_ > maxTime_) {
+			isIvent_ = false;
+			XMFLOAT3 eye = { 0,20,-30 };
+
+
+			Object3D::SetEye(eye);
+
+			//playerObject_->SetEye(eye);
+			eye = { 0,10,0 };
+			Object3D::SetTarget(eye);
+			//playerObject_->SetTarget(eye);
+			iventEye_ = { 360,20,700 };
+			movieEnd_ = true;
+		}
+	}
+	else {
+		alpha_ -= 0.05f;
+		alpha_ = max(alpha_, 0);
+	}
 
 	//enemy‚Ì€–Sƒtƒ‰ƒO
 	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
@@ -365,22 +418,7 @@ void GameScene::Update()
 		collision->Update();
 	}
 
-	if (hitBox_ == true) {
-		sound_->StopWAVE("ElectricWild.wav");
 
-		if (!bossBGM_) {
-			sound_->PlayWave("Alone.wav");
-			bossBGM_ = true;
-			isIvent_ = true;
-		}
-
-		if (hitBox_ == true && boss_->GetArive() == true) {
-			boss_->Update();
-		}
-		
-		bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
-		bossHPSprite_->Update();
-	}
 
 	playerHPSprite_->SetSize({ 128,16.0f });
 	playerHPSprite_->Update();
@@ -624,11 +662,12 @@ void GameScene::Draw()
 	//fbx
 	//testObj_->Draw();
 
-	playerHPSprite_->Draw(playerHP_);
-
-	if (hitBox_ == true && boss_->GetArive() == true) {
+	if (!isIvent_) {
+		playerHPSprite_->Draw(playerHP_);
+	}
+	
+	if (hitBox_ == true && boss_->GetArive() == true && isIvent_ == false) {
 		bossHPSprite_->Draw(bossHP_);
-
 	}
 
 	if (player_->IsDead() == true) {
@@ -645,6 +684,11 @@ void GameScene::Draw()
 
 	fillSprite_->Draw(fillter_);
 	iventSprite_->Draw(iventImage_);
+
+	if (pow_ < 1 && hitBox_ && movieEnd_) {
+		waringSprite_->Draw(warningImage_);
+	}
+	
 	//sSprite_->Draw(targetImage_);
 }
 

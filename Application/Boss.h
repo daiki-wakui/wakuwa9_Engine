@@ -39,7 +39,7 @@ public:
 	DirectX::XMFLOAT3 GetWorldPos();
 
 	void Initialize(Model* Model, XMFLOAT3 pos, Object3D* Object,Player* player);
-	void Update();
+	void Update(bool move);
 	void Draw();
 	void OnCollision();
 

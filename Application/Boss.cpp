@@ -21,9 +21,11 @@ void Boss::Initialize(Model* Model, XMFLOAT3 pos, Object3D* Object, Player* play
 	arive_ = true;
 }
 
-void Boss::Update()
+void Boss::Update(bool move)
 {
-	coolTime_--;
+	if (!move) {
+		coolTime_--;
+	}
 
 	if (coolTime_ == 0) {
 		playerPos = player_->GetWorldPos();

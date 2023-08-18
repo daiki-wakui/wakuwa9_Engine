@@ -91,6 +91,18 @@ private:	//ƒƒ“ƒo•Ï”
 	std::unique_ptr<Sprite> iventSprite_ = std::make_unique<Sprite>();
 
 
+	int32_t pow_ = 0;
+	int32_t count_ = 0;
+	float wTimer_ = 0;
+	float wMax_ = 10;
+	float popFrame_ = 0;
+
+	Vector3 wSize_ = {};
+	bool movieEnd_ = false;
+
+	std::unique_ptr<Sprite> waringSprite_ = std::make_unique<Sprite>();
+
+
 	//‰æ‘œ
 
 	//HP
@@ -110,6 +122,7 @@ private:	//ƒƒ“ƒo•Ï”
 	int32_t targetImage_ = 0;
 
 	int32_t iventImage_ = 0;
+	int32_t warningImage_ = 0;
 
 	//player
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
