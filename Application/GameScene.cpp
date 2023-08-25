@@ -109,6 +109,9 @@ void GameScene::Initialize()
 	enemyModel_ = std::make_unique<Model>();
 	enemyModel_->LoadFromObj("enemySou");
 
+	enemyModel2_ = std::make_unique<Model>();
+	enemyModel2_->LoadFromObj("enemySou2");
+
 	cubeModel_ = std::make_unique<Model>();
 	cubeModel_->LoadFromObj("cube");
 
@@ -459,9 +462,19 @@ void GameScene::Update()
 		return enemy->IsDead();
 		});
 
+	//enemyの死亡フラグ
+	enemycharges_.remove_if([](std::unique_ptr<EnemyCharge>& enemy) {
+		return enemy->IsDead();
+	});
+
 	//敵の動き
 	for (std::unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Update(!start_);
+	}
+
+	//敵の動き
+	for (std::unique_ptr<EnemyCharge>& enemy : enemycharges_) {
+		enemy->Update();
 	}
 
 	for (std::unique_ptr<CollisionBox>& collision : collisions_) {
@@ -705,6 +718,11 @@ void GameScene::Draw()
 		
 	}
 
+	//敵の動き
+	for (std::unique_ptr<EnemyCharge>& enemy : enemycharges_) {
+		enemy->Draw();
+	}
+
 	if (hitBox_ == true && boss_->GetArive() == true) {
 		boss_->Draw();
 	}
@@ -763,6 +781,7 @@ void GameScene::EditorLoad()
 {
 	objects.clear();
 	enemys_.clear();
+	enemycharges_.clear();
 	ReLoad();
 
 }
@@ -775,6 +794,7 @@ void GameScene::ReLoad()
 	//models.insert(std::make_pair(std::string("player"), playerModel_.get()));
 	models.insert(std::make_pair(std::string("boss"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
+	models.insert(std::make_pair(std::string("enemySpawn2"), enemyModel2_.get()));
 	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
 	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
 	models.insert(std::make_pair(std::string("FliedBlock"), filedCubeModel_.get()));
@@ -845,6 +865,22 @@ void GameScene::ReLoad()
 
 			objSize_++;
 			enemySize_++;
+		}
+		else if (levelData_->objects[i].fileName == "enemySpawn2") {
+
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
+
+			//オブジェクト生成と座標情報代入
+			newEnemy2[enemySize2_] = std::make_unique<EnemyCharge>();
+
+			newEnemy2[enemySize2_]->Initialize(newObject[objSize_].get(), newObject[objSize_]->GetPosition(), player_.get());
+	
+			//敵を登録する
+			enemycharges_.push_back(std::move(newEnemy2[enemySize2_]));
+
+			objSize_++;
+			enemySize2_++;
 		}
 		else if (levelData_->objects[i].fileName == "boss") {
 			//オブジェクト生成と座標情報代入

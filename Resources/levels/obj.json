@@ -1233,6 +1233,28 @@
         },
         {
             "type": "MESH",
+            "name": "立方体.015",
+            "transform": {
+                "translation": [
+                    -18.139013290405273,
+                    -2.357409954071045,
+                    10.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "enemySpawn2"
+        },
+        {
+            "type": "MESH",
             "name": "Cube.170",
             "transform": {
                 "translation": [

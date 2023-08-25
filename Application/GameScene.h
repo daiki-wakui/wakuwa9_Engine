@@ -7,6 +7,7 @@
 #include "EventBox.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "EnemyCharge.h"
 #include "Boss.h"
 #include "CollisionBox.h"
 
@@ -55,6 +56,7 @@ private:	//メンバ変数
 
 	//敵
 	std::unique_ptr<Model> enemyModel_;
+	std::unique_ptr<Model> enemyModel2_;
 
 	//ボス
 	std::unique_ptr<Model> bossModel_;
@@ -147,14 +149,18 @@ private:	//メンバ変数
 	std::map<std::string, Model*> models;
 	std::vector<Object3D*> objects;
 	std::list<std::unique_ptr<Enemy>> enemys_;
+	std::list<std::unique_ptr<EnemyCharge>> enemycharges_;
 	std::list<std::unique_ptr<CollisionBox>> collisions_;
+
 
 	std::unique_ptr<Object3D> newObject[1000] = {};
 	std::unique_ptr<Enemy> newEnemy[1000] = {};
+	std::unique_ptr<EnemyCharge> newEnemy2[1000] = {};
 	std::unique_ptr<CollisionBox> collBox[1000] = {};
 
 	int32_t objSize_ = 0;
 	int32_t enemySize_ = 0;
+	int32_t enemySize2_ = 0;
 	int32_t collSize_ = 0;
 
 	//パーティクル

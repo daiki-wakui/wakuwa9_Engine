@@ -107,6 +107,7 @@
     <ClCompile Include="Application\TitleScene.cpp" />
     <ClCompile Include="Easing.cpp" />
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EnemyCharge.cpp" />
     <ClCompile Include="Engine\2d\ParticleManager.cpp" />
     <ClCompile Include="Engine\2d\PostEffect.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="Application\TitleScene.h" />
     <ClInclude Include="Easing.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="EnemyCharge.h" />
     <ClInclude Include="Engine\2d\ParticleManager.h" />
     <ClInclude Include="Engine\2d\PostEffect.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
