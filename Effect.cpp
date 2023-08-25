@@ -30,6 +30,8 @@ void Effect::Update()
 	pow_ += 0.005f;
 	velocity_.y -= pow_;
 
+	scale_ -= 0.02f;
+
 	rot_.x = bulletObject_->GetRotation().x;
 	rot_.y = bulletObject_->GetRotation().y;
 	rot_.z = bulletObject_->GetRotation().z;
@@ -38,7 +40,7 @@ void Effect::Update()
 	rot_.z += 1000;
 
 	bulletObject_->SetRotation({ rot_.x,rot_.y,rot_.z });
-
+	bulletObject_->SetScale({ scale_,scale_,scale_ });
 	bulletObject_->Update();
 
 	tPos_.x += velocity_.x;

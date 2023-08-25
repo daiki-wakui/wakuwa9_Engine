@@ -79,6 +79,8 @@ private:	//メンバ変数
 	std::unique_ptr<FbxObject3d> testObj_;
 
 
+	std::unique_ptr<Model> konnpeModel_;
+
 	//スプライト
 	std::unique_ptr<Sprite> playerHPSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> bossHPSprite_ = std::make_unique<Sprite>();

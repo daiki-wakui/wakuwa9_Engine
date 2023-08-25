@@ -124,6 +124,8 @@ void GameScene::Initialize()
 	filedTouModel_ = std::make_unique<Model>();
 	filedTouModel_->LoadFromObj("nier_filed");
 
+	konnpeModel_ = std::make_unique<Model>();
+	konnpeModel_->LoadFromObj("konnpe");
 
 	poriModel_ = std::make_unique<Model>();
 	poriModel_->LoadFromObj("pori");
@@ -220,15 +222,15 @@ void GameScene::Update()
 
 		Vector3 v = { 0,1.5f,0 };
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 10; i++) {
 
 			std::unique_ptr<Effect> newObj = std::make_unique<Effect>();
-			newObj->Initialize(startEffect_,v,cubeModel_.get());
+			newObj->Initialize(startEffect_,v, konnpeModel_.get());
 			effects_.push_back(std::move(newObj));
 			size++;
 		}
 
-		if (size == 4) {
+		if (size == 10) {
 			isEffect_ = false;
 		}
 	}

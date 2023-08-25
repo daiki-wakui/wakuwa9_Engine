@@ -21,6 +21,8 @@ private:
 
 	Vector3 rot_ = {};
 
+	float scale_ = 1;
+
 public:
 	bool isDead_ = false;
 
