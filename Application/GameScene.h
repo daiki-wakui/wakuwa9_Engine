@@ -60,6 +60,8 @@ private:	//ƒƒ“ƒo•Ï”
 	std::unique_ptr<Model> cubeModel_;
 	std::unique_ptr<Model> filedCubeModel_;
 	std::unique_ptr<Model> filedModel_;
+	std::unique_ptr<Model> filedTentoModel_;
+	std::unique_ptr<Model> filedTouModel_;
 
 
 	std::unique_ptr<Model> poriModel_;

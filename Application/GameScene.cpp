@@ -117,6 +117,13 @@ void GameScene::Initialize()
 	filedModel_ = std::make_unique<Model>();
 	filedModel_->LoadFromObj("filed");
 
+	filedTentoModel_ = std::make_unique<Model>();
+	filedTentoModel_->LoadFromObj("nier_obj");
+
+	filedTouModel_ = std::make_unique<Model>();
+	filedTouModel_->LoadFromObj("nier_filed");
+
+
 	poriModel_ = std::make_unique<Model>();
 	poriModel_->LoadFromObj("pori");
 
@@ -147,7 +154,7 @@ void GameScene::Initialize()
 	skyObject_ = std::make_unique<Object3D>();
 	skyObject_->SetModel(skydomModel_.get());
 	skyObject_->Initialize();
-	skyObject_->SetScale(XMFLOAT3({ 600,600,600 }));
+	skyObject_->SetScale(XMFLOAT3({ 900,900,900 }));
 	skyObject_->SetPosition({ 0,0,100 });
 
 	bossObject_ = std::make_unique<Object3D>();
@@ -744,6 +751,9 @@ void GameScene::ReLoad()
 	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
 	models.insert(std::make_pair(std::string("FliedBlock"), filedCubeModel_.get()));
 	models.insert(std::make_pair(std::string("wallBlock"), cubeModel_.get()));
+	models.insert(std::make_pair(std::string("FliedT"), filedTentoModel_.get()));
+	models.insert(std::make_pair(std::string("Fliedtou"), filedTouModel_.get()));
+
 
 	// レベルデータからオブジェクトを生成、配置
 	for (int32_t i = 0; i < levelData_->objects.size(); i++) {
@@ -861,7 +871,7 @@ void GameScene::Reset()
 	player_.reset();
 	playerObject_->Initialize();
 	playerObject_->SetScale(XMFLOAT3({ 1,1,1 }));
-	playerObject_->SetPosition({ 360,0,400 });
+	playerObject_->SetPosition({ 0,0,0 });
 	playerObject_->SetRotation({ 0,0,0 });
 	playerObject_->SetCamera({ 0, 20, -30.0f }, { 0, 10, 0 });
 
