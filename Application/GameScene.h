@@ -12,6 +12,10 @@
 
 #include "LevelLoader.h"
 #include "Easing.h"
+#include "Effect.h"
+
+#include <memory>
+#include <list>
 
 class GameScene : public BaseScene
 {
@@ -186,6 +190,10 @@ private:	//ƒƒ“ƒo•Ï”
 	float alphaRB_ = 0;
 	float addYRB_ = 0;
 	XMFLOAT2 posRB_ = {};
+
+	std::list<std::unique_ptr<Effect>> effects_;
+	bool isEffect_ = 0;
+	XMFLOAT3 startEffect_ = {};
 
 public:
 

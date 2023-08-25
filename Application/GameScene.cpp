@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "Easing.h"
+#include <random>
 
 void GameScene::SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound)
 {
@@ -207,25 +208,40 @@ void GameScene::Update()
 	RBSprite_->Update();
 
 	if (keyboard_->keyInstantPush(DIK_K)) {
-		if (isIvent_ == false) {
-			isIvent_ = true;
-		}
-		else {
-			isIvent_ = false;
-			alpha_ = 0;
-			XMFLOAT3 eye = { 0,20,-30 };
-
-
-			Object3D::SetEye(eye);
-			
-			//playerObject_->SetEye(eye);
-			eye = { 0,10,0 };
-			Object3D::SetTarget(eye);
-			//playerObject_->SetTarget(eye);
-			timer_ = 0;
-			iventEye_ = { 360,20,700 };
+		if (!isEffect_) {
+			isEffect_ = true;
 		}
 	}
+
+	if (isEffect_) {
+
+		int size = 0;
+		//弾の生成と初期化
+
+		Vector3 v = { 0,1.5f,0 };
+
+		for (int i = 0; i < 4; i++) {
+
+			std::unique_ptr<Effect> newObj = std::make_unique<Effect>();
+			newObj->Initialize(startEffect_,v,cubeModel_.get());
+			effects_.push_back(std::move(newObj));
+			size++;
+		}
+
+		if (size == 4) {
+			isEffect_ = false;
+		}
+	}
+
+	//弾の更新処理
+	for (std::unique_ptr<Effect>& effect : effects_) {
+		effect->Update();
+	}
+
+	//デスフラグが立った弾を削除
+	effects_.remove_if([](std::unique_ptr<Effect>& bullet) {
+		return bullet->IsDead();
+	});
 	
 	XMFLOAT3 eye = Object3D::GetEye();
 	XMFLOAT3 target = Object3D::GetTarget();
@@ -640,6 +656,11 @@ void GameScene::Update()
 				BulletEffect = true;
 				sound_->PlayWave("Hit.wav");
 			}
+
+			if (enemy->IsDead()) {
+				isEffect_ = true;
+				startEffect_ = enemy->GetWorldPos();
+			}
 		}
 
 		if (BulletEffect) {
@@ -689,6 +710,11 @@ void GameScene::Draw()
 	//obj
 	skyObject_->Draw();
 	
+	//弾の更新処理
+	for (std::unique_ptr<Effect>& effect : effects_) {
+		effect->Draw();
+	}
+
 	//poriObject_->Draw();
 
 	//fbx
