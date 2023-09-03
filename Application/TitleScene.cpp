@@ -17,7 +17,8 @@ void TitleScene::SetInputInfo(KeyBoard* keyboard, GamePad* gamePad)
 
 void TitleScene::Initialize()
 {
-	titleImage_ = spBasis_->TextureData(L"Resources/title.png");;
+	titleImage_ = spBasis_->TextureData(L"Resources/title.png");
+	titleUIImage_ = spBasis_->TextureData(L"Resources/titleUI.png");
 
 	sceneChangeImage_ = spBasis_->TextureData(L"Resources/scene.png");
 
@@ -32,6 +33,11 @@ void TitleScene::Initialize()
 	titleSprite_->SetSize({ 1280,720 });
 	titleSprite_->SetAncP({ 0,0 });
 
+	titleUISprite_->Initialize(spBasis_, windows_, titleUIImage_);
+	titleUISprite_->Create();
+	titleUISprite_->SetSize({ 1280,720 });
+	titleUISprite_->SetAncP({ 0,0 });
+
 	sceneSprite_->Initialize(spBasis_, windows_);
 	sceneSprite_->Create(640, 360);
 	sceneSprite_->SetSize({ 0,0 });
@@ -42,7 +48,7 @@ void TitleScene::Initialize()
 	fillSprite_->Update();
 
 	skydomModel_ = std::make_unique<Model>();
-	skydomModel_->LoadFromObj("world");
+	skydomModel_->LoadFromObj("world2");
 
 	skyObject_ = std::make_unique<Object3D>();
 	skyObject_->SetModel(skydomModel_.get());
@@ -63,6 +69,8 @@ void TitleScene::Finalize()
 void TitleScene::Update()
 {
 	titleSprite_->Update();
+	titleUISprite_->Update();
+
 
 	if (!playBGM_) {
 		sound_->PlayLoopWave("NieR_Title.wav",0.75f);
@@ -113,7 +121,7 @@ void TitleScene::Draw()
 	skyObject_->Draw();
 
 	titleSprite_->Draw(titleImage_);
-
+	titleUISprite_->Draw(titleUIImage_);
 	sceneSprite_->Draw(sceneChangeImage_);
 	
 }

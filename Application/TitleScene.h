@@ -33,11 +33,13 @@ private:	//メンバ変数
 
 	//スプライト
 	std::unique_ptr<Sprite> titleSprite_ = std::make_unique<Sprite>();
+	std::unique_ptr<Sprite> titleUISprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> fillSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> sceneSprite_ = std::make_unique<Sprite>();
 
 	//画像
 	int32_t titleImage_ = 0;
+	int32_t titleUIImage_ = 0;
 	int32_t sceneChangeImage_ = 0;
 	int32_t filterImage_ = 0;
 
