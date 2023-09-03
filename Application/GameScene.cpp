@@ -138,6 +138,14 @@ void GameScene::Initialize()
 	poriModel_ = std::make_unique<Model>();
 	poriModel_->LoadFromObj("pori");
 
+	shadowModel_ = std::make_unique<Model>();
+	shadowModel_->LoadFromObj("cirshadow");
+
+	shadowObject_ = std::make_unique<Object3D>();
+	shadowObject_->SetModel(shadowModel_.get());
+	shadowObject_->Initialize();
+	shadowObject_->SetScale({ 1.5f, 1.5f, 1.5f });
+
 	poriObject_ = std::make_unique<Object3D>();
 	poriObject_->SetModel(poriModel_.get());
 	poriObject_->Initialize();
@@ -215,6 +223,9 @@ void GameScene::Update()
 	sceneSprite_->Update();
 	iventSprite_->Update();
 	waringSprite_->Update();
+
+	shadowObject_->SetPosition(player_->GetWorldPos());
+	shadowObject_->Update();
 
 	RBSprite_->Update();
 
@@ -726,6 +737,7 @@ void GameScene::Update()
 void GameScene::Draw()
 {
 	//eventBox_->Draw();
+	shadowObject_->Draw();
 
 	for (auto& object : objects) {
 		object->Draw();
@@ -884,8 +896,11 @@ void GameScene::ReLoad()
 			//オブジェクト生成と座標情報代入
 			newEnemy[enemySize_] = std::make_unique<Enemy>();
 
+			newEnemy[enemySize_]->SetShadow(shadowModel_.get());
 			newEnemy[enemySize_]->Initialize(newObject[objSize_].get(), newObject[objSize_]->GetPosition(), player_.get());
 			newEnemy[enemySize_]->SetBulletModel(cubeModel_.get());
+			
+
 
 			//敵を登録する
 			enemys_.push_back(std::move(newEnemy[enemySize_]));

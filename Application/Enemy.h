@@ -34,6 +34,9 @@ private:
 
 	Model* bulletModel_;
 
+	Model* shadowModel_;
+	std::unique_ptr<Object3D> shadowObject_;
+
 
 	bool isDead_ = false;
 
@@ -75,7 +78,7 @@ public:
 	
 	bool GetIsMove() { return isMove_; }
 	void SetIsMove(bool isMove) { isMove_ = isMove; }
-
+	void SetShadow(Model* model);
 
 	const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
 };

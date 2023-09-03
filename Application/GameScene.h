@@ -74,6 +74,10 @@ private:	//メンバ変数
 	std::unique_ptr<Model> poriModel_;
 	std::unique_ptr<Object3D> poriObject_;
 
+
+	std::unique_ptr<Model> shadowModel_;
+	std::unique_ptr<Object3D> shadowObject_;
+
 	//ボス戦に入るボックス
 	std::unique_ptr<EventBox> eventBox_;
 

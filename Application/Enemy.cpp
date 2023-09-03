@@ -27,6 +27,11 @@ void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int 
 	end_.x = start_.x;
 	end_.y = start_.y - 45;
 	end_.z = start_.z;
+
+	shadowObject_ = std::make_unique<Object3D>();
+	shadowObject_->SetModel(shadowModel_);
+	shadowObject_->Initialize();
+	shadowObject_->SetScale({ 3.5f, 3.5f, 3.5f });
 }
 
 void Enemy::Update(bool shot)
@@ -96,11 +101,15 @@ void Enemy::Update(bool shot)
 	enemyObject_->SetPosition(pos_);
 
 	enemyObject_->Update();
+
+	shadowObject_->SetPosition({ pos_.x,0,pos_.z });
+	shadowObject_->Update();
 }
 
 void Enemy::Draw()
 {
 	enemyObject_->Draw();
+	shadowObject_->Draw();
 
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) {
 		bullet->Draw();
@@ -139,5 +148,10 @@ Object3D* Enemy::GetObj()
 void Enemy::SetBulletModel(Model* model)
 {
 	bulletModel_ = model;
+}
+
+void Enemy::SetShadow(Model* model)
+{
+	shadowModel_ = model;
 }
 
