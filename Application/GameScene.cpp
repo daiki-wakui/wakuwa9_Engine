@@ -505,9 +505,9 @@ void GameScene::Update()
 		collision->Update();
 	}
 
+	
 
-
-	playerHPSprite_->SetSize({ 128,16.0f });
+	playerHPSprite_->SetSize({ 32.0f * (float)player_->GetHP(),16.0f });
 	playerHPSprite_->Update();
 
 
