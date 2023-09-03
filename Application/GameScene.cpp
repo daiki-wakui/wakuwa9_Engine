@@ -117,6 +117,9 @@ void GameScene::Initialize()
 	cubeModel_ = std::make_unique<Model>();
 	cubeModel_->LoadFromObj("cube");
 
+	playerBulletCubeModel_ = std::make_unique<Model>();
+	playerBulletCubeModel_->LoadFromObj("cube3");
+
 	filedCubeModel_ = std::make_unique<Model>();
 	filedCubeModel_->LoadFromObj("cube2");
 
@@ -156,7 +159,7 @@ void GameScene::Initialize()
 	podObject_->Initialize();
 
 	bulletObject_ = std::make_unique<Object3D>();
-	bulletObject_->SetModel(cubeModel_.get());
+	bulletObject_->SetModel(playerBulletCubeModel_.get());
 	bulletObject_->Initialize();
 
 	skyObject_ = std::make_unique<Object3D>();
@@ -963,7 +966,7 @@ void GameScene::Reset()
 
 	player_ = std::make_unique<Player>();
 	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
-	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
+	player_->SetBulletModel(playerBulletCubeModel_.get(), bulletObject_.get());
 
 	EditorLoad();
 }

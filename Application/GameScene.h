@@ -64,6 +64,7 @@ private:	//メンバ変数
 
 	//フィールドに使うモデル
 	std::unique_ptr<Model> cubeModel_;
+	std::unique_ptr<Model> playerBulletCubeModel_;
 	std::unique_ptr<Model> filedCubeModel_;
 	std::unique_ptr<Model> filedModel_;
 	std::unique_ptr<Model> filedTentoModel_;
