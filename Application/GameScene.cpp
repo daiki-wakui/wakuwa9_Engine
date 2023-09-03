@@ -190,6 +190,7 @@ void GameScene::Initialize()
 	sound_->LoadWave("Shot.wav");
 	sound_->LoadWave("Hit.wav");
 	sound_->LoadWave("noise.wav");
+	sound_->LoadWave("Warning.wav");
 
 	ReLoad();
 
@@ -305,7 +306,7 @@ void GameScene::Update()
 			
 			
 			if (!playBGM_) {
-				sound_->PlayWave("NieR_freld2.wav",0.5f);
+				sound_->PlayLoopWave("NieR_freld2.wav",0.5f);
 				playBGM_ = true;
 				Reset();
 			}
@@ -472,6 +473,7 @@ void GameScene::Update()
 			//playerObject_->SetTarget(eye);
 			iventEye_ = { 360,20,700 };
 			movieEnd_ = true;
+			sound_->PlayWave("Warning.wav", 3);
 		}
 	}
 	else {
