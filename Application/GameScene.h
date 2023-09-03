@@ -79,7 +79,7 @@ private:	//メンバ変数
 	//FBX
 	std::unique_ptr<FbxModel> testModel_;
 	std::unique_ptr<FbxObject3d> testObj_;
-
+	XMFLOAT3 podRot = {};
 
 	std::unique_ptr<Model> konnpeModel_;
 
@@ -114,7 +114,6 @@ private:	//メンバ変数
 
 	std::unique_ptr<Sprite> waringSprite_ = std::make_unique<Sprite>();
 
-
 	//画像
 
 	//HP
@@ -136,6 +135,8 @@ private:	//メンバ変数
 	int32_t iventImage_ = 0;
 	int32_t warningImage_ = 0;
 	int32_t manualImageRB_ = 0;
+
+	int32_t exImage_ = 0;
 
 	//player
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
@@ -202,6 +203,9 @@ private:	//メンバ変数
 	std::list<std::unique_ptr<Effect>> effects_;
 	bool isEffect_ = 0;
 	XMFLOAT3 startEffect_ = {};
+
+	int32_t coolTime_ = 7;
+	bool isShotEffect_ = false;
 
 public:
 

@@ -131,8 +131,12 @@ void Player::Update()
 
 	bulletVec_.normalize();
 
+	podRot_.y = cameraAngle_;
+
+
 	playerObject_->SetRotation(rot_);
 	playerObject_->SetPosition(pos_);
+	podObject_->SetRotation(podRot_);
 	podObject_->SetPosition(posPod_);
 
 	playerObject_->Update();

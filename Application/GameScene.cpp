@@ -45,6 +45,8 @@ void GameScene::Initialize()
 
 	manualImageRB_ = spBasis_->TextureData(L"Resources/RB.png");
 
+	exImage_ = spBasis_->TextureData(L"Resources/ex.png");
+
 	spBasis_->TextureSetting();
 
 	playerHPSprite_->Initialize(spBasis_, windows_);
@@ -349,7 +351,24 @@ void GameScene::Update()
 	}
 
 	//poriObject_->SetPosition(playerObject_->GetPosition());
-	poriObject_->Update(true);
+	XMFLOAT3 podPos;
+
+	if (gamePad_->PushButtonRB()) {
+		podRot.y = podObject_->GetRotation().y - 180;
+		podRot.z += 225;
+		coolTime_--;
+	}
+
+	if (coolTime_ < 0) {
+		isShotEffect_ = true;
+		coolTime_ = 2;
+	}
+
+	podPos = podObject_->GetPosition();
+	
+	poriObject_->SetPosition(podPos);
+	poriObject_->SetRotation(podRot);
+	poriObject_->Update();
 
 	if (!enemys_.empty()) {
 		screenPos_ = enemys_.front()->GetObj()->Screen();
@@ -735,8 +754,11 @@ void GameScene::Draw()
 		effect->Draw();
 	}
 
-	//poriObject_->Draw();
-
+	if (isShotEffect_) {
+		poriObject_->Draw();
+		isShotEffect_ = false;
+	}
+	
 	//fbx
 	//testObj_->Draw();
 

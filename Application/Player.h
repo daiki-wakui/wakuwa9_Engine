@@ -43,6 +43,8 @@ private:
 	XMFLOAT3 eye_;
 	XMFLOAT3 target_;
 
+	XMFLOAT3 podRot_;
+
 	XMFLOAT3 tmpPos_;
 
 	Vector3 sideMove_ = { 0,0,0 };
