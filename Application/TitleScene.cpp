@@ -53,7 +53,7 @@ void TitleScene::Initialize()
 	sound_->LoadWave("PerituneMaterial.wav");
 	sound_->LoadWave("Start.wav");
 	sound_->LoadWave("Alarm01.wav");
-	sound_->LoadWave("ElectricWild.wav");
+	sound_->LoadWave("NieR_Title.wav");
 }
 
 void TitleScene::Finalize()
@@ -65,7 +65,7 @@ void TitleScene::Update()
 	titleSprite_->Update();
 
 	if (!playBGM_) {
-		sound_->PlayLoopWave("PerituneMaterial.wav",0.5f);
+		sound_->PlayLoopWave("NieR_Title.wav",0.75f);
 		playBGM_ = true;
 	}
 
@@ -75,7 +75,7 @@ void TitleScene::Update()
 			sound_->PlayWave("Start.wav");
 		}
 
-		sound_->StopWAVE("PerituneMaterial.wav");
+		sound_->StopWAVE("NieR_Title.wav");
 
 		changeSize_ = sceneSprite_->GetSize();
 

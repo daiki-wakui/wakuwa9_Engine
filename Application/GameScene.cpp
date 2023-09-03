@@ -182,7 +182,7 @@ void GameScene::Initialize()
 
 	sound_->LoadWave("PerituneMaterial.wav");
 	sound_->LoadWave("Alarm01.wav");
-	sound_->LoadWave("ElectricWild.wav");
+	sound_->LoadWave("NieR_freld2.wav");
 	sound_->LoadWave("Alone.wav");
 	sound_->LoadWave("Shot.wav");
 	sound_->LoadWave("Hit.wav");
@@ -302,7 +302,7 @@ void GameScene::Update()
 			
 			
 			if (!playBGM_) {
-				sound_->PlayWave("ElectricWild.wav",0.5f);
+				sound_->PlayWave("NieR_freld2.wav",0.5f);
 				playBGM_ = true;
 				Reset();
 			}
@@ -313,7 +313,7 @@ void GameScene::Update()
 	}
 
 	if (change_) {
-		sound_->StopWAVE("ElectricWild.wav");
+		sound_->StopWAVE("NieR_freld2.wav");
 		if (hitBox_ == true) {
 			sound_->StopWAVE("Alone.wav");
 		}
@@ -388,7 +388,7 @@ void GameScene::Update()
 	RBSprite_->SetPosition({ screenPosPlayer_.x - 175,screenPosPlayer_.y-90 });
 
 	if (hitBox_ == true) {
-		sound_->StopWAVE("ElectricWild.wav");
+		sound_->StopWAVE("NieR_freld2.wav");
 
 		if (!bossBGM_) {
 			sound_->PlayWave("Alone.wav");
