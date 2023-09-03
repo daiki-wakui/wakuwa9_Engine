@@ -14,6 +14,7 @@ void PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* m
 	bulletObject_->Initialize();
 
 	bulletObject_->SetPosition(tPos_);
+	bulletObject_->SetScale({ 0.7f,0.7f,0.7f });
 
 	//—”ƒV[ƒh¶¬Ší
 	std::random_device seed_gen;
