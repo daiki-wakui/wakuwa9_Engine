@@ -418,12 +418,22 @@ void PostEffect::Update(Player* player)
 			std::mt19937_64 engine(seed_gen());
 			std::uniform_real_distribution<float> noizPower(0.1f, 1.0f);
 			std::uniform_real_distribution<float> noizPower2(-0.02f, 0.02f);
+			std::uniform_real_distribution<float> noizPowerLifeOne(-0.1f, 0.1f);
 
 			constMapMaterial->power = noizPower(engine);
-			constMapMaterial->shiftPower = noizPower2(engine);
+
+			if (player->GetHP() <= 1) {
+				constMapMaterial->shiftPower = noizPowerLifeOne(engine);
+				noiseTimer_ = 2;
+			}
+			else {
+				constMapMaterial->shiftPower = noizPower2(engine);
+				noiseTimer_ = 4;
+			}
+			
 			player->SetIsHit(false);
 
-			noiseTimer_ = 4;
+			
 		}
 
 		if (frame_ <= 0) {

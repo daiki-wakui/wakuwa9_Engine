@@ -106,7 +106,12 @@ private:	//ƒƒ“ƒo•Ï”
 	std::unique_ptr<Sprite> iventSprite_ = std::make_unique<Sprite>();
 
 	std::unique_ptr<Sprite> RBSprite_ = std::make_unique<Sprite>();
+	std::unique_ptr<Sprite> dFilterSprite_ = std::make_unique<Sprite>();
 
+	bool isLifeOne_ = false;
+	float fillAlpha_ = 0;
+	int32_t fillTimer_ = 0;
+	int32_t sockSound_ = 0;
 
 	int32_t pow_ = 0;
 	int32_t count_ = 0;
@@ -142,6 +147,9 @@ private:	//ƒƒ“ƒo•Ï”
 	int32_t manualImageRB_ = 0;
 
 	int32_t exImage_ = 0;
+
+	int32_t damageFilter_ = 0;
+
 
 	//player
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();

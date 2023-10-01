@@ -47,6 +47,8 @@ void GameScene::Initialize()
 
 	exImage_ = spBasis_->TextureData(L"Resources/ex.png");
 
+	damageFilter_ = spBasis_->TextureData(L"Resources/damageFilter.png");
+
 	spBasis_->TextureSetting();
 
 	playerHPSprite_->Initialize(spBasis_, windows_);
@@ -76,6 +78,12 @@ void GameScene::Initialize()
 	fillSprite_->Create(640, 360);
 	fillSprite_->SetSize({ 1280,720 });
 	fillSprite_->Update();
+
+	dFilterSprite_->Initialize(spBasis_, windows_);
+	dFilterSprite_->Create(640, 360);
+	dFilterSprite_->SetSize({ 1280,720 });
+	dFilterSprite_->SetColor({ 1,1,1,0 });
+	dFilterSprite_->Update();
 
 	sSprite_->Initialize(spBasis_, windows_);
 	sSprite_->Create(0, 0);
@@ -199,6 +207,7 @@ void GameScene::Initialize()
 	sound_->LoadWave("Hit.wav");
 	sound_->LoadWave("noise.wav");
 	sound_->LoadWave("Warning.wav");
+	sound_->LoadWave("electric_shock3.wav");
 
 	ReLoad();
 
@@ -220,6 +229,7 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
+	dFilterSprite_->Update();
 	sceneSprite_->Update();
 	iventSprite_->Update();
 	waringSprite_->Update();
@@ -229,6 +239,32 @@ void GameScene::Update()
 
 	RBSprite_->Update();
 
+	if (player_->GetHP() <= 1) {
+		isLifeOne_ = true;
+	}
+	else {
+		isLifeOne_ = false;
+	}
+
+	if (isLifeOne_) {
+		fillTimer_++;
+
+		if (fillTimer_ < 50) {
+			fillAlpha_ += 0.07f;
+			fillAlpha_ = min(fillAlpha_, 1);
+		}
+		else {
+			fillAlpha_ -= 0.05f;
+			fillAlpha_ = max(fillAlpha_, 0);
+		}
+		dFilterSprite_->SetColor({ 1,1,1,fillAlpha_ });
+
+	}
+	else {
+		fillTimer_ = 0;
+	}
+
+	
 	if (keyboard_->keyInstantPush(DIK_K)) {
 		if (!isEffect_) {
 			isEffect_ = true;
@@ -607,11 +643,16 @@ void GameScene::Update()
 			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
 
 				bullet->isDead_ = true;
-
+				
 				if (!player_->Getinvincible()) {
 					sound_->PlayWave("noise.wav");
+					
 				}
 				player_->OnCollision();
+
+				if (player_->GetHP() <= 1) {
+					sound_->PlayWave("electric_shock3.wav");
+				}
 			}
 		}
 	}
@@ -801,6 +842,9 @@ void GameScene::Draw()
 	reticleSprite_->Draw(reticleImage_);
 
 	fillSprite_->Draw(fillter_);
+
+	dFilterSprite_->Draw(damageFilter_);
+
 	iventSprite_->Draw(iventImage_);
 
 	if (pow_ < 1 && hitBox_ && movieEnd_) {
