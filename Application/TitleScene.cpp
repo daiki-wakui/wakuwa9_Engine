@@ -20,7 +20,7 @@ void TitleScene::Initialize()
 	titleImage_ = spBasis_->TextureData(L"Resources/title.png");
 	titleUIImage_ = spBasis_->TextureData(L"Resources/titleUI.png");
 
-	sceneChangeImage_ = spBasis_->TextureData(L"Resources/scene.png");
+	sceneChangeImage_ = spBasis_->TextureData(L"Resources/sceneChange.png");
 
 	filterImage_ = spBasis_->TextureData(L"Resources/fillter.png");
 
@@ -40,7 +40,8 @@ void TitleScene::Initialize()
 
 	sceneSprite_->Initialize(spBasis_, windows_);
 	sceneSprite_->Create(640, 360);
-	sceneSprite_->SetSize({ 0,0 });
+	sceneSprite_->SetSize({ 1280,720 });
+	sceneSprite_->SetColor({ 1,1,1,0 });
 
 	fillSprite_->Initialize(spBasis_, windows_);
 	fillSprite_->Create(640, 360);
@@ -60,6 +61,8 @@ void TitleScene::Initialize()
 	sound_->LoadWave("Start.wav");
 	sound_->LoadWave("Alarm01.wav");
 	sound_->LoadWave("NieR_Title.wav");
+
+	isStartSE_ = false;
 }
 
 void TitleScene::Finalize()
@@ -71,7 +74,6 @@ void TitleScene::Update()
 	titleSprite_->Update();
 	titleUISprite_->Update();
 
-
 	if (!playBGM_) {
 		sound_->PlayLoopWave("NieR_Title.wav",0.75f);
 		playBGM_ = true;
@@ -79,33 +81,20 @@ void TitleScene::Update()
 
 	if (changeStart_) {
 
-		if (addSize_ < 2) {
+		if (!isStartSE_) {
 			sound_->PlayWave("Start.wav");
+			isStartSE_ = true;
+		}
+
+		ChangeAlpha_ += 0.05f;
+		ChangeAlpha_ = min(ChangeAlpha_, 1);
+		sceneSprite_->SetColor({1, 1, 1, ChangeAlpha_});
+
+		if (ChangeAlpha_ >= 1) {
+			changeEnd_ = true;
 		}
 
 		sound_->StopWAVE("NieR_Title.wav");
-
-		changeSize_ = sceneSprite_->GetSize();
-
-		addSize_+=2;
-
-		changeSize_.x += addSize_;
-		changeSize_.y += addSize_;
-
-		if (changeSize_.y > 1920) {
-			changeSize_.y = 1920;
-			changeSize_.x = 1920;
-			changeEnd_ = true;
-			changeStart_ = false;
-			playBGM_ = false;
-			addSize_ = 1;
-		}
-	}
-
-	sceneSprite_->SetSize(changeSize_);
-	
-	if (changeEnd_) {
-		changeSize_ = { 0,0 };
 	}
 
 	sceneSprite_->Update();

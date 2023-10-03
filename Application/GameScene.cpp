@@ -28,7 +28,7 @@ void GameScene::Initialize()
 	gameclear_ = spBasis_->TextureData(L"Resources/gameclear.png");
 
 	//シーン遷移時
-	scene_ = spBasis_->TextureData(L"Resources/scene.png");
+	scene_ = spBasis_->TextureData(L"Resources/sceneChange.png");
 
 	//フィルター
 	fillter_ = spBasis_->TextureData(L"Resources/fillter.png");
@@ -72,7 +72,8 @@ void GameScene::Initialize()
 
 	sceneSprite_->Initialize(spBasis_, windows_);
 	sceneSprite_->Create(640, 360);
-	sceneSprite_->SetSize({ 1920,1920 });
+	sceneSprite_->SetSize({ 1280,720 });
+	sceneSprite_->SetColor({ 1,1,1,1 });
 
 	fillSprite_->Initialize(spBasis_, windows_);
 	fillSprite_->Create(640, 360);
@@ -216,6 +217,8 @@ void GameScene::Initialize()
 
 	particleMan_->Initialize();
 	particleMan_->Update();
+
+	resetOn_ = false;
 }
 
 void GameScene::Finalize()
@@ -234,6 +237,14 @@ void GameScene::Update()
 		Reset();
 	}
 
+	if (ChangeAlpha_ == 0) {
+
+		if (!playBGM_) {
+			sound_->PlayLoopWave("NieR_freld2.wav", 0.5f);
+			playBGM_ = true;
+		}
+	}
+
 	ObjectUpdate();
 
 	//スプライト更新処理
@@ -241,8 +252,6 @@ void GameScene::Update()
 
 	shadowObject_->SetPosition(player_->GetWorldPos());
 	shadowObject_->Update();
-	
-	
 
 	//弾の更新処理
 	for (std::unique_ptr<Effect>& effect : effects_) {
@@ -265,7 +274,6 @@ void GameScene::Update()
 		
 		playBGM_ = false;
 		power = 1;
-		sceneSprite_->SetSize({ 1920,1920 });
 	}
 
 	//ゲーム画面
@@ -316,8 +324,6 @@ void GameScene::Update()
 
 	//	player_->SetEnemy(enemys_.front().get());
 	//}
-
-	
 	
 	if (isIvent_) {
 		alpha_ += 0.05f;
@@ -436,27 +442,17 @@ void GameScene::SpriteUpdate()
 		fillTimer_ = 0;
 	}
 
-	
-
 	//シーン切り替え
 	if (start_) {
-		pos = sceneSprite_->GetSize();
-		power--;
-		pos.x += power;
-		pos.y += power;
 
-		if (pos.y < 0) {
-			pos.y = 0;
-			pos.x = 0;
-			start_ = false;
+		ChangeAlpha_ -= 0.05f;
+		ChangeAlpha_ = max(ChangeAlpha_, 0);
+		sceneSprite_->SetColor({ 1,1,1,ChangeAlpha_ });
 
-			if (!playBGM_) {
-				sound_->PlayLoopWave("NieR_freld2.wav", 0.5f);
-				playBGM_ = true;
-				Reset();
-			}
+		if (!resetOn_) {
+			resetOn_ = true;
+			Reset();
 		}
-		sceneSprite_->SetSize(pos);
 	}
 
 	if (hitBox_ && !isIvent_) {

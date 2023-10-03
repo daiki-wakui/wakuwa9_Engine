@@ -220,6 +220,9 @@ private:	//ƒƒ“ƒo•Ï”
 	int32_t coolTime_ = 7;
 	bool isShotEffect_ = false;
 
+	float ChangeAlpha_ = 1;
+	bool resetOn_ = false;
+
 public:
 
 	bool Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale);

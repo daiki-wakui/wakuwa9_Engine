@@ -44,7 +44,8 @@ private:	//メンバ変数
 	int32_t filterImage_ = 0;
 
 	int32_t testImage_ = 0;
-	
+
+
 	//シーン遷移に使う値
 	XMFLOAT2 changeSize_ = {0,0};
 	float addSize_ = 1;
@@ -53,6 +54,9 @@ private:	//メンバ変数
 
 	//BGM
 	bool playBGM_ = false;
+
+	float ChangeAlpha_ = 0;
+	bool isStartSE_ = false;
 
 public:	//メンバ関数
 
