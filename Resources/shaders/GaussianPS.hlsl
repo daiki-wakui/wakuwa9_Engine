@@ -7,9 +7,15 @@ SamplerState smp : register(s0);
 
 float4 main(VSOutput input) : SV_TARGET
 {
+	//float4 haiColor = tex.Sample(smp, input.uv);
 
-	float Ushift = 3.0f / 1280.0f;
-	float Vshift = 3.0f / 720.0f;
+	//float grayScale = haiColor.r * 0.299f + haiColor.g * 0.587f + haiColor.b * 0.114f;
+	//float extract = smoothstep(0.6,0.9,grayScale);
+	//haiColor *= extract;
+
+	//ガウシアンブラー
+	float Ushift = 6.0f / 1280.0f;
+	float Vshift = 6.0f / 720.0f;
 
 	//標準色
 	float4 drawUV = tex.Sample(smp, input.uv);
@@ -38,4 +44,5 @@ float4 main(VSOutput input) : SV_TARGET
 	color.rgb = color.rgb / totalWeight;
 
 	return float4(color.rgb, 1);
+	//return float4(haiColor.rgb, 1);
 }

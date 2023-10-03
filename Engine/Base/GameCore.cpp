@@ -18,6 +18,9 @@ void GameCore::Initialize()
 	postEffect_->SetDirectX(spBasis_, windows_, keyboard_);
 	postEffect_->Initialize(0);
 
+	/*postEffect2_->SetDirectX(spBasis_, windows_, keyboard_);
+	postEffect2_->Initialize(2);*/
+
 	sound_->LoadWave("PerituneMaterial.wav");
 	sound_->LoadWave("ElectricWild.wav");
 }
@@ -123,6 +126,9 @@ void GameCore::Draw()
 	postEffect_->PostDrawScene(directX_->GetCommandList());
 
 
+	
+	
+	
 	//•`‰æ‘Oˆ—
 	directX_->PreDraw();
 

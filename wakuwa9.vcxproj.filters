@@ -183,9 +183,6 @@
     <ClCompile Include="Engine\Base\Framework.cpp">
       <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\GameCore.cpp">
-      <Filter>ソース ファイル\Engine\Base</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Base\ImGuiManager.cpp">
       <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
@@ -206,6 +203,9 @@
     </ClCompile>
     <ClCompile Include="EnemyCharge.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\GameCore.cpp">
+      <Filter>ソース ファイル\Application\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -385,6 +385,12 @@
     <FxCompile Include="Resources\shaders\ParticleGeometryShader.hlsl">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\HighLumiPS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
+    </FxCompile>
+    <FxCompile Include="Resources\shaders\HighLumiVS.hlsl">
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Basic.hlsli">
@@ -406,6 +412,9 @@
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </None>
     <None Include="Resources\shaders\ParticleHeader.hlsli">
+      <Filter>リソース ファイル\シェーダーファイル</Filter>
+    </None>
+    <None Include="Resources\shaders\HighLumiShader.hlsli">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </None>
   </ItemGroup>

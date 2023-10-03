@@ -24,6 +24,7 @@ float4 main(VSOutput input) : SV_TARGET
 
 	//•W€F
 	float4 texcolor1 = tex.Sample(smp, input.uv);
+	float4 texcolor2 = tex.Sample(smp, input.uv);
 
 	float shift = 0.008f;
 

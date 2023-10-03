@@ -33,6 +33,9 @@ private:
 	
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_ = std::make_unique<PostEffect>();
+	//ポストエフェクト
+	std::unique_ptr<PostEffect> postEffect2_ = std::make_unique<PostEffect>();
+
 
 	std::unique_ptr<GameScene> gamescene_ = std::make_unique<GameScene>();
 	std::unique_ptr<TitleScene> titlescene_ = std::make_unique<TitleScene>();
