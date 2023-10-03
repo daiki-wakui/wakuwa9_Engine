@@ -223,6 +223,7 @@ private:	//ƒƒ“ƒo•Ï”
 public:
 
 	bool Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale);
+	void AllCollison();
 
 	//‰Šú‰»
 	void Initialize()override;
@@ -232,6 +233,10 @@ public:
 
 	//–ˆƒtƒŒ[ƒ€
 	void Update()override;
+
+	void SpriteUpdate();
+	void SpriteDraw();
+	void ObjectUpdate();
 
 	//•`‰æ
 	void Draw()override;
