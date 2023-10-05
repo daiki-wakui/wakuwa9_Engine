@@ -75,7 +75,7 @@ void TitleScene::Update()
 	titleUISprite_->Update();
 
 	if (!playBGM_) {
-		sound_->PlayLoopWave("NieR_Title.wav",0.75f);
+		sound_->PlayLoopWave("NieR_Title.wav");
 		playBGM_ = true;
 	}
 

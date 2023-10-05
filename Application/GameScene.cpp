@@ -209,6 +209,7 @@ void GameScene::Initialize()
 	sound_->LoadWave("noise.wav");
 	sound_->LoadWave("Warning.wav");
 	sound_->LoadWave("electric_shock3.wav");
+	sound_->LoadWave("NieR_boss.wav");
 
 	Reset();
 
@@ -242,7 +243,7 @@ void GameScene::Update()
 	if (ChangeAlpha_ == 0) {
 
 		if (!playBGM_) {
-			sound_->PlayLoopWave("NieR_freld2.wav", 0.5f);
+			sound_->PlayLoopWave("NieR_freld2.wav", 0.25f);
 			playBGM_ = true;
 		}
 	}
@@ -271,7 +272,7 @@ void GameScene::Update()
 	if (change_) {
 		sound_->StopWAVE("NieR_freld2.wav");
 		if (hitBox_ == true) {
-			sound_->StopWAVE("Alone.wav");
+			sound_->StopWAVE("NieR_boss.wav");
 		}
 		
 		playBGM_ = false;
@@ -346,6 +347,14 @@ void GameScene::Update()
 
 		Object3D::SetEye(eye);
 		Object3D::SetTarget(target);
+
+		if (timer_ > 60) {
+
+			if (!bossBGM_) {
+				sound_->PlayWave("NieR_boss.wav", 0.4f);
+				bossBGM_ = true;
+			}
+		}
 
 		//イベントシーン終わり
 		if (timer_ > maxTime_) {
@@ -492,8 +501,6 @@ void GameScene::SpriteUpdate()
 		sound_->StopWAVE("NieR_freld2.wav");
 
 		if (!bossBGM_) {
-			sound_->PlayWave("Alone.wav");
-			bossBGM_ = true;
 			isIvent_ = true;
 		}
 
@@ -882,7 +889,7 @@ void GameScene::AllCollison()
 			bullet->isDead_ = true;
 			BulletEffect = true;
 			boss_->OnCollision();
-			sound_->PlayWave("Hit.wav");
+			sound_->PlayWave("Hit.wav",0.5f);
 		}
 
 		if (BulletEffect) {
@@ -934,7 +941,7 @@ void GameScene::AllCollison()
 				player_->OnCollision();
 
 				if (player_->GetHP() <= 1) {
-					sound_->PlayWave("electric_shock3.wav");
+					sound_->PlayWave("electric_shock3.wav",1.1f);
 				}
 			}
 		}
@@ -1028,7 +1035,7 @@ void GameScene::AllCollison()
 				bullet->isDead_ = true;
 				enemy->OnCollision();
 				BulletEffect = true;
-				sound_->PlayWave("Hit.wav");
+				sound_->PlayWave("Hit.wav",0.5f);
 			}
 
 			if (enemy->IsDead()) {

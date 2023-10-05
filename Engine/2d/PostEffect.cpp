@@ -432,8 +432,6 @@ void PostEffect::Update(Player* player)
 			}
 			
 			player->SetIsHit(false);
-
-			
 		}
 
 		if (frame_ <= 0) {
