@@ -210,7 +210,7 @@ void GameScene::Initialize()
 	sound_->LoadWave("Warning.wav");
 	sound_->LoadWave("electric_shock3.wav");
 
-	ReLoad();
+	Reset();
 
 	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
 	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
@@ -219,6 +219,8 @@ void GameScene::Initialize()
 	particleMan_->Update();
 
 	resetOn_ = false;
+	isIvent_ = false;
+
 }
 
 void GameScene::Finalize()

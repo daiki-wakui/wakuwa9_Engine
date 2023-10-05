@@ -18,6 +18,7 @@ void Boss::Initialize(Model* Model, XMFLOAT3 pos, Object3D* Object, Player* play
 	player_ = player;
 	pos_ = pos;
 
+	hp = 50;
 	arive_ = true;
 }
 

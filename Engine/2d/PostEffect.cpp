@@ -428,7 +428,7 @@ void PostEffect::Update(Player* player)
 			}
 			else {
 				constMapMaterial->shiftPower = noizPower2(engine);
-				noiseTimer_ = 4;
+				noiseTimer_ = 1;
 			}
 			
 			player->SetIsHit(false);

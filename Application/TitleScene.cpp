@@ -92,9 +92,15 @@ void TitleScene::Update()
 
 		if (ChangeAlpha_ >= 1) {
 			changeEnd_ = true;
+			
+			playBGM_ = false;
 		}
 
 		sound_->StopWAVE("NieR_Title.wav");
+	}
+	else {
+		ChangeAlpha_ = 0;
+		sceneSprite_->SetColor({ 1, 1, 1, ChangeAlpha_ });
 	}
 
 	sceneSprite_->Update();

@@ -63,6 +63,7 @@ void GameCore::Update()
 		gamescene_->SetStart(false);
 		titlescene_->SetChange(false);
 		gamescene_->SetChange(true);
+		gamescene_->Reset();
 	}
 
 	//タイトルシーンの更新処理
