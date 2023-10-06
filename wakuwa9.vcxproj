@@ -99,15 +99,15 @@
   <ItemGroup>
     <ClCompile Include="Application\Boss.cpp" />
     <ClCompile Include="Application\BossBullet.cpp" />
+    <ClCompile Include="Application\Effect.cpp" />
     <ClCompile Include="Application\Enemy.cpp" />
     <ClCompile Include="Application\EnemyBullet.cpp" />
+    <ClCompile Include="Application\EnemyCharge.cpp" />
     <ClCompile Include="Application\GameScene.cpp" />
     <ClCompile Include="Application\Player.cpp" />
     <ClCompile Include="Application\PlayerBullet.cpp" />
+    <ClCompile Include="Application\SoundManager.cpp" />
     <ClCompile Include="Application\TitleScene.cpp" />
-    <ClCompile Include="Easing.cpp" />
-    <ClCompile Include="Effect.cpp" />
-    <ClCompile Include="EnemyCharge.cpp" />
     <ClCompile Include="Engine\2d\ParticleManager.cpp" />
     <ClCompile Include="Engine\2d\PostEffect.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
@@ -136,24 +136,24 @@
     <ClCompile Include="Engine\Light\LightGroup.cpp" />
     <ClCompile Include="Engine\Light\PointLight.cpp" />
     <ClCompile Include="Engine\Light\SpotLight.cpp" />
+    <ClCompile Include="Engine\Math\Easing.cpp" />
     <ClCompile Include="Engine\Math\Matrix4.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Boss.h" />
     <ClInclude Include="Application\BossBullet.h" />
+    <ClInclude Include="Application\Effect.h" />
     <ClInclude Include="Application\Enemy.h" />
     <ClInclude Include="Application\EnemyBullet.h" />
+    <ClInclude Include="Application\EnemyCharge.h" />
     <ClInclude Include="Application\GameScene.h" />
     <ClInclude Include="Application\Player.h" />
     <ClInclude Include="Application\PlayerBullet.h" />
+    <ClInclude Include="Application\SoundManager.h" />
     <ClInclude Include="Application\TitleScene.h" />
-    <ClInclude Include="Easing.h" />
-    <ClInclude Include="Effect.h" />
-    <ClInclude Include="EnemyCharge.h" />
     <ClInclude Include="Engine\2d\ParticleManager.h" />
     <ClInclude Include="Engine\2d\PostEffect.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
@@ -182,11 +182,11 @@
     <ClInclude Include="Engine\Light\LightGroup.h" />
     <ClInclude Include="Engine\Light\PointLight.h" />
     <ClInclude Include="Engine\Light\SpotLight.h" />
+    <ClInclude Include="Engine\Math\Easing.h" />
     <ClInclude Include="Engine\Math\Matrix4.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">
