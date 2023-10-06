@@ -195,12 +195,6 @@
     <ClCompile Include="Engine\Math\Easing.cpp">
       <Filter>ソース ファイル\Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Effect.cpp">
-      <Filter>ソース ファイル\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\SoundManager.cpp">
-      <Filter>ソース ファイル\Application</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Camera\Camera.cpp">
       <Filter>ソース ファイル\Engine\Camera</Filter>
     </ClCompile>
@@ -213,26 +207,32 @@
     <ClCompile Include="Application\Scene\TitleScene.cpp">
       <Filter>ソース ファイル\Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player.cpp">
+    <ClCompile Include="Application\Player\Player.cpp">
       <Filter>ソース ファイル\Application\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Application\PlayerBullet.cpp">
+    <ClCompile Include="Application\Player\PlayerBullet.cpp">
       <Filter>ソース ファイル\Application\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy.cpp">
+    <ClCompile Include="Application\Enemy\Enemy.cpp">
       <Filter>ソース ファイル\Application\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Application\EnemyBullet.cpp">
+    <ClCompile Include="Application\Enemy\EnemyBullet.cpp">
       <Filter>ソース ファイル\Application\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Application\EnemyCharge.cpp">
+    <ClCompile Include="Application\Enemy\EnemyCharge.cpp">
       <Filter>ソース ファイル\Application\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Boss.cpp">
+    <ClCompile Include="Application\Boss\Boss.cpp">
       <Filter>ソース ファイル\Application\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="Application\BossBullet.cpp">
+    <ClCompile Include="Application\Boss\BossBullet.cpp">
       <Filter>ソース ファイル\Application\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GameSound\SoundManager.cpp">
+      <Filter>ソース ファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Effect\Effect.cpp">
+      <Filter>ソース ファイル\Application</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -329,12 +329,6 @@
     <ClInclude Include="Engine\Math\Easing.h">
       <Filter>ヘッダー ファイル\Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Effect.h">
-      <Filter>ヘッダー ファイル\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\SoundManager.h">
-      <Filter>ヘッダー ファイル\Application</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Camera\Camera.h">
       <Filter>ヘッダー ファイル\Engine\Camera</Filter>
     </ClInclude>
@@ -347,26 +341,32 @@
     <ClInclude Include="Application\Scene\TitleScene.h">
       <Filter>ヘッダー ファイル\Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player.h">
+    <ClInclude Include="Application\Player\Player.h">
       <Filter>ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Application\PlayerBullet.h">
+    <ClInclude Include="Application\Player\PlayerBullet.h">
       <Filter>ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy.h">
+    <ClInclude Include="Application\Enemy\Enemy.h">
       <Filter>ヘッダー ファイル\Application\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Application\EnemyBullet.h">
+    <ClInclude Include="Application\Enemy\EnemyBullet.h">
       <Filter>ヘッダー ファイル\Application\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Application\EnemyCharge.h">
+    <ClInclude Include="Application\Enemy\EnemyCharge.h">
       <Filter>ヘッダー ファイル\Application\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Boss.h">
+    <ClInclude Include="Application\Boss\Boss.h">
       <Filter>ヘッダー ファイル\Application\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="Application\BossBullet.h">
+    <ClInclude Include="Application\Boss\BossBullet.h">
       <Filter>ヘッダー ファイル\Application\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GameSound\SoundManager.h">
+      <Filter>ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Effect\Effect.h">
+      <Filter>ヘッダー ファイル\Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
