@@ -186,7 +186,6 @@
     <ClInclude Include="Engine\Math\Matrix4.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
-    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">
@@ -305,9 +304,6 @@
     <ProjectReference Include="External\imgui\imgui.vcxproj">
       <Project>{780a5243-b98e-4718-b547-fa50283f9f4f}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="wakuwa9.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -100,6 +100,18 @@
     <Filter Include="ソース ファイル\Application\Boss">
       <UniqueIdentifier>{c1cb2888-06dd-4f76-8291-40f819c68018}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Application\Effect">
+      <UniqueIdentifier>{b99b612c-b021-4299-a498-bf1a52da5f8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application\GameSound">
+      <UniqueIdentifier>{118c616c-a21e-4e6b-96db-e22129e02716}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application\Effect">
+      <UniqueIdentifier>{125e8d1f-60d6-4f69-aa56-afa8e0cd85bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application\GameSound">
+      <UniqueIdentifier>{bba6632a-a7e1-4683-9198-d9202c41a821}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -228,17 +240,14 @@
     <ClCompile Include="Application\Boss\BossBullet.cpp">
       <Filter>ソース ファイル\Application\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="Application\GameSound\SoundManager.cpp">
-      <Filter>ソース ファイル\Application</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Effect\Effect.cpp">
-      <Filter>ソース ファイル\Application</Filter>
+      <Filter>ソース ファイル\Application\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GameSound\SoundManager.cpp">
+      <Filter>ソース ファイル\Application\GameSound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Math\Matrix4.h">
       <Filter>ヘッダー ファイル\Engine\Math</Filter>
     </ClInclude>
@@ -362,11 +371,11 @@
     <ClInclude Include="Application\Boss\BossBullet.h">
       <Filter>ヘッダー ファイル\Application\Boss</Filter>
     </ClInclude>
-    <ClInclude Include="Application\GameSound\SoundManager.h">
-      <Filter>ヘッダー ファイル\Application</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Effect\Effect.h">
-      <Filter>ヘッダー ファイル\Application</Filter>
+      <Filter>ヘッダー ファイル\Application\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GameSound\SoundManager.h">
+      <Filter>ヘッダー ファイル\Application\GameSound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -447,10 +456,5 @@
     <None Include="Resources\shaders\HighLumiShader.hlsli">
       <Filter>リソース ファイル\シェーダーファイル</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="wakuwa9.rc">
-      <Filter>リソース ファイル</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>
