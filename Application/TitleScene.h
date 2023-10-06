@@ -5,6 +5,7 @@
 #include "Model.h"
 #include "Sprite.h"
 #include "Sound.h"
+#include "SoundManager.h"
 
 class TitleScene : public BaseScene
 {

@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "Easing.h"
 #include <random>
+#include "SoundManager.h"
 
 void GameScene::SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound)
 {
@@ -241,9 +242,12 @@ void GameScene::Update()
 	}
 
 	if (ChangeAlpha_ == 0) {
+		SoundManager::GetInstance()->Update(1);
+
 
 		if (!playBGM_) {
-			sound_->PlayLoopWave("NieR_freld2.wav", 0.25f);
+			
+			//sound_->PlayLoopWave("NieR_freld2.wav", 0.25f);
 			playBGM_ = true;
 		}
 	}

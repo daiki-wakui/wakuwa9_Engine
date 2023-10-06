@@ -15,6 +15,7 @@ public:
 	static SoundManager* GetInstance();
 
 	void SetBossBGM(bool isBossBGM) { isBoss_ = isBossBGM; }
+	void StopBGM();
 
 private:
 

@@ -63,6 +63,9 @@ void TitleScene::Initialize()
 	sound_->LoadWave("NieR_Title.wav");
 
 	isStartSE_ = false;
+
+	SoundManager::GetInstance()->SetBasis(sound_);
+	SoundManager::GetInstance()->Initialize();
 }
 
 void TitleScene::Finalize()
@@ -74,10 +77,12 @@ void TitleScene::Update()
 	titleSprite_->Update();
 	titleUISprite_->Update();
 
-	if (!playBGM_) {
+	SoundManager::GetInstance()->Update(0);
+
+	/*if (!playBGM_) {
 		sound_->PlayLoopWave("NieR_Title.wav");
 		playBGM_ = true;
-	}
+	}*/
 
 	if (changeStart_) {
 
@@ -92,7 +97,7 @@ void TitleScene::Update()
 
 		if (ChangeAlpha_ >= 1) {
 			changeEnd_ = true;
-			
+			isStartSE_ = false;
 			playBGM_ = false;
 		}
 
