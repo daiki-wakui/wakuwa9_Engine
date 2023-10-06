@@ -76,34 +76,34 @@
     <Filter Include="ソース ファイル\Application\Scene">
       <UniqueIdentifier>{05876918-75f2-45fb-9d32-35b8209c0d63}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Camera">
+      <UniqueIdentifier>{3a9ae3f1-f52b-49f9-9c38-e2b1f9782cf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Camera">
+      <UniqueIdentifier>{5826693f-c4c3-466e-8109-e6d48986fa51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application\Player">
+      <UniqueIdentifier>{12d6dc64-df36-41da-8c5f-2788ebf3fd58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application\Enemy">
+      <UniqueIdentifier>{1b2c5838-c031-4c24-ba7b-78decd52fd1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application\Player">
+      <UniqueIdentifier>{ccb2eda1-dc3c-47c3-af5d-0260c042916f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application\Boss">
+      <UniqueIdentifier>{ee9a37e7-e9ec-4558-a919-c5e50b0ff13c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application\Enemy">
+      <UniqueIdentifier>{52b8095e-51d1-4a7c-8b24-af9dd8e83517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application\Boss">
+      <UniqueIdentifier>{c1cb2888-06dd-4f76-8291-40f819c68018}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Boss.cpp">
-      <Filter>ソース ファイル\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy.cpp">
-      <Filter>ソース ファイル\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\EnemyBullet.cpp">
-      <Filter>ソース ファイル\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Player.cpp">
-      <Filter>ソース ファイル\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\PlayerBullet.cpp">
-      <Filter>ソース ファイル\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\TitleScene.cpp">
-      <Filter>ソース ファイル\Application\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\GameScene.cpp">
-      <Filter>ソース ファイル\Application\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\BossBullet.cpp">
-      <Filter>ソース ファイル\Application</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Math\Matrix4.cpp">
       <Filter>ソース ファイル\Engine\Math</Filter>
@@ -128,9 +128,6 @@
     </ClCompile>
     <ClCompile Include="Engine\2d\SpriteBasis.cpp">
       <Filter>ソース ファイル\Engine\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3d\Camera.cpp">
-      <Filter>ソース ファイル\Engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3d\CollisionBox.cpp">
       <Filter>ソース ファイル\Engine\3d</Filter>
@@ -195,49 +192,52 @@
     <ClCompile Include="Engine\Base\WindowsApp.cpp">
       <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Base\GameCore.cpp">
-      <Filter>ソース ファイル\Application\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Math\Easing.cpp">
       <Filter>ソース ファイル\Engine\Math</Filter>
     </ClCompile>
     <ClCompile Include="Application\Effect.cpp">
       <Filter>ソース ファイル\Application</Filter>
     </ClCompile>
-    <ClCompile Include="Application\EnemyCharge.cpp">
-      <Filter>ソース ファイル\Application</Filter>
-    </ClCompile>
     <ClCompile Include="Application\SoundManager.cpp">
       <Filter>ソース ファイル\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Camera\Camera.cpp">
+      <Filter>ソース ファイル\Engine\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Scene\GameCore.cpp">
+      <Filter>ソース ファイル\Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Scene\GameScene.cpp">
+      <Filter>ソース ファイル\Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Scene\TitleScene.cpp">
+      <Filter>ソース ファイル\Application\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player.cpp">
+      <Filter>ソース ファイル\Application\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\PlayerBullet.cpp">
+      <Filter>ソース ファイル\Application\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy.cpp">
+      <Filter>ソース ファイル\Application\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\EnemyBullet.cpp">
+      <Filter>ソース ファイル\Application\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\EnemyCharge.cpp">
+      <Filter>ソース ファイル\Application\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Boss.cpp">
+      <Filter>ソース ファイル\Application\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\BossBullet.cpp">
+      <Filter>ソース ファイル\Application\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Boss.h">
-      <Filter>ヘッダー ファイル\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy.h">
-      <Filter>ヘッダー ファイル\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\EnemyBullet.h">
-      <Filter>ヘッダー ファイル\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Player.h">
-      <Filter>ヘッダー ファイル\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\PlayerBullet.h">
-      <Filter>ヘッダー ファイル\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\TitleScene.h">
-      <Filter>ヘッダー ファイル\Application\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\GameScene.h">
-      <Filter>ヘッダー ファイル\Application\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\BossBullet.h">
-      <Filter>ヘッダー ファイル\Application</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Math\Matrix4.h">
       <Filter>ヘッダー ファイル\Engine\Math</Filter>
@@ -262,9 +262,6 @@
     </ClInclude>
     <ClInclude Include="Engine\2d\SpriteBasis.h">
       <Filter>ヘッダー ファイル\Engine\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3d\Camera.h">
-      <Filter>ヘッダー ファイル\Engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\CollisionBox.h">
       <Filter>ヘッダー ファイル\Engine\3d</Filter>
@@ -317,9 +314,6 @@
     <ClInclude Include="Engine\Base\Framework.h">
       <Filter>ヘッダー ファイル\Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\GameCore.h">
-      <Filter>ヘッダー ファイル\Engine\Base</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Base\ImGuiManager.h">
       <Filter>ヘッダー ファイル\Engine\Base</Filter>
     </ClInclude>
@@ -338,11 +332,41 @@
     <ClInclude Include="Application\Effect.h">
       <Filter>ヘッダー ファイル\Application</Filter>
     </ClInclude>
-    <ClInclude Include="Application\EnemyCharge.h">
-      <Filter>ヘッダー ファイル\Application</Filter>
-    </ClInclude>
     <ClInclude Include="Application\SoundManager.h">
       <Filter>ヘッダー ファイル\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Camera\Camera.h">
+      <Filter>ヘッダー ファイル\Engine\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\GameCore.h">
+      <Filter>ヘッダー ファイル\Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\GameScene.h">
+      <Filter>ヘッダー ファイル\Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\TitleScene.h">
+      <Filter>ヘッダー ファイル\Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player.h">
+      <Filter>ヘッダー ファイル\Application\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\Application\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy.h">
+      <Filter>ヘッダー ファイル\Application\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\EnemyBullet.h">
+      <Filter>ヘッダー ファイル\Application\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\EnemyCharge.h">
+      <Filter>ヘッダー ファイル\Application\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Boss.h">
+      <Filter>ヘッダー ファイル\Application\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\BossBullet.h">
+      <Filter>ヘッダー ファイル\Application\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

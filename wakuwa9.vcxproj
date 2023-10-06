@@ -57,7 +57,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Application;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Application;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Camera;$(ProjectDir)Application\Player;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Boss;$(ProjectDir)Application\Scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -80,7 +80,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Application;$(ProjectDir)Engine\Math;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Application;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Camera;$(ProjectDir)Application\Player;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Boss;$(ProjectDir)Application\Scene;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
@@ -103,16 +103,16 @@
     <ClCompile Include="Application\Enemy.cpp" />
     <ClCompile Include="Application\EnemyBullet.cpp" />
     <ClCompile Include="Application\EnemyCharge.cpp" />
-    <ClCompile Include="Application\GameScene.cpp" />
     <ClCompile Include="Application\Player.cpp" />
     <ClCompile Include="Application\PlayerBullet.cpp" />
+    <ClCompile Include="Application\Scene\GameCore.cpp" />
+    <ClCompile Include="Application\Scene\GameScene.cpp" />
+    <ClCompile Include="Application\Scene\TitleScene.cpp" />
     <ClCompile Include="Application\SoundManager.cpp" />
-    <ClCompile Include="Application\TitleScene.cpp" />
     <ClCompile Include="Engine\2d\ParticleManager.cpp" />
     <ClCompile Include="Engine\2d\PostEffect.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
     <ClCompile Include="Engine\2d\SpriteBasis.cpp" />
-    <ClCompile Include="Engine\3d\Camera.cpp" />
     <ClCompile Include="Engine\3d\CollisionBox.cpp" />
     <ClCompile Include="Engine\3d\EventBox.cpp" />
     <ClCompile Include="Engine\3d\FbxLoader.cpp" />
@@ -124,11 +124,11 @@
     <ClCompile Include="Engine\Base\BaseScene.cpp" />
     <ClCompile Include="Engine\Base\DirectXBasis.cpp" />
     <ClCompile Include="Engine\Base\Framework.cpp" />
-    <ClCompile Include="Engine\Base\GameCore.cpp" />
     <ClCompile Include="Engine\Base\ImGuiManager.cpp" />
     <ClCompile Include="Engine\Base\LevelLoader.cpp" />
     <ClCompile Include="Engine\Base\SceneManager.cpp" />
     <ClCompile Include="Engine\Base\WindowsApp.cpp" />
+    <ClCompile Include="Engine\Camera\Camera.cpp" />
     <ClCompile Include="Engine\Input\GamePad.cpp" />
     <ClCompile Include="Engine\Input\KeyBoard.cpp" />
     <ClCompile Include="Engine\Light\CircleShadow.cpp" />
@@ -149,16 +149,16 @@
     <ClInclude Include="Application\Enemy.h" />
     <ClInclude Include="Application\EnemyBullet.h" />
     <ClInclude Include="Application\EnemyCharge.h" />
-    <ClInclude Include="Application\GameScene.h" />
     <ClInclude Include="Application\Player.h" />
     <ClInclude Include="Application\PlayerBullet.h" />
+    <ClInclude Include="Application\Scene\GameCore.h" />
+    <ClInclude Include="Application\Scene\GameScene.h" />
+    <ClInclude Include="Application\Scene\TitleScene.h" />
     <ClInclude Include="Application\SoundManager.h" />
-    <ClInclude Include="Application\TitleScene.h" />
     <ClInclude Include="Engine\2d\ParticleManager.h" />
     <ClInclude Include="Engine\2d\PostEffect.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
     <ClInclude Include="Engine\2d\SpriteBasis.h" />
-    <ClInclude Include="Engine\3d\Camera.h" />
     <ClInclude Include="Engine\3d\CollisionBox.h" />
     <ClInclude Include="Engine\3d\EventBox.h" />
     <ClInclude Include="Engine\3d\FbxLoader.h" />
@@ -170,11 +170,11 @@
     <ClInclude Include="Engine\Base\BaseScene.h" />
     <ClInclude Include="Engine\Base\DirectXBasis.h" />
     <ClInclude Include="Engine\Base\Framework.h" />
-    <ClInclude Include="Engine\Base\GameCore.h" />
     <ClInclude Include="Engine\Base\ImGuiManager.h" />
     <ClInclude Include="Engine\Base\LevelLoader.h" />
     <ClInclude Include="Engine\Base\SceneManager.h" />
     <ClInclude Include="Engine\Base\WindowsApp.h" />
+    <ClInclude Include="Engine\Camera\Camera.h" />
     <ClInclude Include="Engine\Input\GamePad.h" />
     <ClInclude Include="Engine\Input\KeyBoard.h" />
     <ClInclude Include="Engine\Light\CircleShadow.h" />
