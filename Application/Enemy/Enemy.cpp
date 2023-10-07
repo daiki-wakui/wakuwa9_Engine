@@ -75,7 +75,6 @@ void Enemy::Update(bool shot)
 		differenceVec.z = enemyPos.z - playerPos.z;
 		differenceVec.normalize();
 
-		const float kBulletSpeed = -1.0f;
 		Vector3 velocity(differenceVec);
 
 		velocity.multiplyMat4(enemyObject_->matWorld_);

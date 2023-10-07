@@ -38,7 +38,6 @@ void Boss::Update(bool move)
 		differenceVec.normalize();
 		differenceVec /= 3;
 
-		const float kBulletSpeed = -1.0f;
 		Vector3 velocity(differenceVec);
 
 		velocity.multiplyMat4(object_->matWorld_);

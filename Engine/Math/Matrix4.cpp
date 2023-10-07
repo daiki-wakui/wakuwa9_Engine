@@ -6,14 +6,6 @@ Matrix4::Matrix4()
 {
 }
 
-Matrix4::Matrix4(
-	float m00, float m01, float m02, float m03,
-	float m10, float m11, float m12, float m13,
-	float m20, float m21, float m22, float m23,
-	float m30, float m31, float m32, float m33)
-{
-}
-
 Matrix4 Matrix4::operator*(const Matrix4& m2)
 {
 	Matrix4 answer;
@@ -39,32 +31,32 @@ void Matrix4::ScaleSet(Vector3& v) {
 
 void Matrix4::RotXSet(float& x) {
 	//x
-	/*m[1][1] = cos((double)x);
-	m[1][2] = sin((double)x);
-	m[2][1] = -sin((double)x);
-	m[2][2] = cos((double)x);*/
-	m[0][0] = 1.0f;
-	m[3][3] = 1.0f;
+	m[1][1] = (float)cos(x);
+	m[1][2] = (float)sin(x);
+	m[2][1] = (float)-sin(x);
+	m[2][2] = (float)cos(x);
+	/*m[0][0] = 1.0f;
+	m[3][3] = 1.0f;*/
 }
 
 void Matrix4::RotYSet(float& y) {
 	//y
-	//m[0][0] = cos((double)y);
-	//m[0][2] = -sin((double)y);
-	//m[2][0] = sin((double)y);
-	//m[2][2] = cos((double)y);
-	m[1][1] = 1.0f;
-	m[3][3] = 1.0f;
+	m[0][0] = (float)cos(y);
+	m[0][2] = (float)-sin(y);
+	m[2][0] = (float)sin(y);
+	m[2][2] = (float)cos(y);
+	/*m[1][1] = 1.0f;
+	m[3][3] = 1.0f;*/
 }
 
 void Matrix4::RotZSet(float& z) {
 	//z
-	//m[0][0] = cos((double)z);
-	//m[0][1] = sin((double)z);
-	//m[1][0] = -sin((double)z);
-	//m[1][1] = cos((double)z);
-	m[2][2] = 1.0f;
-	m[3][3] = 1.0f;
+	m[0][0] = (float)cos(z);
+	m[0][1] = (float)sin(z);
+	m[1][0] = (float)-sin(z);
+	m[1][1] = (float)cos(z);
+	/*m[2][2] = 1.0f;
+	m[3][3] = 1.0f;*/
 }
 
 void Matrix4::TransSet(Vector3& v) {

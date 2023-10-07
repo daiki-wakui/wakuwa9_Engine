@@ -62,8 +62,7 @@ public: // 静的メンバ関数
 	/// 3Dオブジェクト生成
 	/// </summary>
 	/// <returns></returns>
-	static Object3D* Create(float scale);
-
+	
 	/// <summary>
 	/// 視点座標の取得
 	/// </summary>
@@ -134,7 +133,7 @@ private: // 静的メンバ変数
 
 	//ライト
 	//static DirectionalLight* light;
-	static LightGroup* lightGroup;
+	//static LightGroup* lightGroup;
 
 	//ビルボード行列
 	static XMMATRIX matBillborad;

@@ -15,6 +15,7 @@ struct Node
 {
 	//名前
 	std::string name;
+	std::string str;
 
 	//ローカルスケール
 	DirectX::XMVECTOR scaling = { 1,1,1,0 };
@@ -26,10 +27,10 @@ struct Node
 	DirectX::XMVECTOR translation = { 0,0,0,1 };
 
 	//ローカル変形行列
-	DirectX::XMMATRIX transform;
+	DirectX::XMMATRIX transform = {};
 
 	//グローバル変形行列
-	DirectX::XMMATRIX globalTransform;
+	DirectX::XMMATRIX globalTransform = {};
 
 	//親ノード
 	Node* parent = nullptr;
@@ -37,6 +38,8 @@ struct Node
 
 class FbxModel
 {
+	
+
 private: //エイリアス
 
 	// Microsoft::WRL::を省略

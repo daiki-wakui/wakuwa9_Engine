@@ -47,8 +47,8 @@ public: // 静的メンバ関数
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
 	static void PostDraw();
 
-	static const XMFLOAT3& GetEye() { return eye; }
-	static const XMFLOAT3& GetTarget() { return target; }
+	static const XMFLOAT3& GetEye() { return sEye; }
+	static const XMFLOAT3& GetTarget() { return sTarget; }
 
 	static void SetEye(XMFLOAT3 eye);
 	static void SetTarget(XMFLOAT3 target);
@@ -60,18 +60,18 @@ public: // 静的メンバ関数
 	static void CameraMoveEyeVector(XMFLOAT3 move);
 
 	static void SetCamera(XMFLOAT3& eye, XMFLOAT3& target, XMFLOAT3& up) {
-		ParticleManager::eye = eye,
-		ParticleManager::target = target,
-		ParticleManager::up = up;
+		ParticleManager::sEye = eye,
+		ParticleManager::sTarget = target,
+		ParticleManager::sUp = up;
 	}
 
 private: // 静的メンバ変数
 	// デバイス
-	static ID3D12Device* device;
+	static ID3D12Device* sDevice;
 	// デスクリプタサイズ
 	static UINT descriptorHandleIncrementSize;
 	// コマンドリスト
-	static ID3D12GraphicsCommandList* cmdList;
+	static ID3D12GraphicsCommandList* sCmdList;
 	// ルートシグネチャ
 	static ComPtr<ID3D12RootSignature> rootsignature;
 	// パイプラインステートオブジェクト
@@ -93,11 +93,11 @@ private: // 静的メンバ変数
 	// 射影行列
 	static XMMATRIX matProjection;
 	// 視点座標
-	static XMFLOAT3 eye;
+	static XMFLOAT3 sEye;
 	// 注視点座標
-	static XMFLOAT3 target;
+	static XMFLOAT3 sTarget;
 	// 上方向ベクトル
-	static XMFLOAT3 up;
+	static XMFLOAT3 sUp;
 	// 頂点バッファビュー
 	static D3D12_VERTEX_BUFFER_VIEW vbView;
 	// 頂点データ配列

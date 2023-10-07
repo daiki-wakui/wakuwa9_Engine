@@ -270,8 +270,8 @@ void GameScene::Update()
 		return bullet->IsDead();
 	});
 	
-	XMFLOAT3 eye = Object3D::GetEye();
-	XMFLOAT3 target = Object3D::GetTarget();
+	XMFLOAT3 rocalEye = Object3D::GetEye();
+	XMFLOAT3 rocalTarget = Object3D::GetTarget();
 
 	if (change_) {
 		sound_->StopWAVE("NieR_freld2.wav");
@@ -339,17 +339,17 @@ void GameScene::Update()
 
 		iventEye_ = iventEye_.lerp(iventEye_, endEye_, Easing::EaseInCubic(timer_, maxTime_));
 
-		XMFLOAT3 eye;
-		eye.x = iventEye_.x;
-		eye.y = iventEye_.y;
-		eye.z = iventEye_.z;
+		XMFLOAT3 tmpEye;
+		tmpEye.x = iventEye_.x;
+		tmpEye.y = iventEye_.y;
+		tmpEye.z = iventEye_.z;
 
 		XMFLOAT3 target;
 		target.x = iventTarget_.x;
 		target.y = iventTarget_.y;
 		target.z = iventTarget_.z;
 
-		Object3D::SetEye(eye);
+		Object3D::SetEye(tmpEye);
 		Object3D::SetTarget(target);
 
 		if (timer_ > 60) {
@@ -800,9 +800,9 @@ void GameScene::Inport(Model* model, int32_t size)
 	newObject[objSize_]->Initialize();
 
 	// 座標
-	DirectX::XMFLOAT3 pos;
-	DirectX::XMStoreFloat3(&pos, levelData_->objects[size].translation);
-	newObject[objSize_]->SetPosition(pos);
+	DirectX::XMFLOAT3 rocalPos;
+	DirectX::XMStoreFloat3(&rocalPos, levelData_->objects[size].translation);
+	newObject[objSize_]->SetPosition(rocalPos);
 
 	// 回転角
 	DirectX::XMFLOAT3 rot;
@@ -879,8 +879,8 @@ void GameScene::AllCollison()
 		posB = bullet->GetWorldPos();
 
 		//AとBの距離
-		float r1 = 20.0f;	//敵のスケール
-		float r2 = 1.0f;	//弾のスケール
+		r1 = 20.0f;	//敵のスケール
+		r2 = 1.0f;	//弾のスケール
 		float r = r1 + r2;
 
 		XMFLOAT3 dis;
@@ -898,7 +898,7 @@ void GameScene::AllCollison()
 
 		if (BulletEffect) {
 			for (int i = 0; i < 3; i++) {
-				XMFLOAT3 pos = posA;
+				XMFLOAT3 tmppos = posA;
 
 				const float md_vel = 10.0f;
 				XMFLOAT3 vel{};
@@ -910,7 +910,7 @@ void GameScene::AllCollison()
 				const float md_acc = 0.001f;
 				acc.y = -(float)rand() / RAND_MAX * md_acc;
 
-				particleMan_->Add(60, pos, vel, acc, 2.0f, 0.0f);
+				particleMan_->Add(60, tmppos, vel, acc, 2.0f, 0.0f);
 			}
 			BulletEffect = false;
 		}
@@ -925,8 +925,8 @@ void GameScene::AllCollison()
 			posB = bullet->GetWorldPos();
 
 			//AとBの距離
-			float r1 = 7.0f;	//敵のスケール
-			float r2 = 1.0f;	//弾のスケール
+			r1 = 7.0f;	//敵のスケール
+			r2 = 1.0f;	//弾のスケール
 			float r = r1 + r2;
 
 			XMFLOAT3 dis;
@@ -957,8 +957,8 @@ void GameScene::AllCollison()
 		posB = bullet->GetWorldPos();
 
 		//AとBの距離
-		float r1 = 7.0f;	//敵のスケール
-		float r2 = 1.0f;	//弾のスケール
+		r1 = 7.0f;	//敵のスケール
+		r2 = 1.0f;	//弾のスケール
 		float r = r1 + r2;
 
 		XMFLOAT3 dis;
@@ -984,8 +984,8 @@ void GameScene::AllCollison()
 		posB = coll->GetWorldPos();
 
 		//AとBの距離
-		float r1 = 1.0f;
-		float r2 = coll->GetScale().x;
+		r1 = 1.0f;
+		r2 = coll->GetScale().x;
 		float r = r1 + r2;
 
 		XMFLOAT3 dis;
@@ -1005,8 +1005,8 @@ void GameScene::AllCollison()
 
 	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
 		//AとBの距離
-		float r1 = 3.0f;	//自機のスケール
-		float r2 = 175.0f;	//索敵範囲のスケール
+		r1 = 3.0f;	//自機のスケール
+		r2 = 175.0f;	//索敵範囲のスケール
 
 		posA = player_->GetWorldPos();
 		posB = enemy->GetWorldPos();
@@ -1025,8 +1025,8 @@ void GameScene::AllCollison()
 			posB = bullet->GetWorldPos();
 
 			//AとBの距離
-			float r1 = 7.0f;	//敵のスケール
-			float r2 = 1.0f;	//弾のスケール
+			r1 = 7.0f;	//敵のスケール
+			r2 = 1.0f;	//弾のスケール
 			float r = r1 + r2;
 
 			XMFLOAT3 dis;
@@ -1050,7 +1050,7 @@ void GameScene::AllCollison()
 
 		if (BulletEffect) {
 			for (int i = 0; i < 3; i++) {
-				XMFLOAT3 pos = posA;
+				XMFLOAT3 tmpPos = posA;
 
 				const float md_vel = 10.0f;
 				XMFLOAT3 vel{};
@@ -1062,7 +1062,7 @@ void GameScene::AllCollison()
 				const float md_acc = 0.001f;
 				acc.y = -(float)rand() / RAND_MAX * md_acc;
 
-				particleMan_->Add(60, pos, vel, acc, 2.0f, 0.0f);
+				particleMan_->Add(60, tmpPos, vel, acc, 2.0f, 0.0f);
 			}
 			BulletEffect = false;
 		}

@@ -2,7 +2,7 @@
 #include <random>
 #include "Easing.h"
 
-void PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model,Object3D* obj)
+void PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model)
 {
 	tPos_ = pos;
 	velocity_ = velocity;

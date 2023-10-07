@@ -74,11 +74,6 @@ void Object3D::PostDraw()
 	Object3D::sCmdList = nullptr;
 }
 
-Object3D* Object3D::Create(float scale)
-{
-	return nullptr;
-}
-
 void Object3D::SetEye(XMFLOAT3& eye)
 {
 	Object3D::sEye = eye;

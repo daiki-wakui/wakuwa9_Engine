@@ -226,7 +226,7 @@ void Player::Missle()
 	//’e‚Ì¶¬‚Æ‰Šú‰»
 	for (int i = 0; i < 4; i++) {
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(posPod_, target, bulletModel_, bulletObject_);
+		newBullet->Initialize(posPod_, target, bulletModel_);
 		newBullet->SetMissile(true);
 		bullets_.push_back(std::move(newBullet));
 	}
@@ -245,7 +245,7 @@ void Player::Shot(){
 
 		//’e‚Ì¶¬‚Æ‰Šú‰»
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(posPod_, bulletVec_, bulletModel_, bulletObject_);
+		newBullet->Initialize(posPod_, bulletVec_, bulletModel_);
 		bullets_.push_back(std::move(newBullet));
 
 		coolTime = 4;
@@ -272,7 +272,7 @@ void Player::PlayerCamera(){
 
 	float height = toCameraPosXZ.y;
 	toCameraPosXZ.y = 0.0f;
-	float toCameraXZLen = toCameraPosXZ.length();
+	float CameraXZLen = toCameraPosXZ.length();
 	toCameraPosXZ.normalize();
 
 	XMFLOAT3 terget = pos_;
@@ -297,7 +297,7 @@ void Player::PlayerCamera(){
 
 	toNewCameraPosv = toNewCameraPosv * weight + toCameraPosXZ * (1.0f - weight);
 	toNewCameraPosv.normalize();
-	toNewCameraPosv *= toCameraXZLen;
+	toNewCameraPosv *= CameraXZLen;
 	toNewCameraPosv.y = height;
 
 	XMFLOAT3 newEye;
@@ -332,8 +332,8 @@ void Player::PlayerCamera(){
 
 		eye_.y = cameraTargetAngle_;
 
-		eye_.x = pos_.x + (sinf(r_) * toCameraXZLen);
-		eye_.z = pos_.z + (cosf(r_) * toCameraXZLen);
+		eye_.x = pos_.x + (sinf(r_) * CameraXZLen);
+		eye_.z = pos_.z + (cosf(r_) * CameraXZLen);
 	}
 
 	playerObject_->SetEye(eye_);

@@ -9,6 +9,7 @@ struct LevelData {
 	struct ObjectData {
 		// ファイル名
 		std::string fileName;
+		std::string str;
 		// 平行移動
 		DirectX::XMVECTOR translation;
 		// 回転角

@@ -33,7 +33,7 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	void Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity,Model* model,Object3D* obj);
+	void Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity,Model* model);
 	void Update();
 	void Draw();
 

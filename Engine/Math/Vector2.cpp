@@ -93,9 +93,3 @@ const Vector2 operator*(float s, const Vector2& v) {
 	return v * s;
 }
 
-const Vector2 operator/(const Vector2& v, float s) {
-	//Vector2 temp(v);
-	//return temp / s;
-	return v;
-}
-

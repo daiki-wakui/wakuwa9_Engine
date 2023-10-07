@@ -107,26 +107,26 @@ LevelData* LevelLoader::LoadFile(const std::string& fileName)
 
 		if (object.contains("children")) {
 			// "objects"の全オブジェクトを走査
-			for (nlohmann::json& object : deserialized["objects"]) {
-				assert(object.contains("type"));
+			for (nlohmann::json& tmpObject : deserialized["objects"]) {
+				assert(tmpObject.contains("type"));
 
 				// 種別を取得
-				std::string type = object["type"].get<std::string>();
+				std::string rocalType = tmpObject["type"].get<std::string>();
 
 				// MESH
-				if (type.compare("MESH") == 0) {
+				if (rocalType.compare("MESH") == 0) {
 					// 要素追加
 					levelData->objects.emplace_back(LevelData::ObjectData{});
 					// 今追加した要素の参照を得る
 					LevelData::ObjectData& objectData = levelData->objects.back();
 
-					if (object.contains("file_name")) {
+					if (tmpObject.contains("file_name")) {
 						// ファイル名
-						objectData.fileName = object["file_name"];
+						objectData.fileName = tmpObject["file_name"];
 					}
 
 					// トランスフォームのパラメータ読み込み
-					nlohmann::json& transform = object["transform"];
+					nlohmann::json& transform = tmpObject["transform"];
 					// 平行移動
 					objectData.translation.m128_f32[0] = (float)transform["translation"][1];
 					objectData.translation.m128_f32[1] = (float)transform["translation"][2];
