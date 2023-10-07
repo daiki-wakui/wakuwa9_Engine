@@ -15,7 +15,7 @@ struct Node
 {
 	//名前
 	std::string name;
-	std::string str;
+	float padding[2];
 
 	//ローカルスケール
 	DirectX::XMVECTOR scaling = { 1,1,1,0 };
