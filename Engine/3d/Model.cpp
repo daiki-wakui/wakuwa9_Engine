@@ -153,11 +153,11 @@ void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 		//先頭文字列がmtllibならマテリアル
 		if (key == "mtllib") {
 			//ファイル名の読み込み
-			string filename;
-			line_stream >> filename;
+			string rocalFilename;
+			line_stream >> rocalFilename;
 
 			//マテリアル読み込み
-			LoadMaterial(directoryPath, filename);
+			LoadMaterial(directoryPath, rocalFilename);
 		}
 	}
 
@@ -248,6 +248,7 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 	//ユニコード文字列に変換する
 	wchar_t wfilepath[128];
 	int32_t iBufferSize = MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
+	bufferSize_ = iBufferSize;
 
 	// WICテクスチャのロード
 	result = LoadFromWICFile(wfilepath, WIC_FLAGS_NONE, &metadata, scratchImg);

@@ -134,4 +134,6 @@ private:
 
 	//各種バッファの生成
 	void CreateBuffers();
+
+	int32_t bufferSize_;
 };
