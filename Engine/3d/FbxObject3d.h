@@ -58,6 +58,8 @@ public: //ƒƒ“ƒoŠÖ”
 
 	static void PreSet(ID3D12GraphicsCommandList* cmdList);
 
+	void StartAnimation();
+	void StopAnimation();
 	void PlayAnimation();
 
 protected: //ƒƒ“ƒo•Ï”

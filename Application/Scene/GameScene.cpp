@@ -199,7 +199,7 @@ void GameScene::Initialize()
 	testObj_ = std::make_unique<FbxObject3d>();
 	testObj_->Initialize();
 	testObj_->SetModel(testModel_.get());
-	testObj_->PlayAnimation();
+	testObj_->StartAnimation();
 
 	sound_->LoadWave("PerituneMaterial.wav");
 	sound_->LoadWave("Alarm01.wav");
@@ -597,6 +597,16 @@ void GameScene::ObjectUpdate()
 
 	skyObject_->SetPosition(player_->GetWorldPos());
 	skyObject_->Update();
+
+	testObj_->Update();
+
+	if (keyboard_->keyInstantPush(DIK_J)) {
+		testObj_->StopAnimation();
+	}
+
+	if (keyboard_->keyInstantPush(DIK_K)) {
+		testObj_->PlayAnimation();
+	}
 }
 
 void GameScene::Draw()

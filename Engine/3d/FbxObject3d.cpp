@@ -155,7 +155,7 @@ void FbxObject3d::PreSet(ID3D12GraphicsCommandList* cmdList)
 	FbxObject3d::sCmdList = cmdList;
 }
 
-void FbxObject3d::PlayAnimation()
+void FbxObject3d::StartAnimation()
 {
 	FbxScene* fbxScene = model_->GetFbxScene();
 
@@ -171,6 +171,16 @@ void FbxObject3d::PlayAnimation()
 
 	currentTime_ = startTime_;
 
+	isPlay_ = true;
+}
+
+void FbxObject3d::StopAnimation()
+{
+	isPlay_ = false;
+}
+
+void FbxObject3d::PlayAnimation()
+{
 	isPlay_ = true;
 }
 
