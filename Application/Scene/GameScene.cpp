@@ -243,13 +243,6 @@ void GameScene::Update()
 
 	if (ChangeAlpha_ == 0) {
 		SoundManager::GetInstance()->Update(1);
-
-
-		if (!playBGM_) {
-			
-			//sound_->PlayLoopWave("NieR_freld2.wav", 0.25f);
-			playBGM_ = true;
-		}
 	}
 
 	ObjectUpdate();
@@ -274,10 +267,7 @@ void GameScene::Update()
 	XMFLOAT3 rocalTarget = Object3D::GetTarget();
 
 	if (change_) {
-		sound_->StopWAVE("NieR_freld2.wav");
-		if (hitBox_ == true) {
-			sound_->StopWAVE("NieR_boss.wav");
-		}
+		SoundManager::GetInstance()->StopBGM();
 		
 		playBGM_ = false;
 		power = 1;
@@ -298,7 +288,6 @@ void GameScene::Update()
 		}
 	}
 
-	//poriObject_->SetPosition(playerObject_->GetPosition());
 	XMFLOAT3 podPos;
 
 	if (coolTime_ < 0) {
@@ -355,7 +344,7 @@ void GameScene::Update()
 		if (timer_ > 60) {
 
 			if (!bossBGM_) {
-				sound_->PlayWave("NieR_boss.wav", 0.4f);
+				SoundManager::GetInstance()->Update(2);
 				bossBGM_ = true;
 			}
 		}
@@ -502,9 +491,9 @@ void GameScene::SpriteUpdate()
 
 	//ƒ{ƒXHPABGM–Â‚ç‚µ
 	if (hitBox_ == true) {
-		sound_->StopWAVE("NieR_freld2.wav");
 
 		if (!bossBGM_) {
+			SoundManager::GetInstance()->StopBGM();
 			isIvent_ = true;
 		}
 
