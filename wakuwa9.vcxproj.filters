@@ -246,6 +246,9 @@
     <ClCompile Include="Application\GameSound\SoundManager.cpp">
       <Filter>ソース ファイル\Application\GameSound</Filter>
     </ClCompile>
+    <ClCompile Include="LevelEditor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Math\Matrix4.h">
@@ -376,6 +379,9 @@
     </ClInclude>
     <ClInclude Include="Application\GameSound\SoundManager.h">
       <Filter>ヘッダー ファイル\Application\GameSound</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEditor.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
