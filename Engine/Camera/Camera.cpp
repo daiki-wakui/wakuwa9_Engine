@@ -11,14 +11,14 @@ XMFLOAT3 Camera::sUp = { 0, 1, 0 };
 
 void Camera::Initialize(int32_t window_width, int32_t window_height)
 {
-	// �r���[�s��̐���
+	// ビュー行列の生成
 	sMatView = XMMatrixLookAtLH(
 		XMLoadFloat3(&sEye),
 		XMLoadFloat3(&sTarget),
 		XMLoadFloat3(&sUp));
 
 
-	// �������e�ɂ��ˉe�s��̐���
+	// 透視投影による射影行列の生成
 	sMatProjection = XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(60.0f),
 		(float)window_width / window_height,
@@ -28,7 +28,7 @@ void Camera::Initialize(int32_t window_width, int32_t window_height)
 
 void Camera::Update()
 {
-	// �r���[�s��̍X�V
+	// ビュー行列の更新
 	sMatView = XMMatrixLookAtLH(XMLoadFloat3(&sEye), XMLoadFloat3(&sTarget), XMLoadFloat3(&sUp));
 }
 

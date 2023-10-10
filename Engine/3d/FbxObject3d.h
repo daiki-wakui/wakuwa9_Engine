@@ -12,60 +12,60 @@
 
 class FbxObject3d
 {
-protected:	//ƒGƒCƒŠƒAƒX
+protected:	//ã‚¨ã‚¤ãƒªã‚¢ã‚¹
 
-	// Microsoft::WRL::‚ğÈ—ª
+	// Microsoft::WRL::ã‚’çœç•¥
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::‚ğÈ—ª
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public: // ƒTƒuƒNƒ‰ƒX
+public: // ã‚µãƒ–ã‚¯ãƒ©ã‚¹
 
-	// ’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct ConstBufferDataTransform
 	{
-		//XMMATRIX mat;	// ‚R‚c•ÏŠ·s—ñ
+		//XMMATRIX mat;	// ï¼“ï¼¤å¤‰æ›è¡Œåˆ—
 
-		XMMATRIX viewproj;	//ƒrƒ…[ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñ
-		XMMATRIX world;		//ƒ[ƒ‹ƒhs—ñ
-		XMFLOAT3 cameraPos;	//ƒJƒƒ‰À•W(ƒ[ƒ‹ƒhÀ•W)
+		XMMATRIX viewproj;	//ãƒ“ãƒ¥ãƒ¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—
+		XMMATRIX world;		//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—
+		XMFLOAT3 cameraPos;	//ã‚«ãƒ¡ãƒ©åº§æ¨™(ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™)
 	};
 
-	//ƒ{[ƒ“‚ÌÅ‘å”
+	//ãƒœãƒ¼ãƒ³ã®æœ€å¤§æ•°
 	static const int32_t MAX_BONES = 32;
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì(ƒXƒLƒjƒ“ƒO)
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“(ã‚¹ã‚­ãƒ‹ãƒ³ã‚°)
 	struct CounstBufferDataSkin
 	{
 		XMMATRIX bones[MAX_BONES];
 	};
 
-public: //ƒƒ“ƒoŠÖ”
+public: //ãƒ¡ãƒ³ãƒé–¢æ•°
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize();
 
-	//–ˆƒtƒŒ[ƒ€
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ 
 	void Update();
 
 	void Draw();
 
-	//ƒ‚ƒfƒ‹‚ÌƒZƒbƒg
+	//ãƒ¢ãƒ‡ãƒ«ã®ã‚»ãƒƒãƒˆ
 	void SetModel(FbxModel* model) { model_ = model; }
 
 	static void PreSet(ID3D12GraphicsCommandList* cmdList);
 
 	void PlayAnimation();
 
-protected: //ƒƒ“ƒo•Ï”
+protected: //ãƒ¡ãƒ³ãƒå¤‰æ•°
 
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> constBuffTransfrom_;
 
-	//’è”ƒoƒbƒtƒ@(ƒXƒLƒ“)
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡(ã‚¹ã‚­ãƒ³)
 	ComPtr<ID3D12Resource> constBuffSkin_;
 
 	XMFLOAT3 scale_ = { 1,1,1 };
@@ -78,7 +78,7 @@ protected: //ƒƒ“ƒo•Ï”
 
 	FbxModel* model_ = nullptr;
 
-	//ˆêƒtƒŒ[ƒ€‚ÌŠÔ
+	//ä¸€ãƒ•ãƒ¬ãƒ¼ãƒ ã®æ™‚é–“
 	FbxTime frameTime_;
 
 	FbxTime startTime_;
@@ -89,7 +89,7 @@ protected: //ƒƒ“ƒo•Ï”
 
 	bool isPlay_ = false;
 
-public:	//Ã“Iƒƒ“ƒoŠÖ”
+public:	//é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 
 	//setter
 	static void SetDevice(ID3D12Device* device) { FbxObject3d::sDevice = device; }
@@ -100,16 +100,16 @@ public:	//Ã“Iƒƒ“ƒoŠÖ”
 		FbxObject3d::sUp = up;
 	}
 
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³
 	static void CreateGraphicsPipeline();
 
-	//ƒ‹[ƒgƒVƒOƒlƒNƒ`ƒƒ
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒã‚¯ãƒãƒ£
 	static ComPtr<ID3D12RootSignature> sRootsignature;
 
-	//ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒgƒIƒuƒWƒFƒNƒg
+	//ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	static ComPtr<ID3D12PipelineState> sPipelinestate;
 
-	// ƒRƒ}ƒ“ƒhƒŠƒXƒg
+	// ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ
 	static ID3D12GraphicsCommandList* sCmdList;
 
 	static void InitializeCamera(int32_t window_width, int32_t window_height);
@@ -122,20 +122,20 @@ public:	//Ã“Iƒƒ“ƒoŠÖ”
 	void SetScale(const XMFLOAT3& scale) { scale_ = scale; }
 
 
-private:	//Ã“Iƒƒ“ƒo•Ï”
+private:	//é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 
 	static ID3D12Device* sDevice;
 
-	// ƒrƒ…[s—ñ
+	// ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—
 	static XMMATRIX sMatView;
-	// Ë‰es—ñ
+	// å°„å½±è¡Œåˆ—
 	static XMMATRIX sMatProjection;
 
-	// ‹“_À•W
+	// è¦–ç‚¹åº§æ¨™
 	static XMFLOAT3 sEye;
-	// ’‹“_À•W
+	// æ³¨è¦–ç‚¹åº§æ¨™
 	static XMFLOAT3 sTarget;
-	// ã•ûŒüƒxƒNƒgƒ‹
+	// ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
 	static XMFLOAT3 sUp;
 
 };

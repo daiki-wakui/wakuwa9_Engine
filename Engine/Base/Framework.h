@@ -24,27 +24,27 @@ private:
 
 	bool isEndGame_ = false;
 
-	//windowsAPI‚Ì¶¬ƒNƒ‰ƒX
+	//windowsAPIã®ç”Ÿæˆã‚¯ãƒ©ã‚¹
 	std::unique_ptr<WindowsApp> windows_ = std::make_unique<WindowsApp>();
 
-	//keyboradƒNƒ‰ƒX‚Ì¶¬
+	//keyboradã‚¯ãƒ©ã‚¹ã®ç”Ÿæˆ
 	std::unique_ptr<KeyBoard> keyboard_ = std::make_unique<KeyBoard>();
 
 	std::unique_ptr<GamePad> gamePad_ = std::make_unique<GamePad>();
 
-	//DirectX‚ÌŠî”Õ¶¬ƒNƒ‰ƒX
+	//DirectXã®åŸºç›¤ç”Ÿæˆã‚¯ãƒ©ã‚¹
 	std::unique_ptr<DirectXBasis> directX_ = std::make_unique<DirectXBasis>();
 
 	//imgui
 	std::unique_ptr<ImGuiManager> imGuiM_ = std::make_unique<ImGuiManager>();
 
-	//ƒ‰ƒCƒgƒOƒ‹[ƒv
+	//ãƒ©ã‚¤ãƒˆã‚°ãƒ«ãƒ¼ãƒ—
 	std::unique_ptr<LightGroup> lightGroup = std::make_unique<LightGroup>();
 
-	//ƒXƒvƒ‰ƒCƒgŠî”Õ
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆåŸºç›¤
 	std::unique_ptr<SpriteBasis> spBasis_ = std::make_unique<SpriteBasis>();
 
-	//ƒTƒEƒ“ƒh
+	//ã‚µã‚¦ãƒ³ãƒ‰
 	std::unique_ptr<Sound> sound_ = std::make_unique<Sound>();
 
 	
@@ -55,23 +55,23 @@ public:
 
 	virtual ~Framework() = default;
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	virtual void Initialize();
 
-	//I—¹
+	//çµ‚äº†
 	virtual void Finalize();
 
-	//–ˆƒtƒŒ[ƒ€
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ 
 	virtual void Update();
 
-	//•`‰æ
+	//æç”»
 	virtual void Draw() = 0;
 
 	virtual void IsEnd();
 
 	virtual bool GetIsEnd() { return isEndGame_; }
 
-	//Às
+	//å®Ÿè¡Œ
 	void Run();
 
 	WindowsApp* GetWindows() { return windows_.get(); }

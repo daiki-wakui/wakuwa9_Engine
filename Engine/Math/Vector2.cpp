@@ -2,24 +2,24 @@
 
 #include <cmath>
 
-//ƒ[ƒƒxƒNƒgƒ‹‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚¼ãƒ­ãƒ™ã‚¯ãƒˆãƒ«ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Vector2::Vector2()
 	:x(0), y(0)
 {
 }
 
-//ˆø”“ñ‚Â‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//å¼•æ•°äºŒã¤ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Vector2::Vector2(float x, float y)
 	:x(x), y(y)
 {
 }
 
-//ƒxƒNƒgƒ‹‚Ì’·‚³
+//ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•
 float Vector2::length() const {
 	return sqrtf((x * x) + (y * y));
 }
 
-//ƒxƒNƒgƒ‹‚Ì³‹K‰»
+//ãƒ™ã‚¯ãƒˆãƒ«ã®æ­£è¦åŒ–
 Vector2& Vector2::normalize() {
 	float len = length();
 	if (len != 0) {
@@ -28,17 +28,17 @@ Vector2& Vector2::normalize() {
 	return *this;
 }
 
-//“àÏ
+//å†…ç©
 float Vector2::dot(const Vector2& v) const {
 	return  (x * v.x) + (y * v.y);
 }
 
-//ŠOÏ
+//å¤–ç©
 float Vector2::cross(const Vector2& v) const {
 	return (x * v.y) - (y * v.x);
 }
 
-////’P€‰‰ZqƒI[ƒo[ƒ[ƒh////
+////å˜é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰////
 Vector2 Vector2::operator+()const {
 	return *this;
 }
@@ -71,7 +71,7 @@ Vector2& Vector2::operator/=(float s) {
 	return *this;
 }
 
-////2€‰‰ZqƒI[ƒo[ƒ[ƒh////
+////2é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰////
 const Vector2 operator+(const Vector2& v1, const Vector2& v2) {
 	Vector2 temp(v1);
 	return temp += v2;

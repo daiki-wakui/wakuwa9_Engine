@@ -20,8 +20,8 @@
 
 class GameScene : public BaseScene
 {
-private: // ƒGƒCƒŠƒAƒX
-	// DirectX::‚ğÈ—ª
+private: // ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
@@ -38,10 +38,10 @@ private:
 	KeyBoard* keyboard_ = nullptr;
 	GamePad* gamePad_ = nullptr;
 	
-private:	//ƒƒ“ƒo•Ï”
+private:	//ãƒ¡ãƒ³ãƒå¤‰æ•°
 
-	//OBJ‚©‚çƒ‚ƒfƒ‹‚ğ“Ç‚İ‚Ş
-	//“V‹…
+	//OBJã‹ã‚‰ãƒ¢ãƒ‡ãƒ«ã‚’èª­ã¿è¾¼ã‚€
+	//å¤©çƒ
 	std::unique_ptr<Model> skydomModel_;
 	std::unique_ptr<Object3D> skyObject_;
 
@@ -49,20 +49,20 @@ private:	//ƒƒ“ƒo•Ï”
 	std::unique_ptr<Model> playerModel_;
 	std::unique_ptr<Object3D> playerObject_;
 
-	//ƒ|ƒbƒh
+	//ãƒãƒƒãƒ‰
 	std::unique_ptr<Model> podModel_;
 	std::unique_ptr<Object3D> podObject_;
 	std::unique_ptr<Object3D> bulletObject_;
 
-	//“G
+	//æ•µ
 	std::unique_ptr<Model> enemyModel_;
 	std::unique_ptr<Model> enemyModel2_;
 
-	//ƒ{ƒX
+	//ãƒœã‚¹
 	std::unique_ptr<Model> bossModel_;
 	std::unique_ptr<Object3D> bossObject_;
 
-	//ƒtƒB[ƒ‹ƒh‚Ég‚¤ƒ‚ƒfƒ‹
+	//ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«ä½¿ã†ãƒ¢ãƒ‡ãƒ«
 	std::unique_ptr<Model> cubeModel_;
 	std::unique_ptr<Model> playerBulletCubeModel_;
 	std::unique_ptr<Model> filedCubeModel_;
@@ -78,7 +78,7 @@ private:	//ƒƒ“ƒo•Ï”
 	std::unique_ptr<Model> shadowModel_;
 	std::unique_ptr<Object3D> shadowObject_;
 
-	//ƒ{ƒXí‚É“ü‚éƒ{ƒbƒNƒX
+	//ãƒœã‚¹æˆ¦ã«å…¥ã‚‹ãƒœãƒƒã‚¯ã‚¹
 	std::unique_ptr<EventBox> eventBox_;
 
 	//FBX
@@ -88,7 +88,7 @@ private:	//ƒƒ“ƒo•Ï”
 
 	std::unique_ptr<Model> konnpeModel_;
 
-	//ƒXƒvƒ‰ƒCƒg
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	std::unique_ptr<Sprite> playerHPSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> bossHPSprite_ = std::make_unique<Sprite>();
 
@@ -124,13 +124,13 @@ private:	//ƒƒ“ƒo•Ï”
 
 	std::unique_ptr<Sprite> waringSprite_ = std::make_unique<Sprite>();
 
-	//‰æ‘œ
+	//ç”»åƒ
 
 	//HP
 	int32_t playerHP_ = 0;
 	int32_t bossHP_ = 0;
 
-	//ƒ^ƒCƒgƒ‹
+	//ã‚¿ã‚¤ãƒˆãƒ«
 	int32_t title_ = 0;
 	int32_t gameover_ = 0;
 	int32_t gameclear_ = 0;
@@ -157,7 +157,7 @@ private:	//ƒƒ“ƒo•Ï”
 	//boss
 	std::unique_ptr<Boss> boss_ = std::make_unique<Boss>();
 
-	//ƒŒƒxƒ‹ƒGƒfƒBƒ^ŠÖ˜A
+	//ãƒ¬ãƒ™ãƒ«ã‚¨ãƒ‡ã‚£ã‚¿é–¢é€£
 	LevelData* levelData_ = nullptr;
 
 	std::map<std::string, Model*> models;
@@ -177,7 +177,7 @@ private:	//ƒƒ“ƒo•Ï”
 	int32_t enemySize2_ = 0;
 	int32_t collSize_ = 0;
 
-	//ƒp[ƒeƒBƒNƒ‹
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«
 	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
 	bool BulletEffect = false;
 
@@ -228,20 +228,20 @@ public:
 	bool Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale);
 	void AllCollison();
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize()override;
 
-	//I—¹
+	//çµ‚äº†
 	void Finalize()override;
 
-	//–ˆƒtƒŒ[ƒ€
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ 
 	void Update()override;
 
 	void SpriteUpdate();
 	void SpriteDraw();
 	void ObjectUpdate();
 
-	//•`‰æ
+	//æç”»
 	void Draw()override;
 
 	void pDraw();

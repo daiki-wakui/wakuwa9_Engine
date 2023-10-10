@@ -8,22 +8,22 @@
 #include <d3dx12.h>
 #include <stdint.h>
 
-//丸影
+//荳ｸ蠖ｱ
 class CircleShadow
 {
-private:// エイリアス
+private:// 繧ｨ繧､繝ｪ繧｢繧ｹ
 
-	//Microsoft::WRL::を省略
+	//Microsoft::WRL::繧堤怐逡･
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	//DirectX::を省略
+	//DirectX::繧堤怐逡･
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public:	//サブクラス
+public:	//繧ｵ繝悶け繝ｩ繧ｹ
 
 	struct ConstBufferData
 	{
@@ -37,7 +37,7 @@ public:	//サブクラス
 		float pad4;
 	};
 
-private:	//メンバ変数
+private:	//繝｡繝ｳ繝仙､画焚
 
 	XMVECTOR dir_ = { 1,0,0,0 };
 
@@ -51,7 +51,7 @@ private:	//メンバ変数
 
 	bool active_ = false;
 
-public:	//メンバ関数
+public:	//繝｡繝ｳ繝宣未謨ｰ
 
 	inline void SetDir(const XMVECTOR& dir) { dir_ = DirectX::XMVector3Normalize(dir); };
 	inline const XMVECTOR& GetDir() { return dir_; };

@@ -10,7 +10,7 @@ class GamePad
 {
 private:
 
-    //“ü—Íó‘Ô
+    //å…¥åŠ›çŠ¶æ…‹
     XINPUT_STATE state_;
     XINPUT_STATE oldState_;
 
@@ -20,22 +20,22 @@ private:
     void SetDeadZone(short& sThumb, const short& deaadzone);
 public:
 
-    //XVˆ—
+    //æ›´æ–°å‡¦ç†
     void Update();
 
-    //ƒ{ƒ^ƒ““ü—Í(’P‰Ÿ‚µ)
+    //ãƒœã‚¿ãƒ³å…¥åŠ›(å˜æŠ¼ã—)
     bool PushInstantA();
     bool PushInstantB();
     bool PushInstantX();
     bool PushInstantY();
-    //ƒ{ƒ^ƒ““ü—Í
+    //ãƒœã‚¿ãƒ³å…¥åŠ›
     bool PushButtonA();
     bool PushButtonB();
     bool PushButtonX();
     bool PushButtonY();
     bool PushButtonLB();
     bool PushButtonRB();
-    //LƒXƒeƒBƒbƒN“ü—Í
+    //Lã‚¹ãƒ†ã‚£ãƒƒã‚¯å…¥åŠ›
     bool InputLStickLeft();
     bool InputLStickRight();
     bool InputLStickUp();
@@ -44,16 +44,16 @@ public:
 
     bool LTrigger();
     bool RTrigger();
-    //RƒXƒeƒBƒbƒN“ü—Í
+    //Rã‚¹ãƒ†ã‚£ãƒƒã‚¯å…¥åŠ›
     bool InputRStickLeft();
     bool InputRStickRight();
     bool InputRStickUp();
     bool InputRStickDown();
     bool InputRStick();
 
-    //LƒXƒeƒBƒbƒN‚ÌŠp“xæ“¾
+    //Lã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®è§’åº¦å–å¾—
     float GetLStickAngle(float angle);
-    //RƒXƒeƒBƒbƒN‚ÌŠp“xæ“¾
+    //Rã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®è§’åº¦å–å¾—
     float GetRStickAngle(float angle);
 
     float GetInputPadLX() const { return state_.Gamepad.sThumbLX; }

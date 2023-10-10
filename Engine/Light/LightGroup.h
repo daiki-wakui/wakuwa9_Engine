@@ -12,92 +12,92 @@
 #include <d3dx12.h>
 #include <cstdint>
 
-//ƒ‰ƒCƒg
+//ãƒ©ã‚¤ãƒˆ
 class LightGroup
 {
-private:// ƒGƒCƒŠƒAƒX
+private:// ã‚¨ã‚¤ãƒªã‚¢ã‚¹
 
-	//Microsoft::WRL::‚ğÈ—ª
+	//Microsoft::WRL::ã‚’çœç•¥
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	//DirectX::‚ğÈ—ª
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public: //’è”
+public: //å®šæ•°
 	static const int32_t sDIRLIGHT_NUM = 3;
 	static const int32_t sPOINTLIGHT_NUM = 3;
 	static const int32_t sSPOTLIGHT_NUM = 3;
 	static const int32_t sCIRCLESHADOW_NUM = 1;
 
-public: //ƒTƒuƒNƒ‰ƒX
+public: //ã‚µãƒ–ã‚¯ãƒ©ã‚¹
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct ConstBufferData
 	{
-		//ŠÂ‹«Œõ‚ÌF
+		//ç’°å¢ƒå…‰ã®è‰²
 		XMFLOAT3 ambientColor;
 		float pad1;
-		//•½sŒõŒ¹—p
+		//å¹³è¡Œå…‰æºç”¨
 		DirectionalLight::ConstBufferData dirLights[sDIRLIGHT_NUM];
-		//“_ŒõŒ¹—p
+		//ç‚¹å…‰æºç”¨
 		PointLight::ConstBufferData pointLights[sPOINTLIGHT_NUM];
-		//ƒXƒ|ƒbƒgƒ‰ƒCƒg—p
+		//ã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆç”¨
 		SpotLight::ConstBufferData spotLights[sSPOTLIGHT_NUM];
-		//ŠÛ‰e
+		//ä¸¸å½±
 		CircleShadow::ConstBufferData circleShadows[sCIRCLESHADOW_NUM];
 	};
 
-public: // Ã“Iƒƒ“ƒoŠÖ”
+public: // é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 
-	//Ã“I‰Šú‰»
+	//é™çš„åˆæœŸåŒ–
 	static void StaticInitialize(ID3D12Device* device);
 
 
-	//ƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+	//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
 	void Create();
 
-private: //Ã“Iƒƒ“ƒo•Ï”
+private: //é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
 
-	//ƒfƒoƒCƒX
+	//ãƒ‡ãƒã‚¤ã‚¹
 	static ID3D12Device* sDevice;
 
-public: //ƒƒ“ƒoŠÖ”
+public: //ãƒ¡ãƒ³ãƒé–¢æ•°
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize();
 
 
-	//XV
+	//æ›´æ–°
 	void Update();
 
 
-	//•`‰æ
+	//æç”»
 	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex);
 
 
-	//’è”ƒoƒbƒtƒ@“]‘—
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡è»¢é€
 	void TransferConstBuffer();
 
-	//•W€‚Ìƒ‰ƒCƒgİ’è
+	//æ¨™æº–ã®ãƒ©ã‚¤ãƒˆè¨­å®š
 	void DefaultLightSetting();
 
-	//ŠÂ‹«Œõ‚Ìƒ‰ƒCƒgF‚ğƒZƒbƒg
+	//ç’°å¢ƒå…‰ã®ãƒ©ã‚¤ãƒˆè‰²ã‚’ã‚»ãƒƒãƒˆ
 	void SetAmbientColor(const XMFLOAT3& color);
 
-	//•½sŒõŒ¹‚Ì—LŒøƒtƒ‰ƒO‚ğƒZƒbƒg
+	//å¹³è¡Œå…‰æºã®æœ‰åŠ¹ãƒ•ãƒ©ã‚°ã‚’ã‚»ãƒƒãƒˆ
 	void SetDirLightActive(int32_t index, bool active);
 
-	//•½sŒõŒ¹‚Ìƒ‰ƒCƒg•ûŒü‚ğƒZƒbƒg
+	//å¹³è¡Œå…‰æºã®ãƒ©ã‚¤ãƒˆæ–¹å‘ã‚’ã‚»ãƒƒãƒˆ
 	void SetDirLightDir(int32_t index, const XMVECTOR& lightdir);
 
-	//•½sŒõŒ¹‚Ìƒ‰ƒCƒgF‚ğƒZƒbƒg
+	//å¹³è¡Œå…‰æºã®ãƒ©ã‚¤ãƒˆè‰²ã‚’ã‚»ãƒƒãƒˆ
 	void SetDirLightColor(int32_t index, const XMFLOAT3& lightcolor);
 
-	//“_ŒõŒ¹
+	//ç‚¹å…‰æº
 	void SetPointLightActive(int32_t index, bool active);
 
 	void SetPointLightPos(int32_t index, const XMFLOAT3& lightpos);
@@ -107,7 +107,7 @@ public: //ƒƒ“ƒoŠÖ”
 	void SetPointLightAtten(int32_t index, const XMFLOAT3& lightatten);
 
 
-	//ƒXƒ|ƒbƒgƒ‰ƒCƒg
+	//ã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆ
 	void SetSpotLightActive(int32_t index, bool active);
 
 	void SetSpotLightDir(int32_t index, const XMVECTOR& lightdir);
@@ -121,7 +121,7 @@ public: //ƒƒ“ƒoŠÖ”
 	void SetSpotLightFactorAngle(int32_t index, const XMFLOAT2& lightFactorAngle);
 
 
-	//ŠÛ‰e
+	//ä¸¸å½±
 	void SetCircleShadowActive(int32_t index,bool active);
 
 	void SetCircleShadowCasterPos(int32_t index, const XMFLOAT3& casterPos);
@@ -135,27 +135,27 @@ public: //ƒƒ“ƒoŠÖ”
 	void SetCircleShadowFactorAngle(int32_t index, const XMFLOAT2& lightFactorAngle);
 
 
-private: //ƒƒ“ƒo•Ï”
+private: //ãƒ¡ãƒ³ãƒå¤‰æ•°
 
-	//’è”ƒoƒbƒtƒ@
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> constBuff;
 
-	//ŠÂ‹«Œõ‚ÌF
+	//ç’°å¢ƒå…‰ã®è‰²
 	XMFLOAT3 ambientColor = { 1,1,1 };
 
-	//•½sŒõŒ¹‚Ì”z—ñ
+	//å¹³è¡Œå…‰æºã®é…åˆ—
 	DirectionalLight dirLights[sDIRLIGHT_NUM];
 
-	//“_ŒõŒ¹‚Ì”z—ñ
+	//ç‚¹å…‰æºã®é…åˆ—
 	PointLight pointLights[sPOINTLIGHT_NUM];
 
-	//ƒXƒ|ƒbƒgƒ‰ƒCƒg‚Ì”z—ñ
+	//ã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆã®é…åˆ—
 	SpotLight spotLights[sSPOTLIGHT_NUM];
 
-	//ŠÛ‰e‚Ì”z—ñ
+	//ä¸¸å½±ã®é…åˆ—
 	CircleShadow circleShadows[sCIRCLESHADOW_NUM];
 
-	//ƒ_[ƒeƒBƒtƒ‰ƒO
+	//ãƒ€ãƒ¼ãƒ†ã‚£ãƒ•ãƒ©ã‚°
 	bool dirty = false;
 };
 

@@ -31,9 +31,9 @@ private:
 	Sound* sound_ = Framework::GetSound();
 
 	
-	//ƒ|ƒXƒgƒGƒtƒFƒNƒg
+	//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	std::unique_ptr<PostEffect> postEffect_ = std::make_unique<PostEffect>();
-	//ƒ|ƒXƒgƒGƒtƒFƒNƒg
+	//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	std::unique_ptr<PostEffect> postEffect2_ = std::make_unique<PostEffect>();
 
 
@@ -47,12 +47,12 @@ private:
 
 public:
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize() override;
 
 	void Finalize() override;
 	
-	//–ˆƒtƒŒ[ƒ€
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ 
 	void Update() override;
 
 	void Draw() override;

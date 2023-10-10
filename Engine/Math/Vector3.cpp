@@ -1,24 +1,24 @@
 #include "Vector3.h"
 #include <cmath>
 
-//ƒ[ƒƒxƒNƒgƒ‹‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚¼ãƒ­ãƒ™ã‚¯ãƒˆãƒ«ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Vector3::Vector3()
 	:x(0), y(0), z(0)
 {
 }
 
-//ˆø”“ñ‚Â‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//å¼•æ•°äºŒã¤ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Vector3::Vector3(float x, float y, float z)
 	: x(x), y(y), z(z)
 {
 }
 
-//ƒxƒNƒgƒ‹‚Ì’·‚³
+//ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•
 float Vector3::length() const {
 	return sqrtf((x * x) + (y * y) + (z * z));
 }
 
-//ƒxƒNƒgƒ‹‚Ì³‹K‰»
+//ãƒ™ã‚¯ãƒˆãƒ«ã®æ­£è¦åŒ–
 Vector3& Vector3::normalize() {
 	float len = length();
 	if (len != 0) {
@@ -27,22 +27,22 @@ Vector3& Vector3::normalize() {
 	return *this;
 }
 
-//“àÏ
+//å†…ç©
 float Vector3::dot(const Vector3& v) const {
 	return  (x * v.x) + (y * v.y) + (z + v.z);
 }
 
-//ŠOÏ
+//å¤–ç©
 Vector3 Vector3::cross(const Vector3& v) const {
 	Vector3 v1;
-	v1.x = (y * v.z) - (z * v.y);	//x¬•ª;
-	v1.y = (z * v.x) - (x * v.z);	//y¬•ª;
-	v1.z = (x * v.y) - (y * v.x);	//z¬•ª;
+	v1.x = (y * v.z) - (z * v.y);	//xæˆåˆ†;
+	v1.y = (z * v.x) - (x * v.z);	//yæˆåˆ†;
+	v1.z = (x * v.y) - (y * v.x);	//zæˆåˆ†;
 
 	return v1;
 }
 
-//üŒ`•âŠÔŠÖ”
+//ç·šå½¢è£œé–“é–¢æ•°
 const Vector3 Vector3::lerp(const Vector3& start, const Vector3& end, const float t)
 {
 	return start * (1.0f - t) + end * t;
@@ -59,7 +59,7 @@ void Vector3::multiplyMat4(DirectX::XMMATRIX& mat)
 	z = x * mat.m[0][2] + y * mat.m[1][2] + z * mat.m[2][2];*/
 }
 
-////’P€‰‰ZqƒI[ƒo[ƒ[ƒh////
+////å˜é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰////
 Vector3 Vector3::operator+()const {
 	return *this;
 }
@@ -96,7 +96,7 @@ Vector3& Vector3::operator/=(float s) {
 	return *this;
 }
 
-////2€‰‰ZqƒI[ƒo[ƒ[ƒh////
+////2é …æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰////
 const Vector3 operator+(const Vector3& v1, const Vector3& v2) {
 	Vector3 temp(v1);
 	return temp += v2;

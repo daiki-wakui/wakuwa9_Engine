@@ -5,10 +5,10 @@
 
 class Camera
 {
-private: // ƒGƒCƒŠƒAƒX
-	// Microsoft::WRL::‚ğÈ—ª
+private: // ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	// Microsoft::WRL::ã‚’çœç•¥
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::‚ğÈ—ª
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
@@ -16,20 +16,20 @@ private: // ƒGƒCƒŠƒAƒX
 
 private:
 
-	// ƒrƒ…[s—ñ
+	// ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—
 	static XMMATRIX sMatView;
-	// Ë‰es—ñ
+	// å°„å½±è¡Œåˆ—
 	static XMMATRIX sMatProjection;
-	// ‹“_À•W
+	// è¦–ç‚¹åº§æ¨™
 	static XMFLOAT3 sEye;
-	// ’‹“_À•W
+	// æ³¨è¦–ç‚¹åº§æ¨™
 	static XMFLOAT3 sTarget;
-	// ã•ûŒüƒxƒNƒgƒ‹
+	// ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
 	static XMFLOAT3 sUp;
 
 public:
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize(int32_t window_width, int32_t window_height);
 
 	static void Update();

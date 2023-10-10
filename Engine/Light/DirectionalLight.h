@@ -3,20 +3,20 @@
 #include <DirectXMath.h>
 #include <stdint.h>
 
-//•½sŒõŒ¹
+//å¹³è¡Œå…‰æº
 class DirectionalLight
 {
-private: //ƒGƒCƒŠƒAƒX
-	// DirectX::‚ğÈ—ª
+private: //ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public: //ƒTƒuƒNƒ‰ƒX
+public: //ã‚µãƒ–ã‚¯ãƒ©ã‚¹
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct ConstBufferData
 	{
 		XMVECTOR lightv;
@@ -24,36 +24,36 @@ public: //ƒTƒuƒNƒ‰ƒX
 		uint32_t active;
 	};
 
-public: //ƒƒ“ƒoŠÖ”
+public: //ãƒ¡ãƒ³ãƒé–¢æ•°
 
-	//ƒ‰ƒCƒg•ûŒü‚ğƒZƒbƒg
+	//ãƒ©ã‚¤ãƒˆæ–¹å‘ã‚’ã‚»ãƒƒãƒˆ
 	inline void SetLightDir(const XMVECTOR& lightdir) { lightdir_ = DirectX::XMVector3Normalize(lightdir); }
 
 
-	//ƒ‰ƒCƒg•ûŒü‚ğæ“¾
+	//ãƒ©ã‚¤ãƒˆæ–¹å‘ã‚’å–å¾—
 	inline const XMVECTOR& GetLightDir() { return lightdir_; }
 
 
-	//ƒ‰ƒCƒgF‚ğƒZƒbƒg
+	//ãƒ©ã‚¤ãƒˆè‰²ã‚’ã‚»ãƒƒãƒˆ
 	inline void SetLightColor(const XMFLOAT3& lightcolor) { lightcolor_ = lightcolor; }
 
-	//ƒ‰ƒCƒgF‚ğæ“¾
+	//ãƒ©ã‚¤ãƒˆè‰²ã‚’å–å¾—
 	inline const XMFLOAT3& GetLightColor() { return lightcolor_; }
 
-	//—LŒøƒtƒ‰ƒO‚ğƒZƒbƒg
+	//æœ‰åŠ¹ãƒ•ãƒ©ã‚°ã‚’ã‚»ãƒƒãƒˆ
 	inline void SetActive(bool active) { active_ = active; }
 
 
-	//—LŒøƒ`ƒFƒbƒN
+	//æœ‰åŠ¹ãƒã‚§ãƒƒã‚¯
 	inline bool IsActive() { return active_; }
 
-private: //ƒƒ“ƒo•Ï”
+private: //ãƒ¡ãƒ³ãƒå¤‰æ•°
 
-	//ƒ‰ƒCƒg•ûŒüi’PˆÊƒxƒNƒgƒ‹j
+	//ãƒ©ã‚¤ãƒˆæ–¹å‘ï¼ˆå˜ä½ãƒ™ã‚¯ãƒˆãƒ«ï¼‰
 	XMVECTOR lightdir_ = { 1,0,0,0 };
-	//ƒ‰ƒCƒgF
+	//ãƒ©ã‚¤ãƒˆè‰²
 	XMFLOAT3 lightcolor_ = { 1,1,1 };
-	//—LŒøƒtƒ‰ƒO
+	//æœ‰åŠ¹ãƒ•ãƒ©ã‚°
 	bool active_ = false;
 };
 

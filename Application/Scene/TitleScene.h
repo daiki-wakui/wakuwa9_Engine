@@ -9,8 +9,8 @@
 
 class TitleScene : public BaseScene
 {
-private: // ƒGƒCƒŠƒAƒX
-	// DirectX::‚ğÈ—ª
+private: // ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
@@ -27,18 +27,18 @@ private:
 	KeyBoard* keyboard_ = nullptr;
 	GamePad* gamePad_ = nullptr;
 
-private:	//ƒƒ“ƒo•Ï”
-	//“V‹…
+private:	//ãƒ¡ãƒ³ãƒå¤‰æ•°
+	//å¤©çƒ
 	std::unique_ptr<Model> skydomModel_;
 	std::unique_ptr<Object3D> skyObject_;
 
-	//ƒXƒvƒ‰ƒCƒg
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆ
 	std::unique_ptr<Sprite> titleSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> titleUISprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> fillSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> sceneSprite_ = std::make_unique<Sprite>();
 
-	//‰æ‘œ
+	//ç”»åƒ
 	int32_t titleImage_ = 0;
 	int32_t titleUIImage_ = 0;
 	int32_t sceneChangeImage_ = 0;
@@ -47,7 +47,7 @@ private:	//ƒƒ“ƒo•Ï”
 	int32_t testImage_ = 0;
 
 
-	//ƒV[ƒ“‘JˆÚ‚Ég‚¤’l
+	//ã‚·ãƒ¼ãƒ³é·ç§»ã«ä½¿ã†å€¤
 	XMFLOAT2 changeSize_ = {0,0};
 	float addSize_ = 1;
 	bool changeStart_ = false;
@@ -59,18 +59,18 @@ private:	//ƒƒ“ƒo•Ï”
 	float ChangeAlpha_ = 0;
 	bool isStartSE_ = false;
 
-public:	//ƒƒ“ƒoŠÖ”
+public:	//ãƒ¡ãƒ³ãƒé–¢æ•°
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize() override;
 
-	//I—¹
+	//çµ‚äº†
 	void Finalize()override;
 
-	//–ˆƒtƒŒ[ƒ€
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ 
 	void Update()override;
 
-	//•`‰æ
+	//æç”»
 	void Draw()override;
 
 	void OffDraw();

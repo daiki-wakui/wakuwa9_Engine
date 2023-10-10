@@ -27,44 +27,44 @@ protected:
 	SpriteBasis* spBasis_;
 
 	ComPtr<ID3D12Resource> vertBuff_ = nullptr;
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìì¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ
 	D3D12_VERTEX_BUFFER_VIEW vbView_{};
 	UINT vertexSize_;
 
 	D3D12_GPU_DESCRIPTOR_HANDLE srvGpuHandle_;
 
 	ComPtr<ID3D12Resource> indexBuff_ = nullptr;
-	//ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[
+	//ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_INDEX_BUFFER_VIEW ibView_{};
 	UINT indexSize_;
 
-	//ƒq[ƒvİ’è
+	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 	D3D12_HEAP_PROPERTIES heapProp_{};
-	//ƒŠƒ\[ƒXİ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	D3D12_RESOURCE_DESC resDesc_{};
 
-	//’è”ƒoƒbƒtƒ@‚Ì¶¬
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	//color
 	ComPtr<ID3D12Resource> constBuffMaterial_ = nullptr;
 	//mat
 	ComPtr<ID3D12Resource> constBuffTransform_ = nullptr;
 
-	//’¸“_ƒf[ƒ^\‘¢‘Ì
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct Vertex {
 		DirectX::XMFLOAT3 pos;
 		DirectX::XMFLOAT2 uv;
 	};
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì(ƒ}ƒeƒŠƒAƒ‹)
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“(ãƒãƒ†ãƒªã‚¢ãƒ«)
 	struct ConstBufferDataMaterial {
-		DirectX::XMFLOAT4 color;	//F(RGBA)
+		DirectX::XMFLOAT4 color;	//è‰²(RGBA)
 		float power;
 		float shiftPower;
 	};
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì(3D•ÏŠ·s—ñ)
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“(3Då¤‰æ›è¡Œåˆ—)
 	struct CounstBufferDataTransform {
-		DirectX::XMMATRIX mat;	//3D•ÏŠ·s—ñ
+		DirectX::XMMATRIX mat;	//3Då¤‰æ›è¡Œåˆ—
 	};
 
 	CounstBufferDataTransform* constMapTransform_ = nullptr;
@@ -87,14 +87,14 @@ protected:
 	DirectX::XMFLOAT2 textureLeftTop_ = { 0,0 };
 	DirectX::XMFLOAT2 textureSize_ = { 128.0f,128.0f };
 
-	//¶‰E”½“]
+	//å·¦å³åè»¢
 	bool isFilpX_ = false;
-	//ã‰º”½“]
+	//ä¸Šä¸‹åè»¢
 	bool isFilpY_ = false;
 
 	int32_t index_;
 
-public:	//ƒƒ“ƒoŠÖ”
+public:	//ãƒ¡ãƒ³ãƒé–¢æ•°
 
 	void Create(float x = 0, float y = 0);
 

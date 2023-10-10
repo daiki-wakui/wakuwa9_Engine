@@ -13,12 +13,12 @@ public:
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
 private:
-	//ˆË‘¶ƒNƒ‰ƒX
+	//ä¾å­˜ã‚¯ãƒ©ã‚¹
 	WindowsApp* winApp_ = nullptr;
 	DirectXBasis* directXBase_ = nullptr;
 
 	
-	//SRV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//SRVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap> srvHeap_;
 
 public:

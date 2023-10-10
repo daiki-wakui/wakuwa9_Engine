@@ -13,7 +13,7 @@ void GamePad::SetDeadZone(short& sThumb, const short& deaadzone)
 
 void GamePad::Update()
 {
-    //‘O‰ñ‚Ì“ü—Íî•ñ
+    //å‰å›ã®å…¥åŠ›æƒ…å ±
     oldState_ = state_;
 
     XInputGetState(0, &state_);

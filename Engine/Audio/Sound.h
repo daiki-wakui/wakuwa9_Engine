@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <xaudio2.h>
 #include <cstdint>
@@ -16,35 +16,35 @@ private:
 
 public:
 
-	//ƒ`ƒƒƒ“ƒNƒwƒbƒ_
+	//ãƒãƒ£ãƒ³ã‚¯ãƒ˜ãƒƒãƒ€
 	struct ChunkHeader
 	{
-		char id_[4];	//ƒ`ƒƒƒ“ƒN‚²‚Æ‚Ìid
-		int32_t size_;	//ƒ`ƒƒƒ“ƒNƒTƒCƒY
+		char id_[4];	//ãƒãƒ£ãƒ³ã‚¯ã”ã¨ã®id
+		int32_t size_;	//ãƒãƒ£ãƒ³ã‚¯ã‚µã‚¤ã‚º
 	};
 
-	//RIFFƒwƒbƒ_ƒ`ƒƒƒ“ƒN
+	//RIFFãƒ˜ãƒƒãƒ€ãƒãƒ£ãƒ³ã‚¯
 	struct RiffHeader
 	{
 		ChunkHeader chunk_;	//RIFF
 		char type_[4];	//WAVE
 	};
 
-	//FMTƒ`ƒƒƒ“ƒN
+	//FMTãƒãƒ£ãƒ³ã‚¯
 	struct FormatChunk
 	{
 		ChunkHeader chunk_;	//fmt
-		WAVEFORMATEX fmt_;	//”gŒ`ƒtƒH[ƒ}ƒbƒg
+		WAVEFORMATEX fmt_;	//æ³¢å½¢ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 	};
 
-	//‰¹ºƒf[ƒ^
+	//éŸ³å£°ãƒ‡ãƒ¼ã‚¿
 	struct SoundData
 	{
-		//”gŒ`ƒtƒH[ƒ}ƒbƒg
+		//æ³¢å½¢ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
 		WAVEFORMATEX wfex_;
-		//ƒoƒbƒtƒ@‚Ìæ“ªƒAƒhƒŒƒX
+		//ãƒãƒƒãƒ•ã‚¡ã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 		BYTE* pBuffer_;
-		//ƒoƒbƒtƒ@‚ÌƒTƒCƒY
+		//ãƒãƒƒãƒ•ã‚¡ã®ã‚µã‚¤ã‚º
 		uint32_t bufferSize_;
 
 		IXAudio2SourceVoice* pSoundVoice_;
@@ -67,7 +67,7 @@ public:
 private:
 
 	ComPtr<IXAudio2> xAudio2_;
-	//ƒTƒEƒ“ƒhƒf[ƒ^‚Ì˜A‘z”z—ñ
+	//ã‚µã‚¦ãƒ³ãƒ‰ãƒ‡ãƒ¼ã‚¿ã®é€£æƒ³é…åˆ—
 	std::map<std::string, SoundData> soundDatas_;
 
 	std::string directoryPath_;
