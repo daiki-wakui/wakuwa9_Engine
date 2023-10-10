@@ -2,7 +2,7 @@
 #pragma comment(lib, "d3dcompiler.lib")
 using namespace DirectX;
 
-//‰Šú‰»
+//åˆæœŸåŒ–
 void GameCore::Initialize()
 {
 	Framework::Initialize();
@@ -25,7 +25,7 @@ void GameCore::Initialize()
 	sound_->LoadWave("ElectricWild.wav");
 }
 
-//ŒãŽn––
+//å¾Œå§‹æœ«
 void GameCore::Finalize()
 {
 	titlescene_->Finalize();
@@ -33,31 +33,31 @@ void GameCore::Finalize()
 	Framework::Finalize();
 }
 
-//XVˆ—
+//æ›´æ–°å‡¦ç†
 void GameCore::Update()
 {
 	Framework::Update();
 
-	//ƒmƒCƒY‚ÌƒGƒtƒFƒNƒg
+	//ãƒŽã‚¤ã‚ºã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	postEffect_->Update(gamescene_->GetPlayer());
 
-	//ƒ^ƒCƒgƒ‹ƒV[ƒ“‚©‚çƒV[ƒ“‘JˆÚŠJŽn
+	//ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã‹ã‚‰ã‚·ãƒ¼ãƒ³é·ç§»é–‹å§‹
 	if (keyboard_->keyInstantPush(DIK_SPACE) || gamePad_->PushInstantB()) {
 		titlescene_->SetStart(true);
 		gamescene_->SetChange(false);
 	}
 
-	//ƒ^ƒCƒgƒ‹ƒV[ƒ“‚©‚çƒQ[ƒ€ƒV[ƒ“‚Ö
+	//ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã‹ã‚‰ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã¸
 	if (titlescene_->GetChange()) {
 		if (state == 0) {
 			postEffect_->SetIsEffect(false);
 		}
-		state = 1;	//ƒQ[ƒ€ƒV[ƒ“
+		state = 1;	//ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³
 		gamescene_->SetStart(true);
 		
 	}
 
-	//ƒ^ƒCƒgƒ‹ƒV[ƒ“‚É–ß‚é
+	//ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã«æˆ»ã‚‹
 	if (keyboard_->keyInstantPush(DIK_T)) {
 		titlescene_->SetStart(false);
 		gamescene_->SetStart(false);
@@ -66,12 +66,12 @@ void GameCore::Update()
 		gamescene_->Reset();
 	}
 
-	//ƒ^ƒCƒgƒ‹ƒV[ƒ“‚ÌXVˆ—
+	//ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³ã®æ›´æ–°å‡¦ç†
 	if (state == 0) {
 		titlescene_->Update();
 		postEffect_->SetIsEffect(true);
 	}
-	//ƒQ[ƒ€ƒV[ƒ“‚ÌXVˆ—
+	//ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã®æ›´æ–°å‡¦ç†
 	else {
 		gamescene_->Update();
 	}
@@ -85,11 +85,11 @@ void GameCore::Update()
 		isDebug = isDebug % 2;
 	}
 	
-	//ƒfƒoƒbƒNImGui
+	//ãƒ‡ãƒãƒƒã‚¯ImGui
 	imGuiM_->Begin();
 	ImGui::Text("Editor");
 
-	//ƒIƒuƒWƒFƒNƒg“Ç‚Ýž‚Ý’¼‚·
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆèª­ã¿è¾¼ã¿ç›´ã™
 	if (ImGui::Button("ReLoad")) {
 		gamescene_->EditorLoad();
 	}
@@ -97,43 +97,43 @@ void GameCore::Update()
 	imGuiM_->End();
 }
 
-//•`‰æˆ—
+//æç”»å‡¦ç†
 void GameCore::Draw()
 {
-	//•`‰æ‘O€”õ
+	//æç”»å‰æº–å‚™
 	postEffect_->PreDrawScene(directX_->GetCommandList());
 	Object3D::PreDraw(directX_->GetCommandList());
 	FbxObject3d::PreSet(directX_->GetCommandList());
 	
-	//ƒ^ƒCƒgƒ‹ƒV[ƒ“•`‰æ
+	//ã‚¿ã‚¤ãƒˆãƒ«ã‚·ãƒ¼ãƒ³æç”»
 	if (state == 0) {
 		titlescene_->Draw();
 	}
-	//ƒQ[ƒ€ƒV[ƒ“•`‰æ
+	//ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³æç”»
 	else {
 		gamescene_->Draw();
 	}
 
 	Object3D::PostDraw();
 
-	//ƒp[ƒeƒBƒNƒ‹•`‰æ‘O€”õ
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«æç”»å‰æº–å‚™
 	ParticleManager::PreDraw(directX_->GetCommandList());
-	//ƒp[ƒeƒBƒNƒ‹•`‰æ
+	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«æç”»
 	gamescene_->pDraw();
 
 	ParticleManager::PostDraw();
 	
-	//‚±‚±‚Ü‚Å‚Ì•`‰æ‚Éƒ|ƒXƒgƒGƒtƒFƒNƒg‚ð‚©‚¯‚é
+	//ã“ã“ã¾ã§ã®æç”»ã«ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ã‹ã‘ã‚‹
 	postEffect_->PostDrawScene(directX_->GetCommandList());
 
 
 	
 	
 	
-	//•`‰æ‘Oˆ—
+	//æç”»å‰å‡¦ç†
 	directX_->PreDraw();
 
-	//ƒ|ƒXƒgƒGƒtƒFƒNƒg‚ð‚©‚¯‚½•`‰æ
+	//ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ã‹ã‘ãŸæç”»
 	postEffect_->Draw();
 
 	titlescene_->OffDraw();
@@ -144,6 +144,6 @@ void GameCore::Draw()
 	}
 	
 
-	//•`‰æŒãˆ—
+	//æç”»å¾Œå‡¦ç†
 	directX_->PostDraw();
 }

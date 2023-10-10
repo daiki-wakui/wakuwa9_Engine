@@ -28,10 +28,10 @@ void GameScene::Initialize()
 	gameover_ = spBasis_->TextureData(L"Resources/gameover.png");
 	gameclear_ = spBasis_->TextureData(L"Resources/gameclear.png");
 
-	//ƒV[ƒ“‘JˆÚ
+	//ã‚·ãƒ¼ãƒ³é·ç§»æ™‚
 	scene_ = spBasis_->TextureData(L"Resources/sceneChange.png");
 
-	//ƒtƒBƒ‹ƒ^[
+	//ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼
 	fillter_ = spBasis_->TextureData(L"Resources/fillter.png");
 
 	reticleImage_ = spBasis_->TextureData(L"Resources/reticle.png");
@@ -108,7 +108,7 @@ void GameScene::Initialize()
 	waringSprite_->SetSize({ 1280,720 });
 	waringSprite_->Update();
 
-	//OBJ‚©‚çƒ‚ƒfƒ‹‚ğ“Ç‚İ‚Ş
+	//OBJã‹ã‚‰ãƒ¢ãƒ‡ãƒ«ã‚’èª­ã¿è¾¼ã‚€
 	playerModel_ = std::make_unique<Model>();
 	playerModel_->LoadFromObj("player");
 
@@ -165,7 +165,7 @@ void GameScene::Initialize()
 
 	eventBox_ = std::make_unique<EventBox>();
 
-	//3DƒIƒuƒWƒFƒNƒg¶¬
+	//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆ
 	playerObject_ = std::make_unique<Object3D>();
 	playerObject_->SetModel(playerModel_.get());
 	playerObject_->Initialize();
@@ -192,7 +192,7 @@ void GameScene::Initialize()
 	bossObject_->SetScale({ 15,15,15 });
 	bossObject_->SetPosition({ 0,20,370 });
 
-	//FBXƒtƒ@ƒCƒ‹“Ç‚İ‚İ
+	//FBXãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿
 	testModel_ = std::make_unique<FbxModel>();
 	FbxLoader::GetInstance()->LoadModelFromFile(testModel_.get(), "boneTest");
 
@@ -236,7 +236,7 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
-	//ƒŠƒZƒbƒg
+	//ãƒªã‚»ãƒƒãƒˆ
 	if (keyboard_->keyInstantPush(DIK_B)) {
 		Reset();
 	}
@@ -247,18 +247,18 @@ void GameScene::Update()
 
 	ObjectUpdate();
 
-	//ƒXƒvƒ‰ƒCƒgXVˆ—
+	//ã‚¹ãƒ—ãƒ©ã‚¤ãƒˆæ›´æ–°å‡¦ç†
 	SpriteUpdate();
 
 	shadowObject_->SetPosition(player_->GetWorldPos());
 	shadowObject_->Update();
 
-	//’e‚ÌXVˆ—
+	//å¼¾ã®æ›´æ–°å‡¦ç†
 	for (std::unique_ptr<Effect>& effect : effects_) {
 		effect->Update();
 	}
 
-	//ƒfƒXƒtƒ‰ƒO‚ª—§‚Á‚½’e‚ğíœ
+	//ãƒ‡ã‚¹ãƒ•ãƒ©ã‚°ãŒç«‹ã£ãŸå¼¾ã‚’å‰Šé™¤
 	effects_.remove_if([](std::unique_ptr<Effect>& bullet) {
 		return bullet->IsDead();
 	});
@@ -273,7 +273,7 @@ void GameScene::Update()
 		power = 1;
 	}
 
-	//ƒQ[ƒ€‰æ–Ê
+	//ã‚²ãƒ¼ãƒ ç”»é¢
 	eventBox_->Update();
 
 	for (auto& object : objects) {
@@ -307,7 +307,7 @@ void GameScene::Update()
 	poriObject_->SetRotation(podRot);
 	poriObject_->Update();
 
-	//ƒŒƒeƒBƒNƒ‹Update
+	//ãƒ¬ãƒ†ã‚£ã‚¯ãƒ«Update
 	//if (!enemys_.empty()) {
 	//	screenPos_ = enemys_.front()->GetObj()->Screen();
 
@@ -349,7 +349,7 @@ void GameScene::Update()
 			}
 		}
 
-		//ƒCƒxƒ“ƒgƒV[ƒ“I‚í‚è
+		//ã‚¤ãƒ™ãƒ³ãƒˆã‚·ãƒ¼ãƒ³çµ‚ã‚ã‚Š
 		if (timer_ > maxTime_) {
 			isIvent_ = false;
 			XMFLOAT3 eye = { 0,20,-30 };
@@ -367,22 +367,22 @@ void GameScene::Update()
 		alpha_ = max(alpha_, 0);
 	}
 
-	//enemy‚Ì€–Sƒtƒ‰ƒO
+	//enemyã®æ­»äº¡ãƒ•ãƒ©ã‚°
 	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
 		return enemy->IsDead();
 	});
 
-	//enemy‚Ì€–Sƒtƒ‰ƒO
+	//enemyã®æ­»äº¡ãƒ•ãƒ©ã‚°
 	enemycharges_.remove_if([](std::unique_ptr<EnemyCharge>& enemy) {
 		return enemy->IsDead();
 	});
 
-	//“G‚Ì“®‚«
+	//æ•µã®å‹•ã
 	for (std::unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Update(start_);
 	}
 
-	//“G‚Ì“®‚«
+	//æ•µã®å‹•ã
 	for (std::unique_ptr<EnemyCharge>& enemy : enemycharges_) {
 		enemy->Update();
 	}
@@ -406,7 +406,7 @@ void GameScene::SpriteUpdate()
 	iventSprite_->SetColor({ 1,1,1,alpha_ });
 
 	screenPosPlayer_ = playerObject_->Screen();
-	//ƒ`ƒ…[ƒgƒŠƒAƒ‹UI
+	//ãƒãƒ¥ãƒ¼ãƒˆãƒªã‚¢ãƒ«UI
 	RBSprite_->SetPosition({ screenPosPlayer_.x - 175,screenPosPlayer_.y - 90 });
 
 	if (!manualOK_) {
@@ -420,14 +420,14 @@ void GameScene::SpriteUpdate()
 		RBSprite_->SetColor({ 1,1,1,alphaRB_ });
 	}
 
-	//ƒ‰ƒCƒtŠë‚È‚¢‚Éo‚éƒtƒBƒ‹ƒ^[
+	//ãƒ©ã‚¤ãƒ•å±ãªã„æ™‚ã«å‡ºã‚‹ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼
 	if (player_->GetHP() <= 1) {
 		isLifeOne_ = true;
 	}
 	else {
 		isLifeOne_ = false;
 	}
-	//ƒ‰ƒCƒtŠë‚È‚¢‚Éo‚éƒtƒBƒ‹ƒ^[
+	//ãƒ©ã‚¤ãƒ•å±ãªã„æ™‚ã«å‡ºã‚‹ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼
 	if (isLifeOne_) {
 		fillTimer_++;
 
@@ -446,7 +446,7 @@ void GameScene::SpriteUpdate()
 		fillTimer_ = 0;
 	}
 
-	//ƒV[ƒ“Ø‚è‘Ö‚¦
+	//ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆ
 	if (start_) {
 
 		ChangeAlpha_ -= 0.05f;
@@ -468,13 +468,13 @@ void GameScene::SpriteUpdate()
 			pow_ = 0;
 		}
 
-		//ƒ[ƒjƒ“ƒO“_–Å
+		//ãƒ¯ãƒ¼ãƒ‹ãƒ³ã‚°ç‚¹æ»…
 		if (pow_ > 2) {
 			pow_ = 0;
 			count_++;
 		}
 
-		//“_–ÅŒã‚Ì“®‚«
+		//ç‚¹æ»…å¾Œã®å‹•ã
 		if (count_ == 3) {
 			popFrame_++;
 
@@ -489,7 +489,7 @@ void GameScene::SpriteUpdate()
 		}
 	}
 
-	//ƒ{ƒXHPABGM–Â‚ç‚µ
+	//ãƒœã‚¹HPã€BGMé³´ã‚‰ã—
 	if (hitBox_ == true) {
 
 		if (!bossBGM_) {
@@ -505,7 +505,7 @@ void GameScene::SpriteUpdate()
 		bossHPSprite_->Update();
 	}
 
-	//¶‰EƒŒƒeƒBƒNƒ‹
+	//å·¦å³ãƒ¬ãƒ†ã‚£ã‚¯ãƒ«
 	if (gamePad_->PushButtonRB()) {
 		manualOK_ = true;
 
@@ -569,7 +569,7 @@ void GameScene::ObjectUpdate()
 {
 	particleMan_->Update();
 
-	//“|‚µ‚½‚ÌƒIƒuƒWƒFƒNƒgƒGƒtƒFƒNƒg
+	//å€’ã—ãŸæ™‚ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	if (keyboard_->keyInstantPush(DIK_K)) {
 		if (!isEffect_) {
 			isEffect_ = true;
@@ -578,7 +578,7 @@ void GameScene::ObjectUpdate()
 
 	if (isEffect_) {
 		int size = 0;
-		//’e‚Ì¶¬‚Æ‰Šú‰»
+		//å¼¾ã®ç”Ÿæˆã¨åˆæœŸåŒ–
 
 		Vector3 v = { 0,1.5f,0 };
 
@@ -627,7 +627,7 @@ void GameScene::Draw()
 		}
 	}
 
-	//“G‚Ì“®‚«
+	//æ•µã®å‹•ã
 	for (std::unique_ptr<EnemyCharge>& enemy : enemycharges_) {
 		enemy->Draw();
 	}
@@ -639,7 +639,7 @@ void GameScene::Draw()
 	//obj
 	skyObject_->Draw();
 	
-	//’e‚ÌXVˆ—
+	//å¼¾ã®æ›´æ–°å‡¦ç†
 	for (std::unique_ptr<Effect>& effect : effects_) {
 		effect->Draw();
 	}
@@ -672,7 +672,7 @@ void GameScene::EditorLoad()
 
 void GameScene::ReLoad()
 {
-	// ƒŒƒxƒ‹ƒf[ƒ^‚Ì“Ç‚İ‚İ
+	// ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿ã®èª­ã¿è¾¼ã¿
 	levelData_ = LevelLoader::LoadFile("obj");
 
 	//models.insert(std::make_pair(std::string("player"), playerModel_.get()));
@@ -687,20 +687,20 @@ void GameScene::ReLoad()
 	models.insert(std::make_pair(std::string("Fliedtou"), filedTouModel_.get()));
 
 
-	// ƒŒƒxƒ‹ƒf[ƒ^‚©‚çƒIƒuƒWƒFƒNƒg‚ğ¶¬A”z’u
+	// ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã€é…ç½®
 	for (int32_t i = 0; i < levelData_->objects.size(); i++) {
-		// ƒtƒ@ƒCƒ‹–¼‚©‚ç“o˜^Ï‚İƒ‚ƒfƒ‹‚ğŒŸõ
+		// ãƒ•ã‚¡ã‚¤ãƒ«åã‹ã‚‰ç™»éŒ²æ¸ˆã¿ãƒ¢ãƒ‡ãƒ«ã‚’æ¤œç´¢
 		Model* model = nullptr;
 		decltype(models)::iterator it = models.find(levelData_->objects[i].fileName);
 		if (it != models.end()) {
 			model = it->second;
 		}
 
-		//‘Î‰‚·‚éƒ‚ƒfƒ‹‚ª‚È‚¯‚ê‚Î”ò‚Î‚·
+		//å¯¾å¿œã™ã‚‹ãƒ¢ãƒ‡ãƒ«ãŒãªã‘ã‚Œã°é£›ã°ã™
 		if (model == nullptr) {
 			continue;
 		}
-		//blenderã‚ÌƒJƒƒ‰ƒZƒbƒg
+		//blenderä¸Šã®ã‚«ãƒ¡ãƒ©ã‚»ãƒƒãƒˆ
 		if (levelData_->objects[i].fileName == "camera") {
 
 			DirectX::XMFLOAT3 eye;
@@ -710,19 +710,19 @@ void GameScene::ReLoad()
 			continue;
 		}
 
-		//eventƒ{ƒbƒNƒX‚Ì”z’u
+		//eventãƒœãƒƒã‚¯ã‚¹ã®é…ç½®
 		if (levelData_->objects[i].fileName == "IventBlock") {
-			//ƒIƒuƒWƒFƒNƒg¶¬‚ÆÀ•Wî•ñ‘ã“ü
+			//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã¨åº§æ¨™æƒ…å ±ä»£å…¥
 			Inport(model, i);
 
 			eventBox_->Initialize(model, newObject[objSize_].get());
 			objSize_++;
 		}
 		else if (levelData_->objects[i].fileName == "wallBlock") {
-			//ƒIƒuƒWƒFƒNƒg¶¬‚ÆÀ•Wî•ñ‘ã“ü
+			//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã¨åº§æ¨™æƒ…å ±ä»£å…¥
 			Inport(model, i);
 
-			//ƒIƒuƒWƒFƒNƒg¶¬‚ÆÀ•Wî•ñ‘ã“ü
+			//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã¨åº§æ¨™æƒ…å ±ä»£å…¥
 			collBox[collSize_] = std::make_unique<CollisionBox>();
 
 			collBox[collSize_]->Initialize(model, newObject[objSize_].get());
@@ -735,10 +735,10 @@ void GameScene::ReLoad()
 		}
 		else if (levelData_->objects[i].fileName == "enemySpawn") {
 
-			//ƒIƒuƒWƒFƒNƒg¶¬‚ÆÀ•Wî•ñ‘ã“ü
+			//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã¨åº§æ¨™æƒ…å ±ä»£å…¥
 			Inport(model, i);
 
-			//ƒIƒuƒWƒFƒNƒg¶¬‚ÆÀ•Wî•ñ‘ã“ü
+			//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã¨åº§æ¨™æƒ…å ±ä»£å…¥
 			newEnemy[enemySize_] = std::make_unique<Enemy>();
 
 			newEnemy[enemySize_]->SetShadow(shadowModel_.get());
@@ -747,7 +747,7 @@ void GameScene::ReLoad()
 			
 
 
-			//“G‚ğ“o˜^‚·‚é
+			//æ•µã‚’ç™»éŒ²ã™ã‚‹
 			enemys_.push_back(std::move(newEnemy[enemySize_]));
 
 			objSize_++;
@@ -755,22 +755,22 @@ void GameScene::ReLoad()
 		}
 		else if (levelData_->objects[i].fileName == "enemySpawn2") {
 
-			//ƒIƒuƒWƒFƒNƒg¶¬‚ÆÀ•Wî•ñ‘ã“ü
+			//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã¨åº§æ¨™æƒ…å ±ä»£å…¥
 			Inport(model, i);
 
-			//ƒIƒuƒWƒFƒNƒg¶¬‚ÆÀ•Wî•ñ‘ã“ü
+			//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã¨åº§æ¨™æƒ…å ±ä»£å…¥
 			newEnemy2[enemySize2_] = std::make_unique<EnemyCharge>();
 
 			newEnemy2[enemySize2_]->Initialize(newObject[objSize_].get(), newObject[objSize_]->GetPosition(), player_.get());
 	
-			//“G‚ğ“o˜^‚·‚é
+			//æ•µã‚’ç™»éŒ²ã™ã‚‹
 			enemycharges_.push_back(std::move(newEnemy2[enemySize2_]));
 
 			objSize_++;
 			enemySize2_++;
 		}
 		else if (levelData_->objects[i].fileName == "boss") {
-			//ƒIƒuƒWƒFƒNƒg¶¬‚ÆÀ•Wî•ñ‘ã“ü
+			//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã¨åº§æ¨™æƒ…å ±ä»£å…¥
 			Inport(model, i);
 
 
@@ -781,10 +781,10 @@ void GameScene::ReLoad()
 			objSize_++;
 		}
 		else {
-			//ƒIƒuƒWƒFƒNƒg¶¬‚ÆÀ•Wî•ñ‘ã“ü
+			//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã¨åº§æ¨™æƒ…å ±ä»£å…¥
 			Inport(model, i);
 
-			// ”z—ñ‚É“o˜^
+			// é…åˆ—ã«ç™»éŒ²
 			objects.push_back(newObject[objSize_].get());
 			objSize_++;
 		}
@@ -798,18 +798,18 @@ void GameScene::Inport(Model* model, int32_t size)
 	newObject[objSize_]->SetModel(model);
 	newObject[objSize_]->Initialize();
 
-	// À•W
+	// åº§æ¨™
 	DirectX::XMFLOAT3 rocalPos;
 	DirectX::XMStoreFloat3(&rocalPos, levelData_->objects[size].translation);
 	newObject[objSize_]->SetPosition(rocalPos);
 
-	// ‰ñ“]Šp
+	// å›è»¢è§’
 	DirectX::XMFLOAT3 rot;
 	DirectX::XMStoreFloat3(&rot, levelData_->objects[size].rotation);
 	newObject[objSize_]->SetRotation({ rot.x,rot.y,rot.z });
 
 
-	// À•W
+	// åº§æ¨™
 	DirectX::XMFLOAT3 scale;
 	DirectX::XMStoreFloat3(&scale, levelData_->objects[size].scaling);
 	newObject[objSize_]->SetScale(scale);
@@ -851,10 +851,10 @@ bool GameScene::Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScal
 
 void GameScene::AllCollison()
 {
-	//“–‚½‚è”»’è
+	//å½“ãŸã‚Šåˆ¤å®š
 	XMFLOAT3 posA, posB;
 
-	//©’eƒŠƒXƒg‚Ìæ“¾
+	//è‡ªå¼¾ãƒªã‚¹ãƒˆã®å–å¾—
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player_->GetBullets();
 
 	posA = player_->GetWorldPos();
@@ -862,24 +862,24 @@ void GameScene::AllCollison()
 	posB = eventBox_->GetWorldPos();
 
 
-	//A‚ÆB‚Ì‹——£
-	float r1 = 3.0f;	//ƒCƒxƒ“ƒg‚ÌƒXƒP[ƒ‹
-	float r2 = 13.0f;	//©‹@‚ÌƒXƒP[ƒ‹
+	//Aã¨Bã®è·é›¢
+	float r1 = 3.0f;	//ã‚¤ãƒ™ãƒ³ãƒˆã®ã‚¹ã‚±ãƒ¼ãƒ«
+	float r2 = 13.0f;	//è‡ªæ©Ÿã®ã‚¹ã‚±ãƒ¼ãƒ«
 
 	if (Collison(posA, posB, r1, r2)) {
 		hitBox_ = true;
 	}
 
-	//©‹@‚Ì’e‚Æƒ{ƒX‚Ì“–‚½‚è”»’è
+	//è‡ªæ©Ÿã®å¼¾ã¨ãƒœã‚¹ã®å½“ãŸã‚Šåˆ¤å®š
 	posA = boss_->GetWorldPos();
 
 	for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
-		//©’e‚ÌÀ•W
+		//è‡ªå¼¾ã®åº§æ¨™
 		posB = bullet->GetWorldPos();
 
-		//A‚ÆB‚Ì‹——£
-		r1 = 20.0f;	//“G‚ÌƒXƒP[ƒ‹
-		r2 = 1.0f;	//’e‚ÌƒXƒP[ƒ‹
+		//Aã¨Bã®è·é›¢
+		r1 = 20.0f;	//æ•µã®ã‚¹ã‚±ãƒ¼ãƒ«
+		r2 = 1.0f;	//å¼¾ã®ã‚¹ã‚±ãƒ¼ãƒ«
 		float r = r1 + r2;
 
 		XMFLOAT3 dis;
@@ -917,15 +917,15 @@ void GameScene::AllCollison()
 
 	posA = player_->GetWorldPos();
 
-	//©‹@‚Æ“G‚Ì’e‚Ì“–‚½‚è”»’è
+	//è‡ªæ©Ÿã¨æ•µã®å¼¾ã®å½“ãŸã‚Šåˆ¤å®š
 	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
 		for (const std::unique_ptr<EnemyBullet>& bullet : enemy->GetBullets()) {
-			//“G’e‚ÌÀ•W
+			//æ•µå¼¾ã®åº§æ¨™
 			posB = bullet->GetWorldPos();
 
-			//A‚ÆB‚Ì‹——£
-			r1 = 7.0f;	//“G‚ÌƒXƒP[ƒ‹
-			r2 = 1.0f;	//’e‚ÌƒXƒP[ƒ‹
+			//Aã¨Bã®è·é›¢
+			r1 = 7.0f;	//æ•µã®ã‚¹ã‚±ãƒ¼ãƒ«
+			r2 = 1.0f;	//å¼¾ã®ã‚¹ã‚±ãƒ¼ãƒ«
 			float r = r1 + r2;
 
 			XMFLOAT3 dis;
@@ -950,14 +950,14 @@ void GameScene::AllCollison()
 		}
 	}
 
-	//ƒ{ƒX’e‚Æ©‹@‚Ì“–‚½‚è”»’è
+	//ãƒœã‚¹å¼¾ã¨è‡ªæ©Ÿã®å½“ãŸã‚Šåˆ¤å®š
 	for (const std::unique_ptr<BossBullet>& bullet : boss_->GetBullets()) {
-		//“G’e‚ÌÀ•W
+		//æ•µå¼¾ã®åº§æ¨™
 		posB = bullet->GetWorldPos();
 
-		//A‚ÆB‚Ì‹——£
-		r1 = 7.0f;	//“G‚ÌƒXƒP[ƒ‹
-		r2 = 1.0f;	//’e‚ÌƒXƒP[ƒ‹
+		//Aã¨Bã®è·é›¢
+		r1 = 7.0f;	//æ•µã®ã‚¹ã‚±ãƒ¼ãƒ«
+		r2 = 1.0f;	//å¼¾ã®ã‚¹ã‚±ãƒ¼ãƒ«
 		float r = r1 + r2;
 
 		XMFLOAT3 dis;
@@ -982,7 +982,7 @@ void GameScene::AllCollison()
 	for (const std::unique_ptr<CollisionBox>& coll : collisions_) {
 		posB = coll->GetWorldPos();
 
-		//A‚ÆB‚Ì‹——£
+		//Aã¨Bã®è·é›¢
 		r1 = 1.0f;
 		r2 = coll->GetScale().x;
 		float r = r1 + r2;
@@ -1003,9 +1003,9 @@ void GameScene::AllCollison()
 	}
 
 	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
-		//A‚ÆB‚Ì‹——£
-		r1 = 3.0f;	//©‹@‚ÌƒXƒP[ƒ‹
-		r2 = 175.0f;	//õ“G”ÍˆÍ‚ÌƒXƒP[ƒ‹
+		//Aã¨Bã®è·é›¢
+		r1 = 3.0f;	//è‡ªæ©Ÿã®ã‚¹ã‚±ãƒ¼ãƒ«
+		r2 = 175.0f;	//ç´¢æ•µç¯„å›²ã®ã‚¹ã‚±ãƒ¼ãƒ«
 
 		posA = player_->GetWorldPos();
 		posB = enemy->GetWorldPos();
@@ -1018,14 +1018,14 @@ void GameScene::AllCollison()
 	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
 		posA = enemy->GetWorldPos();
 
-		//©‹@‚Ì’e‚Æ“G‚Ì“–‚½‚è”»’è
+		//è‡ªæ©Ÿã®å¼¾ã¨æ•µã®å½“ãŸã‚Šåˆ¤å®š
 		for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
-			//©’e‚ÌÀ•W
+			//è‡ªå¼¾ã®åº§æ¨™
 			posB = bullet->GetWorldPos();
 
-			//A‚ÆB‚Ì‹——£
-			r1 = 7.0f;	//“G‚ÌƒXƒP[ƒ‹
-			r2 = 1.0f;	//’e‚ÌƒXƒP[ƒ‹
+			//Aã¨Bã®è·é›¢
+			r1 = 7.0f;	//æ•µã®ã‚¹ã‚±ãƒ¼ãƒ«
+			r2 = 1.0f;	//å¼¾ã®ã‚¹ã‚±ãƒ¼ãƒ«
 			float r = r1 + r2;
 
 			XMFLOAT3 dis;

@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 #include "Sound.h"
 
 class SoundManager
 {
 public:
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	void Initialize();
 
-	//–ˆƒtƒŒ[ƒ€
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ 
 	void Update(int32_t state);
 
 	void SetBasis(Sound* sound_);
@@ -21,9 +21,9 @@ private:
 
 	SoundManager() = default;
 	~SoundManager() = default;
-	//ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^–³Œø
+	//ã‚³ãƒ”ãƒ¼ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ç„¡åŠ¹
 	SoundManager(const SoundManager& obj) = delete;
-	//‘ã“ü‰‰Zq‚ğ–³Œø
+	//ä»£å…¥æ¼”ç®—å­ã‚’ç„¡åŠ¹
 	SoundManager& operator=(const SoundManager& obj) = delete;
 
 	

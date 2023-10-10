@@ -7,15 +7,15 @@
 #include <d3dx12.h>
 #include <stdint.h>
 
-//“_ŒõŒ¹
+//ç‚¹å…‰æº
 class PointLight
 {
-private:// ƒGƒCƒŠƒAƒX
+private:// ã‚¨ã‚¤ãƒªã‚¢ã‚¹
 
-	//Microsoft::WRL::‚ğÈ—ª
+	//Microsoft::WRL::ã‚’çœç•¥
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-	//DirectX::‚ğÈ—ª
+	//DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
@@ -34,16 +34,16 @@ public:
 		uint32_t active;
 	};
 
-public:  //ƒƒ“ƒo•Ï”
+public:  //ãƒ¡ãƒ³ãƒå¤‰æ•°
 
 	XMFLOAT3 lightpos_ = { 0,0,0 };
 	XMFLOAT3 lightcolor_ = { 1,1,1 };
-	//ƒ‰ƒCƒg‚Ì‹——£Œ¸ŠŒW”
+	//ãƒ©ã‚¤ãƒˆã®è·é›¢æ¸›è¡°ä¿‚æ•°
 	XMFLOAT3 lightAtten_ = { 1.0f,1.0f,1.0f };
-	//—LŒøƒtƒ‰ƒO
+	//æœ‰åŠ¹ãƒ•ãƒ©ã‚°
 	bool active_ = false;
 
-public: //ƒƒ“ƒoŠÖ”
+public: //ãƒ¡ãƒ³ãƒé–¢æ•°
 	inline void SetLightPos(const XMFLOAT3& lightpos) { lightpos_ = lightpos; };
 	inline const XMFLOAT3& GetLightPos() { return lightpos_; };
 

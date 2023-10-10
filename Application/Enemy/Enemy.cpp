@@ -82,13 +82,13 @@ void Enemy::Update(bool shot)
 		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 		newBullet->Initialize(pos_, velocity, bulletModel_);
 
-		//弾を登録する
+		//蠑ｾ繧堤匳骭ｲ縺吶ｋ
 		bullets_.push_back(std::move(newBullet));
 
 		coolTime_ = 50;
 	}
 
-	//デスフラグが立った弾を削除
+	//繝�繧ｹ繝輔Λ繧ｰ縺檎ｫ九▲縺溷ｼｾ繧貞炎髯､
 	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {
 		return bullet->IsDead();
 	});

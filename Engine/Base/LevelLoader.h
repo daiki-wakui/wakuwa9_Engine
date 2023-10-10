@@ -3,22 +3,22 @@
 #include <vector>
 #include <DirectXMath.h>
 
-// ƒŒƒxƒ‹ƒf[ƒ^
+// ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿
 struct LevelData {
 
 	struct ObjectData {
-		// ƒtƒ@ƒCƒ‹–¼
+		// ãƒ•ã‚¡ã‚¤ãƒ«å
 		std::string fileName;
 		std::string padding;
-		// •½sˆÚ“®
+		// å¹³è¡Œç§»å‹•
 		DirectX::XMVECTOR translation;
-		// ‰ñ“]Šp
+		// å›è»¢è§’
 		DirectX::XMVECTOR rotation;
-		// ƒXƒP[ƒŠƒ“ƒO
+		// ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
 		DirectX::XMVECTOR scaling;
 	};
 
-	// ƒIƒuƒWƒFƒNƒg”z—ñ
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé…åˆ—
 	std::vector<ObjectData> objects;
 };
 

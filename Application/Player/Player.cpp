@@ -223,7 +223,7 @@ void Player::Missle()
 	target.y = targetEnemy_->GetWorldPos().y;
 	target.z = targetEnemy_->GetWorldPos().z;
 
-	//’e‚Ì¶¬‚Æ‰Šú‰»
+	//å¼¾ã®ç”Ÿæˆã¨åˆæœŸåŒ–
 	for (int i = 0; i < 4; i++) {
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 		newBullet->Initialize(posPod_, target, bulletModel_);
@@ -237,13 +237,13 @@ void Player::Shot(){
 	if (coolTime < 0) {
 		isShot_ = true;
 
-		//’e‚Ì‘¬“x
+		//å¼¾ã®é€Ÿåº¦
 		const float kBulletSpeed = 15.0f;
 
 		bulletVec_ *= -kBulletSpeed;
 
 
-		//’e‚Ì¶¬‚Æ‰Šú‰»
+		//å¼¾ã®ç”Ÿæˆã¨åˆæœŸåŒ–
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 		newBullet->Initialize(posPod_, bulletVec_, bulletModel_);
 		bullets_.push_back(std::move(newBullet));
@@ -251,12 +251,12 @@ void Player::Shot(){
 		coolTime = 4;
 	}
 
-	//’e‚ÌXVˆ—
+	//å¼¾ã®æ›´æ–°å‡¦ç†
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
 		bullet->Update();
 	}
 
-	//ƒfƒXƒtƒ‰ƒO‚ª—§‚Á‚½’e‚ğíœ
+	//ãƒ‡ã‚¹ãƒ•ãƒ©ã‚°ãŒç«‹ã£ãŸå¼¾ã‚’å‰Šé™¤
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
 		return bullet->IsDead();
 		});

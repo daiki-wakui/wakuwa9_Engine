@@ -4,13 +4,13 @@ using namespace DirectX;
 
 void Framework::Initialize()
 {
-	//windowsAPI‰Šú‰»
+	//windowsAPIåˆæœŸåŒ–
 	windows_->Initalize();
 
-	//DirectX‰Šú‰»
+	//DirectXåˆæœŸåŒ–
 	directX_->Initialize(windows_.get());
 
-	//keyborad‰Šú‰»
+	//keyboradåˆæœŸåŒ–
 	keyboard_->Initialize(windows_->GetHInstancee(), windows_->GetHwnd());
 
 	gamePad_->Update();
@@ -23,10 +23,10 @@ void Framework::Initialize()
 
 	
 
-	//Fbx‰Šú‰»
+	//FbxåˆæœŸåŒ–
 	FbxLoader::GetInstance()->Initialize(directX_->GetDevice());
 	
-	//ƒJƒƒ‰ƒZƒbƒg
+	//ã‚«ãƒ¡ãƒ©ã‚»ãƒƒãƒˆ
 	XMFLOAT3 eye = Object3D::GetEye();
 	XMFLOAT3 target = Object3D::GetTarget();
 	XMFLOAT3 up = Object3D::GetUp();
@@ -38,15 +38,15 @@ void Framework::Initialize()
 	ParticleManager::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
 
 
-	//ƒ‰ƒCƒgƒOƒ‹[ƒv‰Šú‰»
+	//ãƒ©ã‚¤ãƒˆã‚°ãƒ«ãƒ¼ãƒ—åˆæœŸåŒ–
 	LightGroup::StaticInitialize(directX_->GetDevice());
 
-	//ƒ‰ƒCƒg¶¬
+	//ãƒ©ã‚¤ãƒˆç”Ÿæˆ
 	lightGroup->Initialize();
-	//3DƒIƒuƒWƒFƒNƒg‚Éƒ‰ƒCƒg‚ğƒZƒbƒg
+	//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ãƒ©ã‚¤ãƒˆã‚’ã‚»ãƒƒãƒˆ
 	Object3D::SetLightGroup(lightGroup.get());
 
-	//ƒI[ƒfƒBƒI‰Šú‰»
+	//ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªåˆæœŸåŒ–
 	sound_->Initialize();
 
 	sceneManager_ = std::make_unique<SceneManager>();
@@ -67,7 +67,7 @@ void Framework::Update()
 {
 	IsEnd();
 
-	//keyboradXVˆ—
+	//keyboradæ›´æ–°å‡¦ç†
 	keyboard_->Update();
 
 	gamePad_->Update();
@@ -79,15 +79,15 @@ void Framework::Update()
 
 void Framework::IsEnd(){
 
-	//~ƒ{ƒ^ƒ“‚ÅI—¹ƒƒbƒZ[ƒW‚ª‚«‚½‚ç
+	//Ã—ãƒœã‚¿ãƒ³ã§çµ‚äº†ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒããŸã‚‰
 	if (GetWindows()->gameloopExit(msg) == true || GetInput()->keyInstantPush(DIK_ESCAPE) == true) {
-		isEndGame_ = true;	//ƒQ[ƒ€ƒ‹[ƒvI—¹
+		isEndGame_ = true;	//ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—çµ‚äº†
 	}
 }
 
 void Framework::Run()
 {
-	//ƒQ[ƒ€‚Ì‰Šú‰»
+	//ã‚²ãƒ¼ãƒ ã®åˆæœŸåŒ–
 	Initialize();
 
 
@@ -95,18 +95,18 @@ void Framework::Run()
 	{
 		IsEnd();
 
-		//–ˆƒtƒŒ[ƒ€XV
+		//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ æ›´æ–°
 		Update();
 
 		if (GetIsEnd()) {
 			break;
 		}
 
-		//•`‰æ
+		//æç”»
 		Draw();
 	}
 
 
-	//ƒQ[ƒ€‚ÌI—¹
+	//ã‚²ãƒ¼ãƒ ã®çµ‚äº†
 	Finalize();
 }

@@ -10,31 +10,31 @@
 
 class Model
 {
-private: // ƒGƒCƒŠƒAƒX
-	// Microsoft::WRL::‚ğÈ—ª
+private: // ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	// Microsoft::WRL::ã‚’çœç•¥
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 
-public: // ƒTƒuƒNƒ‰ƒX
-	// ’¸“_ƒf[ƒ^\‘¢‘Ì
+public: // ã‚µãƒ–ã‚¯ãƒ©ã‚¹
+	// é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct VertexPosNormalUv
 	{
-		DirectX::XMFLOAT3 pos; // xyzÀ•W
-		DirectX::XMFLOAT3 normal; // –@üƒxƒNƒgƒ‹
-		DirectX::XMFLOAT2 uv;  // uvÀ•W
+		DirectX::XMFLOAT3 pos; // xyzåº§æ¨™
+		DirectX::XMFLOAT3 normal; // æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+		DirectX::XMFLOAT2 uv;  // uvåº§æ¨™
 	};
 
-	//’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘ÌB1
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“B1
 	struct ConstBufferDataB1
 	{
-		DirectX::XMFLOAT3 ambient;	//ƒAƒ“ƒrƒGƒ“ƒgŒW”
-		float pad1;			//ƒpƒfƒBƒ“ƒO
-		DirectX::XMFLOAT3 diffuse;	//ƒfƒBƒtƒ…[ƒYŒW”
-		float pad2;			//ƒpƒfƒBƒ“ƒO
-		DirectX::XMFLOAT3 specular;	//ƒXƒyƒLƒ…ƒ‰[ŒW”
-		float alpha;		//ƒAƒ‹ƒtƒ@
+		DirectX::XMFLOAT3 ambient;	//ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆä¿‚æ•°
+		float pad1;			//ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
+		DirectX::XMFLOAT3 diffuse;	//ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºä¿‚æ•°
+		float pad2;			//ãƒ‘ãƒ‡ã‚£ãƒ³ã‚°
+		DirectX::XMFLOAT3 specular;	//ã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ¼ä¿‚æ•°
+		float alpha;		//ã‚¢ãƒ«ãƒ•ã‚¡
 	};
 
-	//ƒ}ƒeƒŠƒAƒ‹
+	//ãƒãƒ†ãƒªã‚¢ãƒ«
 	struct Material
 	{
 		std::string name;
@@ -43,7 +43,7 @@ public: // ƒTƒuƒNƒ‰ƒX
 		DirectX::XMFLOAT3 specular;
 		float alpha;
 		std::string textrueFilename;
-		//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+		//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		Material() {
 			ambient = { 0.3f,0.3f,0.3f };
 			diffuse = { 0.0f,0.0f,0.0f };
@@ -56,16 +56,16 @@ public:
 
 
 
-	//OBJƒtƒ@ƒCƒ‹‚©‚ç3Dƒ‚ƒfƒ‹‚ğ“Ç‚İ‚Ş
+	//OBJãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰3Dãƒ¢ãƒ‡ãƒ«ã‚’èª­ã¿è¾¼ã‚€
 	void LoadFromObj(const std::string& modelname, bool smoothing = false);
 
 	/// <summary>
-	/// ƒ}ƒeƒŠƒAƒ‹“Ç‚İ‚İ
+	/// ãƒãƒ†ãƒªã‚¢ãƒ«èª­ã¿è¾¼ã¿
 	/// </summary>
 	void LoadMaterial(const std::string& directoryPath, const std::string& filename);
 
 	/// <summary>
-	/// ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+	/// ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 	/// </summary>
 	void LoadTexture(const std::string& directoryPath, const std::string& filename);
 
@@ -75,64 +75,64 @@ public:
 	static void SetDevice(ID3D12Device* device) { Model::sDevice = device; };
 
 private:
-	// ƒfƒoƒCƒX(Ø‚è‚Ä‚­‚é)
+	// ãƒ‡ãƒã‚¤ã‚¹(å€Ÿã‚Šã¦ãã‚‹)
 	static ID3D12Device* sDevice;
 
-	// ƒfƒXƒNƒŠƒvƒ^ƒTƒCƒY
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã‚µã‚¤ã‚º
 	UINT descriptorHandleIncrementSize_ = 0;
 
-	// ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> texbuff_;
-	// ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap> descHeap_;
 
-	// ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[‚Ìƒnƒ“ƒhƒ‹(CPU)
+	// ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«(CPU)
 	CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV_;
-	// ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[‚Ìƒnƒ“ƒhƒ‹(GPU)
+	// ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«(GPU)
 	CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV_;
 
-	// ’¸“_ƒoƒbƒtƒ@
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> vertBuff_;
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> indexBuff_;
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_VERTEX_BUFFER_VIEW vbView_;
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	D3D12_INDEX_BUFFER_VIEW ibView_;
-	// ƒ}ƒeƒŠƒAƒ‹—p’è”ƒoƒbƒtƒ@
+	// ãƒãƒ†ãƒªã‚¢ãƒ«ç”¨å®šæ•°ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> constBuffB1_; 
 
-	// ’¸“_ƒf[ƒ^”z—ñ
+	// é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿é…åˆ—
 	std::vector<VertexPosNormalUv> vertices_;
 
-	// ’¸“_ƒCƒ“ƒfƒbƒNƒX”z—ñ
+	// é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹é…åˆ—
 	std::vector<unsigned short> indices_;
 
-	//’¸“_–@üƒXƒ€[ƒWƒ“ƒO—pƒf[ƒ^
+	//é ‚ç‚¹æ³•ç·šã‚¹ãƒ ãƒ¼ã‚¸ãƒ³ã‚°ç”¨ãƒ‡ãƒ¼ã‚¿
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData_;
 
 	
-    // ’¸“_ƒf[ƒ^‚Ì”‚ğæ“¾
+    // é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã®æ•°ã‚’å–å¾—
 	inline size_t GetVertexCount() { return vertices_.size(); }
 
-    // ƒGƒbƒW•½–Ê‰»ƒf[ƒ^‚Ì’Ç‰Á
+    // ã‚¨ãƒƒã‚¸å¹³é¢åŒ–ãƒ‡ãƒ¼ã‚¿ã®è¿½åŠ 
 	void AddSmoothData(unsigned short indexPosition, unsigned short indexVertex);
 
-	//•½–Ê‰»‚³‚ê‚½’¸“_–@ü‚ÌŒvZ
+	//å¹³é¢åŒ–ã•ã‚ŒãŸé ‚ç‚¹æ³•ç·šã®è¨ˆç®—
 	void CalculateSmoothedVertexNormals();
 
-	//’¸“_–@üƒXƒ€[ƒWƒ“ƒO—pƒf[ƒ^
+	//é ‚ç‚¹æ³•ç·šã‚¹ãƒ ãƒ¼ã‚¸ãƒ³ã‚°ç”¨ãƒ‡ãƒ¼ã‚¿
 	std::unordered_map<unsigned short, std::vector<unsigned short>> smoothData;
 
-	//ƒ}ƒeƒŠƒAƒ‹
+	//ãƒãƒ†ãƒªã‚¢ãƒ«
 	Material material;
 
 	void LoadFromOBJInternal(const std::string& modelname,bool smoothing);
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ì‰Šú‰»
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®åˆæœŸåŒ–
 	void InitializeDescriptorHeap();
 
-	//Šeíƒoƒbƒtƒ@‚Ì¶¬
+	//å„ç¨®ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	void CreateBuffers();
 
 	int32_t bufferSize_;

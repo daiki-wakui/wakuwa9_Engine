@@ -19,31 +19,31 @@ private:
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV_;
 
 
-	//[“xƒoƒbƒtƒ@
+	//æ·±åº¦ãƒãƒƒãƒ•ã‚¡
 	ComPtr<ID3D12Resource> depthBuff_;
 
-	//RTV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//RTVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap> descHeapRTV;
 
-	//DSV—pƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	//DSVç”¨ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	ComPtr<ID3D12DescriptorHeap> descHeapDSV_;
 
 
 	D3D12_RESOURCE_BARRIER barrierDesc_{};
 
-	//’è”ƒoƒbƒtƒ@‚Ì¶¬
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	//color
 	ComPtr<ID3D12Resource> constBuffMaterial_ = nullptr;
 	//mat
 	ComPtr<ID3D12Resource> constBuffTransform_ = nullptr;
 
-	//ƒOƒ‰ƒtƒBƒbƒNƒXƒpƒCƒvƒ‰ƒCƒ“
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ã‚¹ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³
 	ComPtr<ID3D12PipelineState> pipelineState;
 
-	//ƒ‹[ƒgƒVƒOƒlƒNƒ`ƒƒ
+	//ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒã‚¯ãƒãƒ£
 	ComPtr<ID3D12RootSignature> rootSignature;
 
-	//Ø‚è‚Ä‚­‚é
+	//å€Ÿã‚Šã¦ãã‚‹
 	SpriteBasis* spBasis_ = nullptr;
 	WindowsApp* winApp_ = nullptr;
 	KeyBoard* key_ = nullptr;
@@ -75,19 +75,19 @@ public:
 
 	void CreateGraphicsPipelineState(int32_t num = 0);
 
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	PostEffect();
 
 	void Update(Player* player);
 
-	//•`‰æ
+	//æç”»
 	void Draw();
 
 
-	//ƒV[ƒ“•`‰æ‘Oˆ—
+	//ã‚·ãƒ¼ãƒ³æç”»å‰å‡¦ç†
 	void PreDrawScene(ID3D12GraphicsCommandList* cmdList);
 
-	//ƒV[ƒ“•`‰æŒãˆ—
+	//ã‚·ãƒ¼ãƒ³æç”»å¾Œå‡¦ç†
 	void PostDrawScene(ID3D12GraphicsCommandList* cmdList);
 
 };

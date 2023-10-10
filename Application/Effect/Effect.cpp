@@ -14,9 +14,9 @@ void Effect::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model)
 
 	bulletObject_->SetPosition(tPos_);
 
-	//乱数シード生成器
+	//荵ｱ謨ｰ繧ｷ繝ｼ繝臥函謌仙勣
 	std::random_device seed_gen;
-	//メルセンヌ・ツイスターの乱数エンジン
+	//繝｡繝ｫ繧ｻ繝ｳ繝後�ｻ繝�繧､繧ｹ繧ｿ繝ｼ縺ｮ荵ｱ謨ｰ繧ｨ繝ｳ繧ｸ繝ｳ
 	std::mt19937_64 engine(seed_gen());
 
 	std::uniform_real_distribution<float> posX(-1, 1);

@@ -3,15 +3,15 @@
 
 using namespace DirectX;
 
-//Ã“Iƒƒ“ƒo•Ï”‚ÌÀ‘Ì
+//é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°ã®å®Ÿä½“
 ID3D12Device* LightGroup::sDevice = nullptr;
 
 void LightGroup::StaticInitialize(ID3D12Device* device)
 {
-	//Ä‰Šú‰»ƒ`ƒFƒbƒN
+	//å†åˆæœŸåŒ–ãƒã‚§ãƒƒã‚¯
 	assert(!LightGroup::sDevice);
 
-	//nullptrƒ`ƒFƒbƒN
+	//nullptrãƒã‚§ãƒƒã‚¯
 	assert(device);
 
 	LightGroup::sDevice = device;
@@ -19,10 +19,10 @@ void LightGroup::StaticInitialize(ID3D12Device* device)
 
 void LightGroup::Create()
 {
-	//3DƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬
+	//3Dã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆ
 	//LightGroup* instance = std::make_unique<LightGroup>();
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	//instance->Initialize();
 
 	//return instance;
@@ -30,15 +30,15 @@ void LightGroup::Create()
 
 void LightGroup::Initialize()
 {
-	//nullptrƒ`ƒFƒbƒN
+	//nullptrãƒã‚§ãƒƒã‚¯
 	assert(sDevice);
 
 	DefaultLightSetting();
 
-	//ƒq[ƒvİ’è
+	//ãƒ’ãƒ¼ãƒ—è¨­å®š
 	D3D12_HEAP_PROPERTIES cbHeapProp{};
 	cbHeapProp.Type = D3D12_HEAP_TYPE_UPLOAD;
-	//ƒŠƒ\[ƒXİ’è
+	//ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	D3D12_RESOURCE_DESC cbResourceDesc{};
 	cbResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
 	cbResourceDesc.Width = (sizeof(ConstBufferData) + 0xff) & ~0xff;
@@ -48,7 +48,7 @@ void LightGroup::Initialize()
 	cbResourceDesc.SampleDesc.Count = 1;
 	cbResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	//’è”ƒoƒbƒtƒ@‚Ì¶¬
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	HRESULT result;
 
 	result = sDevice->CreateCommittedResource(
@@ -61,13 +61,13 @@ void LightGroup::Initialize()
 
 	assert(SUCCEEDED(result));
 
-	//’è”ƒoƒbƒtƒ@‚Öƒf[ƒ^“]‘—
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã¸ãƒ‡ãƒ¼ã‚¿è»¢é€
 	TransferConstBuffer();
 }
 
 void LightGroup::Update()
 {
-	//’l‚ÌXV‚ª‚ ‚Á‚½‚¾‚¯’è”ƒoƒbƒtƒ@‚É“]‘—‚·‚é
+	//å€¤ã®æ›´æ–°ãŒã‚ã£ãŸæ™‚ã ã‘å®šæ•°ãƒãƒƒãƒ•ã‚¡ã«è»¢é€ã™ã‚‹
 	if (dirty) {
 		TransferConstBuffer();
 		dirty = false;
@@ -76,53 +76,53 @@ void LightGroup::Update()
 
 void LightGroup::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParameterIndex)
 {
-	//’è”ƒoƒbƒtƒ@ƒrƒ…[‚ğƒZƒbƒg
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã‚’ã‚»ãƒƒãƒˆ
 	cmdList->SetGraphicsRootConstantBufferView(rootParameterIndex, constBuff->GetGPUVirtualAddress());
 }
 
 void LightGroup::TransferConstBuffer()
 {
 	HRESULT result;
-	//’è”ƒoƒbƒtƒ@‚Öƒf[ƒ^“]‘—
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ã¸ãƒ‡ãƒ¼ã‚¿è»¢é€
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
 
-		//ŠÂ‹«Œõ
+		//ç’°å¢ƒå…‰
 		constMap->ambientColor = ambientColor;
 
-		//•½sŒõŒ¹
+		//å¹³è¡Œå…‰æº
 		for (int32_t i = 0; i < sDIRLIGHT_NUM; i++) {
-			//ƒ‰ƒCƒg‚ª—LŒø‚È‚çİ’è‚ğ“]‘—
+			//ãƒ©ã‚¤ãƒˆãŒæœ‰åŠ¹ãªã‚‰è¨­å®šã‚’è»¢é€
 			if (dirLights[i].IsActive()) {
 				constMap->dirLights[i].active = 1;
 				constMap->dirLights[i].lightv = -dirLights[i].GetLightDir();
 				constMap->dirLights[i].lightcolor = dirLights[i].GetLightColor();
 			}
-			//ƒ‰ƒCƒg‚ª–³Œø‚È‚çƒ‰ƒCƒgF‚ğ0‚É
+			//ãƒ©ã‚¤ãƒˆãŒç„¡åŠ¹ãªã‚‰ãƒ©ã‚¤ãƒˆè‰²ã‚’0ã«
 			else {
 				constMap->dirLights[i].active = 0;
 			}
 		}
 
-		//“_ŒõŒ¹
+		//ç‚¹å…‰æº
 		for (int32_t i = 0; i < sPOINTLIGHT_NUM; i++) {
-			//ƒ‰ƒCƒg‚ª—LŒø‚È‚çİ’è‚ğ“]‘—
+			//ãƒ©ã‚¤ãƒˆãŒæœ‰åŠ¹ãªã‚‰è¨­å®šã‚’è»¢é€
 			if (pointLights[i].IsActive()) {
 				constMap->pointLights[i].active = 1;
 				constMap->pointLights[i].lightpos = pointLights[i].GetLightPos();
 				constMap->pointLights[i].lightcolor = pointLights[i].GetLightcolor();
 				constMap->pointLights[i].lightatten = pointLights[i].GetLightAtten();
 			}
-			//ƒ‰ƒCƒg‚ª–³Œø‚È‚çƒ‰ƒCƒgF‚ğ0‚É
+			//ãƒ©ã‚¤ãƒˆãŒç„¡åŠ¹ãªã‚‰ãƒ©ã‚¤ãƒˆè‰²ã‚’0ã«
 			else {
 				constMap->pointLights[i].active = 0;
 			}
 		}
 
-		//ƒXƒ|ƒbƒgƒ‰ƒCƒg
+		//ã‚¹ãƒãƒƒãƒˆãƒ©ã‚¤ãƒˆ
 		for (int32_t i = 0; i < sSPOTLIGHT_NUM; i++) {
-			//ƒ‰ƒCƒg‚ª—LŒø‚È‚çİ’è‚ğ“]‘—
+			//ãƒ©ã‚¤ãƒˆãŒæœ‰åŠ¹ãªã‚‰è¨­å®šã‚’è»¢é€
 			if (spotLights[i].IsActive()) {
 				constMap->spotLights[i].active = 1;
 				constMap->spotLights[i].lightv = -spotLights[i].GetLightDir();
@@ -131,15 +131,15 @@ void LightGroup::TransferConstBuffer()
 				constMap->spotLights[i].lightatten = spotLights[i].GetLightAtten();
 				constMap->spotLights[i].lightactoranglecos = spotLights[i].GetLightFactorAngleCos();
 			}
-			//ƒ‰ƒCƒg‚ª–³Œø‚È‚çƒ‰ƒCƒgF‚ğ0‚É
+			//ãƒ©ã‚¤ãƒˆãŒç„¡åŠ¹ãªã‚‰ãƒ©ã‚¤ãƒˆè‰²ã‚’0ã«
 			else {
 				constMap->spotLights[i].active = 0;
 			}
 		}
 
-		//ŠÛ‰e
+		//ä¸¸å½±
 		for (int32_t i = 0; i < sCIRCLESHADOW_NUM; i++) {
-			//ƒ‰ƒCƒg‚ª—LŒø‚È‚çİ’è‚ğ“]‘—
+			//ãƒ©ã‚¤ãƒˆãŒæœ‰åŠ¹ãªã‚‰è¨­å®šã‚’è»¢é€
 			if (circleShadows[i].IsActive()) {
 				constMap->circleShadows[i].active = 1;
 				constMap->circleShadows[i].dir = -circleShadows[i].GetDir();
@@ -148,7 +148,7 @@ void LightGroup::TransferConstBuffer()
 				constMap->circleShadows[i].atten = circleShadows[i].GetAtten();
 				constMap->circleShadows[i].factorAngleCos = circleShadows[i].GetFactorAngleCos();
 			}
-			//ƒ‰ƒCƒg‚ª–³Œø‚È‚çƒ‰ƒCƒgF‚ğ0‚É
+			//ãƒ©ã‚¤ãƒˆãŒç„¡åŠ¹ãªã‚‰ãƒ©ã‚¤ãƒˆè‰²ã‚’0ã«
 			else {
 				constMap->circleShadows[i].active = 0;
 			}

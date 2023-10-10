@@ -2,19 +2,19 @@
 class Vector2 {
 
 public:
-	float x;	//x¬•ª
-	float y;	//y¬•ª
+	float x;	//xæˆåˆ†
+	float y;	//yæˆåˆ†
 
 public:
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-	Vector2();	//ƒ[ƒƒxƒNƒgƒ‹‚Æ‚µ‚Ä¶¬
-	Vector2(float x, float y);	//x¬•ª,t¬•ª‚ğw’è‚µ‚Ä‚Ì¶¬
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+	Vector2();	//ã‚¼ãƒ­ãƒ™ã‚¯ãƒˆãƒ«ã¨ã—ã¦ç”Ÿæˆ
+	Vector2(float x, float y);	//xæˆåˆ†,tæˆåˆ†ã‚’æŒ‡å®šã—ã¦ã®ç”Ÿæˆ
 
-	//ƒƒ“ƒoŠÖ”
-	float length() const;	//ƒmƒ‹ƒ€(’·‚³)‚ğ‹‚ß‚é
-	Vector2& normalize();	//³‹K‰»‚·‚é
-	float dot(const Vector2& v) const;	//“àÏ‚ğ‹‚ß‚é
-	float cross(const Vector2& v) const;	//ŠOÏ‚ğ‹‚ß‚é
+	//ãƒ¡ãƒ³ãƒé–¢æ•°
+	float length() const;	//ãƒãƒ«ãƒ (é•·ã•)ã‚’æ±‚ã‚ã‚‹
+	Vector2& normalize();	//æ­£è¦åŒ–ã™ã‚‹
+	float dot(const Vector2& v) const;	//å†…ç©ã‚’æ±‚ã‚ã‚‹
+	float cross(const Vector2& v) const;	//å¤–ç©ã‚’æ±‚ã‚ã‚‹
 
 	Vector2 operator+() const;
 	Vector2 operator-() const;

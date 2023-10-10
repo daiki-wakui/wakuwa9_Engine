@@ -13,8 +13,8 @@ class Player;
 
 class Enemy
 {
-private: // エイリアス
-	// DirectX::を省略
+private: // 繧ｨ繧､繝ｪ繧｢繧ｹ
+	// DirectX::繧堤怐逡･
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;

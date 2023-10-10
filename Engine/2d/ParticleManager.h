@@ -8,40 +8,40 @@
 
 class ParticleManager
 {
-private: // ƒGƒCƒŠƒAƒX
-	// Microsoft::WRL::‚ğÈ—ª
+private: // ã‚¨ã‚¤ãƒªã‚¢ã‚¹
+	// Microsoft::WRL::ã‚’çœç•¥
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::‚ğÈ—ª
+	// DirectX::ã‚’çœç•¥
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-public: // ƒTƒuƒNƒ‰ƒX
+public: // ã‚µãƒ–ã‚¯ãƒ©ã‚¹
 
-	//’¸“_ƒf[ƒ^\‘¢‘Ì
+	//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct VertexPos
 	{
-		XMFLOAT3 pos;	//xyzÀ•W
+		XMFLOAT3 pos;	//xyzåº§æ¨™
 		float scale;
 	};
 
-	// ’è”ƒoƒbƒtƒ@—pƒf[ƒ^\‘¢‘Ì
+	// å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ãƒ‡ãƒ¼ã‚¿æ§‹é€ ä½“
 	struct ConstBufferData
 	{
-		//XMFLOAT4 color;	// F (RGBA)
-		XMMATRIX mat;	// ‚R‚c•ÏŠ·s—ñ
-		XMMATRIX matBillboard;	//ƒrƒ‹ƒ{[ƒhs—ñ
+		//XMFLOAT4 color;	// è‰² (RGBA)
+		XMMATRIX mat;	// ï¼“ï¼¤å¤‰æ›è¡Œåˆ—
+		XMMATRIX matBillboard;	//ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—
 	};
 
-private: // ’è”
-	static const int division = 50;					// •ªŠ„”
-	static const float radius;				// ’ê–Ê‚Ì”¼Œa
-	static const float prizmHeight;			// ’Œ‚Ì‚‚³
-	static const int planeCount = division * 2 + division * 2;		// –Ê‚Ì”
-	static const int vertexCount = 1024;		// ’¸“_”
+private: // å®šæ•°
+	static const int division = 50;					// åˆ†å‰²æ•°
+	static const float radius;				// åº•é¢ã®åŠå¾„
+	static const float prizmHeight;			// æŸ±ã®é«˜ã•
+	static const int planeCount = division * 2 + division * 2;		// é¢ã®æ•°
+	static const int vertexCount = 1024;		// é ‚ç‚¹æ•°
 
-public: // Ã“Iƒƒ“ƒoŠÖ”
+public: // é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 	
 	static void StaticInitialize(ID3D12Device* device, int window_width, int window_height);
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
@@ -56,7 +56,7 @@ public: // Ã“Iƒƒ“ƒoŠÖ”
 	
 	static void CameraMoveVector(XMFLOAT3 move);
 
-	//ƒxƒNƒgƒ‹‚É‚æ‚é‹“_ˆÚ“®
+	//ãƒ™ã‚¯ãƒˆãƒ«ã«ã‚ˆã‚‹è¦–ç‚¹ç§»å‹•
 	static void CameraMoveEyeVector(XMFLOAT3 move);
 
 	static void SetCamera(XMFLOAT3& eye, XMFLOAT3& target, XMFLOAT3& up) {
@@ -65,70 +65,70 @@ public: // Ã“Iƒƒ“ƒoŠÖ”
 		ParticleManager::sUp = up;
 	}
 
-private: // Ã“Iƒƒ“ƒo•Ï”
-	// ƒfƒoƒCƒX
+private: // é™çš„ãƒ¡ãƒ³ãƒå¤‰æ•°
+	// ãƒ‡ãƒã‚¤ã‚¹
 	static ID3D12Device* sDevice;
-	// ƒfƒXƒNƒŠƒvƒ^ƒTƒCƒY
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã‚µã‚¤ã‚º
 	static UINT descriptorHandleIncrementSize;
-	// ƒRƒ}ƒ“ƒhƒŠƒXƒg
+	// ã‚³ãƒãƒ³ãƒ‰ãƒªã‚¹ãƒˆ
 	static ID3D12GraphicsCommandList* sCmdList;
-	// ƒ‹[ƒgƒVƒOƒlƒ`ƒƒ
+	// ãƒ«ãƒ¼ãƒˆã‚·ã‚°ãƒãƒãƒ£
 	static ComPtr<ID3D12RootSignature> rootsignature;
-	// ƒpƒCƒvƒ‰ƒCƒ“ƒXƒe[ƒgƒIƒuƒWƒFƒNƒg
+	// ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ã‚¹ãƒ†ãƒ¼ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	static ComPtr<ID3D12PipelineState> pipelinestate;
-	// ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—
 	static ComPtr<ID3D12DescriptorHeap> descHeap;
-	// ’¸“_ƒoƒbƒtƒ@
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡
 	static ComPtr<ID3D12Resource> vertBuff;
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡
 //	static ComPtr<ID3D12Resource> indexBuff;
-	// ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡
 	static ComPtr<ID3D12Resource> texbuff;
-	// ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[‚Ìƒnƒ“ƒhƒ‹(CPU)
+	// ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«(CPU)
 	static CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV;
-	// ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[‚Ìƒnƒ“ƒhƒ‹(CPU)
+	// ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã®ãƒãƒ³ãƒ‰ãƒ«(CPU)
 	static CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
-	// ƒrƒ…[s—ñ
+	// ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—
 	static XMMATRIX matView;
-	// Ë‰es—ñ
+	// å°„å½±è¡Œåˆ—
 	static XMMATRIX matProjection;
-	// ‹“_À•W
+	// è¦–ç‚¹åº§æ¨™
 	static XMFLOAT3 sEye;
-	// ’‹“_À•W
+	// æ³¨è¦–ç‚¹åº§æ¨™
 	static XMFLOAT3 sTarget;
-	// ã•ûŒüƒxƒNƒgƒ‹
+	// ä¸Šæ–¹å‘ãƒ™ã‚¯ãƒˆãƒ«
 	static XMFLOAT3 sUp;
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼
 	static D3D12_VERTEX_BUFFER_VIEW vbView;
-	// ’¸“_ƒf[ƒ^”z—ñ
+	// é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿é…åˆ—
 	static VertexPos vertices[vertexCount];
 
-	//ƒrƒ‹ƒ{[ƒhs—ñ
+	//ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—
 	static XMMATRIX matBillborad;
-	//Y²ƒrƒ‹ƒ{[ƒhs—ñ
+	//Yè»¸ãƒ“ãƒ«ãƒœãƒ¼ãƒ‰è¡Œåˆ—
 	static XMMATRIX matBillboradY;
 
-private:// Ã“Iƒƒ“ƒoŠÖ”
+private:// é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ì‰Šú‰»
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®åˆæœŸåŒ–
 	static void InitializeDescriptorHeap();
 
-	//ƒJƒƒ‰‰Šú‰»
+	//ã‚«ãƒ¡ãƒ©åˆæœŸåŒ–
 	static void InitializeCamera(int window_width, int window_height);
 
-	//ƒOƒ‰ƒtƒBƒbƒNƒpƒCƒvƒ‰ƒCƒ“¶¬
+	//ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³ç”Ÿæˆ
 	static void InitializeGraphicsPipeline();
 
-	//ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+	//ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 	static void LoadTexture();
 
-	//ƒ‚ƒfƒ‹ì¬
+	//ãƒ¢ãƒ‡ãƒ«ä½œæˆ
 	static void CreateModel();
 
-	//ƒrƒ…[s—ñ‚ğXV
+	//ãƒ“ãƒ¥ãƒ¼è¡Œåˆ—ã‚’æ›´æ–°
 	static void UpdateViewMatrix();
 
-public: // ƒƒ“ƒoŠÖ”
+public: // ãƒ¡ãƒ³ãƒé–¢æ•°
 
 	bool Initialize();
 	void Update();
@@ -137,9 +137,9 @@ public: // ƒƒ“ƒoŠÖ”
 	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel,
 		float start_scale, float end_scale);
 
-private: // ƒƒ“ƒo•Ï”
-	ComPtr<ID3D12Resource> constBuff; // ’è”ƒoƒbƒtƒ@
-	// ƒ[ƒJƒ‹ƒXƒP[ƒ‹
+private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
+	ComPtr<ID3D12Resource> constBuff; // å®šæ•°ãƒãƒƒãƒ•ã‚¡
+	// ãƒ­ãƒ¼ã‚«ãƒ«ã‚¹ã‚±ãƒ¼ãƒ«
 	XMFLOAT3 scale = { 1,1,1 };
 
 

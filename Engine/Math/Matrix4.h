@@ -5,13 +5,13 @@ class Vector3;
 class Matrix4
 {
 public:
-	// sx—ñ
+	// è¡Œxåˆ—
 	float m[4][4];
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Matrix4();
 
-	// ‘ã“ü‰‰ZqƒI[ƒo[ƒ[ƒh
+	// ä»£å…¥æ¼”ç®—å­ã‚ªãƒ¼ãƒãƒ¼ãƒ­ãƒ¼ãƒ‰
 	//Matrix4& operator*=(const Matrix4& m2);
 
 	Matrix4 operator*(const Matrix4& m2);

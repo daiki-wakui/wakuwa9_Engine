@@ -6,70 +6,70 @@
 
 LevelData* LevelLoader::LoadFile(const std::string& fileName)
 {
-	// ˜AŒ‹‚µ‚Äƒtƒ‹ƒpƒX‚ğ“¾‚é
+	// é€£çµã—ã¦ãƒ•ãƒ«ãƒ‘ã‚¹ã‚’å¾—ã‚‹
 	const std::string fullpath = "Resources/levels/" + fileName + ".json";
 
-	// ƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 	std::ifstream file;
 
-	// ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	file.open(fullpath);
-	// ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¸”s‚ğƒ`ƒFƒbƒN
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³å¤±æ•—ã‚’ãƒã‚§ãƒƒã‚¯
 	if (file.fail()) {
 		assert(0);
 	}
 
-	// JSON•¶š—ñ‚©‚ç‰ğ“€‚µ‚½ƒf[ƒ^
+	// JSONæ–‡å­—åˆ—ã‹ã‚‰è§£å‡ã—ãŸãƒ‡ãƒ¼ã‚¿
 	nlohmann::json deserialized;
 
-	// ‰ğ“€
+	// è§£å‡
 	file >> deserialized;
 
-	// ³‚µ‚¢ƒŒƒxƒ‹ƒf[ƒ^ƒtƒ@ƒCƒ‹‚©ƒ`ƒFƒbƒN
+	// æ­£ã—ã„ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã‹ãƒã‚§ãƒƒã‚¯
 	assert(deserialized.is_object());
 	assert(deserialized.contains("name"));
 	assert(deserialized["name"].is_string());
 
-	// "name"‚ğ•¶š—ñ‚Æ‚µ‚Äæ“¾
+	// "name"ã‚’æ–‡å­—åˆ—ã¨ã—ã¦å–å¾—
 	std::string name = deserialized["name"].get<std::string>();
-	// ³‚µ‚¢ƒŒƒxƒ‹ƒf[ƒ^ƒtƒ@ƒCƒ‹‚©ƒ`ƒFƒbƒN
+	// æ­£ã—ã„ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã‹ãƒã‚§ãƒƒã‚¯
 	assert(name.compare("scene") == 0);
 
-	// ƒŒƒxƒ‹ƒf[ƒ^Ši”[—pƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬
+	// ãƒ¬ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿æ ¼ç´ç”¨ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆ
 	LevelData* levelData = new LevelData();
 
-	// "objects"‚Ì‘SƒIƒuƒWƒFƒNƒg‚ğ‘–¸
+	// "objects"ã®å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’èµ°æŸ»
 	for (nlohmann::json& object : deserialized["objects"]) {
 		assert(object.contains("type"));
 
-		// í•Ê‚ğæ“¾
+		// ç¨®åˆ¥ã‚’å–å¾—
 		std::string type = object["type"].get<std::string>();
 
 		// MESH
 		if (type.compare("MESH") == 0) {
-			// —v‘f’Ç‰Á
+			// è¦ç´ è¿½åŠ 
 			levelData->objects.emplace_back(LevelData::ObjectData{});
-			// ¡’Ç‰Á‚µ‚½—v‘f‚ÌQÆ‚ğ“¾‚é
+			// ä»Šè¿½åŠ ã—ãŸè¦ç´ ã®å‚ç…§ã‚’å¾—ã‚‹
 			LevelData::ObjectData& objectData = levelData->objects.back();
 
 			if (object.contains("file_name")) {
-				// ƒtƒ@ƒCƒ‹–¼
+				// ãƒ•ã‚¡ã‚¤ãƒ«å
 				objectData.fileName = object["file_name"];
 			}
 
-			// ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Ìƒpƒ‰ƒ[ƒ^“Ç‚İ‚İ
+			// ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 			nlohmann::json& transform = object["transform"];
-			// •½sˆÚ“®
+			// å¹³è¡Œç§»å‹•
 			objectData.translation.m128_f32[0] = (float)transform["translation"][1];
 			objectData.translation.m128_f32[1] = (float)transform["translation"][2];
 			objectData.translation.m128_f32[2] = -(float)transform["translation"][0];
 			objectData.translation.m128_f32[3] = 1.0f;
-			// ‰ñ“]Šp
+			// å›è»¢è§’
 			objectData.rotation.m128_f32[0] = -(float)transform["rotation"][1];
 			objectData.rotation.m128_f32[1] = -(float)transform["rotation"][2];
 			objectData.rotation.m128_f32[2] = (float)transform["rotation"][0];
 			objectData.rotation.m128_f32[3] = 0.0f;
-			// ƒXƒP[ƒŠƒ“ƒO
+			// ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
 			objectData.scaling.m128_f32[0] = (float)transform["scaling"][1];
 			objectData.scaling.m128_f32[1] = (float)transform["scaling"][2];
 			objectData.scaling.m128_f32[2] = (float)transform["scaling"][0];
@@ -78,27 +78,27 @@ LevelData* LevelLoader::LoadFile(const std::string& fileName)
 
 		// MESH
 		if (type.compare("CAMERA") == 0) {
-			// —v‘f’Ç‰Á
+			// è¦ç´ è¿½åŠ 
 			levelData->objects.emplace_back(LevelData::ObjectData{});
-			// ¡’Ç‰Á‚µ‚½—v‘f‚ÌQÆ‚ğ“¾‚é
+			// ä»Šè¿½åŠ ã—ãŸè¦ç´ ã®å‚ç…§ã‚’å¾—ã‚‹
 			LevelData::ObjectData& objectData = levelData->objects.back();
 
-			// ƒtƒ@ƒCƒ‹–¼
+			// ãƒ•ã‚¡ã‚¤ãƒ«å
 			objectData.fileName = "camera";
 
-			// ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Ìƒpƒ‰ƒ[ƒ^“Ç‚İ‚İ
+			// ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 			nlohmann::json& transform = object["transform"];
-			// •½sˆÚ“®
+			// å¹³è¡Œç§»å‹•
 			objectData.translation.m128_f32[0] = (float)transform["translation"][1];
 			objectData.translation.m128_f32[1] = (float)transform["translation"][2];
 			objectData.translation.m128_f32[2] = -(float)transform["translation"][0];
 			objectData.translation.m128_f32[3] = 1.0f;
-			// ‰ñ“]Šp
+			// å›è»¢è§’
 			objectData.rotation.m128_f32[0] = -(float)transform["rotation"][1];
 			objectData.rotation.m128_f32[1] = -(float)transform["rotation"][2];
 			objectData.rotation.m128_f32[2] = (float)transform["rotation"][0];
 			objectData.rotation.m128_f32[3] = 0.0f;
-			// ƒXƒP[ƒŠƒ“ƒO
+			// ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
 			objectData.scaling.m128_f32[0] = (float)transform["scaling"][1];
 			objectData.scaling.m128_f32[1] = (float)transform["scaling"][2];
 			objectData.scaling.m128_f32[2] = (float)transform["scaling"][0];
@@ -106,38 +106,38 @@ LevelData* LevelLoader::LoadFile(const std::string& fileName)
 		}
 
 		if (object.contains("children")) {
-			// "objects"‚Ì‘SƒIƒuƒWƒFƒNƒg‚ğ‘–¸
+			// "objects"ã®å…¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’èµ°æŸ»
 			for (nlohmann::json& tmpObject : deserialized["objects"]) {
 				assert(tmpObject.contains("type"));
 
-				// í•Ê‚ğæ“¾
+				// ç¨®åˆ¥ã‚’å–å¾—
 				std::string rocalType = tmpObject["type"].get<std::string>();
 
 				// MESH
 				if (rocalType.compare("MESH") == 0) {
-					// —v‘f’Ç‰Á
+					// è¦ç´ è¿½åŠ 
 					levelData->objects.emplace_back(LevelData::ObjectData{});
-					// ¡’Ç‰Á‚µ‚½—v‘f‚ÌQÆ‚ğ“¾‚é
+					// ä»Šè¿½åŠ ã—ãŸè¦ç´ ã®å‚ç…§ã‚’å¾—ã‚‹
 					LevelData::ObjectData& objectData = levelData->objects.back();
 
 					if (tmpObject.contains("file_name")) {
-						// ƒtƒ@ƒCƒ‹–¼
+						// ãƒ•ã‚¡ã‚¤ãƒ«å
 						objectData.fileName = tmpObject["file_name"];
 					}
 
-					// ƒgƒ‰ƒ“ƒXƒtƒH[ƒ€‚Ìƒpƒ‰ƒ[ƒ^“Ç‚İ‚İ
+					// ãƒˆãƒ©ãƒ³ã‚¹ãƒ•ã‚©ãƒ¼ãƒ ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿èª­ã¿è¾¼ã¿
 					nlohmann::json& transform = tmpObject["transform"];
-					// •½sˆÚ“®
+					// å¹³è¡Œç§»å‹•
 					objectData.translation.m128_f32[0] = (float)transform["translation"][1];
 					objectData.translation.m128_f32[1] = (float)transform["translation"][2];
 					objectData.translation.m128_f32[2] = -(float)transform["translation"][0];
 					objectData.translation.m128_f32[3] = 1.0f;
-					// ‰ñ“]Šp
+					// å›è»¢è§’
 					objectData.rotation.m128_f32[0] = -(float)transform["rotation"][1];
 					objectData.rotation.m128_f32[1] = -(float)transform["rotation"][2];
 					objectData.rotation.m128_f32[2] = (float)transform["rotation"][0];
 					objectData.rotation.m128_f32[3] = 0.0f;
-					// ƒXƒP[ƒŠƒ“ƒO
+					// ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°
 					objectData.scaling.m128_f32[0] = (float)transform["scaling"][1];
 					objectData.scaling.m128_f32[1] = (float)transform["scaling"][2];
 					objectData.scaling.m128_f32[2] = (float)transform["scaling"][0];

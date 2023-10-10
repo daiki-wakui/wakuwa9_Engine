@@ -5,27 +5,27 @@
 class WindowsApp
 {
 private:
-	//ƒEƒBƒ“ƒhƒEƒNƒ‰ƒX‚Ìİ’è
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¯ãƒ©ã‚¹ã®è¨­å®š
 	WNDCLASSEX w_{};
 	HWND hwnd_ = nullptr;
 
-	//ƒEƒBƒ“ƒhƒEƒTƒCƒY
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚º
 	const int32_t WINDOW_WIDTH = 1280;
 	const int32_t WINDOW_HEIGHT = 720;
 
-public:	//Ã“Iƒƒ“ƒoŠÖ”
+public:	//é™çš„ãƒ¡ãƒ³ãƒé–¢æ•°
 
 	static LRESULT windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 
-public:	//ƒƒ“ƒoŠÖ”
+public:	//ãƒ¡ãƒ³ãƒé–¢æ•°
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Initalize();
 
-	// ƒQ[ƒ€ƒ‹[ƒvI—¹ƒƒbƒZ[ƒWæ“¾
+	// ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—çµ‚äº†ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å–å¾—
 	bool gameloopExit(MSG& msg);
 
-	// “o˜^‰ğœ
+	// ç™»éŒ²è§£é™¤
 	void Release();
 
 	//getter

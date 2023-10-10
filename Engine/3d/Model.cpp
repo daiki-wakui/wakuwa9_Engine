@@ -19,13 +19,13 @@ void Model::LoadFromObj(const std::string& modelname, bool smoothing)
 {
 	//Model* model = new Model();
 
-	//ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv¶¬
+	//ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ç”Ÿæˆ
 	InitializeDescriptorHeap();
 
-	//OBJƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^‚ğ“Ç‚İ‚Ş
+	//OBJãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
 	LoadFromOBJInternal(modelname, smoothing);
 
-	//ƒf[ƒ^‚ğŒ³‚Éƒoƒbƒtƒ@¶¬
+	//ãƒ‡ãƒ¼ã‚¿ã‚’å…ƒã«ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	CreateBuffers();
 
 	//return model;
@@ -40,15 +40,15 @@ void Model::CalculateSmoothedVertexNormals()
 {
 	auto itr = smoothData_.begin();
 	for (itr; itr != smoothData_.end(); ++itr) {
-		//Še–Ê—p‚Ì‹¤’Ê’¸“_ƒRƒŒƒNƒVƒ‡ƒ“
+		//å„é¢ç”¨ã®å…±é€šé ‚ç‚¹ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³
 		std::vector<unsigned short>& v = itr->second;
-		//‘S’¸“_‚Ì–@ü‚ğ•½‹Ï‚·‚é
+		//å…¨é ‚ç‚¹ã®æ³•ç·šã‚’å¹³å‡ã™ã‚‹
 		XMVECTOR normal = {};
 		for (unsigned short index : v) {
 			normal += XMVectorSet(vertices_[index].normal.x, vertices_[index].normal.y, vertices_[index].normal.z, 0);
 		}
 		normal = XMVector3Normalize(normal / (float)v.size());
-		//‹¤’Ê–@ü‚ğg—p‚·‚é‘S‚Ä‚Ì’¸“_ƒf[ƒ^‚É‘‚«‚Ş
+		//å…±é€šæ³•ç·šã‚’ä½¿ç”¨ã™ã‚‹å…¨ã¦ã®é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã«æ›¸ãè¾¼ã‚€
 		for (unsigned short index : v) {
 			vertices_[index].normal = { normal.m128_f32[0],normal.m128_f32[1],normal.m128_f32[2] };
 		}
@@ -57,113 +57,113 @@ void Model::CalculateSmoothedVertexNormals()
 
 void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 
-	//ƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 	std::ifstream file;
-	//.objƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	//.objãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	const string filename = modelname + ".obj";
 	const string directoryPath = "Resources/" + modelname + "/";
 	file.open(directoryPath + filename);
 
-	//ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¸”s‚ğƒ`ƒFƒbƒN
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³å¤±æ•—ã‚’ãƒã‚§ãƒƒã‚¯
 	assert(!file.fail());
 
-	vector<XMFLOAT3> positions;	//’¸“_À•W
-	vector<XMFLOAT3> normals;	//–@üƒxƒNƒgƒ‹
-	vector<XMFLOAT2> texcoords;	//ƒeƒNƒXƒ`ƒƒUV
+	vector<XMFLOAT3> positions;	//é ‚ç‚¹åº§æ¨™
+	vector<XMFLOAT3> normals;	//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+	vector<XMFLOAT2> texcoords;	//ãƒ†ã‚¯ã‚¹ãƒãƒ£UV
 
-	//1s‚¸‚Â“Ç‚İ‚Ş
+	//1è¡Œãšã¤èª­ã¿è¾¼ã‚€
 	string line;
 	while (getline(file, line)) {
 
-		//1s•ª‚Ì•¶š—ñ‚ğƒXƒgƒŠ[ƒ€‚É•ÏŠ·‚µ‚Ä‰ğÍ‚µ‚â‚·‚­‚·‚é
+		//1è¡Œåˆ†ã®æ–‡å­—åˆ—ã‚’ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«å¤‰æ›ã—ã¦è§£æã—ã‚„ã™ãã™ã‚‹
 		std::istringstream line_stream(line);
 
-		//”¼ŠpƒXƒy[ƒX‹æØ‚è‚Ås‚Ìæ“ª•¶š—ñ‚ğæ“¾
+		//åŠè§’ã‚¹ãƒšãƒ¼ã‚¹åŒºåˆ‡ã‚Šã§è¡Œã®å…ˆé ­æ–‡å­—åˆ—ã‚’å–å¾—
 		string key;
 		getline(line_stream, key, ' ');
 
-		//æ“ª•¶š—ñ‚ªv‚È‚ç’¸“_À•W
+		//å…ˆé ­æ–‡å­—åˆ—ãŒvãªã‚‰é ‚ç‚¹åº§æ¨™
 		if (key == "v") {
-			//X,Y,ZÀ•W“Ç‚İ‚İ
+			//X,Y,Zåº§æ¨™èª­ã¿è¾¼ã¿
 			XMFLOAT3 position{};
 			line_stream >> position.x;
 			line_stream >> position.y;
 			line_stream >> position.z;
-			//À•Wƒf[ƒ^‚É’Ç‰Á
+			//åº§æ¨™ãƒ‡ãƒ¼ã‚¿ã«è¿½åŠ 
 			positions.emplace_back(position);
 		}
 
-		//æ“ª•¶š—ñ‚ªvt‚È‚çƒeƒNƒXƒ`ƒƒ
+		//å…ˆé ­æ–‡å­—åˆ—ãŒvtãªã‚‰ãƒ†ã‚¯ã‚¹ãƒãƒ£
 		if (key == "vt") {
-			//U,V¬•ª“Ç‚İ‚İ
+			//U,Væˆåˆ†èª­ã¿è¾¼ã¿
 			XMFLOAT2 texcoord{};
 			line_stream >> texcoord.x;
 			line_stream >> texcoord.y;
-			//V•ûŒü”½“]
+			//Væ–¹å‘åè»¢
 			texcoord.y = 1.0f - texcoord.y;
-			//ƒeƒNƒXƒ`ƒƒÀ•Wƒf[ƒ^‚É’Ç‰Á
+			//ãƒ†ã‚¯ã‚¹ãƒãƒ£åº§æ¨™ãƒ‡ãƒ¼ã‚¿ã«è¿½åŠ 
 			texcoords.emplace_back(texcoord);
 		}
 
-		//æ“ª•¶š—ñ‚ªvn‚È‚ç–@üƒxƒNƒgƒ‹
+		//å…ˆé ­æ–‡å­—åˆ—ãŒvnãªã‚‰æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
 		if (key == "vn") {
-			//X,Y,Z¬•ª“Ç‚İ‚İ
+			//X,Y,Zæˆåˆ†èª­ã¿è¾¼ã¿
 			XMFLOAT3 normal{};
 			line_stream >> normal.x;
 			line_stream >> normal.y;
 			line_stream >> normal.z;
-			//–@üƒxƒNƒgƒ‹ƒf[ƒ^‚É’Ç‰Á
+			//æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ãƒ‡ãƒ¼ã‚¿ã«è¿½åŠ 
 			normals.emplace_back(normal);
 		}
 
-		//æ“ª•¶š—ñ‚ªf‚È‚çƒ|ƒŠƒSƒ“(OŠpŒ`)
+		//å…ˆé ­æ–‡å­—åˆ—ãŒfãªã‚‰ãƒãƒªã‚´ãƒ³(ä¸‰è§’å½¢)
 		if (key == "f") {
-			//”¼ŠpƒXƒy[ƒX‹æØ‚è‚ÅŸ‚Ìs‚Ì‘±‚«‚ğ“Ç‚İ‚Ş
+			//åŠè§’ã‚¹ãƒšãƒ¼ã‚¹åŒºåˆ‡ã‚Šã§æ¬¡ã®è¡Œã®ç¶šãã‚’èª­ã¿è¾¼ã‚€
 			string index_string;
 
 			while (getline(line_stream, index_string, ' ')) {
-				//’¸“_ƒCƒ“ƒfƒbƒNƒX1ŒÂ•ª‚Ì•¶š—ñ‚ğƒXƒgƒŠ[ƒ€‚É•ÏŠ·‚µ‚Ä‰ğÍ‚µ‚â‚·‚­‚·‚é
+				//é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹1å€‹åˆ†ã®æ–‡å­—åˆ—ã‚’ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«å¤‰æ›ã—ã¦è§£æã—ã‚„ã™ãã™ã‚‹
 				std::istringstream index_stream(index_string);
 				unsigned short indexPosition, indexNormal, indexTexcoord;
 				index_stream >> indexPosition;
-				index_stream.seekg(1, ios_base::cur);	//ƒXƒ‰ƒbƒVƒ…‚ğ”ò‚Î‚·
+				index_stream.seekg(1, ios_base::cur);	//ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ã‚’é£›ã°ã™
 				index_stream >> indexTexcoord;
-				index_stream.seekg(1, ios_base::cur);	//ƒXƒ‰ƒbƒVƒ…‚ğ”ò‚Î‚·
+				index_stream.seekg(1, ios_base::cur);	//ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ã‚’é£›ã°ã™
 				index_stream >> indexNormal;
 
-				//’¸“_ƒf[ƒ^‚Ì’Ç‰Á
+				//é ‚ç‚¹ãƒ‡ãƒ¼ã‚¿ã®è¿½åŠ 
 				VertexPosNormalUv vertex{};
 				vertex.pos = positions[indexPosition - 1];
 				vertex.normal = normals[indexNormal - 1];
 				vertex.uv = texcoords[indexTexcoord - 1];
 				vertices_.emplace_back(vertex);
 
-				//ƒGƒbƒW•½–Ê‰»—p‚Ìƒf[ƒ^‚ğ’Ç‰Á
+				//ã‚¨ãƒƒã‚¸å¹³é¢åŒ–ç”¨ã®ãƒ‡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 				if (smoothing == true) {
-					//vƒL[(À•Wƒf[ƒ^)‚Ì”Ô†‚ÆA‘S‚Ä‡¬‚µ‚½ƒCƒ“ƒfƒbƒNƒX‚ğƒZƒbƒg‚Å“o˜^‚·‚é
+					//vã‚­ãƒ¼(åº§æ¨™ãƒ‡ãƒ¼ã‚¿)ã®ç•ªå·ã¨ã€å…¨ã¦åˆæˆã—ãŸã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’ã‚»ãƒƒãƒˆã§ç™»éŒ²ã™ã‚‹
 					AddSmoothData(indexPosition, (unsigned short)GetVertexCount() - 1);
 				}
 
-				//’¸“_ƒCƒ“ƒfƒbƒNƒX‚É’Ç‰Á
+				//é ‚ç‚¹ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã«è¿½åŠ 
 				indices_.emplace_back((unsigned short)indices_.size());
 
 			}
 		}
 
-		//æ“ª•¶š—ñ‚ªmtllib‚È‚çƒ}ƒeƒŠƒAƒ‹
+		//å…ˆé ­æ–‡å­—åˆ—ãŒmtllibãªã‚‰ãƒãƒ†ãƒªã‚¢ãƒ«
 		if (key == "mtllib") {
-			//ƒtƒ@ƒCƒ‹–¼‚Ì“Ç‚İ‚İ
+			//ãƒ•ã‚¡ã‚¤ãƒ«åã®èª­ã¿è¾¼ã¿
 			string rocalFilename;
 			line_stream >> rocalFilename;
 
-			//ƒ}ƒeƒŠƒAƒ‹“Ç‚İ‚İ
+			//ãƒãƒ†ãƒªã‚¢ãƒ«èª­ã¿è¾¼ã¿
 			LoadMaterial(directoryPath, rocalFilename);
 		}
 	}
 
 	file.close();
 
-	//’¸“_–@ü‚Ì•½‹Ï‚É‚æ‚éƒwƒbƒW‚Ì•½–Ê‰»
+	//é ‚ç‚¹æ³•ç·šã®å¹³å‡ã«ã‚ˆã‚‹ãƒ˜ãƒƒã‚¸ã®å¹³é¢åŒ–
 	if (smoothing == true) {
 		CalculateSmoothedVertexNormals();
 	}
@@ -171,68 +171,68 @@ void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 
 void Model::LoadMaterial(const std::string& directoryPath, const std::string& filename)
 {
-	//ƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 	std::ifstream file;
-	//ƒ}ƒeƒŠƒAƒ‹ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+	//ãƒãƒ†ãƒªã‚¢ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 	file.open(directoryPath + filename);
-	//ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“¸”s‚ğƒ`ƒFƒbƒN
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³å¤±æ•—ã‚’ãƒã‚§ãƒƒã‚¯
 	if (file.fail()) {
 		assert(0);
 	}
 
-	//1s‚¸‚Â“Ç‚İ‚Ş
+	//1è¡Œãšã¤èª­ã¿è¾¼ã‚€
 	string line;
 	while (getline(file, line))
 	{
-		//1s•ª‚Ì•¶š—ñ‚ğƒXƒgƒŠ[ƒ€‚É•Ï”
+		//1è¡Œåˆ†ã®æ–‡å­—åˆ—ã‚’ã‚¹ãƒˆãƒªãƒ¼ãƒ ã«å¤‰æ•°
 		std::istringstream line_stream(line);
 
-		//”¼ŠpƒXƒy[ƒX‹æØ‚è‚Ås‚Ìæ“ª•¶š—ñ‚ğæ“¾
+		//åŠè§’ã‚¹ãƒšãƒ¼ã‚¹åŒºåˆ‡ã‚Šã§è¡Œã®å…ˆé ­æ–‡å­—åˆ—ã‚’å–å¾—
 		string key;
 		getline(line_stream, key, ' ');
 
-		//æ“ª‚Ìƒ^ƒu•¶š‚Í–³‹‚·‚é
+		//å…ˆé ­ã®ã‚¿ãƒ–æ–‡å­—ã¯ç„¡è¦–ã™ã‚‹
 		if (key[0] == '\t') {
-			key.erase(key.begin());	//æ“ª‚Ì•¶š‚ğíœ
+			key.erase(key.begin());	//å…ˆé ­ã®æ–‡å­—ã‚’å‰Šé™¤
 		}
 
-		//æ“ª•¶š—ñ‚ªnewmtl‚È‚çƒ}ƒeƒŠƒAƒ‹–¼
+		//å…ˆé ­æ–‡å­—åˆ—ãŒnewmtlãªã‚‰ãƒãƒ†ãƒªã‚¢ãƒ«å
 		if (key == "newmtl") {
-			//ƒ}ƒeƒŠƒAƒ‹–¼“Ç‚İ‚İ
+			//ãƒãƒ†ãƒªã‚¢ãƒ«åèª­ã¿è¾¼ã¿
 			line_stream >> material.name;
 		}
 
-		//æ“ª•¶š—ñ‚ªKa‚È‚çƒAƒ“ƒrƒGƒ“ƒgF
+		//å…ˆé ­æ–‡å­—åˆ—ãŒKaãªã‚‰ã‚¢ãƒ³ãƒ“ã‚¨ãƒ³ãƒˆè‰²
 		if (key == "Ka") {
 			line_stream >> material.ambient.x;
 			line_stream >> material.ambient.y;
 			line_stream >> material.ambient.z;
 		}
 
-		//æ“ª•¶š—ñ‚ªKd‚È‚çƒfƒBƒtƒ…[ƒYF
+		//å…ˆé ­æ–‡å­—åˆ—ãŒKdãªã‚‰ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºè‰²
 		if (key == "Kd") {
 			line_stream >> material.diffuse.x;
 			line_stream >> material.diffuse.y;
 			line_stream >> material.diffuse.z;
 		}
 
-		//æ“ª•¶š—ñ‚ªKs‚È‚çƒXƒyƒLƒ…ƒ‰[F
+		//å…ˆé ­æ–‡å­—åˆ—ãŒKsãªã‚‰ã‚¹ãƒšã‚­ãƒ¥ãƒ©ãƒ¼è‰²
 		if (key == "Ks") {
 			line_stream >> material.specular.x;
 			line_stream >> material.specular.y;
 			line_stream >> material.specular.z;
 		}
 
-		//æ“ª•¶š—ñ‚ªmap_Kd‚È‚çƒeƒNƒXƒ`ƒƒƒtƒ@ƒCƒ‹–¼
+		//å…ˆé ­æ–‡å­—åˆ—ãŒmap_Kdãªã‚‰ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚¡ã‚¤ãƒ«å
 		if (key == "map_Kd") {
-			//ƒeƒNƒXƒ`ƒƒ‚Ìƒtƒ@ƒCƒ‹–¼“Ç‚İ‚İ
+			//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ•ã‚¡ã‚¤ãƒ«åèª­ã¿è¾¼ã¿
 			line_stream >> material.textrueFilename;
-			//ƒeƒNƒXƒ`ƒƒ“Ç‚İ‚İ
+			//ãƒ†ã‚¯ã‚¹ãƒãƒ£èª­ã¿è¾¼ã¿
 			LoadTexture(directoryPath, material.textrueFilename);
 		}
 	}
 
-	//ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚é
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‰ã˜ã‚‹
 	file.close();
 }
 
@@ -243,19 +243,19 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
 
-	//ƒtƒ@ƒCƒ‹ƒpƒX‚ğ“‡
+	//ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’çµ±åˆ
 	string filepath = directoryPath + filename;
-	//ƒ†ƒjƒR[ƒh•¶š—ñ‚É•ÏŠ·‚·‚é
+	//ãƒ¦ãƒ‹ã‚³ãƒ¼ãƒ‰æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹
 	wchar_t wfilepath[128];
 	int32_t iBufferSize = MultiByteToWideChar(CP_ACP, 0, filepath.c_str(), -1, wfilepath, _countof(wfilepath));
 	bufferSize_ = iBufferSize;
 
-	// WICƒeƒNƒXƒ`ƒƒ‚Ìƒ[ƒh
+	// WICãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãƒ­ãƒ¼ãƒ‰
 	result = LoadFromWICFile(wfilepath, WIC_FLAGS_NONE, &metadata, scratchImg);
 	assert(SUCCEEDED(result));
 
 	ScratchImage mipChain{};
-	// ƒ~ƒbƒvƒ}ƒbƒv¶¬
+	// ãƒŸãƒƒãƒ—ãƒãƒƒãƒ—ç”Ÿæˆ
 	result = GenerateMipMaps(
 		scratchImg.GetImages(), scratchImg.GetImageCount(), scratchImg.GetMetadata(),
 		TEX_FILTER_DEFAULT, 0, mipChain);
@@ -264,52 +264,52 @@ void Model::LoadTexture(const std::string& directoryPath, const std::string& fil
 		metadata = scratchImg.GetMetadata();
 	}
 
-	// “Ç‚İ‚ñ‚¾ƒfƒBƒtƒ…[ƒYƒeƒNƒXƒ`ƒƒ‚ğSRGB‚Æ‚µ‚Äˆµ‚¤
+	// èª­ã¿è¾¼ã‚“ã ãƒ‡ã‚£ãƒ•ãƒ¥ãƒ¼ã‚ºãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’SRGBã¨ã—ã¦æ‰±ã†
 	metadata.format = MakeSRGB(metadata.format);
 
-	// ƒŠƒ\[ƒXİ’è
+	// ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
 		metadata.format, metadata.width, (UINT)metadata.height, (UINT16)metadata.arraySize,
 		(UINT16)metadata.mipLevels);
 
-	// ƒq[ƒvƒvƒƒpƒeƒB
+	// ãƒ’ãƒ¼ãƒ—ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
 	CD3DX12_HEAP_PROPERTIES heapProps =
 		CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0);
 
-	// ƒeƒNƒXƒ`ƒƒ—pƒoƒbƒtƒ@‚Ì¶¬
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”¨ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	result = sDevice->CreateCommittedResource(
 		&heapProps, D3D12_HEAP_FLAG_NONE, &texresDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ, // ƒeƒNƒXƒ`ƒƒ—pw’è
+		D3D12_RESOURCE_STATE_GENERIC_READ, // ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”¨æŒ‡å®š
 		nullptr, IID_PPV_ARGS(&texbuff_));
 	assert(SUCCEEDED(result));
 
-	// ƒeƒNƒXƒ`ƒƒƒoƒbƒtƒ@‚Éƒf[ƒ^“]‘—
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒƒãƒ•ã‚¡ã«ãƒ‡ãƒ¼ã‚¿è»¢é€
 	for (size_t i = 0; i < metadata.mipLevels; i++) {
-		const Image* img = scratchImg.GetImage(i, 0, 0); // ¶ƒf[ƒ^’Šo
+		const Image* img = scratchImg.GetImage(i, 0, 0); // ç”Ÿãƒ‡ãƒ¼ã‚¿æŠ½å‡º
 		result = texbuff_->WriteToSubresource(
 			(UINT)i,
-			nullptr,              // ‘S—Ìˆæ‚ÖƒRƒs[
-			img->pixels,          // Œ³ƒf[ƒ^ƒAƒhƒŒƒX
-			(UINT)img->rowPitch,  // 1ƒ‰ƒCƒ“ƒTƒCƒY
-			(UINT)img->slicePitch // 1–‡ƒTƒCƒY
+			nullptr,              // å…¨é ˜åŸŸã¸ã‚³ãƒ”ãƒ¼
+			img->pixels,          // å…ƒãƒ‡ãƒ¼ã‚¿ã‚¢ãƒ‰ãƒ¬ã‚¹
+			(UINT)img->rowPitch,  // 1ãƒ©ã‚¤ãƒ³ã‚µã‚¤ã‚º
+			(UINT)img->slicePitch // 1æšã‚µã‚¤ã‚º
 		);
 		assert(SUCCEEDED(result));
 	}
 
-	// ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[ì¬
+	// ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ä½œæˆ
 	cpuDescHandleSRV_ = CD3DX12_CPU_DESCRIPTOR_HANDLE(descHeap_->GetCPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize_);
 	gpuDescHandleSRV_ = CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeap_->GetGPUDescriptorHandleForHeapStart(), 0, descriptorHandleIncrementSize_);
 
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{}; // İ’è\‘¢‘Ì
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{}; // è¨­å®šæ§‹é€ ä½“
 	D3D12_RESOURCE_DESC resDesc = texbuff_->GetDesc();
 
 	srvDesc.Format = resDesc.Format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2DƒeƒNƒXƒ`ƒƒ
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;//2Dãƒ†ã‚¯ã‚¹ãƒãƒ£
 	srvDesc.Texture2D.MipLevels = 1;
 
-	sDevice->CreateShaderResourceView(texbuff_.Get(), //ƒrƒ…[‚ÆŠÖ˜A•t‚¯‚éƒoƒbƒtƒ@
-		&srvDesc, //ƒeƒNƒXƒ`ƒƒİ’èî•ñ
+	sDevice->CreateShaderResourceView(texbuff_.Get(), //ãƒ“ãƒ¥ãƒ¼ã¨é–¢é€£ä»˜ã‘ã‚‹ãƒãƒƒãƒ•ã‚¡
+		&srvDesc, //ãƒ†ã‚¯ã‚¹ãƒãƒ£è¨­å®šæƒ…å ±
 		cpuDescHandleSRV_
 	);
 }
@@ -320,18 +320,18 @@ void Model::InitializeDescriptorHeap()
 
 	HRESULT result = S_FALSE;
 
-	// ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚ğ¶¬	
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã‚’ç”Ÿæˆ	
 	D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc = {};
 	descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//ƒVƒF[ƒ_‚©‚çŒ©‚¦‚é‚æ‚¤‚É
-	descHeapDesc.NumDescriptors = 1; // ƒVƒF[ƒ_[ƒŠƒ\[ƒXƒrƒ…[1‚Â
-	result = sDevice->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap_));//¶¬
+	descHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;//ã‚·ã‚§ãƒ¼ãƒ€ã‹ã‚‰è¦‹ãˆã‚‹ã‚ˆã†ã«
+	descHeapDesc.NumDescriptors = 1; // ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼1ã¤
+	result = sDevice->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&descHeap_));//ç”Ÿæˆ
 	if (FAILED(result)) {
 		assert(0);
 		return;
 	}
 
-	// ƒfƒXƒNƒŠƒvƒ^ƒTƒCƒY‚ğæ“¾
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ã‚µã‚¤ã‚ºã‚’å–å¾—
 	descriptorHandleIncrementSize_ = sDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 }
@@ -341,18 +341,18 @@ void Model::CreateBuffers() {
 
 	UINT sizeVB = static_cast<UINT>(sizeof(VertexPosNormalUv) * vertices_.size());
 
-	// ƒq[ƒvƒvƒƒpƒeƒB
+	// ãƒ’ãƒ¼ãƒ—ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
 	CD3DX12_HEAP_PROPERTIES heapProps = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-	// ƒŠƒ\[ƒXİ’è
+	// ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeVB);
 
-	// ’¸“_ƒoƒbƒtƒ@¶¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	result = sDevice->CreateCommittedResource(
 		&heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
 		IID_PPV_ARGS(&vertBuff_));
 	assert(SUCCEEDED(result));
 
-	// ’¸“_ƒoƒbƒtƒ@‚Ö‚Ìƒf[ƒ^“]‘—
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒ‡ãƒ¼ã‚¿è»¢é€
 	VertexPosNormalUv* vertMap = nullptr;
 	result = vertBuff_->Map(0, nullptr, (void**)&vertMap);
 	if (SUCCEEDED(result)) {
@@ -361,22 +361,22 @@ void Model::CreateBuffers() {
 		vertBuff_->Unmap(0, nullptr);
 	}
 
-	// ’¸“_ƒoƒbƒtƒ@ƒrƒ…[‚Ìì¬
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ
 	vbView_.BufferLocation = vertBuff_->GetGPUVirtualAddress();
 	vbView_.SizeInBytes = sizeVB;
 	vbView_.StrideInBytes = sizeof(vertices_[0]);
 
 	UINT sizeIB = static_cast<UINT>(sizeof(unsigned short) * indices_.size());
 
-	// ƒŠƒ\[ƒXİ’è
+	// ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	resourceDesc.Width = sizeIB;
 
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@¶¬
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ç”Ÿæˆ
 	result = sDevice->CreateCommittedResource(
 		&heapProps, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
 		IID_PPV_ARGS(&indexBuff_));
 
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ö‚Ìƒf[ƒ^“]‘—
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã¸ã®ãƒ‡ãƒ¼ã‚¿è»¢é€
 	unsigned short* indexMap = nullptr;
 	result = indexBuff_->Map(0, nullptr, (void**)&indexMap);
 	assert(SUCCEEDED(result));
@@ -385,23 +385,23 @@ void Model::CreateBuffers() {
 		indexBuff_->Unmap(0, nullptr);
 	}
 
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@ƒrƒ…[‚Ìì¬
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã®ä½œæˆ
 	ibView_.BufferLocation = indexBuff_->GetGPUVirtualAddress();
 	ibView_.Format = DXGI_FORMAT_R16_UINT;
 	ibView_.SizeInBytes = sizeIB;
 
 
-	//’è”ƒoƒbƒtƒ@—p‚ÌƒŠƒ\[ƒXİ’è
+	//å®šæ•°ãƒãƒƒãƒ•ã‚¡ç”¨ã®ãƒªã‚½ãƒ¼ã‚¹è¨­å®š
 	resourceDesc = CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataB1) + 0xff) & ~0xff);
 
-	// ƒ}ƒeƒŠƒAƒ‹—p’è”ƒoƒbƒtƒ@‚Ì¶¬
+	// ãƒãƒ†ãƒªã‚¢ãƒ«ç”¨å®šæ•°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ
 	result = sDevice->CreateCommittedResource(
-		&heapProps, // ƒAƒbƒvƒ[ƒh‰Â”\
+		&heapProps, // ã‚¢ãƒƒãƒ—ãƒ­ãƒ¼ãƒ‰å¯èƒ½
 		D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
 		IID_PPV_ARGS(&constBuffB1_));
 	assert(SUCCEEDED(result));
 
-	//ƒ}ƒeƒŠƒAƒ‹—p’è”ƒoƒbƒtƒ@‚Öƒf[ƒ^“]‘—
+	//ãƒãƒ†ãƒªã‚¢ãƒ«ç”¨å®šæ•°ãƒãƒƒãƒ•ã‚¡ã¸ãƒ‡ãƒ¼ã‚¿è»¢é€
 	ConstBufferDataB1* constMap1 = nullptr;
 	result = constBuffB1_->Map(0, nullptr, (void**)&constMap1);
 	if (SUCCEEDED(result)) {
@@ -415,22 +415,22 @@ void Model::CreateBuffers() {
 }
 
 void Model::Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial) {
-	// ’¸“_ƒoƒbƒtƒ@‚Ìİ’è
+	// é ‚ç‚¹ãƒãƒƒãƒ•ã‚¡ã®è¨­å®š
 	cmdList->IASetVertexBuffers(0, 1, &vbView_);
-	// ƒCƒ“ƒfƒbƒNƒXƒoƒbƒtƒ@‚Ìİ’è
+	// ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒãƒƒãƒ•ã‚¡ã®è¨­å®š
 	cmdList->IASetIndexBuffer(&ibView_);
-	// ƒ}ƒeƒŠƒAƒ‹—p’è”ƒoƒbƒtƒ@ƒrƒ…[‚ğƒZƒbƒg
+	// ãƒãƒ†ãƒªã‚¢ãƒ«ç”¨å®šæ•°ãƒãƒƒãƒ•ã‚¡ãƒ“ãƒ¥ãƒ¼ã‚’ã‚»ãƒƒãƒˆ
 	cmdList->SetGraphicsRootConstantBufferView(rootParamIndexMaterial, constBuffB1_->GetGPUVirtualAddress());
 
-	// ƒfƒXƒNƒŠƒvƒ^ƒq[ƒv‚Ì”z—ñ
+	// ãƒ‡ã‚¹ã‚¯ãƒªãƒ—ã‚¿ãƒ’ãƒ¼ãƒ—ã®é…åˆ—
 	ID3D12DescriptorHeap* ppHeaps[] = { descHeap_.Get() };
 	cmdList->SetDescriptorHeaps(_countof(ppHeaps), ppHeaps);
 
 	if (material.textrueFilename.size() > 0) {
-		// ƒVƒF[ƒ_ƒŠƒ\[ƒXƒrƒ…[‚ğƒZƒbƒg
+		// ã‚·ã‚§ãƒ¼ãƒ€ãƒªã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã‚’ã‚»ãƒƒãƒˆ
 		cmdList->SetGraphicsRootDescriptorTable(2, gpuDescHandleSRV_);
 	}
 
-	// •`‰æƒRƒ}ƒ“ƒh
+	// æç”»ã‚³ãƒãƒ³ãƒ‰
 	cmdList->DrawIndexedInstanced((UINT)indices_.size(), 1, 0, 0, 0);
 }

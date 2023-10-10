@@ -28,16 +28,16 @@ public:
 
 	~BaseScene() = default;
 
-	//‰Šú‰»
+	//åˆæœŸåŒ–
 	virtual void Initialize() = 0;
 
-	//I—¹
+	//çµ‚äº†
 	virtual void Finalize() = 0;
 
-	//–ˆƒtƒŒ[ƒ€
+	//æ¯ãƒ•ãƒ¬ãƒ¼ãƒ 
 	virtual void Update() = 0;
 
-	//•`‰æ
+	//æç”»
 	virtual void Draw() = 0;
 
 };
