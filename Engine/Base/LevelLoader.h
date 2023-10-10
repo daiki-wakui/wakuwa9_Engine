@@ -9,7 +9,7 @@ struct LevelData {
 	struct ObjectData {
 		// ファイル名
 		std::string fileName;
-		float padding[2];
+		std::string padding;
 		// 平行移動
 		DirectX::XMVECTOR translation;
 		// 回転角
