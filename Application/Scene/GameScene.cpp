@@ -710,6 +710,7 @@ void GameScene::ReLoad(const std::string filename)
 			continue;
 		}
 
+
 		//eventボックスの配置
 		if (levelData_->objects[i].fileName == "IventBlock") {
 			//オブジェクト生成と座標情報代入
