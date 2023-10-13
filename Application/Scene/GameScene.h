@@ -248,7 +248,7 @@ public:
 
 	void EditorLoad();
 
-	void ReLoad();
+	void ReLoad(const std::string filename);
 
 	void Inport(Model* model, int32_t size);
 
