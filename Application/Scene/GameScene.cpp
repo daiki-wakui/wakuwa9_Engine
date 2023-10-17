@@ -268,8 +268,10 @@ void GameScene::Update()
 	}
 
 	//ゲーム画面
-	eventBox_->Update();
-
+	if (eventBox_->GetIsArive()) {
+		eventBox_->Update();
+	}
+	
 	for (auto& object : objects) {
 		object->Update();
 	}
@@ -534,11 +536,11 @@ void GameScene::SpriteDraw()
 		bossHPSprite_->Draw(bossHP_);
 	}
 
-	if (player_->IsDead() == true) {
+	if (player_->IsDead()) {
 		gameoverSprite_->Draw(gameover_);
 	}
 
-	if (boss_->GetArive() == false) {
+	if (!boss_->GetArive()) {
 		gameclearSprite_->Draw(gameclear_);
 	}
 	RBSprite_->Draw(manualImageRB_);
@@ -667,7 +669,7 @@ void GameScene::EditorLoad()
 void GameScene::ReLoad()
 {
 	// レベルデータの読み込み
-	levelData_ = LevelLoader::LoadFile("obj");
+ 	levelData_ = LevelLoader::LoadFile("obj");
 
 	//models.insert(std::make_pair(std::string("player"), playerModel_.get()));
 	models.insert(std::make_pair(std::string("boss"), enemyModel_.get()));
@@ -847,65 +849,75 @@ void GameScene::AllCollison()
 {
 	//当たり判定
 	XMFLOAT3 posA, posB;
+	float r1 = 1.0f;	//イベントのスケール
+	float r2 = 1.0f;	//自機のスケール
 
 	//自弾リストの取得
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player_->GetBullets();
 
 	posA = player_->GetWorldPos();
 
-	posB = eventBox_->GetWorldPos();
+	if (eventBox_->GetIsArive()) {
+		posB = eventBox_->GetWorldPos();
 
+		//AとBの距離
+		r1 = 3.0f;	//イベントのスケール
+		r2 = 13.0f;	//自機のスケール
 
-	//AとBの距離
-	float r1 = 3.0f;	//イベントのスケール
-	float r2 = 13.0f;	//自機のスケール
-
-	if (Collison(posA, posB, r1, r2)) {
-		hitBox_ = true;
+		if (Collison(posA, posB, r1, r2)) {
+			if (!isTutorial_) {
+				hitBox_ = true;
+			}
+			else {
+				isChangeStage_ = true;
+			}
+		}
 	}
 
 	//自機の弾とボスの当たり判定
-	posA = boss_->GetWorldPos();
+	if (boss_->GetArive()) {
+		posA = boss_->GetWorldPos();
 
-	for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
-		//自弾の座標
-		posB = bullet->GetWorldPos();
+		for (const std::unique_ptr<PlayerBullet>& bullet : playerBullets) {
+			//自弾の座標
+			posB = bullet->GetWorldPos();
 
-		//AとBの距離
-		r1 = 20.0f;	//敵のスケール
-		r2 = 1.0f;	//弾のスケール
-		float r = r1 + r2;
+			//AとBの距離
+			r1 = 20.0f;	//敵のスケール
+			r2 = 1.0f;	//弾のスケール
+			float r = r1 + r2;
 
-		XMFLOAT3 dis;
-		dis.x = posB.x - posA.x;
-		dis.y = posB.y - posA.y;
-		dis.z = posB.z - posA.z;
+			XMFLOAT3 dis;
+			dis.x = posB.x - posA.x;
+			dis.y = posB.y - posA.y;
+			dis.z = posB.z - posA.z;
 
 
-		if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && hitBox_ == true) {
-			bullet->isDead_ = true;
-			BulletEffect = true;
-			boss_->OnCollision();
-			sound_->PlayWave("Hit.wav",0.5f);
-		}
-
-		if (BulletEffect) {
-			for (int i = 0; i < 3; i++) {
-				XMFLOAT3 tmppos = posA;
-
-				const float md_vel = 10.0f;
-				XMFLOAT3 vel{};
-				vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-				vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-				vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-
-				XMFLOAT3 acc{};
-				const float md_acc = 0.001f;
-				acc.y = -(float)rand() / RAND_MAX * md_acc;
-
-				particleMan_->Add(60, tmppos, vel, acc, 2.0f, 0.0f);
+			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && hitBox_ == true) {
+				bullet->isDead_ = true;
+				BulletEffect = true;
+				boss_->OnCollision();
+				sound_->PlayWave("Hit.wav", 0.5f);
 			}
-			BulletEffect = false;
+
+			if (BulletEffect) {
+				for (int i = 0; i < 3; i++) {
+					XMFLOAT3 tmppos = posA;
+
+					const float md_vel = 10.0f;
+					XMFLOAT3 vel{};
+					vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+					vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+					vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
+
+					XMFLOAT3 acc{};
+					const float md_acc = 0.001f;
+					acc.y = -(float)rand() / RAND_MAX * md_acc;
+
+					particleMan_->Add(60, tmppos, vel, acc, 2.0f, 0.0f);
+				}
+				BulletEffect = false;
+			}
 		}
 	}
 
@@ -945,28 +957,30 @@ void GameScene::AllCollison()
 	}
 
 	//ボス弾と自機の当たり判定
-	for (const std::unique_ptr<BossBullet>& bullet : boss_->GetBullets()) {
-		//敵弾の座標
-		posB = bullet->GetWorldPos();
+	if (boss_->GetArive()) {
+		for (const std::unique_ptr<BossBullet>& bullet : boss_->GetBullets()) {
+			//敵弾の座標
+			posB = bullet->GetWorldPos();
 
-		//AとBの距離
-		r1 = 7.0f;	//敵のスケール
-		r2 = 1.0f;	//弾のスケール
-		float r = r1 + r2;
+			//AとBの距離
+			r1 = 7.0f;	//敵のスケール
+			r2 = 1.0f;	//弾のスケール
+			float r = r1 + r2;
 
-		XMFLOAT3 dis;
-		dis.x = posB.x - posA.x;
-		dis.y = posB.y - posA.y;
-		dis.z = posB.z - posA.z;
+			XMFLOAT3 dis;
+			dis.x = posB.x - posA.x;
+			dis.y = posB.y - posA.y;
+			dis.z = posB.z - posA.z;
 
-		if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
+			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
 
-			bullet->isDead_ = true;
+				bullet->isDead_ = true;
 
-			if (!player_->Getinvincible()) {
-				sound_->PlayWave("noise.wav");
+				if (!player_->Getinvincible()) {
+					sound_->PlayWave("noise.wav");
+				}
+				player_->OnCollision();
 			}
-			player_->OnCollision();
 		}
 	}
 

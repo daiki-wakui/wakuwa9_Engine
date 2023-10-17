@@ -11,12 +11,14 @@ private:
 
 public:
 
-	bool arive = false;
+	bool valid_ = false;
 
 	DirectX::XMFLOAT3 GetWorldPos();
 
 	void Initialize(Model* Model, Object3D* Object);
 	void Update();
 	void Draw();
+
+	bool GetIsArive() { return valid_; }
 };
 

@@ -189,8 +189,7 @@ private:	//メンバ変数
 	bool playBGM_ = false;
 	bool bossBGM_ = false;
 
-	bool hitBox_ = false;
-
+	
 	XMFLOAT2 reticleSize_ = {0,720};
 
 	XMFLOAT3 screenPos_ = {};
@@ -222,6 +221,10 @@ private:	//メンバ変数
 
 	float ChangeAlpha_ = 1;
 	bool resetOn_ = false;
+
+	bool hitBox_ = false;
+	bool isTutorial_ = false;
+	bool isChangeStage_ = false;
 
 public:
 

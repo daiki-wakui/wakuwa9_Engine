@@ -16,7 +16,7 @@ void EventBox::Initialize(Model* Model, Object3D* Object)
 	model_ = Model;
 	object_ = Object;
 
-	arive = true;
+	valid_ = true;
 }
 
 
