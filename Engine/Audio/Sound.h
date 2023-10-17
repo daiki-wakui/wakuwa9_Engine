@@ -64,6 +64,8 @@ public:
 
 	void StopWAVE(const std::string& filename);
 
+	void SetVolue(const std::string& filename, float volue);
+
 private:
 
 	ComPtr<IXAudio2> xAudio2_;

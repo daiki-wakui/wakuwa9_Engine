@@ -188,3 +188,13 @@ void Sound::StopWAVE(const std::string& filename)
 
 	soundData.pSoundVoice_->Stop();
 }
+
+void Sound::SetVolue(const std::string& filename, float volue)
+{
+	std::map<std::string, SoundData>::iterator it = soundDatas_.find(filename);
+	assert(it != soundDatas_.end());
+
+	SoundData& soundData = it->second;
+
+	soundData.pSoundVoice_->SetVolume(volue);
+}
