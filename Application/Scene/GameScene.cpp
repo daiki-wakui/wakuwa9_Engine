@@ -663,13 +663,13 @@ void GameScene::EditorLoad()
 	objects.clear();
 	enemys_.clear();
 	enemycharges_.clear();
-	ReLoad();
+	ReLoad("obj");
 }
 
-void GameScene::ReLoad()
+void GameScene::ReLoad(const std::string filename)
 {
 	// レベルデータの読み込み
- 	levelData_ = LevelLoader::LoadFile("obj");
+	levelData_ = LevelLoader::LoadFile(filename);
 
 	//models.insert(std::make_pair(std::string("player"), playerModel_.get()));
 	models.insert(std::make_pair(std::string("boss"), enemyModel_.get()));
@@ -705,6 +705,7 @@ void GameScene::ReLoad()
 
 			continue;
 		}
+
 
 		//eventボックスの配置
 		if (levelData_->objects[i].fileName == "IventBlock") {
@@ -767,7 +768,7 @@ void GameScene::ReLoad()
 		}
 		else if (levelData_->objects[i].fileName == "boss") {
 			//オブジェクト生成と座標情報代入
-			Inport(model, i);
+ 			Inport(model, i);
 
 
 			newObject[objSize_]->SetScale({ 15,15,15 });
