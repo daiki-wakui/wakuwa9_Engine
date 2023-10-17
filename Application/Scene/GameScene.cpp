@@ -148,6 +148,8 @@ void GameScene::Initialize()
 	drModel_ = std::make_unique<Model>();
 	drModel_->LoadFromObj("doar");
 
+	LeftDoorModel_ = std::make_unique<Model>();
+	LeftDoorModel_->LoadFromObj("doar2");
 
 	shadowObject_ = std::make_unique<Object3D>();
 	shadowObject_->SetModel(shadowModel_.get());
@@ -162,7 +164,7 @@ void GameScene::Initialize()
 
 
 	eventBox_ = std::make_unique<EventBox>();
-
+	
 	//3Dオブジェクト生成
 	playerObject_ = std::make_unique<Object3D>();
 	playerObject_->SetModel(playerModel_.get());
@@ -281,6 +283,10 @@ void GameScene::Update()
 		eventBox_->Update();
 	}
 	
+	//if (door_->GetIsArive()) {
+	//	
+	//}
+	
 	for (auto& object : objects) {
 		object->Update();
 	}
@@ -394,6 +400,11 @@ void GameScene::Update()
 
 	for (std::unique_ptr<CollisionBox>& collision : collisions_) {
 		collision->Update();
+	}
+
+
+	for (std::unique_ptr<Door>& door : doors_) {
+		door->Update();
 	}
 
 	AllCollison();
@@ -622,6 +633,10 @@ void GameScene::Draw()
 		object->Draw();
 	}
 
+	for (std::unique_ptr<Door>& door : doors_) {
+		door->Draw();
+	}
+
 	if (player_->IsDead() == false && isIvent_ == false) {
 		player_->Draw();
 	}
@@ -672,6 +687,7 @@ void GameScene::EditorLoad(const std::string filename)
 	objects.clear();
 	enemys_.clear();
 	enemycharges_.clear();
+	doors_.clear();
 	ReLoad(filename);
 }
 
@@ -691,6 +707,7 @@ void GameScene::ReLoad(const std::string filename)
 	models.insert(std::make_pair(std::string("FliedT"), filedTentoModel_.get()));
 	models.insert(std::make_pair(std::string("Fliedtou"), filedTouModel_.get()));
 	models.insert(std::make_pair(std::string("dr"), drModel_.get()));
+	models.insert(std::make_pair(std::string("d"), LeftDoorModel_.get()));
 
 
 	// レベルデータからオブジェクトを生成、配置
@@ -732,6 +749,38 @@ void GameScene::ReLoad(const std::string filename)
 			player_ = std::make_unique<Player>();
 			player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
 			player_->SetBulletModel(playerBulletCubeModel_.get(), bulletObject_.get());
+		}
+		else if (levelData_->objects[i].fileName == "dr") {
+			//オブジェクト生成と座標情報代入
+ 			Inport(model, i);
+			// 座標
+			DirectX::XMFLOAT3 rocalPos;
+			DirectX::XMStoreFloat3(&rocalPos, levelData_->objects[i].translation);
+			newObject[objSize_]->SetPosition({ rocalPos.x+15,rocalPos.y,rocalPos.z });
+
+			newDoor[doorCount_] = std::make_unique<Door>();
+			newDoor[doorCount_]->Initialize(model, newObject[objSize_].get());
+			doors_.push_back(std::move(newDoor[doorCount_]));
+
+
+			objSize_++;
+			doorCount_++;
+		}
+		else if (levelData_->objects[i].fileName == "d") {
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
+			// 座標
+			DirectX::XMFLOAT3 rocalPos;
+			DirectX::XMStoreFloat3(&rocalPos, levelData_->objects[i].translation);
+			newObject[objSize_]->SetPosition({ rocalPos.x,rocalPos.y,rocalPos.z });
+
+
+			newDoor[doorCount_] = std::make_unique<Door>();
+			newDoor[doorCount_]->Initialize(model, newObject[objSize_].get(), true);
+			doors_.push_back(std::move(newDoor[doorCount_]));
+
+			objSize_++;
+			doorCount_++;
 		}
 		//eventボックスの配置
 		else if (levelData_->objects[i].fileName == "IventBlock") {
@@ -843,7 +892,7 @@ void GameScene::Reset()
 	bossBGM_ = false;
 	hitBox_ = false;
 	
-	EditorLoad("d");
+	EditorLoad("obj");
 }
 
 bool GameScene::Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale)

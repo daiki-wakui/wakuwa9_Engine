@@ -10,6 +10,7 @@
 #include "EnemyCharge.h"
 #include "Boss.h"
 #include "CollisionBox.h"
+#include "Door.h"
 
 #include "LevelLoader.h"
 #include "Easing.h"
@@ -71,6 +72,7 @@ private:	//メンバ変数
 	std::unique_ptr<Model> filedTouModel_;
 
 	std::unique_ptr<Model> drModel_;
+	std::unique_ptr<Model> LeftDoorModel_;
 
 	std::unique_ptr<Model> poriModel_;
 	std::unique_ptr<Object3D> poriObject_;
@@ -166,17 +168,20 @@ private:	//メンバ変数
 	std::list<std::unique_ptr<Enemy>> enemys_;
 	std::list<std::unique_ptr<EnemyCharge>> enemycharges_;
 	std::list<std::unique_ptr<CollisionBox>> collisions_;
+	std::list<std::unique_ptr<Door>> doors_;
 
-
+	
 	std::unique_ptr<Object3D> newObject[1000] = {};
 	std::unique_ptr<Enemy> newEnemy[1000] = {};
 	std::unique_ptr<EnemyCharge> newEnemy2[1000] = {};
 	std::unique_ptr<CollisionBox> collBox[1000] = {};
+	std::unique_ptr<Door> newDoor[100] = {};
 
 	int32_t objSize_ = 0;
 	int32_t enemySize_ = 0;
 	int32_t enemySize2_ = 0;
 	int32_t collSize_ = 0;
+	int32_t doorCount_ = 0;
 
 	//パーティクル
 	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
