@@ -145,6 +145,10 @@ void GameScene::Initialize()
 	shadowModel_ = std::make_unique<Model>();
 	shadowModel_->LoadFromObj("cirshadow");
 
+	drModel_ = std::make_unique<Model>();
+	drModel_->LoadFromObj("doar");
+
+
 	shadowObject_ = std::make_unique<Object3D>();
 	shadowObject_->SetModel(shadowModel_.get());
 	shadowObject_->Initialize();
@@ -686,6 +690,7 @@ void GameScene::ReLoad(const std::string filename)
 	models.insert(std::make_pair(std::string("wallBlock"), cubeModel_.get()));
 	models.insert(std::make_pair(std::string("FliedT"), filedTentoModel_.get()));
 	models.insert(std::make_pair(std::string("Fliedtou"), filedTouModel_.get()));
+	models.insert(std::make_pair(std::string("dr"), drModel_.get()));
 
 
 	// レベルデータからオブジェクトを生成、配置

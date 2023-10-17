@@ -1233,6 +1233,28 @@
         },
         {
             "type": "MESH",
+            "name": "Cube.007",
+            "transform": {
+                "translation": [
+                    -40.60029602050781,
+                    -10.020614624023438,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    7.946253299713135,
+                    7.946253299713135,
+                    7.946253299713135
+                ]
+            },
+            "file_name": "dr"
+        },
+        {
+            "type": "MESH",
             "name": "Cube.170",
             "transform": {
                 "translation": [
