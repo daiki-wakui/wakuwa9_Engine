@@ -120,7 +120,7 @@ private:// 静的メンバ関数
 	static void InitializeGraphicsPipeline();
 
 	//テクスチャ読み込み
-	static void LoadTexture();
+	static void LoadTexture(const wchar_t* name);
 
 	//モデル作成
 	static void CreateModel();
@@ -130,7 +130,7 @@ private:// 静的メンバ関数
 
 public: // メンバ関数
 
-	bool Initialize();
+	bool Initialize(const wchar_t* name);
 	void Update();
 	void Draw();
 
@@ -153,7 +153,7 @@ private: // メンバ変数
 		int frame = 0;
 		int num_frame = 0;
 		float scale = 1.0f;
-		float s_scale = 1.0f;
+		float s_scale = 10.0f;
 		float e_scale = 0.0f;
 	};
 

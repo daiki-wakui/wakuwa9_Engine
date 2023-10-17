@@ -217,7 +217,7 @@ void GameScene::Initialize()
 	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
 	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
 
-	particleMan_->Initialize();
+	particleMan_->Initialize(L"Resources/effect1.png");
 	particleMan_->Update();
 
 	resetOn_ = false;
