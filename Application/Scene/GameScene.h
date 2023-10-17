@@ -249,7 +249,7 @@ public:
 
 	void pDraw();
 
-	void EditorLoad();
+	void EditorLoad(const std::string filename);
 
 	void ReLoad(const std::string filename);
 

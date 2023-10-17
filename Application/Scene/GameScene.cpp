@@ -230,6 +230,11 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
+	if (keyboard_->keyInstantPush(DIK_N)) {
+		EditorLoad("obj");
+		SoundManager::GetInstance()->SetFiledBGM(true);
+	}
+
 	//リセット
 	if (keyboard_->keyInstantPush(DIK_B)) {
 		Reset();
@@ -658,12 +663,12 @@ void GameScene::pDraw()
 	particleMan_->Draw();
 }
 
-void GameScene::EditorLoad()
+void GameScene::EditorLoad(const std::string filename)
 {
 	objects.clear();
 	enemys_.clear();
 	enemycharges_.clear();
-	ReLoad("obj");
+	ReLoad(filename);
 }
 
 void GameScene::ReLoad(const std::string filename)
@@ -671,7 +676,7 @@ void GameScene::ReLoad(const std::string filename)
 	// レベルデータの読み込み
 	levelData_ = LevelLoader::LoadFile(filename);
 
-	//models.insert(std::make_pair(std::string("player"), playerModel_.get()));
+	models.insert(std::make_pair(std::string("player"), playerModel_.get()));
 	models.insert(std::make_pair(std::string("boss"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemySpawn2"), enemyModel2_.get()));
@@ -707,8 +712,24 @@ void GameScene::ReLoad(const std::string filename)
 		}
 
 
+
+		if (levelData_->objects[i].fileName == "player") {
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
+
+			playerObject_->Initialize();
+			playerObject_->SetScale(XMFLOAT3({ 1,1,1 }));
+			playerObject_->SetPosition(newObject[objSize_]->GetPosition());
+			playerObject_->SetRotation(newObject[objSize_]->GetRotation());
+			playerObject_->SetCamera({ 0, 20, -30.0f }, { 0, 10, 0 });
+
+			player_.reset();
+			player_ = std::make_unique<Player>();
+			player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
+			player_->SetBulletModel(playerBulletCubeModel_.get(), bulletObject_.get());
+		}
 		//eventボックスの配置
-		if (levelData_->objects[i].fileName == "IventBlock") {
+		else if (levelData_->objects[i].fileName == "IventBlock") {
 			//オブジェクト生成と座標情報代入
 			Inport(model, i);
 
@@ -816,18 +837,8 @@ void GameScene::Reset()
 {
 	bossBGM_ = false;
 	hitBox_ = false;
-	player_.reset();
-	playerObject_->Initialize();
-	playerObject_->SetScale(XMFLOAT3({ 1,1,1 }));
-	playerObject_->SetPosition({ 0,0,0 });
-	playerObject_->SetRotation({ 0,0,0 });
-	playerObject_->SetCamera({ 0, 20, -30.0f }, { 0, 10, 0 });
-
-	player_ = std::make_unique<Player>();
-	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
-	player_->SetBulletModel(playerBulletCubeModel_.get(), bulletObject_.get());
-
-	EditorLoad();
+	
+	EditorLoad("d");
 }
 
 bool GameScene::Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale)

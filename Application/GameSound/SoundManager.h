@@ -17,6 +17,8 @@ public:
 	void SetBossBGM(bool isBossBGM) { isBoss_ = isBossBGM; }
 	void StopBGM();
 
+	void SetFiledBGM(bool isFiledBGM) { isFiledBGM_ = isFiledBGM; }
+
 private:
 
 	SoundManager() = default;
@@ -29,6 +31,9 @@ private:
 	
 
 	Sound* sound_ = nullptr;
+
+	bool isFiledBGM_ = false;
+	float filedVolue_ = 0.0f;
 
 	//BGM
 	bool titleBGM_ = false;

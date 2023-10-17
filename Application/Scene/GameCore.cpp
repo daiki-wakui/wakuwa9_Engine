@@ -89,7 +89,7 @@ void GameCore::Update()
 
 	//オブジェクト読み込み直す
 	if (ImGui::Button("ReLoad")) {
-		gamescene_->EditorLoad();
+		gamescene_->EditorLoad("obj");
 	}
 
 	imGuiM_->End();
