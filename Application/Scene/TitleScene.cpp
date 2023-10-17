@@ -9,12 +9,6 @@ void TitleScene::SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManag
 	sound_ = sound;
 }
 
-void TitleScene::SetInputInfo(KeyBoard* keyboard, GamePad* gamePad)
-{
-	keyboard_ = keyboard;
-	gamePad_ = gamePad;
-}
-
 void TitleScene::Initialize()
 {
 	titleImage_ = spBasis_->TextureData(L"Resources/title.png");

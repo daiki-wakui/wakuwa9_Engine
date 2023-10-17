@@ -24,8 +24,8 @@ private:
 	ImGuiManager* imGuiM_ = nullptr;
 	Sound* sound_ = nullptr;
 
-	KeyBoard* keyboard_ = nullptr;
-	GamePad* gamePad_ = nullptr;
+	KeyBoard* keyboard_ = KeyBoard::GetInstance();
+	GamePad* gamePad_ = GamePad::GetInstance();
 
 private:	//メンバ変数
 	//天球
@@ -83,7 +83,5 @@ public:	//setter,getter
 	void SetStart(bool start) { changeStart_ = start; }
 
 	void SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound_);
-	void SetInputInfo(KeyBoard* keyboard, GamePad* gamePad);
-
 };
 

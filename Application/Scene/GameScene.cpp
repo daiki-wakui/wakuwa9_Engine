@@ -12,12 +12,6 @@ void GameScene::SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManage
 	sound_ = sound;
 }
 
-void GameScene::SetInputInfo(KeyBoard* keyboard, GamePad* gamePad)
-{
-	keyboard_ = keyboard;
-	gamePad_ = gamePad;
-}
-
 void GameScene::Initialize()
 {
 

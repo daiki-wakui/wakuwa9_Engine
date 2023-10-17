@@ -16,9 +16,18 @@ private:
 
     const double PI = 3.141492;
 
+    GamePad() = default;
+    ~GamePad() = default;
+    //コピーコンストラクタ無効
+    GamePad(const GamePad& obj) = delete;
+    //代入演算子を無効
+    GamePad& operator=(const GamePad& obj) = delete;
+
 private:
     void SetDeadZone(short& sThumb, const short& deaadzone);
 public:
+
+    static GamePad* GetInstance();
 
     //更新処理
     void Update();

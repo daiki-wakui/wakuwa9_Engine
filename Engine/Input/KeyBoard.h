@@ -16,7 +16,17 @@ private:
 	BYTE key_[256] = {};
 	BYTE oldkey_[256] = {};
 
+	KeyBoard() = default;
+	~KeyBoard() = default;
+	//コピーコンストラクタ無効
+	KeyBoard(const KeyBoard& obj) = delete;
+	//代入演算子を無効
+	KeyBoard& operator=(const KeyBoard& obj) = delete;
+
 public:
+	static KeyBoard* GetInstance();
+
+
 	void Initialize(HINSTANCE hInstance, HWND hwnd);
 	void Update();
 

@@ -11,6 +11,13 @@ void GamePad::SetDeadZone(short& sThumb, const short& deaadzone)
     }
 }
 
+GamePad* GamePad::GetInstance()
+{
+    static GamePad instance;
+
+    return &instance;
+}
+
 void GamePad::Update()
 {
     //前回の入力情報

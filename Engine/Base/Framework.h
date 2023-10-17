@@ -28,9 +28,9 @@ private:
 	std::unique_ptr<WindowsApp> windows_ = std::make_unique<WindowsApp>();
 
 	//keyboradクラスの生成
-	std::unique_ptr<KeyBoard> keyboard_ = std::make_unique<KeyBoard>();
+	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 
-	std::unique_ptr<GamePad> gamePad_ = std::make_unique<GamePad>();
+	GamePad* gamePad_ = GamePad::GetInstance();
 
 	//DirectXの基盤生成クラス
 	std::unique_ptr<DirectXBasis> directX_ = std::make_unique<DirectXBasis>();
@@ -77,8 +77,8 @@ public:
 	WindowsApp* GetWindows() { return windows_.get(); }
 	DirectXBasis* GetDirectX() { return directX_.get(); }
 	ImGuiManager* GetImGui() { return imGuiM_.get(); }
-	KeyBoard* GetInput() { return keyboard_.get(); }
-	GamePad* GetInputPad() { return gamePad_.get(); }
+	KeyBoard* GetInput() { return keyboard_; }
+	GamePad* GetInputPad() { return gamePad_; }
 	SpriteBasis* GetSpBasis() { return spBasis_.get(); }
 	Sound* GetSound() { return sound_.get(); }
 };

@@ -35,8 +35,8 @@ private:
 	ImGuiManager* imGuiM_ = nullptr;
 	Sound* sound_ = nullptr;
 
-	KeyBoard* keyboard_ = nullptr;
-	GamePad* gamePad_ = nullptr;
+	KeyBoard* keyboard_ = KeyBoard::GetInstance();
+	GamePad* gamePad_ = GamePad::GetInstance();
 	
 private:	//メンバ変数
 
@@ -262,6 +262,5 @@ public:
 	bool GetStart() { return start_; }
 	void SetStart(bool start) { start_ = start; }
 	void SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound_);
-	void SetInputInfo(KeyBoard* keyboard, GamePad* gamePad);
 };
 

@@ -5,6 +5,13 @@
 
 using namespace DirectX;
 
+KeyBoard* KeyBoard::GetInstance()
+{
+	static KeyBoard instance;
+
+	return &instance;
+}
+
 void KeyBoard::Initialize(HINSTANCE hInstance, HWND hwnd)
 {
 	HRESULT result;
