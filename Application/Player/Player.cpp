@@ -48,12 +48,29 @@ void Player::Update()
 	if (inputPad_->InputLStickUp()||input_->keyPush(DIK_UP)) {
 		frontMove_.x = -frontVec.x;
 		frontMove_.z = -frontVec.z;
-	}
-	else if (inputPad_->InputLStickDown()||input_->keyPush(DIK_DOWN)) {
-		frontMove_.x = frontVec.x;
-		frontMove_.z = frontVec.z;
+		rot_.x++;
+		rot_.x = min(rot_.x, 5);
 	}
 	else {
+		if (!inputPad_->InputLStick() && rot_.x > 0) {
+			rot_.x--;
+			rot_.x = max(rot_.x, 0);
+		}
+		
+	}
+
+	if (inputPad_->InputLStickDown()||input_->keyPush(DIK_DOWN)) {
+		frontMove_.x = frontVec.x;
+		frontMove_.z = frontVec.z;
+		rot_.x--;
+		rot_.x = max(rot_.x, -5);
+	}
+	else {
+		if (!inputPad_->InputLStick() && rot_.x < 0) {
+			rot_.x++;
+			rot_.x = min(rot_.x, 0);
+		}
+		
 		frontMove_ *= friction;
 	}
 
@@ -62,12 +79,28 @@ void Player::Update()
 	if (inputPad_->InputLStickRight()||input_->keyPush(DIK_RIGHT)) {
 		sideMove_.x = -moveXVec.x;
 		sideMove_.z = -moveXVec.z;
-	}
-	else if (inputPad_->InputLStickLeft()||input_->keyPush(DIK_LEFT)) {
-		sideMove_.x = moveXVec.x;
-		sideMove_.z = moveXVec.z;
+		rot_.z--;
+		rot_.z = max(rot_.z, -5);
 	}
 	else {
+		sideMove_ *= friction;
+		if (!inputPad_->InputLStick() && rot_.z < 0) {
+			rot_.z++;
+			rot_.z = min(rot_.z, 0);
+		}
+	}
+
+	if (inputPad_->InputLStickLeft()||input_->keyPush(DIK_LEFT)) {
+		sideMove_.x = moveXVec.x;
+		sideMove_.z = moveXVec.z;
+		rot_.z++;
+		rot_.z = min(rot_.z, 5);
+	}
+	else {
+		if (!inputPad_->InputLStick() && rot_.z > 0) {
+			rot_.z--;
+			rot_.z = max(rot_.z, 0);
+		}
 		sideMove_ *= friction;
 	}
 	
@@ -94,6 +127,8 @@ void Player::Update()
 	pos_.y += sideMove_.y;
 	pos_.z += sideMove_.z;
 	
+	pos_.y = sinf(3.14f * (frame + 20) * 40) * 0.5f + 10;
+
 	frame++;
 
 	if (inputPad_->InputRStick() == false && inputPad_->InputLStick() == false) {
@@ -114,9 +149,10 @@ void Player::Update()
 
 	posPod_ = pos_;
 
-	posPod_.x += 5;
+	posPod_.x += sideMove_.x + 5;
 
 	posPod_.y = sinf(3.14f * frame * 40)*0.5f + 10;
+	posPod_.y += 7;
 
 	bulletVec_.x = eye_.x - posPod_.x;
 	

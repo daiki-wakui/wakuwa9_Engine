@@ -255,7 +255,8 @@ void GameScene::Update()
 	//スプライト更新処理
 	SpriteUpdate();
 
-	shadowObject_->SetPosition(player_->GetWorldPos());
+	shadowObject_->SetPosition({ playerObject_->GetPosition().x,5,playerObject_->GetPosition().z });
+	//shadowObject_->SetPosition({ playerObject_->GetPosition().x,5,pl);
 	shadowObject_->Update();
 
 	//弾の更新処理
@@ -743,7 +744,7 @@ void GameScene::ReLoad(const std::string filename)
 			playerObject_->SetScale(XMFLOAT3({ 1,1,1 }));
 			playerObject_->SetPosition(newObject[objSize_]->GetPosition());
 			playerObject_->SetRotation(newObject[objSize_]->GetRotation());
-			playerObject_->SetCamera({ 0, 20, -30.0f }, { 0, 10, 0 });
+			playerObject_->SetCamera({ 0, 10, -30.0f }, { 0, 10, 0 });
 
 			player_.reset();
 			player_ = std::make_unique<Player>();
