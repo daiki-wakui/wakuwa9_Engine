@@ -100,6 +100,8 @@ private:
 	int32_t	invincibleFrame_ = 0;
 	bool isInvincible_ = false;
 
+	std::unique_ptr<ParticleManager> moveParticle_ = std::make_unique<ParticleManager>();
+
 public:
 	bool GetIsShot() { return isShot_; }
 	void SetIsShot(bool isShot) { isShot_ = isShot; }
@@ -115,6 +117,7 @@ public:
 	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject);
 	void Update();
 	void Draw();
+	void pDraw();
 	void SetBulletModel(Model* model,Object3D* obj);
 
 	int GetCoolTime() const { return coolTime; };

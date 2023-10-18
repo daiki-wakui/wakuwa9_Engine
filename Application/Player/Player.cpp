@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <algorithm>
+#include <random>
 
 void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject)
 {
@@ -13,6 +14,9 @@ void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* in
 	inputPad_ = inputPad;
 
 	bullets_.clear();
+
+	moveParticle_->Initialize(L"Resources/effect1.png");
+	moveParticle_->Update();
 }
 
 void Player::clear() {
@@ -21,6 +25,12 @@ void Player::clear() {
 
 void Player::Update()
 {
+	moveParticle_->Update();
+
+
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+	std::uniform_real_distribution<float> ve(-0.2f, 0.2f);
 
 	rot_ = playerObject_->GetRotation();
 	pos_ = playerObject_->GetPosition();
@@ -46,6 +56,14 @@ void Player::Update()
 	}
 
 	if (inputPad_->InputLStickUp()||input_->keyPush(DIK_UP)) {
+		XMFLOAT3 tmppos = pos_;
+
+		XMFLOAT3 vel{};
+		vel.x = ve(engine);
+		vel.y = ve(engine);
+
+		moveParticle_->Add(60, tmppos, vel, { 0,0,0 }, 2.0f, 0.0f);
+
 		frontMove_.x = -frontVec.x;
 		frontMove_.z = -frontVec.z;
 		rot_.x++;
@@ -60,6 +78,14 @@ void Player::Update()
 	}
 
 	if (inputPad_->InputLStickDown()||input_->keyPush(DIK_DOWN)) {
+		XMFLOAT3 tmppos = pos_;
+
+		XMFLOAT3 vel{};
+		vel.x = ve(engine);
+		vel.y = ve(engine);
+
+		moveParticle_->Add(60, tmppos, vel, { 0,0,0 }, 2.0f, 0.0f);
+
 		frontMove_.x = frontVec.x;
 		frontMove_.z = frontVec.z;
 		rot_.x--;
@@ -77,6 +103,15 @@ void Player::Update()
 	moveXVec = tmpVecY.cross(frontVec);
 
 	if (inputPad_->InputLStickRight()||input_->keyPush(DIK_RIGHT)) {
+
+		XMFLOAT3 tmppos = pos_;
+
+		XMFLOAT3 vel{};
+		vel.x = ve(engine);
+		vel.y = ve(engine);
+
+		moveParticle_->Add(60, tmppos, vel, { 0,0,0 }, 2.0f, 0.0f);
+
 		sideMove_.x = -moveXVec.x;
 		sideMove_.z = -moveXVec.z;
 		rot_.z--;
@@ -91,6 +126,15 @@ void Player::Update()
 	}
 
 	if (inputPad_->InputLStickLeft()||input_->keyPush(DIK_LEFT)) {
+
+		XMFLOAT3 tmppos = pos_;
+
+		XMFLOAT3 vel{};
+		vel.x = ve(engine);
+		vel.y = ve(engine);
+
+		moveParticle_->Add(60, tmppos, vel, { 0,0,0 }, 2.0f, 0.0f);
+
 		sideMove_.x = moveXVec.x;
 		sideMove_.z = moveXVec.z;
 		rot_.z++;
@@ -206,6 +250,13 @@ void Player::Draw()
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
 		bullet->Draw();
 	}
+
+	
+}
+
+void Player::pDraw()
+{
+	moveParticle_->Draw();
 }
 
 void Player::SetBulletModel(Model* model,Object3D* obj)
