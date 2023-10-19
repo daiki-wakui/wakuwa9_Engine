@@ -2,10 +2,14 @@
 #include "Model.h"
 #include "Object3D.h"
 #include "Vector3.h"
+#include "ParticleManager.h"
 
 class PlayerBullet
 {
 private:
+
+	std::unique_ptr<ParticleManager> effectParticle_ = std::make_unique<ParticleManager>();
+
 
 	Model* bulletModel_;
 	std::unique_ptr<Object3D> bulletObject_;
@@ -28,6 +32,8 @@ private:
 
 	float timer = 0;
 	float timerMax = 65;
+
+	float prot_ = 0;
 public:
 	bool isDead_ = false;
 
@@ -36,6 +42,7 @@ public:
 	void Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity,Model* model);
 	void Update();
 	void Draw();
+	void pDraw();
 
 	DirectX::XMFLOAT3 GetWorldPos();
 

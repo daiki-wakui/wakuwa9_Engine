@@ -320,18 +320,18 @@ void GameScene::Update()
 	poriObject_->Update();
 
 	//レティクルUpdate
-	//if (!enemys_.empty()) {
-	//	screenPos_ = enemys_.front()->GetObj()->Screen();
+	if (!enemys_.empty()) {
+		screenPos_ = enemys_.front()->GetObj()->Screen();
 
-	//	spPos_.x = screenPos_.x;
-	//	spPos_.y = screenPos_.y;
+		spPos_.x = screenPos_.x;
+		spPos_.y = screenPos_.y;
 
-	//	sSprite_->SetPosition(spPos_);
+		sSprite_->SetPosition(spPos_);
 
-	//	sSprite_->Update();
+		sSprite_->Update();
 
-	//	player_->SetEnemy(enemys_.front().get());
-	//}
+		player_->SetEnemy(enemys_.front().get());
+	}
 	
 	if (isIvent_) {
 		alpha_ += 0.05f;

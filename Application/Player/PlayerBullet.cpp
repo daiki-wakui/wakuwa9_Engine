@@ -34,11 +34,19 @@ void PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* m
 	End.x = velocity_.x;
 	End.y = velocity_.y;
 	End.z = velocity_.z;
+
+	/*effectParticle_->Initialize(L"Resources/01.png");
+	effectParticle_->Update();*/
 }
 
 void PlayerBullet::Update()
 {
 
+	//effectParticle_->Update();
+
+	prot_ += 0.2f;
+
+	
 
 	bulletObject_->Update();
 
@@ -57,12 +65,21 @@ void PlayerBullet::Update()
 		tPos_.x = pos_.x;
 		tPos_.y = pos_.y;
 		tPos_.z = pos_.z;
+
+		/*DirectX::XMFLOAT3 as;
+
+		as.x = tPos_.x + (sinf(prot_) * 1);
+		as.y = tPos_.y + (cosf(prot_) * 1);
+		as.z = tPos_.z;*/
+
+		//effectParticle_->Add(60, tPos_, { 0,0,0 }, { 0,0,0 }, 1.0f, 0.0f);
 	}
 	else {
 		tPos_.x += velocity_.x;
 		tPos_.y += velocity_.y;
 		tPos_.z += velocity_.z;
 		
+		//effectParticle_->Add(60, tPos_, { 0,0,0 }, { 0,0,0 }, 1.0f, 0.0f);
 	}
 
 	bulletObject_->SetPosition(tPos_);
@@ -71,6 +88,11 @@ void PlayerBullet::Update()
 void PlayerBullet::Draw()
 {
 	bulletObject_->Draw();
+}
+
+void PlayerBullet::pDraw()
+{
+	effectParticle_->Draw();
 }
 
 DirectX::XMFLOAT3 PlayerBullet::GetWorldPos()

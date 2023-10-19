@@ -102,6 +102,8 @@ private:
 
 	std::unique_ptr<ParticleManager> moveParticle_ = std::make_unique<ParticleManager>();
 
+	float prot_ = 0;
+
 public:
 	bool GetIsShot() { return isShot_; }
 	void SetIsShot(bool isShot) { isShot_ = isShot; }

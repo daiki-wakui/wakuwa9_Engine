@@ -15,7 +15,7 @@ void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* in
 
 	bullets_.clear();
 
-	moveParticle_->Initialize(L"Resources/effect1.png");
+	moveParticle_->Initialize(L"Resources/01.png");
 	moveParticle_->Update();
 }
 
@@ -31,6 +31,17 @@ void Player::Update()
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
 	std::uniform_real_distribution<float> ve(-0.2f, 0.2f);
+
+	
+	//vel2.x = ve(engine);
+	//vel2.y = ve(engine);
+	//prot_ += 0.2f;
+
+	//as.x = pos_.x + (sinf(prot_) * 1);
+	//as.y = pos_.y + (cosf(prot_) * 1);
+
+	//moveParticle_->Add(60, as, {0,0,0}, { 0,0,0 }, 1.0f, 0.0f);
+
 
 	rot_ = playerObject_->GetRotation();
 	pos_ = playerObject_->GetPosition();
@@ -257,6 +268,10 @@ void Player::Draw()
 void Player::pDraw()
 {
 	moveParticle_->Draw();
+
+	/*for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
+		bullet->pDraw();
+	}*/
 }
 
 void Player::SetBulletModel(Model* model,Object3D* obj)
