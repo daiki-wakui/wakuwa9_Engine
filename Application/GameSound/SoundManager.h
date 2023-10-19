@@ -18,6 +18,7 @@ public:
 	void StopBGM();
 
 	void SetFiledBGM(bool isFiledBGM) { isFiledBGM_ = isFiledBGM; }
+	void SetVolue(float vo) { filedVolue_ = vo; }
 
 private:
 

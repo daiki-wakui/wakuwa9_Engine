@@ -933,7 +933,9 @@ void GameScene::Reset()
 {
 	bossBGM_ = false;
 	hitBox_ = false;
-	
+	SoundManager::GetInstance()->SetVolue(0);
+	SoundManager::GetInstance()->SetFiledBGM(false);
+
 	EditorLoad("d");
 
 	for (std::unique_ptr<Door>& door : doors_) {

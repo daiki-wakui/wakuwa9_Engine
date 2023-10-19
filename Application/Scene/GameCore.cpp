@@ -43,6 +43,7 @@ void GameCore::Update()
 	if (keyboard_->keyInstantPush(DIK_SPACE) || gamePad_->PushInstantB()) {
 		titlescene_->SetStart(true);
 		gamescene_->SetChange(false);
+		gamescene_->Reset();
 	}
 
 	//タイトルシーンからゲームシーンへ

@@ -28,7 +28,6 @@ void SoundManager::Update(int32_t state)
 
 	if (state == 1) {
 		if (!gameBGM_ && !bossBGM_) {
-
 			sound_->PlayLoopWave("NieR_Field.wav", 0.25f);
 			sound_->PlayLoopWave("NieR_freld2.wav", 0.25f);
 			gameBGM_ = true;
@@ -60,12 +59,15 @@ SoundManager* SoundManager::GetInstance()
 
 void SoundManager::StopBGM()
 {
+	
+
 	if (titleBGM_) {
 		sound_->StopWAVE("NieR_Title.wav");
 		titleBGM_ = false;
 	}
 
 	if (gameBGM_) {
+		sound_->StopWAVE("NieR_Field.wav");
 		sound_->StopWAVE("NieR_freld2.wav");
 		gameBGM_ = false;
 	}
