@@ -41,9 +41,9 @@ void Enemy::Update(bool shot)
 
 		timer_++;
 
-		vPos_ = vPos_.lerp(start_, end_, Easing::EaseOutBack(timer_, timerMax_));
-
-		
+		if (pattern_) {
+			vPos_ = vPos_.lerp(start_, end_, Easing::EaseOutBack(timer_, timerMax_));
+		}
 
 		if (timer_ > timerMax_) {
 			pos_.y = vPos_.y;
@@ -60,7 +60,7 @@ void Enemy::Update(bool shot)
 		}
 		
 
-		if (shot) {
+		if (shot && pattern_) {
 			coolTime_--;
 		}
 

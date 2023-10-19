@@ -242,8 +242,12 @@ void GameScene::Update()
 	}
 
 	//リセット
-	if (keyboard_->keyInstantPush(DIK_B)) {
-		Reset();
+	if (gamePad_->PushButtonX()) {
+		bossBGM_ = false;
+		hitBox_ = false;
+
+		EditorLoad("obj");
+		SoundManager::GetInstance()->SetFiledBGM(true);
 	}
 
 	if (ChangeAlpha_ == 0) {
@@ -701,6 +705,7 @@ void GameScene::ReLoad(const std::string filename)
 	models.insert(std::make_pair(std::string("player"), playerModel_.get()));
 	models.insert(std::make_pair(std::string("boss"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
+	models.insert(std::make_pair(std::string("enemyc"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemySpawn2"), enemyModel2_.get()));
 	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
 	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
@@ -827,6 +832,24 @@ void GameScene::ReLoad(const std::string filename)
 			objSize_++;
 			enemySize_++;
 		}
+		else if (levelData_->objects[i].fileName == "enemyc") {
+
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
+
+			//オブジェクト生成と座標情報代入
+			newEnemy[enemySize_] = std::make_unique<Enemy>();
+
+			newEnemy[enemySize_]->SetShadow(shadowModel_.get());
+			newEnemy[enemySize_]->Initialize(newObject[objSize_].get(), newObject[objSize_]->GetPosition(), player_.get(),4,0);
+			newEnemy[enemySize_]->SetBulletModel(cubeModel_.get());
+
+			//敵を登録する
+			enemys_.push_back(std::move(newEnemy[enemySize_]));
+
+			objSize_++;
+			enemySize_++;
+		}
 		else if (levelData_->objects[i].fileName == "enemySpawn2") {
 
 			//オブジェクト生成と座標情報代入
@@ -894,7 +917,11 @@ void GameScene::Reset()
 	bossBGM_ = false;
 	hitBox_ = false;
 	
-	EditorLoad("obj");
+	EditorLoad("d");
+
+	for (std::unique_ptr<Door>& door : doors_) {
+		door->SetTutorial(true);
+	}
 }
 
 bool GameScene::Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale)
