@@ -145,5 +145,6 @@ public:
 
 	DirectX::XMFLOAT3 GetWorldPos();
 
+	void SetPos(XMFLOAT3 pos);
 };
 

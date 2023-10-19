@@ -1475,6 +1475,28 @@
         },
         {
             "type": "MESH",
+            "name": "立方体.015",
+            "transform": {
+                "translation": [
+                    -280.6985778808594,
+                    360.81927490234375,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "debugpoint"
+        },
+        {
+            "type": "MESH",
             "name": "Cube.170",
             "transform": {
                 "translation": [

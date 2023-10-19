@@ -113,6 +113,7 @@
     <ClCompile Include="Application\Scene\GameCore.cpp" />
     <ClCompile Include="Application\Scene\GameScene.cpp" />
     <ClCompile Include="Application\Scene\TitleScene.cpp" />
+    <ClCompile Include="DebugPoint.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="Engine\2d\ParticleManager.cpp" />
     <ClCompile Include="Engine\2d\PostEffect.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Application\Scene\GameCore.h" />
     <ClInclude Include="Application\Scene\GameScene.h" />
     <ClInclude Include="Application\Scene\TitleScene.h" />
+    <ClInclude Include="DebugPoint.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="Engine\2d\ParticleManager.h" />
     <ClInclude Include="Engine\2d\PostEffect.h" />

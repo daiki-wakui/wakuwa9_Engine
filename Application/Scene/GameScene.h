@@ -15,6 +15,7 @@
 #include "LevelLoader.h"
 #include "Easing.h"
 #include "Effect.h"
+#include "DebugPoint.h"
 
 #include <memory>
 #include <list>
@@ -232,6 +233,8 @@ private:	//メンバ変数
 	bool isTutorial_ = false;
 	bool isChangeStage_ = false;
 
+	std::unique_ptr<DebugPoint> dPoint_ = std::make_unique<DebugPoint>();
+
 public:
 
 	bool Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale);
@@ -265,6 +268,7 @@ public:
 
 public:
 
+	DebugPoint* GetDebugPoint() { return dPoint_.get(); }
 	Player* GetPlayer() { return player_.get(); }
 	bool GetChange() { return change_; }
 	void SetChange(bool change) { change_ = change; }

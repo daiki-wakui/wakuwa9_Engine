@@ -318,6 +318,11 @@ DirectX::XMFLOAT3 Player::GetWorldPos()
 	return worldPos;
 }
 
+void Player::SetPos(XMFLOAT3 pos)
+{
+	playerObject_->SetPosition(pos);
+}
+
 void Player::Missle()
 {
 	Vector3 target;

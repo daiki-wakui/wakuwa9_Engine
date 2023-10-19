@@ -288,6 +288,14 @@ void GameScene::Update()
 		eventBox_->Update();
 	}
 	
+	if (dPoint_->GetIsArive()) {
+		dPoint_->Update();
+	}
+
+	if (gamePad_->PushInstantY()) {
+		player_->SetPos(dPoint_->GetWorldPos());
+	}
+
 	//if (door_->GetIsArive()) {
 	//	
 	//}
@@ -703,6 +711,7 @@ void GameScene::ReLoad(const std::string filename)
 	levelData_ = LevelLoader::LoadFile(filename);
 
 	models.insert(std::make_pair(std::string("player"), playerModel_.get()));
+	models.insert(std::make_pair(std::string("debugpoint"), playerModel_.get()));
 	models.insert(std::make_pair(std::string("boss"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemyc"), enemyModel_.get()));
@@ -756,6 +765,14 @@ void GameScene::ReLoad(const std::string filename)
 			player_ = std::make_unique<Player>();
 			player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
 			player_->SetBulletModel(playerBulletCubeModel_.get(), bulletObject_.get());
+		}
+		else if (levelData_->objects[i].fileName == "debugpoint") {
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
+
+			dPoint_->Initialize(model, newObject[objSize_].get());
+			//eventBox_->Initialize(model, newObject[objSize_].get());
+			objSize_++;
 		}
 		else if (levelData_->objects[i].fileName == "dr") {
 			//オブジェクト生成と座標情報代入

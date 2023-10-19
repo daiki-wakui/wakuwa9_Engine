@@ -92,6 +92,10 @@ void GameCore::Update()
 		gamescene_->EditorLoad("obj");
 	}
 
+	if (ImGui::Button("DebugPoint")) {
+		gamescene_->GetPlayer()->SetPos(gamescene_->GetDebugPoint()->GetWorldPos());
+	}
+
 	imGuiM_->End();
 }
 
