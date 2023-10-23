@@ -84,6 +84,8 @@ private:	//メンバ変数
 
 	//ボス戦に入るボックス
 	std::unique_ptr<EventBox> eventBox_;
+	std::unique_ptr<EventBox> ChangeBox_;
+
 
 	//FBX
 	std::unique_ptr<FbxModel> testModel_;

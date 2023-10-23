@@ -1497,6 +1497,28 @@
         },
         {
             "type": "MESH",
+            "name": "Cube.034",
+            "transform": {
+                "translation": [
+                    -39.89955139160156,
+                    362.81170654296875,
+                    3.2169556617736816
+                ],
+                "rotation": [
+                    -0.0,
+                    -0.0,
+                    180.0
+                ],
+                "scaling": [
+                    -5.8062357902526855,
+                    -37.40036392211914,
+                    -3.9028730392456055
+                ]
+            },
+            "file_name": "changeBlock"
+        },
+        {
+            "type": "MESH",
             "name": "Cube.170",
             "transform": {
                 "translation": [

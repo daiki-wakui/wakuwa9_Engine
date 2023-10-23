@@ -164,7 +164,8 @@ void GameScene::Initialize()
 
 
 	eventBox_ = std::make_unique<EventBox>();
-	
+	ChangeBox_ = std::make_unique<EventBox>();
+
 	//3Dオブジェクト生成
 	playerObject_ = std::make_unique<Object3D>();
 	playerObject_->SetModel(playerModel_.get());
@@ -242,12 +243,14 @@ void GameScene::Update()
 	}
 
 	//リセット
-	if (gamePad_->PushButtonX()) {
+	if (isChangeStage_) {
 		bossBGM_ = false;
 		hitBox_ = false;
 
 		EditorLoad("obj");
 		SoundManager::GetInstance()->SetFiledBGM(true);
+
+		isChangeStage_ = false;
 	}
 
 	if (ChangeAlpha_ == 0) {
@@ -286,6 +289,9 @@ void GameScene::Update()
 	//ゲーム画面
 	if (eventBox_->GetIsArive()) {
 		eventBox_->Update();
+	}
+	if (ChangeBox_->GetIsArive()) {
+		ChangeBox_->Update();
 	}
 	
 	if (dPoint_->GetIsArive()) {
@@ -688,6 +694,7 @@ void GameScene::Draw()
 	SpriteDraw();
 	
 	//sSprite_->Draw(targetImage_);
+	
 }
 
 void GameScene::pDraw()
@@ -718,6 +725,7 @@ void GameScene::ReLoad(const std::string filename)
 	models.insert(std::make_pair(std::string("enemySpawn2"), enemyModel2_.get()));
 	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
 	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
+	models.insert(std::make_pair(std::string("changeBlock"), cubeModel_.get()));
 	models.insert(std::make_pair(std::string("FliedBlock"), filedCubeModel_.get()));
 	models.insert(std::make_pair(std::string("wallBlock"), cubeModel_.get()));
 	models.insert(std::make_pair(std::string("FliedT"), filedTentoModel_.get()));
@@ -812,6 +820,13 @@ void GameScene::ReLoad(const std::string filename)
 			Inport(model, i);
 
 			eventBox_->Initialize(model, newObject[objSize_].get());
+			objSize_++;
+		}
+		else if (levelData_->objects[i].fileName == "changeBlock") {
+			//オブジェクト生成と座標情報代入
+			Inport(model, i);
+
+			ChangeBox_->Initialize(model, newObject[objSize_].get(), true);
 			objSize_++;
 		}
 		else if (levelData_->objects[i].fileName == "wallBlock") {
@@ -975,7 +990,7 @@ void GameScene::AllCollison()
 		posB = eventBox_->GetWorldPos();
 
 		//AとBの距離
-		r1 = 3.0f;	//イベントのスケール
+		r1 = 6.0f;	//イベントのスケール
 		r2 = 13.0f;	//自機のスケール
 
 		if (Collison(posA, posB, r1, r2)) {
@@ -983,6 +998,20 @@ void GameScene::AllCollison()
 				hitBox_ = true;
 			}
 			else {
+				isChangeStage_ = true;
+			}
+		}
+	}
+
+	if (ChangeBox_->GetIsArive()) {
+		posB = ChangeBox_->GetWorldPos();
+
+		//AとBの距離
+		r1 = 3.0f;	//イベントのスケール
+		r2 = 13.0f;	//自機のスケール
+
+		if (Collison(posA, posB, r1, r2)) {
+			if (ChangeBox_->GetLoadEditor()) {
 				isChangeStage_ = true;
 			}
 		}

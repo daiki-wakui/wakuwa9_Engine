@@ -9,16 +9,18 @@ private:
 	Model* model_;
 	Object3D* object_;
 
+	bool isLoadEditor_;
 public:
 
 	bool valid_ = false;
 
 	DirectX::XMFLOAT3 GetWorldPos();
 
-	void Initialize(Model* Model, Object3D* Object);
+	void Initialize(Model* Model, Object3D* Object, bool scene = false);
 	void Update();
 	void Draw();
 
 	bool GetIsArive() { return valid_; }
+	bool GetLoadEditor() { return isLoadEditor_; }
 };
 

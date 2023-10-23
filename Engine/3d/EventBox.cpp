@@ -11,12 +11,13 @@ DirectX::XMFLOAT3 EventBox::GetWorldPos()
 	return worldPos;
 }
 
-void EventBox::Initialize(Model* Model, Object3D* Object)
+void EventBox::Initialize(Model* Model, Object3D* Object, bool scene)
 {
 	model_ = Model;
 	object_ = Object;
 
 	valid_ = true;
+	isLoadEditor_ = scene;
 }
 
 
