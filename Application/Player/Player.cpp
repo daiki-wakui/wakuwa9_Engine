@@ -425,16 +425,16 @@ void Player::PlayerCamera(){
 	}
 
 	if (inputPad_->InputRStickUp()) {
-		cameraTargetAngle_ += 0.25f;
+		cameraTargetAngle_ -= 0.25f;
 	}
 	else if (inputPad_->InputRStickDown()) {
-		cameraTargetAngle_ -= 0.25f;
+		cameraTargetAngle_ += 0.25f;
 	}
 
 	if (inputPad_->InputRStick()) {
 		r_ = cameraAngle_ * 3.14f / 180.0f;
 		cameraTargetAngle_ = max(cameraTargetAngle_, 0.5f);
-		cameraTargetAngle_ = min(cameraTargetAngle_, 25.0f);
+		cameraTargetAngle_ = min(cameraTargetAngle_, 30.0f);
 
 
 		eye_.y = cameraTargetAngle_;

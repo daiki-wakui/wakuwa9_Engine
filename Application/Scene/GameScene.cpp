@@ -47,7 +47,9 @@ void GameScene::Initialize()
 	spBasis_->TextureSetting();
 
 	playerHPSprite_->Initialize(spBasis_, windows_);
-	playerHPSprite_->Create(100, 30);
+	playerHPSprite_->Create(50, 30);
+	playerHPSprite_->SetAncP({ 0,0 });
+
 	bossHPSprite_->Initialize(spBasis_, windows_);
 	bossHPSprite_->Create(640, 30);
 
@@ -262,7 +264,7 @@ void GameScene::Update()
 	//スプライト更新処理
 	SpriteUpdate();
 
-	shadowObject_->SetPosition({ playerObject_->GetPosition().x,5,playerObject_->GetPosition().z });
+	shadowObject_->SetPosition({ playerObject_->GetPosition().x,2,playerObject_->GetPosition().z });
 	//shadowObject_->SetPosition({ playerObject_->GetPosition().x,5,pl);
 	shadowObject_->Update();
 
