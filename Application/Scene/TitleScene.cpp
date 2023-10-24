@@ -81,7 +81,7 @@ void TitleScene::Update()
 	if (changeStart_) {
 
 		if (!isStartSE_) {
-			sound_->PlayWave("Start.wav");
+			sound_->PlayWave("Start.wav",0.25f);
 			isStartSE_ = true;
 		}
 

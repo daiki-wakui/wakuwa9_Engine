@@ -315,7 +315,7 @@ void GameScene::Update()
 	if (player_->IsDead() == false && isIvent_ == false) {
 		player_->Update();
 		if (player_->GetIsShot()) {
-			sound_->PlayWave("Shot.wav");
+			sound_->PlayWave("Shot.wav",0.25f);
 			player_->SetIsShot(false);
 		}
 	}
@@ -391,7 +391,7 @@ void GameScene::Update()
 			Object3D::SetTarget(eye);
 			iventEye_ = { 360,20,700 };
 			movieEnd_ = true;
-			sound_->PlayWave("Warning.wav", 3);
+			sound_->PlayWave("Warning.wav", 2);
 		}
 	}
 	else {
@@ -1046,7 +1046,7 @@ void GameScene::AllCollison()
 				bullet->isDead_ = true;
 				BulletEffect = true;
 				boss_->OnCollision();
-				sound_->PlayWave("Hit.wav", 0.5f);
+				sound_->PlayWave("Hit.wav", 0.25f);
 			}
 
 			if (BulletEffect) {
@@ -1093,7 +1093,7 @@ void GameScene::AllCollison()
 				bullet->isDead_ = true;
 
 				if (!player_->Getinvincible()) {
-					sound_->PlayWave("noise.wav");
+					sound_->PlayWave("noise.wav",0.5f);
 
 				}
 				player_->OnCollision();
@@ -1126,7 +1126,7 @@ void GameScene::AllCollison()
 				bullet->isDead_ = true;
 
 				if (!player_->Getinvincible()) {
-					sound_->PlayWave("noise.wav");
+					sound_->PlayWave("noise.wav",0.5f);
 				}
 				player_->OnCollision();
 			}
@@ -1195,7 +1195,7 @@ void GameScene::AllCollison()
 				bullet->isDead_ = true;
 				enemy->OnCollision();
 				BulletEffect = true;
-				sound_->PlayWave("Hit.wav",0.5f);
+				sound_->PlayWave("Hit.wav",0.25f);
 			}
 
 			if (enemy->IsDead()) {
