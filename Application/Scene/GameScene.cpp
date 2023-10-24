@@ -702,7 +702,11 @@ void GameScene::Draw()
 void GameScene::pDraw()
 {
 	particleMan_->Draw();
-	player_->pDraw();
+
+	if (!isIvent_) {
+		player_->pDraw();
+	}
+	
 }
 
 void GameScene::EditorLoad(const std::string filename)
