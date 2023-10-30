@@ -113,7 +113,7 @@ public:
 
 	bool Getinvincible() const { return isInvincible_; }
 
-	int32_t HP = 10;
+	int32_t HP = 3;
 	bool isDead = false;
 
 	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject);

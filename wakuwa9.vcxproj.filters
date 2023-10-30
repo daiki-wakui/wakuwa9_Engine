@@ -112,6 +112,12 @@
     <Filter Include="ヘッダー ファイル\Application\GameSound">
       <UniqueIdentifier>{bba6632a-a7e1-4683-9198-d9202c41a821}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Application\GameObject">
+      <UniqueIdentifier>{fcd41b67-93fe-4fee-b082-fe64a5e8e4aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application\GameObject">
+      <UniqueIdentifier>{15e32323-1e89-480c-b2f4-20da756297db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -246,14 +252,14 @@
     <ClCompile Include="Application\GameSound\SoundManager.cpp">
       <Filter>ソース ファイル\Application\GameSound</Filter>
     </ClCompile>
-    <ClCompile Include="LevelEditor.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\GameObject\DebugPoint.cpp">
+      <Filter>ソース ファイル\Application\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Door.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\GameObject\Door.cpp">
+      <Filter>ソース ファイル\Application\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="DebugPoint.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\GameField\LevelEditor.cpp">
+      <Filter>ソース ファイル\Application\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -386,14 +392,14 @@
     <ClInclude Include="Application\GameSound\SoundManager.h">
       <Filter>ヘッダー ファイル\Application\GameSound</Filter>
     </ClInclude>
-    <ClInclude Include="LevelEditor.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\GameObject\DebugPoint.h">
+      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Door.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\GameObject\Door.h">
+      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="DebugPoint.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\GameField\LevelEditor.h">
+      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
