@@ -15,6 +15,8 @@ private: // エイリアス
 
 private:
 
+	float frame_;
+
 	Model* model_;
 	Object3D* object_;
 
@@ -30,6 +32,7 @@ private:
 	std::list<std::unique_ptr<BossBullet>> bullets_;
 
 	int32_t coolTime_ = 10;
+	int32_t coolCount_ = 0;
 
 public:
 
