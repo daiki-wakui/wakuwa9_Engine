@@ -26,6 +26,9 @@ void Boss::Update(bool move)
 {
 	if (!move) {
 		coolTime_--;
+		frame_++;
+		pos_.x = 2.0f * cosf(3.14f * frame_ / 200) + pos_.x;
+
 	}
 
 	if (coolTime_ == 0) {
@@ -48,7 +51,19 @@ void Boss::Update(bool move)
 		//弾を登録する
 		bullets_.push_back(std::move(newBullet));
 
-		coolTime_ = 6;
+		coolCount_++;
+
+		if (coolCount_ > 10) {
+			coolTime_ = 20;
+
+			if (coolCount_ >= 20) {
+				coolCount_ = 0;
+			}
+		}
+		else {
+			coolTime_ = 10;
+		}
+		
 	}
 
 	//デスフラグが立った弾を削除
