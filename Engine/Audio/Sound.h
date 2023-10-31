@@ -66,7 +66,16 @@ public:
 
 	void SetVolue(const std::string& filename, float volue);
 
+	static Sound* GetInstance();
+
 private:
+
+	Sound() = default;
+	~Sound() = default;
+	//コピーコンストラクタ無効
+	Sound(const Sound& obj) = delete;
+	//代入演算子を無効
+	Sound& operator=(const Sound& obj) = delete;
 
 	ComPtr<IXAudio2> xAudio2_;
 	//サウンドデータの連想配列

@@ -1,14 +1,5 @@
 #include "TitleScene.h"
 
-void TitleScene::SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound)
-{
-	windows_ = windows;
-	directX_ = directX;
-	imGuiM_ = imGuiM;
-	spBasis_ = spBasis;
-	sound_ = sound;
-}
-
 void TitleScene::Initialize()
 {
 	titleImage_ = spBasis_->TextureData(L"Resources/title.png");

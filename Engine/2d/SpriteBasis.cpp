@@ -3,6 +3,13 @@
 using namespace DirectX;
 
 
+SpriteBasis* SpriteBasis::GetInstance()
+{
+	static SpriteBasis instance;
+
+	return &instance;
+}
+
 void SpriteBasis::Initialize(DirectXBasis* dxBasis)
 {
 	this->dxBasis_ = dxBasis;

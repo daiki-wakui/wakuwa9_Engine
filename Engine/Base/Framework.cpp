@@ -8,16 +8,16 @@ void Framework::Initialize()
 	windows_->Initalize();
 
 	//DirectX初期化
-	directX_->Initialize(windows_.get());
+	directX_->Initialize(windows_);
 
 	//keyborad初期化
 	keyboard_->Initialize(windows_->GetHInstancee(), windows_->GetHwnd());
 
 	gamePad_->Update();
 
-	imGuiM_->Initialize(windows_.get(), directX_.get());
+	imGuiM_->Initialize();
 
-	spBasis_->Initialize(directX_.get());
+	spBasis_->Initialize(directX_);
 
 	Object3D::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
 

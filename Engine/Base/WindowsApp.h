@@ -13,9 +13,18 @@ private:
 	const int32_t WINDOW_WIDTH = 1280;
 	const int32_t WINDOW_HEIGHT = 720;
 
+	WindowsApp() = default;
+	~WindowsApp() = default;
+	//コピーコンストラクタ無効
+	WindowsApp(const WindowsApp& obj) = delete;
+	//代入演算子を無効
+	WindowsApp& operator=(const WindowsApp& obj) = delete;
+
 public:	//静的メンバ関数
 
 	static LRESULT windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+
+	static WindowsApp* GetInstance();
 
 public:	//メンバ関数
 

@@ -31,11 +31,11 @@ private: // エイリアス
 
 private:
 
-	DirectXBasis* directX_ = nullptr;
-	SpriteBasis* spBasis_ = nullptr;
-	WindowsApp* windows_ = nullptr;
-	ImGuiManager* imGuiM_ = nullptr;
-	Sound* sound_ = nullptr;
+	DirectXBasis* directX_ = DirectXBasis::GetInstance();
+	SpriteBasis* spBasis_ = SpriteBasis::GetInstance();
+	WindowsApp* windows_ = WindowsApp::GetInstance();
+	ImGuiManager* imGuiM_ = ImGuiManager::GetInstance();
+	Sound* sound_ = Sound::GetInstance();
 
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 	GamePad* gamePad_ = GamePad::GetInstance();
@@ -276,6 +276,5 @@ public:
 	void SetChange(bool change) { change_ = change; }
 	bool GetStart() { return start_; }
 	void SetStart(bool start) { start_ = start; }
-	void SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound_);
 };
 

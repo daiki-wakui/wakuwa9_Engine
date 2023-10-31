@@ -4,6 +4,13 @@
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"winmm.lib")
 
+DirectXBasis* DirectXBasis::GetInstance()
+{
+	static DirectXBasis instance;
+
+	return &instance;
+}
+
 //全体の初期化
 void DirectXBasis::Initialize(WindowsApp* winApp){
 	assert(winApp);

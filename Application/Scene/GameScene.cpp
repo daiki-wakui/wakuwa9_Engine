@@ -3,15 +3,6 @@
 #include <random>
 #include "SoundManager.h"
 
-void GameScene::SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound)
-{
-	windows_ = windows;
-	directX_ = directX;
-	imGuiM_ = imGuiM;
-	spBasis_ = spBasis;
-	sound_ = sound;
-}
-
 void GameScene::Initialize()
 {
 

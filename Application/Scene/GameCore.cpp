@@ -7,10 +7,8 @@ void GameCore::Initialize()
 {
 	Framework::Initialize();
 
-	gamescene_->SetBasis(windows_, directX_, imGuiM_, spBasis_, sound_);
 	gamescene_->Initialize();
-
-	titlescene_->SetBasis(windows_, directX_, imGuiM_, spBasis_, sound_);
+	
 	titlescene_->Initialize();
 
 	postEffect_->SetDirectX(spBasis_, windows_, keyboard_);

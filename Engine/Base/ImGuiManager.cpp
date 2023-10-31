@@ -3,15 +3,16 @@
 #include <imgui_impl_dx12.h>
 #include <cassert>
 
-void ImGuiManager::Initialize(WindowsApp* winApp, DirectXBasis* directXBase)
+ImGuiManager* ImGuiManager::GetInstance()
+{
+	static ImGuiManager instance;
+
+	return &instance;
+}
+
+void ImGuiManager::Initialize()
 {
 	HRESULT result;
-
-	assert(winApp);
-	assert(directXBase);
-
-	winApp_ = winApp;
-	directXBase_ = directXBase;
 
 	//imguiのコンテキストを生成
 	ImGui::CreateContext();

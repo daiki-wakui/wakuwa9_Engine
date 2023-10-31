@@ -21,6 +21,13 @@ LRESULT WindowsApp::windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
+WindowsApp* WindowsApp::GetInstance()
+{
+	static WindowsApp instance;
+
+	return &instance;
+}
+
 //初期化
 void WindowsApp::Initalize()
 {

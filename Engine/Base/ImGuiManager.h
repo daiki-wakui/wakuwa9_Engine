@@ -14,16 +14,27 @@ public:
 
 private:
 	//依存クラス
-	WindowsApp* winApp_ = nullptr;
-	DirectXBasis* directXBase_ = nullptr;
+	WindowsApp* winApp_ = WindowsApp::GetInstance();
+	DirectXBasis* directXBase_ = DirectXBasis::GetInstance();
 
 	
 	//SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> srvHeap_;
 
+	ImGuiManager() = default;
+	~ImGuiManager() = default;
+	//コピーコンストラクタ無効
+	ImGuiManager(const ImGuiManager& obj) = delete;
+	//代入演算子を無効
+	ImGuiManager& operator=(const ImGuiManager& obj) = delete;
+
+
 public:
 
-	void Initialize(WindowsApp* winApp, DirectXBasis* directXBase);
+	static ImGuiManager* GetInstance();
+
+
+	void Initialize();
 
 	void Finalize();
 

@@ -51,7 +51,18 @@ private:
 	//時間記録(FPS固定用)
 	std::chrono::steady_clock::time_point reference_;
 
+private:	//シングルートン
+
+	DirectXBasis() = default;
+	~DirectXBasis() = default;
+	//コピーコンストラクタ無効
+	DirectXBasis(const DirectXBasis& obj) = delete;
+	//代入演算子を無効
+	DirectXBasis& operator=(const DirectXBasis& obj) = delete;
+
 public:
+
+	static DirectXBasis* GetInstance();
 
 	//DirectXの基盤初期化関数
 	void Initialize(WindowsApp* winApp);
