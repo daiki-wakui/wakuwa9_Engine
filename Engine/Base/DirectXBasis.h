@@ -65,7 +65,7 @@ public:
 	static DirectXBasis* GetInstance();
 
 	//DirectXの基盤初期化関数
-	void Initialize(WindowsApp* winApp);
+	void Initialize();
 	void InitailizeDevice();
 	void InitailizeCommand();
 	void InitailizeSwapchain();

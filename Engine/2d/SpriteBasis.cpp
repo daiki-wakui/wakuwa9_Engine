@@ -10,9 +10,9 @@ SpriteBasis* SpriteBasis::GetInstance()
 	return &instance;
 }
 
-void SpriteBasis::Initialize(DirectXBasis* dxBasis)
+void SpriteBasis::Initialize()
 {
-	this->dxBasis_ = dxBasis;
+	dxBasis_ = DirectXBasis::GetInstance();
 
 	//デスクリプタヒープ生成
 	D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
@@ -20,7 +20,7 @@ void SpriteBasis::Initialize(DirectXBasis* dxBasis)
 	srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 	srvHeapDesc.NumDescriptors = sMaxSRVCount;
 
-	result_ = dxBasis->GetDevice()->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap_));
+	result_ = dxBasis_->GetDevice()->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&srvHeap_));
 	assert(SUCCEEDED(result_));
 }
 

@@ -73,13 +73,5 @@ public:
 
 	//実行
 	void Run();
-
-	WindowsApp* GetWindows() { return windows_; }
-	DirectXBasis* GetDirectX() { return directX_; }
-	ImGuiManager* GetImGui() { return imGuiM_; }
-	KeyBoard* GetInput() { return keyboard_; }
-	GamePad* GetInputPad() { return gamePad_; }
-	SpriteBasis* GetSpBasis() { return spBasis_; }
-	Sound* GetSound() { return sound_; }
 };
 

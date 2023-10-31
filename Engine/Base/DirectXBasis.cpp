@@ -12,10 +12,9 @@ DirectXBasis* DirectXBasis::GetInstance()
 }
 
 //全体の初期化
-void DirectXBasis::Initialize(WindowsApp* winApp){
-	assert(winApp);
-
-	this->winApp_ = winApp;
+void DirectXBasis::Initialize(){
+	
+	winApp_ = WindowsApp::GetInstance();
 
 	InitailizeFixFPS();
 

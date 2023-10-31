@@ -39,9 +39,12 @@ void GameCore::Update()
 
 	//タイトルシーンからシーン遷移開始
 	if (keyboard_->keyInstantPush(DIK_SPACE) || gamePad_->PushInstantB()) {
-		titlescene_->SetStart(true);
-		gamescene_->SetChange(false);
-		gamescene_->Reset();
+
+		if (state == 0) {
+			titlescene_->SetStart(true);
+			gamescene_->SetChange(false);
+			gamescene_->Reset();
+		}
 	}
 
 	//タイトルシーンからゲームシーンへ

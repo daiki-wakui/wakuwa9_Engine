@@ -54,7 +54,7 @@ public:
 
 	static SpriteBasis* GetInstance();
 
-	void Initialize(DirectXBasis* dxBasis);
+	void Initialize();
 	void TextureSetting();
 	void Update();
 	void Draw();
