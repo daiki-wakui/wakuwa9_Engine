@@ -1,10 +1,11 @@
 #include "TextureManager.h"
 
-TextureManager* TextureManager::GetInstance()
+TextureManager::TextureManager()
 {
-	static TextureManager instance;
+}
 
-	return &instance;
+TextureManager::~TextureManager()
+{
 }
 
 void TextureManager::LoadTexture()

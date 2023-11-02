@@ -6,6 +6,7 @@
 #include "Sprite.h"
 #include "Sound.h"
 #include "SoundManager.h"
+#include "GameUI.h"
 
 class TitleScene : public BaseScene
 {
@@ -37,6 +38,9 @@ private:	//メンバ変数
 	std::unique_ptr<Sprite> titleUISprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> fillSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> sceneSprite_ = std::make_unique<Sprite>();
+
+	std::unique_ptr<GameUI> titleUI_ = std::make_unique<GameUI>();
+
 
 	//画像
 	int32_t titleImage_ = 0;

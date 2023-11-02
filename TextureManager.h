@@ -3,15 +3,6 @@
 
 class TextureManager
 {
-private:	//シングルートン
-
-	TextureManager() = default;
-	~TextureManager() = default;
-	//コピーコンストラクタ無効
-	TextureManager(const TextureManager& obj) = delete;
-	//代入演算子を無効
-	TextureManager& operator = (const TextureManager& obj) = delete;
-
 protected:
 
 	//画像
@@ -26,7 +17,8 @@ protected:
 
 public:
 
-	static TextureManager* GetInstance();
+	TextureManager();
+	~TextureManager();
 
 	void LoadTexture();
 
