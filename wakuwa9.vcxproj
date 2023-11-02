@@ -148,6 +148,7 @@
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\Boss\Boss.h" />
@@ -196,6 +197,7 @@
     <ClInclude Include="Engine\Math\Matrix4.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
+    <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">
