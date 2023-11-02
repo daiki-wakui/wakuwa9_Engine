@@ -13,11 +13,6 @@ void TitleScene::Initialize()
 	skyObject_->SetScale(XMFLOAT3({ 400,400,400 }));
 	skyObject_->SetPosition({ 0,0,100 });
 
-	sound_->LoadWave("PerituneMaterial.wav");
-	sound_->LoadWave("Start.wav");
-	sound_->LoadWave("Alarm01.wav");
-	sound_->LoadWave("NieR_Title.wav");
-
 	isStartSE_ = false;
 
 	SoundManager::GetInstance()->SetBasis(sound_);
@@ -37,7 +32,7 @@ void TitleScene::Update()
 	if (changeStart_) {
 
 		if (!isStartSE_) {
-			sound_->PlayWave("Start.wav",0.25f);
+			SoundManager::GetInstance()->PlayWave("Start.wav", 0.25f);
 			isStartSE_ = true;
 		}
 
@@ -47,11 +42,7 @@ void TitleScene::Update()
 			playBGM_ = false;
 		}
 
-		sound_->StopWAVE("NieR_Title.wav");
-	}
-	else {
-		ChangeAlpha_ = 0;
-		sceneSprite_->SetColor({ 1, 1, 1, ChangeAlpha_ });
+		SoundManager::GetInstance()->StopBGM();
 	}
 
 	skyObject_->SetPosition({ 0,0,100 });

@@ -11,6 +11,8 @@ public:
 	void Update(int32_t state);
 
 	void SetBasis(Sound* sound_);
+	void PlayWave(const std::string& filename, float volue);
+
 
 	static SoundManager* GetInstance();
 
