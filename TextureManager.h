@@ -3,7 +3,16 @@
 
 class TextureManager
 {
-private:
+private:	//シングルートン
+
+	TextureManager() = default;
+	~TextureManager() = default;
+	//コピーコンストラクタ無効
+	TextureManager(const TextureManager& obj) = delete;
+	//代入演算子を無効
+	TextureManager& operator = (const TextureManager& obj) = delete;
+
+protected:
 
 	//画像
 	int32_t titleImage_ = 0;
@@ -16,6 +25,8 @@ private:
 	SpriteBasis* spBasis_ = SpriteBasis::GetInstance();
 
 public:
+
+	static TextureManager* GetInstance();
 
 	void LoadTexture();
 

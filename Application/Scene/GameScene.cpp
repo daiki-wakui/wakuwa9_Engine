@@ -37,60 +37,60 @@ void GameScene::Initialize()
 
 	spBasis_->TextureSetting();
 
-	playerHPSprite_->Initialize(spBasis_, windows_);
+	playerHPSprite_->Initialize();
 	playerHPSprite_->Create(50, 30);
 	playerHPSprite_->SetAncP({ 0,0 });
 
-	bossHPSprite_->Initialize(spBasis_, windows_);
+	bossHPSprite_->Initialize();
 	bossHPSprite_->Create(640, 30);
 
-	gameoverSprite_->Initialize(spBasis_, windows_);
+	gameoverSprite_->Initialize();
 	gameoverSprite_->Create(640, 360);
 	gameoverSprite_->SetSize({ 1280,720 });
 	gameoverSprite_->Update();
 
-	gameclearSprite_->Initialize(spBasis_, windows_);
+	gameclearSprite_->Initialize();
 	gameclearSprite_->Create(640, 360);
 	gameclearSprite_->SetSize({ 1280,720 });
 	gameclearSprite_->Update();
 
-	reticleSprite_->Initialize(spBasis_, windows_);
+	reticleSprite_->Initialize();
 	reticleSprite_->Create(640, 360);
 	reticleSprite_->SetSize({ 0,0 });
 
-	sceneSprite_->Initialize(spBasis_, windows_);
+	sceneSprite_->Initialize();
 	sceneSprite_->Create(640, 360);
 	sceneSprite_->SetSize({ 1280,720 });
 	sceneSprite_->SetColor({ 1,1,1,1 });
 
-	fillSprite_->Initialize(spBasis_, windows_);
+	fillSprite_->Initialize();
 	fillSprite_->Create(640, 360);
 	fillSprite_->SetSize({ 1280,720 });
 	fillSprite_->Update();
 
-	dFilterSprite_->Initialize(spBasis_, windows_);
+	dFilterSprite_->Initialize();
 	dFilterSprite_->Create(640, 360);
 	dFilterSprite_->SetSize({ 1280,720 });
 	dFilterSprite_->SetColor({ 1,1,1,0 });
 	dFilterSprite_->Update();
 
-	sSprite_->Initialize(spBasis_, windows_);
+	sSprite_->Initialize();
 	sSprite_->Create(0, 0);
 	sSprite_->SetSize({ 32,32 });
 	//sSprite_->SetAncP({ 0,0 });
 	sSprite_->Update();
 
-	RBSprite_->Initialize(spBasis_, windows_);
+	RBSprite_->Initialize();
 	RBSprite_->Create(0, 0);
 	RBSprite_->SetSize({ 160,160 });
 
-	iventSprite_->Initialize(spBasis_, windows_);
+	iventSprite_->Initialize();
 	iventSprite_->Create(640, 360);
 	iventSprite_->SetSize({ 1280,720 });
 	iventSprite_->SetColor({ 1,1,1,0 });
 	iventSprite_->Update();
 
-	waringSprite_->Initialize(spBasis_, windows_);
+	waringSprite_->Initialize();
 	waringSprite_->Create(640, 360);
 	waringSprite_->SetSize({ 1280,720 });
 	waringSprite_->Update();

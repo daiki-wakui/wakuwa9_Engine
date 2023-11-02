@@ -1,5 +1,12 @@
 #include "TextureManager.h"
 
+TextureManager* TextureManager::GetInstance()
+{
+	static TextureManager instance;
+
+	return &instance;
+}
+
 void TextureManager::LoadTexture()
 {
 	titleImage_ = spBasis_->TextureData(L"Resources/title.png");

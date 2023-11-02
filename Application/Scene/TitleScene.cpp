@@ -13,22 +13,22 @@ void TitleScene::Initialize()
 
 	spBasis_->TextureSetting();
 
-	titleSprite_->Initialize(spBasis_, windows_, titleImage_);
+	titleSprite_->Initialize(titleImage_);
 	titleSprite_->Create();
 	titleSprite_->SetSize({ 1280,720 });
 	titleSprite_->SetAncP({ 0,0 });
 
-	titleUISprite_->Initialize(spBasis_, windows_, titleUIImage_);
+	titleUISprite_->Initialize(titleUIImage_);
 	titleUISprite_->Create();
 	titleUISprite_->SetSize({ 1280,720 });
 	titleUISprite_->SetAncP({ 0,0 });
 
-	sceneSprite_->Initialize(spBasis_, windows_);
+	sceneSprite_->Initialize();
 	sceneSprite_->Create(640, 360);
 	sceneSprite_->SetSize({ 1280,720 });
 	sceneSprite_->SetColor({ 1,1,1,0 });
 
-	fillSprite_->Initialize(spBasis_, windows_);
+	fillSprite_->Initialize();
 	fillSprite_->Create(640, 360);
 	fillSprite_->SetSize({ 1280,720 });
 	fillSprite_->Update();
