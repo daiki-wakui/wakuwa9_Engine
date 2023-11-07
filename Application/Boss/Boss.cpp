@@ -24,12 +24,49 @@ void Boss::Initialize(Model* Model, XMFLOAT3 pos, Object3D* Object, Player* play
 
 void Boss::Update(bool move)
 {
-	if (!move) {
-		coolTime_--;
-		frame_++;
-		pos_.x = 2.0f * cosf(3.14f * frame_ / 200) + pos_.x;
+	arive_ = true;
 
+	if (key_->keyInstantPush(DIK_1)) {
+		state_ = 1;
 	}
+	else if (key_->keyInstantPush(DIK_2)) {
+		state_ = 2;
+	}
+	else if (key_->keyInstantPush(DIK_3)) {
+		state_ = 3;
+	}
+
+
+	switch (state_)
+	{
+	case 1:
+		
+		coolTime_--;
+		break;
+	case 2:
+
+		//frame_++;
+		//pos_.x = 2.0f * cosf(3.14f * frame_ / 200) + pos_.x;
+		coolTime_--;
+
+		rot_.y += 0.5f;
+		
+		break;
+	case 3:
+
+		break;
+	default:
+		break;
+	}
+	
+
+	if (!move) {
+		
+		
+	}
+
+	object_->SetPosition(pos_);
+	object_->SetRotation(rot_);
 
 	if (coolTime_ == 0) {
 		playerPos = player_->GetWorldPos();
@@ -41,29 +78,52 @@ void Boss::Update(bool move)
 		differenceVec.normalize();
 		differenceVec /= 3;
 
-		Vector3 velocity(differenceVec);
+		Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };
+		Vector3 end({ 0,0,0 });
+		Vector3 length = { 0, 0, 10 };
+		Vector3 frontVec = { 0, 0, 0 };
 
-		velocity.multiplyMat4(object_->matWorld_);
+		//終点座標を設定
+		end.x = start.x + length.x;
+		end.y = start.y + length.y;
+		end.z = start.z + length.z;
 
-		std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
-		newBullet->Initialize(pos_, velocity, bulletModel_);
+		//回転を考慮した座標を設定
+		end.x = start.x + sinf(rot_.y / 40);
+		end.z = start.z + cosf(rot_.y / 40);
 
-		//弾を登録する
-		bullets_.push_back(std::move(newBullet));
+		//始点と終点から正面ベクトルを求める
+		frontVec.x = end.x - start.x;
+		frontVec.y = end.y - start.y;
+		frontVec.z = end.z - start.z;
 
-		coolCount_++;
+		
+		frontVec.normalize();
 
-		if (coolCount_ > 10) {
-			coolTime_ = 20;
+		Vector3 velocity({ 0,0,0 });
 
-			if (coolCount_ >= 20) {
-				coolCount_ = 0;
+		velocity = frontVec;
+
+		//velocity.multiplyMat4(object_->matWorld_);
+
+		
+		for (int i = 0; i < 2; i++) {
+			std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
+
+			if (i == 0) {
+				newBullet->Initialize(pos_, velocity, bulletModel_, 0);
 			}
-		}
-		else {
-			coolTime_ = 10;
+			else {
+				newBullet->Initialize(pos_, velocity, bulletModel_, 1);
+			}
+			
+			//弾を登録する
+			bullets_.push_back(std::move(newBullet));
+
 		}
 		
+		
+		coolTime_ = 5;
 	}
 
 	//デスフラグが立った弾を削除
@@ -75,7 +135,7 @@ void Boss::Update(bool move)
 		bullet->Update();
 	}
 
-	object_->SetPosition(pos_);
+	
 
 	object_->Update();
 }

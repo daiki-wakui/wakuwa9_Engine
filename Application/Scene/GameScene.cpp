@@ -231,8 +231,7 @@ void GameScene::Finalize()
 void GameScene::Update()
 {
 	if (keyboard_->keyInstantPush(DIK_N)) {
-		EditorLoad("obj");
-		SoundManager::GetInstance()->SetFiledBGM(true);
+		isDebugBoss_ = true;
 	}
 
 	//リセット
@@ -304,11 +303,13 @@ void GameScene::Update()
 	}
 
 	if (player_->IsDead() == false && isIvent_ == false) {
-		player_->Update();
-		if (player_->GetIsShot()) {
-			sound_->PlayWave("Shot.wav",0.25f);
-			player_->SetIsShot(false);
-		}
+		
+	}
+
+	player_->Update();
+	if (player_->GetIsShot()) {
+		sound_->PlayWave("Shot.wav", 0.25f);
+		player_->SetIsShot(false);
 	}
 
 	XMFLOAT3 podPos;
@@ -342,6 +343,11 @@ void GameScene::Update()
 		sSprite_->Update();
 
 		player_->SetEnemy(enemys_.front().get());
+	}
+
+	if (isDebugBoss_) {
+		isIvent_ = false;
+		hitBox_ = true;
 	}
 	
 	if (isIvent_) {
@@ -716,7 +722,7 @@ void GameScene::ReLoad(const std::string filename)
 
 	models.insert(std::make_pair(std::string("player"), playerModel_.get()));
 	models.insert(std::make_pair(std::string("debugpoint"), playerModel_.get()));
-	models.insert(std::make_pair(std::string("boss"), enemyModel_.get()));
+	models.insert(std::make_pair(std::string("boss"), filedCubeModel_.get()));
 	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemyc"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemySpawn2"), enemyModel2_.get()));

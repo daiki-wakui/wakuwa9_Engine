@@ -3,6 +3,7 @@
 #include "Object3D.h"
 #include "BossBullet.h"
 #include "Player.h"
+#include "KeyBoard.h"
 
 class Boss
 {
@@ -15,6 +16,8 @@ private: // エイリアス
 
 private:
 
+	KeyBoard* key_ = KeyBoard::GetInstance();
+
 	float frame_;
 
 	Model* model_;
@@ -26,6 +29,7 @@ private:
 	Vector3	differenceVec;
 
 	XMFLOAT3 pos_;
+	XMFLOAT3 rot_;
 
 	Model* bulletModel_;
 
@@ -33,6 +37,8 @@ private:
 
 	int32_t coolTime_ = 10;
 	int32_t coolCount_ = 0;
+
+	int32_t state_ = 0;
 
 public:
 

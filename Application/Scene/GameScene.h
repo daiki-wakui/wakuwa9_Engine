@@ -231,11 +231,13 @@ private:	//メンバ変数
 	float ChangeAlpha_ = 1;
 	bool resetOn_ = false;
 
-	bool hitBox_ = false;
+	bool hitBox_ = true;
 	bool isTutorial_ = false;
 	bool isChangeStage_ = false;
 
 	std::unique_ptr<DebugPoint> dPoint_ = std::make_unique<DebugPoint>();
+
+	bool isDebugBoss_ = false;
 
 public:
 
