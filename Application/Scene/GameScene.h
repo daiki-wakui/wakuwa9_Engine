@@ -72,6 +72,7 @@ private:	//メンバ変数
 	std::unique_ptr<Model> filedTentoModel_;
 	std::unique_ptr<Model> filedTouModel_;
 	std::unique_ptr<Model> bossFiledModel_;
+	std::unique_ptr<Model> bossFiledGateModel_;
 
 	std::unique_ptr<Model> drModel_;
 	std::unique_ptr<Model> LeftDoorModel_;

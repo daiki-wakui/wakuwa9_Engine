@@ -150,6 +150,9 @@ void GameScene::Initialize()
 	bossFiledModel_ = std::make_unique<Model>();
 	bossFiledModel_->LoadFromObj("bossfiled");
 
+	bossFiledGateModel_ = std::make_unique<Model>();
+	bossFiledGateModel_->LoadFromObj("bossfiled2");
+
 	shadowObject_ = std::make_unique<Object3D>();
 	shadowObject_->SetModel(shadowModel_.get());
 	shadowObject_->Initialize();
@@ -742,6 +745,7 @@ void GameScene::ReLoad(const std::string filename)
 	models.insert(std::make_pair(std::string("dr"), drModel_.get()));
 	models.insert(std::make_pair(std::string("d"), LeftDoorModel_.get()));
 	models.insert(std::make_pair(std::string("bossf"), bossFiledModel_.get()));
+	models.insert(std::make_pair(std::string("bossf2"), bossFiledGateModel_.get()));
 
 	// レベルデータからオブジェクトを生成、配置
 	for (int32_t i = 0; i < levelData_->objects.size(); i++) {
