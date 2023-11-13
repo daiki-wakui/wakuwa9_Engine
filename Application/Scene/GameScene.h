@@ -71,6 +71,7 @@ private:	//メンバ変数
 	std::unique_ptr<Model> filedModel_;
 	std::unique_ptr<Model> filedTentoModel_;
 	std::unique_ptr<Model> filedTouModel_;
+	std::unique_ptr<Model> bossFiledModel_;
 
 	std::unique_ptr<Model> drModel_;
 	std::unique_ptr<Model> LeftDoorModel_;
@@ -207,10 +208,10 @@ private:	//メンバ変数
 	float alpha_ = 0;
 	bool isIvent_ = false;
 
-	Vector3 iventEye_ = { 360,100,700 };
-	Vector3 iventTarget_ = { 360, 100,1000 };
+	Vector3 iventEye_ = { 450,100,750 };
+	Vector3 iventTarget_ = { 450, 100,1000 };
 
-	Vector3 endEye_ = { 360,10,600 };
+	Vector3 endEye_ = { 450,10,600 };
 	float timer_ = 0;
 	float maxTime_ = 300;
 

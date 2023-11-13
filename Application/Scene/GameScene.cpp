@@ -144,6 +144,12 @@ void GameScene::Initialize()
 	LeftDoorModel_ = std::make_unique<Model>();
 	LeftDoorModel_->LoadFromObj("doar2");
 
+	bossModel_ = std::make_unique<Model>();
+	bossModel_->LoadFromObj("enemySou");
+
+	bossFiledModel_ = std::make_unique<Model>();
+	bossFiledModel_->LoadFromObj("bossfiled");
+
 	shadowObject_ = std::make_unique<Object3D>();
 	shadowObject_->SetModel(shadowModel_.get());
 	shadowObject_->Initialize();
@@ -386,7 +392,7 @@ void GameScene::Update()
 			Object3D::SetEye(eye);
 			eye = { 0,10,0 };
 			Object3D::SetTarget(eye);
-			iventEye_ = { 360,20,700 };
+			iventEye_ = { 450,100,750 };
 			movieEnd_ = true;
 			sound_->PlayWave("Warning.wav", 2);
 		}
@@ -722,7 +728,7 @@ void GameScene::ReLoad(const std::string filename)
 
 	models.insert(std::make_pair(std::string("player"), playerModel_.get()));
 	models.insert(std::make_pair(std::string("debugpoint"), playerModel_.get()));
-	models.insert(std::make_pair(std::string("boss"), filedCubeModel_.get()));
+	models.insert(std::make_pair(std::string("boss"), bossModel_.get()));
 	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemyc"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemySpawn2"), enemyModel2_.get()));
@@ -735,7 +741,7 @@ void GameScene::ReLoad(const std::string filename)
 	models.insert(std::make_pair(std::string("Fliedtou"), filedTouModel_.get()));
 	models.insert(std::make_pair(std::string("dr"), drModel_.get()));
 	models.insert(std::make_pair(std::string("d"), LeftDoorModel_.get()));
-
+	models.insert(std::make_pair(std::string("bossf"), bossFiledModel_.get()));
 
 	// レベルデータからオブジェクトを生成、配置
 	for (int32_t i = 0; i < levelData_->objects.size(); i++) {
