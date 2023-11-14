@@ -241,6 +241,8 @@ private:	//メンバ変数
 
 	bool isDebugBoss_ = false;
 
+	XMFLOAT3 randShake_;
+
 public:
 
 	bool Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale);

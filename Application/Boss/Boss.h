@@ -5,6 +5,8 @@
 #include "Player.h"
 #include "KeyBoard.h"
 
+#include <memory>
+
 class Boss
 {
 private: // エイリアス
@@ -23,6 +25,9 @@ private:
 	Model* model_;
 	Object3D* object_;
 
+	std::unique_ptr<Model> frameModel_;
+	std::unique_ptr<Object3D> frameObject_;
+
 	Player* player_ = nullptr;
 	XMFLOAT3 playerPos;
 	XMFLOAT3 enemyPos;
@@ -30,6 +35,9 @@ private:
 
 	XMFLOAT3 pos_;
 	XMFLOAT3 rot_;
+	XMFLOAT3 frameRot_;
+	XMFLOAT3 addRot_;
+
 
 	Model* bulletModel_;
 
@@ -40,6 +48,8 @@ private:
 
 	int32_t state_ = 0;
 
+	Vector3 velocity_ = { 0,0,0 };
+
 public:
 
 	bool arive_ = false;
@@ -47,7 +57,7 @@ public:
 
 	DirectX::XMFLOAT3 GetWorldPos();
 
-	void Initialize(Model* Model, XMFLOAT3 pos, Object3D* Object,Player* player);
+	void Initialize(Model* model, XMFLOAT3 pos, Object3D* Object,Player* player);
 	void Update(bool move);
 	void Draw();
 	void OnCollision();

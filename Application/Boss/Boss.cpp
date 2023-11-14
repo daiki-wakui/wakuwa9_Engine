@@ -1,5 +1,6 @@
 #include "Boss.h"
 
+
 DirectX::XMFLOAT3 Boss::GetWorldPos()
 {
 	DirectX::XMFLOAT3 worldPos;
@@ -11,15 +12,27 @@ DirectX::XMFLOAT3 Boss::GetWorldPos()
 	return worldPos;
 }
 
-void Boss::Initialize(Model* Model, XMFLOAT3 pos, Object3D* Object, Player* player)
+void Boss::Initialize(Model* model, XMFLOAT3 pos, Object3D* Object, Player* player)
 {
-	model_ = Model;
+	model_ = model;
 	object_ = Object;
 	player_ = player;
 	pos_ = pos;
 
 	hp = 50;
 	arive_ = true;
+
+
+	//frameModel_.reset();
+	frameModel_ = std::make_unique<Model>();
+	frameModel_->LoadFromObj("bossframe");
+
+	//frameObject_.reset();
+	frameObject_ = std::make_unique<Object3D>();
+	frameObject_->SetModel(frameModel_.get());
+	frameObject_->Initialize();
+	frameObject_->SetScale({ 15,15,15 });
+	frameObject_->SetPosition(object_->GetPosition());
 }
 
 void Boss::Update(bool move)
@@ -42,13 +55,13 @@ void Boss::Update(bool move)
 	case 1:
 		
 		coolTime_--;
+		
+		pos_.x = 2.0f * cosf(3.14f * frame_ / 200) + pos_.x;
+		 
 		break;
 	case 2:
 
-		//frame_++;
-		//pos_.x = 2.0f * cosf(3.14f * frame_ / 200) + pos_.x;
 		coolTime_--;
-
 		rot_.y += 0.5f;
 		
 		break;
@@ -65,56 +78,69 @@ void Boss::Update(bool move)
 		
 	}
 
+	frame_++;
+	addRot_.y = 2;
+	addRot_.x = 2;
+
+	frameRot_.y += addRot_.y;
+	frameRot_.x += addRot_.x;
+
 	object_->SetPosition(pos_);
 	object_->SetRotation(rot_);
+	frameObject_->SetRotation(frameRot_);
+	frameObject_->SetPosition(object_->GetPosition());
 
 	if (coolTime_ == 0) {
-		playerPos = player_->GetWorldPos();
-		enemyPos = GetWorldPos();
 
-		differenceVec.x = enemyPos.x - playerPos.x;
-		differenceVec.y = enemyPos.y - playerPos.y;
-		differenceVec.z = enemyPos.z - playerPos.z;
-		differenceVec.normalize();
-		differenceVec /= 3;
+		if (state_ == 1) {
+			playerPos = player_->GetWorldPos();
+			enemyPos = GetWorldPos();
 
-		Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };
-		Vector3 end({ 0,0,0 });
-		Vector3 length = { 0, 0, 10 };
-		Vector3 frontVec = { 0, 0, 0 };
+			differenceVec.x = enemyPos.x - playerPos.x;
+			differenceVec.y = enemyPos.y - playerPos.y;
+			differenceVec.z = enemyPos.z - playerPos.z;
+			differenceVec.normalize();
+			differenceVec /= 3;
+		}
+		else if (state_ == 2) {
+			Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };
+			Vector3 end({ 0,0,0 });
+			Vector3 length = { 0, 0, 10 };
+			Vector3 frontVec = { 0, 0, 0 };
 
-		//終点座標を設定
-		end.x = start.x + length.x;
-		end.y = start.y + length.y;
-		end.z = start.z + length.z;
+			//終点座標を設定
+			end.x = start.x + length.x;
+			end.y = start.y + length.y;
+			end.z = start.z + length.z;
 
-		//回転を考慮した座標を設定
-		end.x = start.x + sinf(rot_.y / 40);
-		end.z = start.z + cosf(rot_.y / 40);
+			//回転を考慮した座標を設定
+			end.x = start.x + sinf(rot_.y / 40);
+			end.z = start.z + cosf(rot_.y / 40);
 
-		//始点と終点から正面ベクトルを求める
-		frontVec.x = end.x - start.x;
-		frontVec.y = end.y - start.y;
-		frontVec.z = end.z - start.z;
+			//始点と終点から正面ベクトルを求める
+			frontVec.x = end.x - start.x;
+			frontVec.y = end.y - start.y;
+			frontVec.z = end.z - start.z;
 
+
+			frontVec.normalize();
+
+
+			velocity_ = frontVec;
+		}
 		
-		frontVec.normalize();
 
-		Vector3 velocity({ 0,0,0 });
-
-		velocity = frontVec;
-
-		//velocity.multiplyMat4(object_->matWorld_);
+		//velocity_.multiplyMat4(object_->matWorld_);
 
 		
 		for (int i = 0; i < 2; i++) {
 			std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
 
 			if (i == 0) {
-				newBullet->Initialize(pos_, velocity, bulletModel_, 0);
+				newBullet->Initialize(pos_, velocity_, bulletModel_, 0);
 			}
 			else {
-				newBullet->Initialize(pos_, velocity, bulletModel_, 1);
+				newBullet->Initialize(pos_, velocity_, bulletModel_, 1);
 			}
 			
 			//弾を登録する
@@ -138,11 +164,14 @@ void Boss::Update(bool move)
 	
 
 	object_->Update();
+	frameObject_->Update();
 }
 
 void Boss::Draw()
 {
 	object_->Draw();
+	frameObject_->Draw();
+
 
 	for (std::unique_ptr<BossBullet>& bullet : bullets_) {
 		bullet->Draw();

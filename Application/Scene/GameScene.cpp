@@ -144,14 +144,14 @@ void GameScene::Initialize()
 	LeftDoorModel_ = std::make_unique<Model>();
 	LeftDoorModel_->LoadFromObj("doar2");
 
-	bossModel_ = std::make_unique<Model>();
-	bossModel_->LoadFromObj("enemySou");
-
 	bossFiledModel_ = std::make_unique<Model>();
 	bossFiledModel_->LoadFromObj("bossfiled");
 
 	bossFiledGateModel_ = std::make_unique<Model>();
 	bossFiledGateModel_->LoadFromObj("bossfiled2");
+
+	bossModel_ = std::make_unique<Model>();
+	bossModel_->LoadFromObj("bossbody");
 
 	shadowObject_ = std::make_unique<Object3D>();
 	shadowObject_->SetModel(shadowModel_.get());
@@ -239,6 +239,28 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
+
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+	std::uniform_real_distribution<float> ve(-0.2f, 0.2f);
+
+	if (keyboard_->keyPush(DIK_S)) {
+		randShake_.x = ve(engine);
+		randShake_.y = ve(engine);
+
+		XMFLOAT3 toEye = Object3D::GetEye();
+		XMFLOAT3 toTerget = Object3D::GetTarget();
+		toEye.x += randShake_.x;
+		toEye.y += randShake_.y;
+		toTerget.x += randShake_.x;
+		toTerget.y += randShake_.y;
+
+		Object3D::SetEye(toEye);
+		Object3D::SetTarget(toTerget);
+	}
+
+	
+
 	if (keyboard_->keyInstantPush(DIK_N)) {
 		isDebugBoss_ = true;
 	}

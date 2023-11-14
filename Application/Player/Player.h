@@ -104,6 +104,8 @@ private:
 
 	float prot_ = 0;
 
+	XMFLOAT3 randShake_;
+
 public:
 	bool GetIsShot() { return isShot_; }
 	void SetIsShot(bool isShot) { isShot_ = isShot; }

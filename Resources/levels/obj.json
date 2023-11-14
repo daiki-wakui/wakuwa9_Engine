@@ -155,28 +155,6 @@
         },
         {
             "type": "MESH",
-            "name": "立方体.005",
-            "transform": {
-                "translation": [
-                    -782.8428344726562,
-                    455.85205078125,
-                    26.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "file_name": "boss"
-        },
-        {
-            "type": "MESH",
             "name": "Cube.017",
             "transform": {
                 "translation": [
@@ -1412,7 +1390,7 @@
             "name": "Cube.033",
             "transform": {
                 "translation": [
-                    -623.556640625,
+                    -495.09344482421875,
                     449.852294921875,
                     0.0
                 ],
@@ -1802,6 +1780,28 @@
                 ]
             },
             "file_name": "Fliedtou"
+        },
+        {
+            "type": "MESH",
+            "name": "Cube.036",
+            "transform": {
+                "translation": [
+                    -818.625,
+                    465.5113525390625,
+                    37.59524917602539
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "boss"
         },
         {
             "type": "MESH",
