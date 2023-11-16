@@ -57,19 +57,70 @@ void Boss::Update(bool move)
 	std::uniform_real_distribution<float> moveLimitX(-bossLimit_.x,bossLimit_.x);
 	std::uniform_real_distribution<float> moveLimitY(-bossLimit_.y, bossLimit_.y);
 
+	std::uniform_real_distribution<float> moveLimitLBX(0, bossLimit_.x);
+	std::uniform_real_distribution<float> moveLimitLBY(0, bossLimit_.y);
+
+	std::uniform_real_distribution<float> moveLimitLTX(0, bossLimit_.x);
+	std::uniform_real_distribution<float> moveLimitLTY(-bossLimit_.y, 0);
+
+	std::uniform_real_distribution<float> moveLimitRBX(-bossLimit_.x, 0);
+	std::uniform_real_distribution<float> moveLimitRBY(0, bossLimit_.y);
+
+	std::uniform_real_distribution<float> moveLimitRTX(-bossLimit_.x, 0);
+	std::uniform_real_distribution<float> moveLimitRTY(-bossLimit_.y, 0);
+
+	//playerが左下にいるとき
+	if (player_->GetWorldPos().x < centerPos_.x && player_->GetWorldPos().z < centerPos_.z) {
+		toPlayerArea_ = LBottom;
+	}
+	//左上にいるとき
+	else if (player_->GetWorldPos().x < centerPos_.x && player_->GetWorldPos().z > centerPos_.z) {
+		toPlayerArea_ = LTop;
+	}
+	//右下にいるとき
+	else if (player_->GetWorldPos().x > centerPos_.x && player_->GetWorldPos().z < centerPos_.z) {
+		toPlayerArea_ = RBottom;
+	}
+	//右上にいるとき
+	else if (player_->GetWorldPos().x > centerPos_.x && player_->GetWorldPos().z > centerPos_.z) {
+		toPlayerArea_ = RTop;
+	}
+	else {
+		toPlayerArea_ = 0;
+	}
+
 	moveTimer_++;
 	if (moveTimer_ > 60) {
-		pos_ = centerPos_;
-
-		pos_.x += moveLimitX(engine);
-		pos_.z += moveLimitY(engine);
-
-		cononPos_ = pos_;
+		
 
 		moveTimer_ = 0;
 	}
 
-	
+	pos_ = centerPos_;
+
+	if (toPlayerArea_ == LBottom) {
+		pos_.x += moveLimitLBX(engine);
+		pos_.z += moveLimitLBY(engine);
+	}
+	else if (toPlayerArea_ == LTop) {
+		pos_.x += moveLimitLTX(engine);
+		pos_.z += moveLimitLTY(engine);
+	}
+	else if (toPlayerArea_ == RBottom) {
+		pos_.x += moveLimitRBX(engine);
+		pos_.z += moveLimitRBY(engine);
+	}
+	else if (toPlayerArea_ == RTop) {
+		pos_.x += moveLimitRTX(engine);
+		pos_.z += moveLimitRTY(engine);
+	}
+	else {
+		pos_.x += moveLimitX(engine);
+		pos_.z += moveLimitY(engine);
+	}
+
+
+	cononPos_ = pos_;
 
 	if (key_->keyInstantPush(DIK_1)) {
 		state_ = 1;

@@ -8,6 +8,14 @@
 
 #include <memory>
 
+enum pArea
+{
+	LTop,
+	LBottom,
+	RTop,
+	RBottom
+};
+
 class Boss
 {
 private: // エイリアス
@@ -59,6 +67,8 @@ private:
 
 	Vector3 velocity_ = { 0,0,0 };
 	Vector2 bossLimit_ = { 140,120 };
+
+	int32_t toPlayerArea_ = 0;
 
 public:
 
