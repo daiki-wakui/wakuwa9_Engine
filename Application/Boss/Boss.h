@@ -34,7 +34,8 @@ private:
 	Vector3	differenceVec;
 
 	XMFLOAT3 pos_;
-	XMFLOAT3 rot_;
+	XMFLOAT3 visualRot_;
+	XMFLOAT3 bulletDirRot_;
 	XMFLOAT3 frameRot_;
 	XMFLOAT3 addRot_;
 

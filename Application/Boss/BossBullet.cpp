@@ -1,7 +1,7 @@
 #include "BossBullet.h"
 #include <random>
 
-void BossBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model, bool randState)
+void BossBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model, int32_t randState)
 {
 	tPos_ = pos;
 	velocity_ = velocity;
@@ -25,15 +25,22 @@ void BossBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* mod
 void BossBullet::Update()
 {
 
-	if (bulletState_) {
-		tPos_.x -= velocity_.x + addRand_;
+	if (bulletState_ != 3) {
+		if (bulletState_) {
+			tPos_.x -= velocity_.x + addRand_;
+		}
+		else {
+			tPos_.x -= velocity_.x - addRand_;
+		}
+
+		tPos_.y -= velocity_.y + addRand_;
+		tPos_.z -= velocity_.z;
 	}
 	else {
-		tPos_.x -= velocity_.x - addRand_;
+		tPos_.x -= velocity_.x;
+		tPos_.y -= velocity_.y;
+		tPos_.z -= velocity_.z;
 	}
-
-	tPos_.y -= velocity_.y + addRand_;
-	tPos_.z -= velocity_.z;
 
 	bulletObject_->SetPosition(tPos_);
 

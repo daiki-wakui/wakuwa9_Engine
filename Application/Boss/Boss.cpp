@@ -56,14 +56,16 @@ void Boss::Update(bool move)
 		
 		coolTime_--;
 		
-		pos_.x = 2.0f * cosf(3.14f * frame_ / 200) + pos_.x;
-		 
+		visualRot_.x++;
+		visualRot_.z++;
+
 		break;
 	case 2:
 
 		coolTime_--;
-		rot_.y += 0.5f;
-		
+		bulletDirRot_.y += 0.5f;
+		visualRot_.y += 0.5f;
+
 		break;
 	case 3:
 
@@ -85,11 +87,6 @@ void Boss::Update(bool move)
 	frameRot_.y += addRot_.y;
 	frameRot_.x += addRot_.x;
 
-	object_->SetPosition(pos_);
-	object_->SetRotation(rot_);
-	frameObject_->SetRotation(frameRot_);
-	frameObject_->SetPosition(object_->GetPosition());
-
 	if (coolTime_ == 0) {
 
 		if (state_ == 1) {
@@ -99,8 +96,15 @@ void Boss::Update(bool move)
 			differenceVec.x = enemyPos.x - playerPos.x;
 			differenceVec.y = enemyPos.y - playerPos.y;
 			differenceVec.z = enemyPos.z - playerPos.z;
-			differenceVec.normalize();
 			differenceVec /= 3;
+			differenceVec.normalize();
+
+			object_->SetRotation({ 0,0,0 });
+			object_->Update();
+
+			velocity_ = differenceVec;
+			velocity_.multiplyMat4(object_->matWorld_);
+			velocity_ /= 3;
 		}
 		else if (state_ == 2) {
 			Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };
@@ -114,8 +118,8 @@ void Boss::Update(bool move)
 			end.z = start.z + length.z;
 
 			//回転を考慮した座標を設定
-			end.x = start.x + sinf(rot_.y / 40);
-			end.z = start.z + cosf(rot_.y / 40);
+			end.x = start.x + sinf(bulletDirRot_.y / 40);
+			end.z = start.z + cosf(bulletDirRot_.y / 40);
 
 			//始点と終点から正面ベクトルを求める
 			frontVec.x = end.x - start.x;
@@ -130,24 +134,31 @@ void Boss::Update(bool move)
 		}
 		
 
-		//velocity_.multiplyMat4(object_->matWorld_);
-
 		
-		for (int i = 0; i < 2; i++) {
+		if (state_ == 1) {
 			std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
 
-			if (i == 0) {
-				newBullet->Initialize(pos_, velocity_, bulletModel_, 0);
-			}
-			else {
-				newBullet->Initialize(pos_, velocity_, bulletModel_, 1);
-			}
-			
+			newBullet->Initialize(pos_, velocity_, bulletModel_, 3);
+
 			//弾を登録する
 			bullets_.push_back(std::move(newBullet));
-
 		}
-		
+		else if (state_ == 2) {
+			for (int i = 0; i < 2; i++) {
+				std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
+
+				if (i == 0) {
+					newBullet->Initialize(pos_, velocity_, bulletModel_, 0);
+				}
+				else {
+					newBullet->Initialize(pos_, velocity_, bulletModel_, 1);
+				}
+
+				//弾を登録する
+				bullets_.push_back(std::move(newBullet));
+
+			}
+		}
 		
 		coolTime_ = 5;
 	}
@@ -161,7 +172,10 @@ void Boss::Update(bool move)
 		bullet->Update();
 	}
 
-	
+	object_->SetPosition(pos_);
+	object_->SetRotation(visualRot_);
+	frameObject_->SetRotation(frameRot_);
+	frameObject_->SetPosition(object_->GetPosition());
 
 	object_->Update();
 	frameObject_->Update();
