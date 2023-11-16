@@ -1,5 +1,6 @@
 #include "Boss.h"
 #include <random>
+#include "Easing.h"
 
 DirectX::XMFLOAT3 Boss::GetWorldPos()
 {
@@ -35,6 +36,7 @@ void Boss::Initialize(Model* model, XMFLOAT3 pos, Object3D* Object, Player* play
 	frameObject_->SetScale({ 15,15,15 });
 	frameObject_->SetPosition(object_->GetPosition());
 
+	vScale_ = { 15,15,15 };
 	
 	bulletCononModel_ = std::make_unique<Model>();
 	bulletCononModel_->LoadFromObj("bossconon");
@@ -51,76 +53,8 @@ void Boss::Initialize(Model* model, XMFLOAT3 pos, Object3D* Object, Player* play
 void Boss::Update(bool move)
 {
 	arive_ = true;
-
-	std::random_device seed_gen;
-	std::mt19937_64 engine(seed_gen());
-	std::uniform_real_distribution<float> moveLimitX(-bossLimit_.x,bossLimit_.x);
-	std::uniform_real_distribution<float> moveLimitY(-bossLimit_.y, bossLimit_.y);
-
-	std::uniform_real_distribution<float> moveLimitLBX(0, bossLimit_.x);
-	std::uniform_real_distribution<float> moveLimitLBY(0, bossLimit_.y);
-
-	std::uniform_real_distribution<float> moveLimitLTX(0, bossLimit_.x);
-	std::uniform_real_distribution<float> moveLimitLTY(-bossLimit_.y, 0);
-
-	std::uniform_real_distribution<float> moveLimitRBX(-bossLimit_.x, 0);
-	std::uniform_real_distribution<float> moveLimitRBY(0, bossLimit_.y);
-
-	std::uniform_real_distribution<float> moveLimitRTX(-bossLimit_.x, 0);
-	std::uniform_real_distribution<float> moveLimitRTY(-bossLimit_.y, 0);
-
-	//playerが左下にいるとき
-	if (player_->GetWorldPos().x < centerPos_.x && player_->GetWorldPos().z < centerPos_.z) {
-		toPlayerArea_ = LBottom;
-	}
-	//左上にいるとき
-	else if (player_->GetWorldPos().x < centerPos_.x && player_->GetWorldPos().z > centerPos_.z) {
-		toPlayerArea_ = LTop;
-	}
-	//右下にいるとき
-	else if (player_->GetWorldPos().x > centerPos_.x && player_->GetWorldPos().z < centerPos_.z) {
-		toPlayerArea_ = RBottom;
-	}
-	//右上にいるとき
-	else if (player_->GetWorldPos().x > centerPos_.x && player_->GetWorldPos().z > centerPos_.z) {
-		toPlayerArea_ = RTop;
-	}
-	else {
-		toPlayerArea_ = 0;
-	}
-
-	moveTimer_++;
-	if (moveTimer_ > 60) {
-		
-
-		moveTimer_ = 0;
-	}
-
-	pos_ = centerPos_;
-
-	if (toPlayerArea_ == LBottom) {
-		pos_.x += moveLimitLBX(engine);
-		pos_.z += moveLimitLBY(engine);
-	}
-	else if (toPlayerArea_ == LTop) {
-		pos_.x += moveLimitLTX(engine);
-		pos_.z += moveLimitLTY(engine);
-	}
-	else if (toPlayerArea_ == RBottom) {
-		pos_.x += moveLimitRBX(engine);
-		pos_.z += moveLimitRBY(engine);
-	}
-	else if (toPlayerArea_ == RTop) {
-		pos_.x += moveLimitRTX(engine);
-		pos_.z += moveLimitRTY(engine);
-	}
-	else {
-		pos_.x += moveLimitX(engine);
-		pos_.z += moveLimitY(engine);
-	}
-
-
-	cononPos_ = pos_;
+	
+	Move();
 
 	if (key_->keyInstantPush(DIK_1)) {
 		state_ = 1;
@@ -309,6 +243,10 @@ void Boss::Update(bool move)
 		bossLimit_.y *= -1;
 	}
 
+	object_->SetScale({ vScale_.x,vScale_.y ,vScale_.z });
+	frameObject_->SetScale({ vScale_.x,vScale_.y ,vScale_.z });
+	bulletCononObject_->SetScale({ vScale_.x,vScale_.y ,vScale_.z });
+
 	object_->SetPosition(pos_);
 	object_->SetRotation(visualRot_);
 	frameObject_->SetRotation(frameRot_);
@@ -344,4 +282,144 @@ void Boss::OnCollision()
 void Boss::SetBulletModel(Model* model)
 {
 	bulletModel_ = model;
+}
+
+
+void Boss::Move()
+{
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+	std::uniform_real_distribution<float> moveLimitX(-bossLimit_.x, bossLimit_.x);
+	std::uniform_real_distribution<float> moveLimitY(-bossLimit_.y, bossLimit_.y);
+
+	std::uniform_real_distribution<float> moveLimitLBX(0, bossLimit_.x);
+	std::uniform_real_distribution<float> moveLimitLBY(0, bossLimit_.y);
+
+	std::uniform_real_distribution<float> moveLimitLTX(0, bossLimit_.x);
+	std::uniform_real_distribution<float> moveLimitLTY(-bossLimit_.y, 0);
+
+	std::uniform_real_distribution<float> moveLimitRBX(-bossLimit_.x, 0);
+	std::uniform_real_distribution<float> moveLimitRBY(0, bossLimit_.y);
+
+	std::uniform_real_distribution<float> moveLimitRTX(-bossLimit_.x, 0);
+	std::uniform_real_distribution<float> moveLimitRTY(-bossLimit_.y, 0);
+
+	//playerが左下にいるとき
+	if (player_->GetWorldPos().x < centerPos_.x && player_->GetWorldPos().z < centerPos_.z) {
+		toPlayerArea_ = LBottom;
+	}
+	//左上にいるとき
+	else if (player_->GetWorldPos().x < centerPos_.x && player_->GetWorldPos().z > centerPos_.z) {
+		toPlayerArea_ = LTop;
+	}
+	//右下にいるとき
+	else if (player_->GetWorldPos().x > centerPos_.x && player_->GetWorldPos().z < centerPos_.z) {
+		toPlayerArea_ = RBottom;
+	}
+	//右上にいるとき
+	else if (player_->GetWorldPos().x > centerPos_.x && player_->GetWorldPos().z > centerPos_.z) {
+		toPlayerArea_ = RTop;
+	}
+	else {
+		toPlayerArea_ = 0;
+	}
+
+	moveTimer_++;
+
+	if (moveTimer_ >= 60) {
+		if (!isDisappear_) {
+			moveT_ = 0;
+			isDisappear_ = true;
+			disappearStart_.x = object_->GetPosition().x;
+			disappearStart_.y = object_->GetPosition().y;
+			disappearStart_.z = object_->GetPosition().z;
+
+			disappearEnd_ = disappearStart_;
+			disappearEnd_.y += 150;
+		}
+
+		moveTimer_ = 0;
+	}
+
+
+
+	//瞬間移動始め
+	if (isDisappear_) {
+		moveT_++;
+		moveT_ = min(20, moveT_);
+
+		vPos_ = vPos_.lerp(disappearStart_, disappearEnd_, Easing::EaseOutQuint(moveT_, 20));
+		vScale_ = vScale_.lerp({ 15,15,15 }, { 0,0,15 }, Easing::EaseOutQuint(moveT_, 20));
+
+		pos_.x = vPos_.x;
+		pos_.y = vPos_.y;
+		pos_.z = vPos_.z;
+		cononPos_ = pos_;
+
+		if (moveT_ >= 20) {
+			isPop_ = true;
+
+			pos_.x = centerPos_.x;
+			pos_.z = centerPos_.z;
+
+			if (toPlayerArea_ == LBottom) {
+				pos_.x += moveLimitLBX(engine);
+				pos_.z += moveLimitLBY(engine);
+			}
+			else if (toPlayerArea_ == LTop) {
+				pos_.x += moveLimitLTX(engine);
+				pos_.z += moveLimitLTY(engine);
+			}
+			else if (toPlayerArea_ == RBottom) {
+				pos_.x += moveLimitRBX(engine);
+				pos_.z += moveLimitRBY(engine);
+			}
+			else if (toPlayerArea_ == RTop) {
+				pos_.x += moveLimitRTX(engine);
+				pos_.z += moveLimitRTY(engine);
+			}
+			else {
+				pos_.x += moveLimitX(engine);
+				pos_.z += moveLimitY(engine);
+			}
+
+			isDisappear_ = false;
+			isPop_ = true;
+
+			moveT_ = 0;
+
+			object_->SetPosition(pos_);
+			object_->Update();
+
+			popStart_.x = object_->GetPosition().x;
+			popStart_.y = object_->GetPosition().y;
+			popStart_.z = object_->GetPosition().z;
+
+			popEnd_ = popStart_;
+			popEnd_.y -= 150;
+
+			vPos_ = { 0,0,0 };
+		}
+	}
+
+	//瞬間移動後
+	if (isPop_) {
+		moveT_++;
+		moveT_ = min(20, moveT_);
+
+		vPos_ = vPos_.lerp(popStart_, popEnd_, Easing::EaseOutQuint(moveT_, 20));
+		vScale_ = vScale_.lerp({ 0,0,15 }, { 15,15,15 }, Easing::EaseOutQuint(moveT_, 20));
+
+		pos_.x = vPos_.x;
+		pos_.y = vPos_.y;
+		pos_.z = vPos_.z;
+		cononPos_ = pos_;
+
+		//moveTimer_ = 0;
+
+		if (moveT_ >= 20) {
+			isPop_ = false;
+		}
+	}
+
 }

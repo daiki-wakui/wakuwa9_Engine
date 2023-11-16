@@ -8,5 +8,6 @@ public:
 	static float EaseOutCubic(float timer, float maxtimer);
 	static float EaseInCubic(float timer, float maxtimer);
 	static float EaseOutBack(float timer, float maxtimer);
+	static float EaseOutQuint(float timer, float maxtimer);
 };
 

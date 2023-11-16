@@ -70,6 +70,21 @@ private:
 
 	int32_t toPlayerArea_ = 0;
 
+	bool isDisappear_;
+	bool isPop_;
+
+	float moveT_;
+	Vector3 disappearStart_;
+	Vector3 disappearEnd_;
+
+	Vector3 popStart_;
+	Vector3 popEnd_;
+
+	Vector3 vPos_;
+	Vector3 vScale_;
+
+	void Move();
+
 public:
 
 	bool arive_ = false;
