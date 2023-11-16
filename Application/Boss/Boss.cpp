@@ -24,9 +24,10 @@ void Boss::Initialize(Model* model, XMFLOAT3 pos, Object3D* Object, Player* play
 
 	hp = 50;
 	arive_ = true;
+	state_ = 0;
+	frame_ = 0;
+	moveTimer_ = 0;
 
-
-	//frameModel_.reset();
 	
 	
 
@@ -57,26 +58,16 @@ void Boss::Update(bool move)
 	arive_ = true;
 	
 	if (!move) {
-
 		Move();
 	}
 
-	
-
-	if (key_->keyInstantPush(DIK_1)) {
-		state_ = 1;
-	}
-	else if (key_->keyInstantPush(DIK_2)) {
-		state_ = 2;
-	}
-	else if (key_->keyInstantPush(DIK_3)) {
-		state_ = 3;
-	}
-
 	state_ = randState_;
-
 	frame_++;
 
+	frameRot_.y++;
+	frameRot_.x++;
+	pos_.y = 0.5f * cosf(3.14f * frame_ / 50) + pos_.y;
+	cononPos_.y = pos_.y;
 
 	switch (state_)
 	{
@@ -92,7 +83,7 @@ void Boss::Update(bool move)
 		visualRot_.x++;
 		visualRot_.z++;
 
-		cononPos_.y = object_->GetPosition().y - 25;
+		cononPos_.y = pos_.y - 25;
 
 		break;
 	case 2:
@@ -107,9 +98,9 @@ void Boss::Update(bool move)
 		if (!isPop_ && !isDisappear_) {
 			coolTime_--;
 		}
-		bulletDirRot_.y += 0.5f;
-		visualRot_.y += 0.5f;
-		cononPos_.y = object_->GetPosition().y - 25;
+		bulletDirRot_.y += 1.5f;
+		visualRot_.y += 1.5f;
+		cononPos_.y = pos_.y - 25;
 
 		break;
 	case 3:
@@ -129,7 +120,7 @@ void Boss::Update(bool move)
 		visualRot_.x += 14.5f;
 		
 		bulletDirRot_.y += 0.5f;
-		cononPos_.y = object_->GetPosition().y - 25;
+		cononPos_.y = pos_.y - 25;
 
 		break;
 	default:
@@ -215,6 +206,8 @@ void Boss::Update(bool move)
 
 			//弾を登録する
 			bullets_.push_back(std::move(newBullet));
+
+			coolTime_ = 5;
 		}
 		else if (state_ == 2) {
 			for (int i = 0; i < 2; i++) {
@@ -231,6 +224,8 @@ void Boss::Update(bool move)
 				bullets_.push_back(std::move(newBullet));
 
 			}
+
+			coolTime_ = 5;
 		}
 		else if (state_ == 3) {
 			for (int i = 0; i < 2; i++) {
@@ -247,9 +242,11 @@ void Boss::Update(bool move)
 				bullets_.push_back(std::move(newBullet));
 
 			}
+
+			coolTime_ = 2;
 		}
 		
-		coolTime_ = 5;
+		
 	}
 
 	//デスフラグが立った弾を削除
@@ -259,13 +256,6 @@ void Boss::Update(bool move)
 
 	for (std::unique_ptr<BossBullet>& bullet : bullets_) {
 		bullet->Update();
-	}
-
-	if (key_->keyInstantPush(DIK_L)) {
-		bossLimit_.x *= -1;
-	}
-	if (key_->keyInstantPush(DIK_K)) {
-		bossLimit_.y *= -1;
 	}
 
 	object_->SetScale({ vScale_.x,vScale_.y ,vScale_.z });
@@ -288,6 +278,8 @@ void Boss::Draw()
 {
 	object_->Draw();
 	frameObject_->Draw();
+	
+
 	bulletCononObject_->Draw();
 
 	for (std::unique_ptr<BossBullet>& bullet : bullets_) {
@@ -427,10 +419,11 @@ void Boss::Move()
 			popStart_.z = object_->GetPosition().z;
 
 			popEnd_ = popStart_;
-			popEnd_.y -= 150;
+			popEnd_.y = centerPos_.y;
 
 			vPos_ = { 0,0,0 };
 			addRot_ = { 0,0,0 };
+			frame_ = 0;
 		}
 	}
 

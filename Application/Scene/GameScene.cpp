@@ -38,11 +38,11 @@ void GameScene::Initialize()
 	spBasis_->TextureSetting();
 
 	playerHPSprite_->Initialize();
-	playerHPSprite_->Create(50, 30);
+	playerHPSprite_->Create(50, 20);
 	playerHPSprite_->SetAncP({ 0,0 });
 
 	bossHPSprite_->Initialize();
-	bossHPSprite_->Create(640, 60);
+	bossHPSprite_->Create(640, 80);
 
 	gameoverSprite_->Initialize();
 	gameoverSprite_->Create(640, 360);
@@ -270,8 +270,8 @@ void GameScene::Update()
 
 		Object3D::SetEye(toEye);
 		Object3D::SetTarget(toTerget);
-		playerHPSprite_->SetPosition({ 50 + randShake_.x * 5,30 + randShake_.y * 5 });
-		bossHPSprite_->SetPosition({ 640 + randShake_.x * 5,60 + randShake_.y * 5 });
+		playerHPSprite_->SetPosition({ 50 + randShake_.x * 5,20 + randShake_.y * 5 });
+		bossHPSprite_->SetPosition({ 640 + randShake_.x * 5,80 + randShake_.y * 5 });
 	}
 
 	
