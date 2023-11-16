@@ -42,7 +42,7 @@ void GameScene::Initialize()
 	playerHPSprite_->SetAncP({ 0,0 });
 
 	bossHPSprite_->Initialize();
-	bossHPSprite_->Create(640, 30);
+	bossHPSprite_->Create(640, 60);
 
 	gameoverSprite_->Initialize();
 	gameoverSprite_->Create(640, 360);
@@ -245,9 +245,16 @@ void GameScene::Update()
 
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
-	std::uniform_real_distribution<float> ve(-0.2f, 0.2f);
+	std::uniform_real_distribution<float> ve(-2.0f, 2.0f);
 
-	if (keyboard_->keyPush(DIK_S)) {
+	if (isShake_) {
+		shakeTimer_++;
+
+		if (shakeTimer_ > 30) {
+			isShake_ = false;
+			shakeTimer_ = 0;
+		}
+
 		randShake_.x = ve(engine);
 		randShake_.y = ve(engine);
 
@@ -260,6 +267,8 @@ void GameScene::Update()
 
 		Object3D::SetEye(toEye);
 		Object3D::SetTarget(toTerget);
+		playerHPSprite_->SetPosition({ 50 + randShake_.x * 5,30 + randShake_.y * 5 });
+		bossHPSprite_->SetPosition({ 640 + randShake_.x * 5,60 + randShake_.y * 5 });
 	}
 
 	
@@ -1133,6 +1142,8 @@ void GameScene::AllCollison()
 				if (player_->GetHP() <= 1) {
 					sound_->PlayWave("electric_shock3.wav",1.1f);
 				}
+
+				isShake_ = true;
 			}
 		}
 	}
@@ -1161,6 +1172,8 @@ void GameScene::AllCollison()
 					sound_->PlayWave("noise.wav",0.5f);
 				}
 				player_->OnCollision();
+
+				isShake_ = true;
 			}
 		}
 	}

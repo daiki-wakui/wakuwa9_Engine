@@ -243,6 +243,8 @@ private:	//メンバ変数
 	bool isDebugBoss_ = false;
 
 	XMFLOAT3 randShake_;
+	bool isShake_;
+	int32_t shakeTimer_;
 
 public:
 

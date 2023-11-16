@@ -29,6 +29,9 @@ private:
 	std::unique_ptr<Model> frameModel_;
 	std::unique_ptr<Object3D> frameObject_;
 
+	std::unique_ptr<Model> bulletCononModel_;
+	std::unique_ptr<Object3D> bulletCononObject_;
+
 	Player* player_ = nullptr;
 	XMFLOAT3 playerPos;
 	XMFLOAT3 enemyPos;
@@ -40,6 +43,7 @@ private:
 	XMFLOAT3 frameRot_;
 	XMFLOAT3 addRot_;
 
+	XMFLOAT3 cononPos_;
 
 	Model* bulletModel_;
 
@@ -51,7 +55,7 @@ private:
 	int32_t state_ = 0;
 
 	Vector3 velocity_ = { 0,0,0 };
-	Vector2 bossLimit_ = { 100,100 };
+	Vector2 bossLimit_ = { 140,120 };
 
 public:
 

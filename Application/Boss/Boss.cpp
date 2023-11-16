@@ -33,6 +33,18 @@ void Boss::Initialize(Model* model, XMFLOAT3 pos, Object3D* Object, Player* play
 	frameObject_->Initialize();
 	frameObject_->SetScale({ 15,15,15 });
 	frameObject_->SetPosition(object_->GetPosition());
+
+	
+	bulletCononModel_ = std::make_unique<Model>();
+	bulletCononModel_->LoadFromObj("bossconon");
+
+	//frameObject_.reset();
+	bulletCononObject_ = std::make_unique<Object3D>();
+	bulletCononObject_->SetModel(bulletCononModel_.get());
+	bulletCononObject_->Initialize();
+	bulletCononObject_->SetScale({ 15,15,15 });
+	bulletCononObject_->SetPosition(object_->GetPosition());
+	cononPos_ = object_->GetPosition();
 }
 
 void Boss::Update(bool move)
@@ -56,15 +68,17 @@ void Boss::Update(bool move)
 		
 		coolTime_--;
 		
-		visualRot_.x++;
-		visualRot_.z++;
+		/*visualRot_.x++;
+		visualRot_.z++;*/
+
+		cononPos_.y = object_->GetPosition().y - 25;
 
 		break;
 	case 2:
 
 		coolTime_--;
 		bulletDirRot_.y += 0.5f;
-		visualRot_.y += 0.5f;
+		//visualRot_.y += 0.5f;
 
 		break;
 	case 3:
@@ -91,7 +105,7 @@ void Boss::Update(bool move)
 
 		if (state_ == 1) {
 			playerPos = player_->GetWorldPos();
-			enemyPos = GetWorldPos();
+			enemyPos = bulletCononObject_->GetPosition();
 
 			differenceVec.x = enemyPos.x - playerPos.x;
 			differenceVec.y = enemyPos.y - playerPos.y;
@@ -138,7 +152,7 @@ void Boss::Update(bool move)
 		if (state_ == 1) {
 			std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
 
-			newBullet->Initialize(pos_, velocity_, bulletModel_, 3);
+			newBullet->Initialize(cononPos_, velocity_, bulletModel_, 3);
 
 			//弾を登録する
 			bullets_.push_back(std::move(newBullet));
@@ -148,10 +162,10 @@ void Boss::Update(bool move)
 				std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
 
 				if (i == 0) {
-					newBullet->Initialize(pos_, velocity_, bulletModel_, 0);
+					newBullet->Initialize(cononPos_, velocity_, bulletModel_, 0);
 				}
 				else {
-					newBullet->Initialize(pos_, velocity_, bulletModel_, 1);
+					newBullet->Initialize(cononPos_, velocity_, bulletModel_, 1);
 				}
 
 				//弾を登録する
@@ -172,10 +186,20 @@ void Boss::Update(bool move)
 		bullet->Update();
 	}
 
+	if (key_->keyInstantPush(DIK_L)) {
+		bossLimit_.x *= -1;
+	}
+	if (key_->keyInstantPush(DIK_K)) {
+		bossLimit_.y *= -1;
+	}
+
 	object_->SetPosition(pos_);
 	object_->SetRotation(visualRot_);
 	frameObject_->SetRotation(frameRot_);
 	frameObject_->SetPosition(object_->GetPosition());
+
+	bulletCononObject_->SetPosition(cononPos_);
+	bulletCononObject_->Update();
 
 	object_->Update();
 	frameObject_->Update();
@@ -185,7 +209,7 @@ void Boss::Draw()
 {
 	object_->Draw();
 	frameObject_->Draw();
-
+	bulletCononObject_->Draw();
 
 	for (std::unique_ptr<BossBullet>& bullet : bullets_) {
 		bullet->Draw();
