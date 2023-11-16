@@ -11,6 +11,7 @@ void BossBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* mod
 	bulletObject_ = std::make_unique<Object3D>();
 	bulletObject_->SetModel(bulletModel_);
 	bulletObject_->Initialize();
+	bulletObject_->SetScale({ 3,3,3 });
 
 	bulletObject_->SetPosition(tPos_);
 

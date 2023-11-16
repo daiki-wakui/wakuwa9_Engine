@@ -63,6 +63,7 @@ private:	//メンバ変数
 	//ボス
 	std::unique_ptr<Model> bossModel_;
 	std::unique_ptr<Object3D> bossObject_;
+	std::unique_ptr<Model> bossBulletModel_;
 
 	//フィールドに使うモデル
 	std::unique_ptr<Model> cubeModel_;

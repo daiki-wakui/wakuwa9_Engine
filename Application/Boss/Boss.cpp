@@ -104,7 +104,7 @@ void Boss::Update(bool move)
 
 			velocity_ = differenceVec;
 			velocity_.multiplyMat4(object_->matWorld_);
-			velocity_ /= 3;
+			velocity_ /= 10;
 		}
 		else if (state_ == 2) {
 			Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };

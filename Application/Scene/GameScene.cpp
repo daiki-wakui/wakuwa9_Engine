@@ -153,6 +153,9 @@ void GameScene::Initialize()
 	bossModel_ = std::make_unique<Model>();
 	bossModel_->LoadFromObj("bossbody");
 
+	bossBulletModel_ = std::make_unique<Model>();
+	bossBulletModel_->LoadFromObj("bossbullet");
+
 	shadowObject_ = std::make_unique<Object3D>();
 	shadowObject_->SetModel(shadowModel_.get());
 	shadowObject_->Initialize();
@@ -940,7 +943,7 @@ void GameScene::ReLoad(const std::string filename)
 
 			newObject[objSize_]->SetScale({ 15,15,15 });
 			boss_->Initialize(model,newObject[objSize_]->GetPosition(), newObject[objSize_].get(), player_.get());
-			boss_->SetBulletModel(cubeModel_.get());
+			boss_->SetBulletModel(bossBulletModel_.get());
 
 			objSize_++;
 		}

@@ -4,6 +4,7 @@
 #include "BossBullet.h"
 #include "Player.h"
 #include "KeyBoard.h"
+#include "Vector2.h"
 
 #include <memory>
 
@@ -50,6 +51,7 @@ private:
 	int32_t state_ = 0;
 
 	Vector3 velocity_ = { 0,0,0 };
+	Vector2 bossLimit_ = { 100,100 };
 
 public:
 
