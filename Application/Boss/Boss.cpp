@@ -1,6 +1,7 @@
 #include "Boss.h"
 #include <random>
 #include "Easing.h"
+#include <stdlib.h>
 
 DirectX::XMFLOAT3 Boss::GetWorldPos()
 {
@@ -26,35 +27,41 @@ void Boss::Initialize(Model* model, XMFLOAT3 pos, Object3D* Object, Player* play
 
 
 	//frameModel_.reset();
-	frameModel_ = std::make_unique<Model>();
-	frameModel_->LoadFromObj("bossframe");
+	
+	
 
-	//frameObject_.reset();
+	frameObject_.reset();
 	frameObject_ = std::make_unique<Object3D>();
-	frameObject_->SetModel(frameModel_.get());
+	frameObject_->SetModel(frameModel_);
 	frameObject_->Initialize();
 	frameObject_->SetScale({ 15,15,15 });
 	frameObject_->SetPosition(object_->GetPosition());
 
 	vScale_ = { 15,15,15 };
 	
-	bulletCononModel_ = std::make_unique<Model>();
-	bulletCononModel_->LoadFromObj("bossconon");
+	
 
-	//frameObject_.reset();
+	bulletCononObject_.reset();
 	bulletCononObject_ = std::make_unique<Object3D>();
-	bulletCononObject_->SetModel(bulletCononModel_.get());
+	bulletCononObject_->SetModel(bulletCononModel_);
 	bulletCononObject_->Initialize();
 	bulletCononObject_->SetScale({ 15,15,15 });
 	bulletCononObject_->SetPosition(object_->GetPosition());
 	cononPos_ = object_->GetPosition();
+
+	randMoveChange_ = 60;
 }
 
 void Boss::Update(bool move)
 {
 	arive_ = true;
 	
-	Move();
+	if (!move) {
+
+		Move();
+	}
+
+	
 
 	if (key_->keyInstantPush(DIK_1)) {
 		state_ = 1;
@@ -66,30 +73,61 @@ void Boss::Update(bool move)
 		state_ = 3;
 	}
 
+	state_ = randState_;
+
+	frame_++;
+
 
 	switch (state_)
 	{
 	case 1:
+
+		frameRot_.y += 3;
+		frameRot_.x -= 10;
+
+		if (!isPop_ && !isDisappear_) {
+			coolTime_--;
+		}
 		
-		coolTime_--;
-		
-		/*visualRot_.x++;
-		visualRot_.z++;*/
+		visualRot_.x++;
+		visualRot_.z++;
 
 		cononPos_.y = object_->GetPosition().y - 25;
 
 		break;
 	case 2:
 
-		coolTime_--;
+
+		addRot_.y = 2;
+		addRot_.x = 2;
+
+		frameRot_.y += addRot_.y;
+		frameRot_.x += addRot_.x;
+
+		if (!isPop_ && !isDisappear_) {
+			coolTime_--;
+		}
 		bulletDirRot_.y += 0.5f;
-		//visualRot_.y += 0.5f;
+		visualRot_.y += 0.5f;
 		cononPos_.y = object_->GetPosition().y - 25;
 
 		break;
 	case 3:
 
-		coolTime_--;
+
+		addRot_.y+=0.1f;
+		addRot_.x+=0.1f;
+
+		frameRot_.y += addRot_.y;
+		frameRot_.x += addRot_.x;
+
+		if (!isPop_ && !isDisappear_) {
+			coolTime_--;
+		}
+
+		visualRot_.z += 14.5f;
+		visualRot_.x += 14.5f;
+		
 		bulletDirRot_.y += 0.5f;
 		cononPos_.y = object_->GetPosition().y - 25;
 
@@ -97,19 +135,6 @@ void Boss::Update(bool move)
 	default:
 		break;
 	}
-	
-
-	if (!move) {
-		
-		
-	}
-
-	frame_++;
-	addRot_.y = 2;
-	addRot_.x = 2;
-
-	frameRot_.y += addRot_.y;
-	frameRot_.x += addRot_.x;
 
 	if (coolTime_ == 0) {
 
@@ -284,6 +309,12 @@ void Boss::SetBulletModel(Model* model)
 	bulletModel_ = model;
 }
 
+void Boss::SetBossModels(Model* framemodel, Model* cannonModel)
+{
+	bulletCononModel_ = cannonModel;
+	frameModel_ = framemodel;
+}
+
 
 void Boss::Move()
 {
@@ -326,7 +357,7 @@ void Boss::Move()
 
 	moveTimer_++;
 
-	if (moveTimer_ >= 60) {
+	if (moveTimer_ >= randMoveChange_) {
 		if (!isDisappear_) {
 			moveT_ = 0;
 			isDisappear_ = true;
@@ -399,6 +430,7 @@ void Boss::Move()
 			popEnd_.y -= 150;
 
 			vPos_ = { 0,0,0 };
+			addRot_ = { 0,0,0 };
 		}
 	}
 
@@ -419,6 +451,8 @@ void Boss::Move()
 
 		if (moveT_ >= 20) {
 			isPop_ = false;
+			randState_ = rand() % 3 + 1;
+			randMoveChange_ = rand() % 300 + 60;
 		}
 	}
 

@@ -34,10 +34,10 @@ private:
 	Model* model_;
 	Object3D* object_;
 
-	std::unique_ptr<Model> frameModel_;
+	Model* frameModel_;
 	std::unique_ptr<Object3D> frameObject_;
 
-	std::unique_ptr<Model> bulletCononModel_;
+	Model* bulletCononModel_;
 	std::unique_ptr<Object3D> bulletCononObject_;
 
 	Player* player_ = nullptr;
@@ -55,6 +55,7 @@ private:
 	XMFLOAT3 centerPos_;
 
 	int32_t moveTimer_;
+	int32_t randMoveChange_;
 
 	Model* bulletModel_;
 
@@ -85,6 +86,8 @@ private:
 
 	void Move();
 
+	int32_t randState_;
+
 public:
 
 	bool arive_ = false;
@@ -98,6 +101,7 @@ public:
 	void OnCollision();
 
 	void SetBulletModel(Model* model);
+	void SetBossModels(Model* framemodel, Model* cannonModel);
 
 	int32_t GetHP() const { return hp; }
 	bool GetArive() const { return arive_; }

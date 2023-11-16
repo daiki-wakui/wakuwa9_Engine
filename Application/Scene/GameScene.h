@@ -166,6 +166,10 @@ private:	//メンバ変数
 	//boss
 	std::unique_ptr<Boss> boss_ = std::make_unique<Boss>();
 
+	std::unique_ptr<Model> bulletCononModel_ = std::make_unique<Model>();
+	std::unique_ptr<Model> frameModel_ = std::make_unique<Model>();
+
+
 	//レベルエディタ関連
 	LevelData* levelData_ = nullptr;
 

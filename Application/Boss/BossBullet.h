@@ -19,7 +19,7 @@ private:
 	int32_t bulletState_ = 0;
 
 
-	static const int32_t kLifeTime = 60 * 2;
+	static const int32_t kLifeTime = 60 * 4;
 	int32_t deathTimer_ = kLifeTime;
 
 public:
