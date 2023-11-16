@@ -98,7 +98,7 @@ public:	//メンバ関数
 
 	void Create(float x = 0, float y = 0);
 
-	void Initialize(SpriteBasis* spBasis, WindowsApp* winApp, int32_t texIndex = UINT32_MAX);
+	void Initialize(int32_t texIndex = UINT32_MAX);
 	void Update();
 	void Draw(int32_t texNum);
 

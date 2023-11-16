@@ -31,11 +31,11 @@ private: // エイリアス
 
 private:
 
-	DirectXBasis* directX_ = nullptr;
-	SpriteBasis* spBasis_ = nullptr;
-	WindowsApp* windows_ = nullptr;
-	ImGuiManager* imGuiM_ = nullptr;
-	Sound* sound_ = nullptr;
+	DirectXBasis* directX_ = DirectXBasis::GetInstance();
+	SpriteBasis* spBasis_ = SpriteBasis::GetInstance();
+	WindowsApp* windows_ = WindowsApp::GetInstance();
+	ImGuiManager* imGuiM_ = ImGuiManager::GetInstance();
+	Sound* sound_ = Sound::GetInstance();
 
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 	GamePad* gamePad_ = GamePad::GetInstance();
@@ -63,6 +63,7 @@ private:	//メンバ変数
 	//ボス
 	std::unique_ptr<Model> bossModel_;
 	std::unique_ptr<Object3D> bossObject_;
+	std::unique_ptr<Model> bossBulletModel_;
 
 	//フィールドに使うモデル
 	std::unique_ptr<Model> cubeModel_;
@@ -71,6 +72,8 @@ private:	//メンバ変数
 	std::unique_ptr<Model> filedModel_;
 	std::unique_ptr<Model> filedTentoModel_;
 	std::unique_ptr<Model> filedTouModel_;
+	std::unique_ptr<Model> bossFiledModel_;
+	std::unique_ptr<Model> bossFiledGateModel_;
 
 	std::unique_ptr<Model> drModel_;
 	std::unique_ptr<Model> LeftDoorModel_;
@@ -163,6 +166,10 @@ private:	//メンバ変数
 	//boss
 	std::unique_ptr<Boss> boss_ = std::make_unique<Boss>();
 
+	std::unique_ptr<Model> bulletCononModel_ = std::make_unique<Model>();
+	std::unique_ptr<Model> frameModel_ = std::make_unique<Model>();
+
+
 	//レベルエディタ関連
 	LevelData* levelData_ = nullptr;
 
@@ -207,10 +214,10 @@ private:	//メンバ変数
 	float alpha_ = 0;
 	bool isIvent_ = false;
 
-	Vector3 iventEye_ = { 360,100,700 };
-	Vector3 iventTarget_ = { 360, 100,1000 };
+	Vector3 iventEye_ = { 450,100,750 };
+	Vector3 iventTarget_ = { 450, 100,1000 };
 
-	Vector3 endEye_ = { 360,10,600 };
+	Vector3 endEye_ = { 450,10,600 };
 	float timer_ = 0;
 	float maxTime_ = 300;
 
@@ -231,11 +238,17 @@ private:	//メンバ変数
 	float ChangeAlpha_ = 1;
 	bool resetOn_ = false;
 
-	bool hitBox_ = false;
+	bool hitBox_ = true;
 	bool isTutorial_ = false;
 	bool isChangeStage_ = false;
 
 	std::unique_ptr<DebugPoint> dPoint_ = std::make_unique<DebugPoint>();
+
+	bool isDebugBoss_ = false;
+
+	XMFLOAT3 randShake_;
+	bool isShake_;
+	int32_t shakeTimer_;
 
 public:
 
@@ -276,6 +289,5 @@ public:
 	void SetChange(bool change) { change_ = change; }
 	bool GetStart() { return start_; }
 	void SetStart(bool start) { start_ = start; }
-	void SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound_);
 };
 

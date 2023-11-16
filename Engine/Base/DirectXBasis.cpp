@@ -4,11 +4,17 @@
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"winmm.lib")
 
-//全体の初期化
-void DirectXBasis::Initialize(WindowsApp* winApp){
-	assert(winApp);
+DirectXBasis* DirectXBasis::GetInstance()
+{
+	static DirectXBasis instance;
 
-	this->winApp_ = winApp;
+	return &instance;
+}
+
+//全体の初期化
+void DirectXBasis::Initialize(){
+	
+	winApp_ = WindowsApp::GetInstance();
 
 	InitailizeFixFPS();
 

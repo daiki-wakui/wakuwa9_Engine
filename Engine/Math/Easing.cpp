@@ -44,3 +44,10 @@ float Easing::EaseOutBack(float timer, float maxtimer)
 	return 1 + c3 * (float)pow(t - 1, 3) + c1 * (float)pow(t - 1, 2);
 }
 
+float Easing::EaseOutQuint(float timer, float maxtimer)
+{
+	float t = timer / maxtimer;
+
+	return 1 - (float)pow(1 - t, 5);
+}
+

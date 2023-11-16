@@ -198,3 +198,10 @@ void Sound::SetVolue(const std::string& filename, float volue)
 
 	soundData.pSoundVoice_->SetVolume(volue);
 }
+
+Sound* Sound::GetInstance()
+{
+	static Sound instance;
+
+	return &instance;
+}

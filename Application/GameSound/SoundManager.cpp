@@ -3,12 +3,16 @@
 
 void SoundManager::Initialize()
 {
+	//BGM
 	sound_->LoadWave("PerituneMaterial.wav");
 	sound_->LoadWave("NieR_Title.wav");
 	sound_->LoadWave("NieR_freld2.wav");
 	sound_->LoadWave("NieR_Field.wav");
 	sound_->LoadWave("Alone.wav");
 	sound_->LoadWave("NieR_boss.wav");
+	//SE
+	sound_->LoadWave("Start.wav");
+
 }
 
 void SoundManager::Update(int32_t state)
@@ -48,6 +52,11 @@ void SoundManager::Update(int32_t state)
 void SoundManager::SetBasis(Sound* sound)
 {
 	sound_ = sound;
+}
+
+void SoundManager::PlayWave(const std::string& filename, float volue)
+{
+	sound_->PlayWave(filename, volue);
 }
 
 SoundManager* SoundManager::GetInstance()

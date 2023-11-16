@@ -12,20 +12,16 @@ class BaseScene
 {
 private:
 
-	DirectXBasis* directX_ = nullptr;
-	SpriteBasis* spBasis_ = nullptr;
-	WindowsApp* windows_ = nullptr;
-	ImGuiManager* imGuiM_ = nullptr;
-	Sound* sound_ = nullptr;
+	DirectXBasis* directX_ = DirectXBasis::GetInstance();
+	SpriteBasis* spBasis_ = SpriteBasis::GetInstance();
+	WindowsApp* windows_ = WindowsApp::GetInstance();
+	ImGuiManager* imGuiM_ = ImGuiManager::GetInstance();
+	Sound* sound_ = Sound::GetInstance();
 
-	KeyBoard* keyboard_ = nullptr;
-	GamePad* gamePad_ = nullptr;
+	KeyBoard* keyboard_ = KeyBoard::GetInstance();
+	GamePad* gamePad_ = GamePad::GetInstance();
 
 public:
-
-	void SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound);
-	void SetInputInfo(KeyBoard* keyboard, GamePad* gamePad);
-
 	~BaseScene() = default;
 
 	//初期化

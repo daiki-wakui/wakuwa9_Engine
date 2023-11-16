@@ -15,8 +15,11 @@ private:
 	Vector3 velocity_;
 
 	DirectX::XMFLOAT3 tPos_;
+	float addRand_ = 0;
+	int32_t bulletState_ = 0;
 
-	static const int32_t kLifeTime = 60 * 5;
+
+	static const int32_t kLifeTime = 60 * 4;
 	int32_t deathTimer_ = kLifeTime;
 
 public:
@@ -24,7 +27,7 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	void Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model);
+	void Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model, int32_t randState);
 	void Update();
 	void Draw();
 

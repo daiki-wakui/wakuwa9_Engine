@@ -25,7 +25,7 @@ private:
 	bool isEndGame_ = false;
 
 	//windowsAPIの生成クラス
-	std::unique_ptr<WindowsApp> windows_ = std::make_unique<WindowsApp>();
+	WindowsApp* windows_ = WindowsApp::GetInstance();
 
 	//keyboradクラスの生成
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
@@ -33,19 +33,19 @@ private:
 	GamePad* gamePad_ = GamePad::GetInstance();
 
 	//DirectXの基盤生成クラス
-	std::unique_ptr<DirectXBasis> directX_ = std::make_unique<DirectXBasis>();
+	DirectXBasis* directX_ = DirectXBasis::GetInstance();
 
 	//imgui
-	std::unique_ptr<ImGuiManager> imGuiM_ = std::make_unique<ImGuiManager>();
+	ImGuiManager* imGuiM_ = ImGuiManager::GetInstance();
 
 	//ライトグループ
 	std::unique_ptr<LightGroup> lightGroup = std::make_unique<LightGroup>();
 
 	//スプライト基盤
-	std::unique_ptr<SpriteBasis> spBasis_ = std::make_unique<SpriteBasis>();
+	SpriteBasis* spBasis_ = SpriteBasis::GetInstance();
 
 	//サウンド
-	std::unique_ptr<Sound> sound_ = std::make_unique<Sound>();
+	Sound* sound_ = Sound::GetInstance();
 
 	
 public:
@@ -73,13 +73,5 @@ public:
 
 	//実行
 	void Run();
-
-	WindowsApp* GetWindows() { return windows_.get(); }
-	DirectXBasis* GetDirectX() { return directX_.get(); }
-	ImGuiManager* GetImGui() { return imGuiM_.get(); }
-	KeyBoard* GetInput() { return keyboard_; }
-	GamePad* GetInputPad() { return gamePad_; }
-	SpriteBasis* GetSpBasis() { return spBasis_.get(); }
-	Sound* GetSound() { return sound_.get(); }
 };
 

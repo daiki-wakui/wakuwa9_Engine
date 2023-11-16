@@ -7,10 +7,10 @@ void GameCore::Initialize()
 {
 	Framework::Initialize();
 
-	gamescene_->SetBasis(windows_, directX_, imGuiM_, spBasis_, sound_);
 	gamescene_->Initialize();
+	gamescene_->SetStart(true);
 
-	titlescene_->SetBasis(windows_, directX_, imGuiM_, spBasis_, sound_);
+
 	titlescene_->Initialize();
 
 	postEffect_->SetDirectX(spBasis_, windows_, keyboard_);
@@ -41,9 +41,12 @@ void GameCore::Update()
 
 	//タイトルシーンからシーン遷移開始
 	if (keyboard_->keyInstantPush(DIK_SPACE) || gamePad_->PushInstantB()) {
-		titlescene_->SetStart(true);
-		gamescene_->SetChange(false);
-		gamescene_->Reset();
+
+		if (state == 0) {
+			titlescene_->SetStart(true);
+			gamescene_->SetChange(false);
+			gamescene_->Reset();
+		}
 	}
 
 	//タイトルシーンからゲームシーンへ

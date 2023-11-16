@@ -89,10 +89,10 @@ void Sprite::Create(float x, float y)
 	SetPosition({ x,y });
 }
 
-void Sprite::Initialize(SpriteBasis* spBasis, WindowsApp* winApp, int32_t texIndex)
+void Sprite::Initialize(int32_t texIndex)
 {
-	this->spBasis_ = spBasis;
-	this->winApp_ = winApp;
+	spBasis_ = SpriteBasis::GetInstance();
+	winApp_ = WindowsApp::GetInstance();
 
 	if (texIndex != UINT32_MAX) {
 		index_ = texIndex;

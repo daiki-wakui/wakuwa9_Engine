@@ -1,6 +1,7 @@
 #include "BossBullet.h"
+#include <random>
 
-void BossBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model)
+void BossBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model, int32_t randState)
 {
 	tPos_ = pos;
 	velocity_ = velocity;
@@ -10,15 +11,37 @@ void BossBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* mod
 	bulletObject_ = std::make_unique<Object3D>();
 	bulletObject_->SetModel(bulletModel_);
 	bulletObject_->Initialize();
+	bulletObject_->SetScale({ 3,3,3 });
 
 	bulletObject_->SetPosition(tPos_);
+
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+	std::uniform_real_distribution<float> ve(-0.1f, 0.3f);
+
+	addRand_ = ve(engine);
+	bulletState_ = randState;
 }
 
 void BossBullet::Update()
 {
-	tPos_.x -= velocity_.x / 5;
-	tPos_.y -= velocity_.y / 5;
-	tPos_.z -= velocity_.z / 5;
+
+	if (bulletState_ != 3) {
+		if (bulletState_) {
+			tPos_.x -= velocity_.x + addRand_;
+		}
+		else {
+			tPos_.x -= velocity_.x - addRand_;
+		}
+
+		tPos_.y -= velocity_.y + addRand_;
+		tPos_.z -= velocity_.z;
+	}
+	else {
+		tPos_.x -= velocity_.x;
+		tPos_.y -= velocity_.y;
+		tPos_.z -= velocity_.z;
+	}
 
 	bulletObject_->SetPosition(tPos_);
 

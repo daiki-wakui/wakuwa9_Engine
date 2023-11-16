@@ -6,6 +6,7 @@
 #include "Sprite.h"
 #include "Sound.h"
 #include "SoundManager.h"
+#include "GameUI.h"
 
 class TitleScene : public BaseScene
 {
@@ -18,11 +19,11 @@ private: // エイリアス
 
 private:
 
-	DirectXBasis* directX_ = nullptr;
-	SpriteBasis* spBasis_ = nullptr;
-	WindowsApp* windows_ = nullptr;
-	ImGuiManager* imGuiM_ = nullptr;
-	Sound* sound_ = nullptr;
+	DirectXBasis* directX_ = DirectXBasis::GetInstance();
+	SpriteBasis* spBasis_ = SpriteBasis::GetInstance();
+	WindowsApp* windows_ = WindowsApp::GetInstance();
+	ImGuiManager* imGuiM_ = ImGuiManager::GetInstance();
+	Sound* sound_ = Sound::GetInstance();
 
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 	GamePad* gamePad_ = GamePad::GetInstance();
@@ -32,20 +33,7 @@ private:	//メンバ変数
 	std::unique_ptr<Model> skydomModel_;
 	std::unique_ptr<Object3D> skyObject_;
 
-	//スプライト
-	std::unique_ptr<Sprite> titleSprite_ = std::make_unique<Sprite>();
-	std::unique_ptr<Sprite> titleUISprite_ = std::make_unique<Sprite>();
-	std::unique_ptr<Sprite> fillSprite_ = std::make_unique<Sprite>();
-	std::unique_ptr<Sprite> sceneSprite_ = std::make_unique<Sprite>();
-
-	//画像
-	int32_t titleImage_ = 0;
-	int32_t titleUIImage_ = 0;
-	int32_t sceneChangeImage_ = 0;
-	int32_t filterImage_ = 0;
-
-	int32_t testImage_ = 0;
-
+	std::unique_ptr<GameUI> titleUI_ = std::make_unique<GameUI>();
 
 	//シーン遷移に使う値
 	XMFLOAT2 changeSize_ = {0,0};
@@ -81,7 +69,5 @@ public:	//setter,getter
 	void SetChange(bool change) { changeEnd_ = change; }
 	bool GetStart() { return changeStart_; }
 	void SetStart(bool start) { changeStart_ = start; }
-
-	void SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound_);
 };
 

@@ -3,15 +3,6 @@
 #include <random>
 #include "SoundManager.h"
 
-void GameScene::SetBasis(WindowsApp* windows, DirectXBasis* directX, ImGuiManager* imGuiM, SpriteBasis* spBasis, Sound* sound)
-{
-	windows_ = windows;
-	directX_ = directX;
-	imGuiM_ = imGuiM;
-	spBasis_ = spBasis;
-	sound_ = sound;
-}
-
 void GameScene::Initialize()
 {
 
@@ -46,60 +37,60 @@ void GameScene::Initialize()
 
 	spBasis_->TextureSetting();
 
-	playerHPSprite_->Initialize(spBasis_, windows_);
+	playerHPSprite_->Initialize();
 	playerHPSprite_->Create(50, 30);
 	playerHPSprite_->SetAncP({ 0,0 });
 
-	bossHPSprite_->Initialize(spBasis_, windows_);
-	bossHPSprite_->Create(640, 30);
+	bossHPSprite_->Initialize();
+	bossHPSprite_->Create(640, 60);
 
-	gameoverSprite_->Initialize(spBasis_, windows_);
+	gameoverSprite_->Initialize();
 	gameoverSprite_->Create(640, 360);
 	gameoverSprite_->SetSize({ 1280,720 });
 	gameoverSprite_->Update();
 
-	gameclearSprite_->Initialize(spBasis_, windows_);
+	gameclearSprite_->Initialize();
 	gameclearSprite_->Create(640, 360);
 	gameclearSprite_->SetSize({ 1280,720 });
 	gameclearSprite_->Update();
 
-	reticleSprite_->Initialize(spBasis_, windows_);
+	reticleSprite_->Initialize();
 	reticleSprite_->Create(640, 360);
 	reticleSprite_->SetSize({ 0,0 });
 
-	sceneSprite_->Initialize(spBasis_, windows_);
+	sceneSprite_->Initialize();
 	sceneSprite_->Create(640, 360);
 	sceneSprite_->SetSize({ 1280,720 });
 	sceneSprite_->SetColor({ 1,1,1,1 });
 
-	fillSprite_->Initialize(spBasis_, windows_);
+	fillSprite_->Initialize();
 	fillSprite_->Create(640, 360);
 	fillSprite_->SetSize({ 1280,720 });
 	fillSprite_->Update();
 
-	dFilterSprite_->Initialize(spBasis_, windows_);
+	dFilterSprite_->Initialize();
 	dFilterSprite_->Create(640, 360);
 	dFilterSprite_->SetSize({ 1280,720 });
 	dFilterSprite_->SetColor({ 1,1,1,0 });
 	dFilterSprite_->Update();
 
-	sSprite_->Initialize(spBasis_, windows_);
+	sSprite_->Initialize();
 	sSprite_->Create(0, 0);
 	sSprite_->SetSize({ 32,32 });
 	//sSprite_->SetAncP({ 0,0 });
 	sSprite_->Update();
 
-	RBSprite_->Initialize(spBasis_, windows_);
+	RBSprite_->Initialize();
 	RBSprite_->Create(0, 0);
 	RBSprite_->SetSize({ 160,160 });
 
-	iventSprite_->Initialize(spBasis_, windows_);
+	iventSprite_->Initialize();
 	iventSprite_->Create(640, 360);
 	iventSprite_->SetSize({ 1280,720 });
 	iventSprite_->SetColor({ 1,1,1,0 });
 	iventSprite_->Update();
 
-	waringSprite_->Initialize(spBasis_, windows_);
+	waringSprite_->Initialize();
 	waringSprite_->Create(640, 360);
 	waringSprite_->SetSize({ 1280,720 });
 	waringSprite_->Update();
@@ -152,6 +143,21 @@ void GameScene::Initialize()
 
 	LeftDoorModel_ = std::make_unique<Model>();
 	LeftDoorModel_->LoadFromObj("doar2");
+
+	bossFiledModel_ = std::make_unique<Model>();
+	bossFiledModel_->LoadFromObj("bossfiled");
+
+	bossFiledGateModel_ = std::make_unique<Model>();
+	bossFiledGateModel_->LoadFromObj("bossfiled2");
+
+	bossModel_ = std::make_unique<Model>();
+	bossModel_->LoadFromObj("bossbody");
+
+	bossBulletModel_ = std::make_unique<Model>();
+	bossBulletModel_->LoadFromObj("bossbullet");
+
+	frameModel_->LoadFromObj("bossframe");
+	bulletCononModel_->LoadFromObj("bossconon");
 
 	shadowObject_ = std::make_unique<Object3D>();
 	shadowObject_->SetModel(shadowModel_.get());
@@ -239,9 +245,39 @@ void GameScene::Finalize()
 
 void GameScene::Update()
 {
+
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+	std::uniform_real_distribution<float> ve(-2.0f, 2.0f);
+
+	if (isShake_) {
+		shakeTimer_++;
+
+		if (shakeTimer_ > 30) {
+			isShake_ = false;
+			shakeTimer_ = 0;
+		}
+
+		randShake_.x = ve(engine);
+		randShake_.y = ve(engine);
+
+		XMFLOAT3 toEye = Object3D::GetEye();
+		XMFLOAT3 toTerget = Object3D::GetTarget();
+		toEye.x += randShake_.x;
+		toEye.y += randShake_.y;
+		toTerget.x += randShake_.x;
+		toTerget.y += randShake_.y;
+
+		Object3D::SetEye(toEye);
+		Object3D::SetTarget(toTerget);
+		playerHPSprite_->SetPosition({ 50 + randShake_.x * 5,30 + randShake_.y * 5 });
+		bossHPSprite_->SetPosition({ 640 + randShake_.x * 5,60 + randShake_.y * 5 });
+	}
+
+	
+
 	if (keyboard_->keyInstantPush(DIK_N)) {
-		EditorLoad("obj");
-		SoundManager::GetInstance()->SetFiledBGM(true);
+		isDebugBoss_ = true;
 	}
 
 	//リセット
@@ -313,11 +349,13 @@ void GameScene::Update()
 	}
 
 	if (player_->IsDead() == false && isIvent_ == false) {
-		player_->Update();
-		if (player_->GetIsShot()) {
-			sound_->PlayWave("Shot.wav",0.25f);
-			player_->SetIsShot(false);
-		}
+		
+	}
+
+	player_->Update();
+	if (player_->GetIsShot()) {
+		sound_->PlayWave("Shot.wav", 0.25f);
+		player_->SetIsShot(false);
 	}
 
 	XMFLOAT3 podPos;
@@ -351,6 +389,11 @@ void GameScene::Update()
 		sSprite_->Update();
 
 		player_->SetEnemy(enemys_.front().get());
+	}
+
+	if (isDebugBoss_) {
+		isIvent_ = false;
+		hitBox_ = true;
 	}
 	
 	if (isIvent_) {
@@ -389,7 +432,7 @@ void GameScene::Update()
 			Object3D::SetEye(eye);
 			eye = { 0,10,0 };
 			Object3D::SetTarget(eye);
-			iventEye_ = { 360,20,700 };
+			iventEye_ = { 450,100,750 };
 			movieEnd_ = true;
 			sound_->PlayWave("Warning.wav", 2);
 		}
@@ -725,7 +768,7 @@ void GameScene::ReLoad(const std::string filename)
 
 	models.insert(std::make_pair(std::string("player"), playerModel_.get()));
 	models.insert(std::make_pair(std::string("debugpoint"), playerModel_.get()));
-	models.insert(std::make_pair(std::string("boss"), enemyModel_.get()));
+	models.insert(std::make_pair(std::string("boss"), bossModel_.get()));
 	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemyc"), enemyModel_.get()));
 	models.insert(std::make_pair(std::string("enemySpawn2"), enemyModel2_.get()));
@@ -738,7 +781,8 @@ void GameScene::ReLoad(const std::string filename)
 	models.insert(std::make_pair(std::string("Fliedtou"), filedTouModel_.get()));
 	models.insert(std::make_pair(std::string("dr"), drModel_.get()));
 	models.insert(std::make_pair(std::string("d"), LeftDoorModel_.get()));
-
+	models.insert(std::make_pair(std::string("bossf"), bossFiledModel_.get()));
+	models.insert(std::make_pair(std::string("bossf2"), bossFiledGateModel_.get()));
 
 	// レベルデータからオブジェクトを生成、配置
 	for (int32_t i = 0; i < levelData_->objects.size(); i++) {
@@ -911,7 +955,8 @@ void GameScene::ReLoad(const std::string filename)
 
 			newObject[objSize_]->SetScale({ 15,15,15 });
 			boss_->Initialize(model,newObject[objSize_]->GetPosition(), newObject[objSize_].get(), player_.get());
-			boss_->SetBulletModel(cubeModel_.get());
+			boss_->SetBulletModel(bossBulletModel_.get());
+			boss_->SetBossModels(frameModel_.get(), bulletCononModel_.get());
 
 			objSize_++;
 		}
@@ -1094,13 +1139,15 @@ void GameScene::AllCollison()
 
 				if (!player_->Getinvincible()) {
 					sound_->PlayWave("noise.wav",0.5f);
-
+					isShake_ = true;
 				}
 				player_->OnCollision();
 
 				if (player_->GetHP() <= 1) {
 					sound_->PlayWave("electric_shock3.wav",1.1f);
 				}
+
+				
 			}
 		}
 	}
@@ -1127,8 +1174,11 @@ void GameScene::AllCollison()
 
 				if (!player_->Getinvincible()) {
 					sound_->PlayWave("noise.wav",0.5f);
+					isShake_ = true;
 				}
 				player_->OnCollision();
+
+				
 			}
 		}
 	}

@@ -21,13 +21,20 @@ LRESULT WindowsApp::windowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
+WindowsApp* WindowsApp::GetInstance()
+{
+	static WindowsApp instance;
+
+	return &instance;
+}
+
 //初期化
 void WindowsApp::Initalize()
 {
 
 	w_.cbSize = sizeof(WNDCLASSEX);
 	w_.lpfnWndProc = (WNDPROC)windowProc;	//ウィンドウプロシージャを設定
-	w_.lpszClassName = L"DirectXGame";	//ウィンドウクラス名
+	w_.lpszClassName = L"NieR:Replica";	//ウィンドウクラス名
 	w_.hInstance = GetModuleHandle(nullptr);	//ウィンドウハンドル
 	w_.hCursor = LoadCursor(NULL, IDC_ARROW);	//カーソル設定
 
@@ -39,7 +46,7 @@ void WindowsApp::Initalize()
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
 	hwnd_ = CreateWindow(w_.lpszClassName,
-		L"DirectXGame",
+		L"NieR:Replica",
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,

@@ -3,6 +3,18 @@
 #include "Object3D.h"
 #include "BossBullet.h"
 #include "Player.h"
+#include "KeyBoard.h"
+#include "Vector2.h"
+
+#include <memory>
+
+enum pArea
+{
+	LTop,
+	LBottom,
+	RTop,
+	RBottom
+};
 
 class Boss
 {
@@ -15,10 +27,18 @@ private: // エイリアス
 
 private:
 
+	KeyBoard* key_ = KeyBoard::GetInstance();
+
 	float frame_;
 
 	Model* model_;
 	Object3D* object_;
+
+	Model* frameModel_;
+	std::unique_ptr<Object3D> frameObject_;
+
+	Model* bulletCononModel_;
+	std::unique_ptr<Object3D> bulletCononObject_;
 
 	Player* player_ = nullptr;
 	XMFLOAT3 playerPos;
@@ -26,6 +46,16 @@ private:
 	Vector3	differenceVec;
 
 	XMFLOAT3 pos_;
+	XMFLOAT3 visualRot_;
+	XMFLOAT3 bulletDirRot_;
+	XMFLOAT3 frameRot_;
+	XMFLOAT3 addRot_;
+
+	XMFLOAT3 cononPos_;
+	XMFLOAT3 centerPos_;
+
+	int32_t moveTimer_;
+	int32_t randMoveChange_;
 
 	Model* bulletModel_;
 
@@ -34,6 +64,30 @@ private:
 	int32_t coolTime_ = 10;
 	int32_t coolCount_ = 0;
 
+	int32_t state_ = 0;
+
+	Vector3 velocity_ = { 0,0,0 };
+	Vector2 bossLimit_ = { 140,120 };
+
+	int32_t toPlayerArea_ = 0;
+
+	bool isDisappear_;
+	bool isPop_;
+
+	float moveT_;
+	Vector3 disappearStart_;
+	Vector3 disappearEnd_;
+
+	Vector3 popStart_;
+	Vector3 popEnd_;
+
+	Vector3 vPos_;
+	Vector3 vScale_;
+
+	void Move();
+
+	int32_t randState_;
+
 public:
 
 	bool arive_ = false;
@@ -41,12 +95,13 @@ public:
 
 	DirectX::XMFLOAT3 GetWorldPos();
 
-	void Initialize(Model* Model, XMFLOAT3 pos, Object3D* Object,Player* player);
+	void Initialize(Model* model, XMFLOAT3 pos, Object3D* Object,Player* player);
 	void Update(bool move);
 	void Draw();
 	void OnCollision();
 
 	void SetBulletModel(Model* model);
+	void SetBossModels(Model* framemodel, Model* cannonModel);
 
 	int32_t GetHP() const { return hp; }
 	bool GetArive() const { return arive_; }

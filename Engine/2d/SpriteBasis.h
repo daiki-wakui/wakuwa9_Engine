@@ -36,6 +36,13 @@ private:
 	UINT incrementSize_;
 
 
+	SpriteBasis() = default;
+	~SpriteBasis() = default;
+	//コピーコンストラクタ無効
+	SpriteBasis(const SpriteBasis& obj) = delete;
+	//代入演算子を無効
+	SpriteBasis& operator=(const SpriteBasis& obj) = delete;
+
 public:
 	ID3DBlob* vsBlob_ = nullptr; // 頂点シェーダオブジェクト
 	ID3DBlob* psBlob_ = nullptr; // ピクセルシェーダオブジェクト
@@ -45,7 +52,9 @@ public:
 	ComPtr<ID3D12PipelineState> pipelineState_ = nullptr;
 	ComPtr<ID3D12DescriptorHeap> srvHeap_ = nullptr;
 
-	void Initialize(DirectXBasis* dxBasis);
+	static SpriteBasis* GetInstance();
+
+	void Initialize();
 	void TextureSetting();
 	void Update();
 	void Draw();

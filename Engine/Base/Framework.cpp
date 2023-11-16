@@ -8,16 +8,16 @@ void Framework::Initialize()
 	windows_->Initalize();
 
 	//DirectX初期化
-	directX_->Initialize(windows_.get());
+	directX_->Initialize();
 
 	//keyborad初期化
 	keyboard_->Initialize(windows_->GetHInstancee(), windows_->GetHwnd());
 
 	gamePad_->Update();
 
-	imGuiM_->Initialize(windows_.get(), directX_.get());
+	imGuiM_->Initialize();
 
-	spBasis_->Initialize(directX_.get());
+	spBasis_->Initialize();
 
 	Object3D::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
 
@@ -80,7 +80,7 @@ void Framework::Update()
 void Framework::IsEnd(){
 
 	//×ボタンで終了メッセージがきたら
-	if (GetWindows()->gameloopExit(msg) == true || GetInput()->keyInstantPush(DIK_ESCAPE) == true) {
+	if (windows_->gameloopExit(msg) == true || keyboard_->keyInstantPush(DIK_ESCAPE) == true) {
 		isEndGame_ = true;	//ゲームループ終了
 	}
 }
