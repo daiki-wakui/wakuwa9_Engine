@@ -44,6 +44,9 @@ private:
 	XMFLOAT3 addRot_;
 
 	XMFLOAT3 cononPos_;
+	XMFLOAT3 centerPos_;
+
+	int32_t moveTimer_;
 
 	Model* bulletModel_;
 

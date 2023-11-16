@@ -1,5 +1,5 @@
 #include "Boss.h"
-
+#include <random>
 
 DirectX::XMFLOAT3 Boss::GetWorldPos()
 {
@@ -18,6 +18,7 @@ void Boss::Initialize(Model* model, XMFLOAT3 pos, Object3D* Object, Player* play
 	object_ = Object;
 	player_ = player;
 	pos_ = pos;
+	centerPos_ = pos;
 
 	hp = 50;
 	arive_ = true;
@@ -51,6 +52,25 @@ void Boss::Update(bool move)
 {
 	arive_ = true;
 
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+	std::uniform_real_distribution<float> moveLimitX(-bossLimit_.x,bossLimit_.x);
+	std::uniform_real_distribution<float> moveLimitY(-bossLimit_.y, bossLimit_.y);
+
+	moveTimer_++;
+	if (moveTimer_ > 60) {
+		pos_ = centerPos_;
+
+		pos_.x += moveLimitX(engine);
+		pos_.z += moveLimitY(engine);
+
+		cononPos_ = pos_;
+
+		moveTimer_ = 0;
+	}
+
+	
+
 	if (key_->keyInstantPush(DIK_1)) {
 		state_ = 1;
 	}
@@ -79,12 +99,15 @@ void Boss::Update(bool move)
 		coolTime_--;
 		bulletDirRot_.y += 0.5f;
 		//visualRot_.y += 0.5f;
+		cononPos_.y = object_->GetPosition().y - 25;
 
 		break;
 	case 3:
 
 		coolTime_--;
 		bulletDirRot_.y += 0.5f;
+		cononPos_.y = object_->GetPosition().y - 25;
+
 		break;
 	default:
 		break;
