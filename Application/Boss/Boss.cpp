@@ -83,6 +83,8 @@ void Boss::Update(bool move)
 		break;
 	case 3:
 
+		coolTime_--;
+		bulletDirRot_.y += 0.5f;
 		break;
 	default:
 		break;
@@ -146,6 +148,30 @@ void Boss::Update(bool move)
 
 			velocity_ = frontVec;
 		}
+		else if (state_ == 3) {
+			Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };
+			Vector3 end({ 0,0,0 });
+			Vector3 length = { 0, 0, 10 };
+			Vector3 frontVec = { 0, 0, 0 };
+
+			//終点座標を設定
+			end.x = start.x + length.x;
+			end.y = start.y + length.y;
+			end.z = start.z + length.z;
+
+			//回転を考慮した座標を設定
+			end.x = start.x + sinf(bulletDirRot_.y);
+			end.z = start.z + cosf(bulletDirRot_.y);
+
+			//始点と終点から正面ベクトルを求める
+			frontVec.x = end.x - start.x;
+			frontVec.y = end.y - start.y;
+			frontVec.z = end.z - start.z;
+
+			frontVec.normalize();
+
+			velocity_ = frontVec;
+		}
 		
 
 		
@@ -158,6 +184,22 @@ void Boss::Update(bool move)
 			bullets_.push_back(std::move(newBullet));
 		}
 		else if (state_ == 2) {
+			for (int i = 0; i < 2; i++) {
+				std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
+
+				if (i == 0) {
+					newBullet->Initialize(cononPos_, velocity_, bulletModel_, 0);
+				}
+				else {
+					newBullet->Initialize(cononPos_, velocity_, bulletModel_, 1);
+				}
+
+				//弾を登録する
+				bullets_.push_back(std::move(newBullet));
+
+			}
+		}
+		else if (state_ == 3) {
 			for (int i = 0; i < 2; i++) {
 				std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
 

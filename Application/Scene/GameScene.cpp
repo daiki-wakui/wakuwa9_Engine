@@ -1135,7 +1135,7 @@ void GameScene::AllCollison()
 
 				if (!player_->Getinvincible()) {
 					sound_->PlayWave("noise.wav",0.5f);
-
+					isShake_ = true;
 				}
 				player_->OnCollision();
 
@@ -1143,7 +1143,7 @@ void GameScene::AllCollison()
 					sound_->PlayWave("electric_shock3.wav",1.1f);
 				}
 
-				isShake_ = true;
+				
 			}
 		}
 	}
@@ -1170,10 +1170,11 @@ void GameScene::AllCollison()
 
 				if (!player_->Getinvincible()) {
 					sound_->PlayWave("noise.wav",0.5f);
+					isShake_ = true;
 				}
 				player_->OnCollision();
 
-				isShake_ = true;
+				
 			}
 		}
 	}
