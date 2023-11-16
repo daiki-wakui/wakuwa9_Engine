@@ -230,8 +230,6 @@ void GameScene::Initialize()
 	particleMan_->Update();
 
 	resetOn_ = false;
-	isIvent_ = false;
-
 }
 
 void GameScene::Finalize()
@@ -997,6 +995,11 @@ void GameScene::Inport(Model* model, int32_t size)
 
 void GameScene::Reset()
 {
+	isIvent_ = false;
+	pow_ = 0;
+	count_ = 0;
+	timer_ = 0;
+	alpha_ = 0;
 	bossBGM_ = false;
 	hitBox_ = false;
 	SoundManager::GetInstance()->SetVolue(0);
