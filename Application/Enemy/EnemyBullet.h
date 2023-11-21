@@ -14,7 +14,7 @@ private:
 	//Object3D* bulletObject_;
 	Vector3 velocity_;
 
-	DirectX::XMFLOAT3 tPos_;
+	Vector3 tPos_;
 
 	static const int32_t kLifeTime = 60 * 5;
 	int32_t deathTimer_ = kLifeTime;
@@ -24,11 +24,11 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	void Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity,Model* model);
+	void Initialize(Vector3 pos, Vector3& velocity,Model* model);
 	void Update();
 	void Draw();
 
-	DirectX::XMFLOAT3 GetWorldPos();
+	Vector3 GetWorldPos();
 };
 
 

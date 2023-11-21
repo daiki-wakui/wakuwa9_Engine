@@ -2,7 +2,7 @@
 #include <random>
 #include "MyRandom.h"
 
-void BossBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model, int32_t randState)
+void BossBullet::Initialize(Vector3 pos, Vector3& velocity, Model* model, int32_t randState)
 {
 	tPos_ = pos;
 	velocity_ = velocity;
@@ -54,9 +54,9 @@ void BossBullet::Draw()
 	bulletObject_->Draw();
 }
 
-DirectX::XMFLOAT3 BossBullet::GetWorldPos()
+Vector3 BossBullet::GetWorldPos()
 {
-	DirectX::XMFLOAT3 worldPos;
+	Vector3 worldPos;
 
 	worldPos.x = tPos_.x;
 	worldPos.y = tPos_.y;

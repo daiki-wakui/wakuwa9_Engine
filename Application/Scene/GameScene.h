@@ -93,7 +93,7 @@ private:	//メンバ変数
 	//FBX
 	std::unique_ptr<FbxModel> testModel_;
 	std::unique_ptr<FbxObject3d> testObj_;
-	XMFLOAT3 podRot = {};
+	Vector3 podRot = {};
 
 	std::unique_ptr<Model> konnpeModel_;
 
@@ -208,7 +208,7 @@ private:	//メンバ変数
 	
 	XMFLOAT2 reticleSize_ = {0,720};
 
-	XMFLOAT3 screenPos_ = {};
+	Vector3 screenPos_ = {};
 	XMFLOAT2 spPos_ = {};
 
 	float alpha_ = 0;
@@ -222,7 +222,7 @@ private:	//メンバ変数
 	float maxTime_ = 300;
 
 
-	XMFLOAT3 screenPosPlayer_ = {};
+	Vector3 screenPosPlayer_ = {};
 	bool manualOK_ = false;
 	float alphaRB_ = 0;
 	float addYRB_ = 0;
@@ -230,7 +230,7 @@ private:	//メンバ変数
 
 	std::list<std::unique_ptr<Effect>> effects_;
 	bool isEffect_ = 0;
-	XMFLOAT3 startEffect_ = {};
+	Vector3 startEffect_ = {};
 
 	int32_t coolTime_ = 7;
 	bool isShotEffect_ = false;
@@ -252,7 +252,7 @@ private:	//メンバ変数
 
 public:
 
-	bool Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale);
+	bool Collison(Vector3 posa, Vector3 posb, float aScale, float bScale);
 	void AllCollison();
 
 	//初期化

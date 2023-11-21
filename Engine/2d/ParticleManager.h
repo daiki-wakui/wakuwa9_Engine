@@ -5,6 +5,7 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include <forward_list>
+#include "Vector3.h"
 
 class ParticleManager
 {
@@ -22,7 +23,7 @@ public: // サブクラス
 	//頂点データ構造体
 	struct VertexPos
 	{
-		XMFLOAT3 pos;	//xyz座標
+		Vector3 pos;	//xyz座標
 		float scale;
 	};
 
@@ -47,19 +48,19 @@ public: // 静的メンバ関数
 	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
 	static void PostDraw();
 
-	static const XMFLOAT3& GetEye() { return sEye; }
-	static const XMFLOAT3& GetTarget() { return sTarget; }
+	static const Vector3& GetEye() { return sEye; }
+	static const Vector3& GetTarget() { return sTarget; }
 
-	static void SetEye(XMFLOAT3 eye);
-	static void SetTarget(XMFLOAT3 target);
+	static void SetEye(Vector3 eye);
+	static void SetTarget(Vector3 target);
 
 	
-	static void CameraMoveVector(XMFLOAT3 move);
+	static void CameraMoveVector(Vector3 move);
 
 	//ベクトルによる視点移動
-	static void CameraMoveEyeVector(XMFLOAT3 move);
+	static void CameraMoveEyeVector(Vector3 move);
 
-	static void SetCamera(XMFLOAT3& eye, XMFLOAT3& target, XMFLOAT3& up) {
+	static void SetCamera(Vector3& eye, Vector3& target, Vector3& up) {
 		ParticleManager::sEye = eye,
 		ParticleManager::sTarget = target,
 		ParticleManager::sUp = up;
@@ -93,11 +94,11 @@ private: // 静的メンバ変数
 	// 射影行列
 	static XMMATRIX matProjection;
 	// 視点座標
-	static XMFLOAT3 sEye;
+	static Vector3 sEye;
 	// 注視点座標
-	static XMFLOAT3 sTarget;
+	static Vector3 sTarget;
 	// 上方向ベクトル
-	static XMFLOAT3 sUp;
+	static Vector3 sUp;
 	// 頂点バッファビュー
 	static D3D12_VERTEX_BUFFER_VIEW vbView;
 	// 頂点データ配列
@@ -134,7 +135,7 @@ public: // メンバ関数
 	void Update();
 	void Draw();
 
-	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel,
+	void Add(int life, Vector3 position, Vector3 velocity, Vector3 accel,
 		float start_scale, float end_scale);
 
 private: // メンバ変数
@@ -147,9 +148,9 @@ private: // メンバ変数
 	{
 		using XMFLOAT3 = DirectX::XMFLOAT3;
 
-		XMFLOAT3 position = {};
-		XMFLOAT3 velocity = {};
-		XMFLOAT3 accel = {};
+		Vector3 position = {};
+		Vector3 velocity = {};
+		Vector3 accel = {};
 		int frame = 0;
 		int num_frame = 0;
 		float scale = 1.0f;

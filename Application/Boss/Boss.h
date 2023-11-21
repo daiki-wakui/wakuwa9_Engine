@@ -41,18 +41,18 @@ private:
 	std::unique_ptr<Object3D> bulletCononObject_;
 
 	Player* player_ = nullptr;
-	XMFLOAT3 playerPos;
-	XMFLOAT3 enemyPos;
+	Vector3 playerPos;
+	Vector3 enemyPos;
 	Vector3	differenceVec;
 
-	XMFLOAT3 pos_;
-	XMFLOAT3 visualRot_;
+	Vector3 pos_;
+	Vector3 visualRot_;
 	XMFLOAT3 bulletDirRot_;
-	XMFLOAT3 frameRot_;
+	Vector3 frameRot_;
 	XMFLOAT3 addRot_;
 
-	XMFLOAT3 cononPos_;
-	XMFLOAT3 centerPos_;
+	Vector3 cononPos_;
+	Vector3 centerPos_;
 
 	int32_t moveTimer_;
 	int32_t randMoveChange_;
@@ -93,9 +93,9 @@ public:
 	bool arive_ = false;
 	int32_t hp = 50;
 
-	DirectX::XMFLOAT3 GetWorldPos();
+	Vector3 GetWorldPos();
 
-	void Initialize(Model* model, XMFLOAT3 pos, Object3D* Object,Player* player);
+	void Initialize(Model* model, Vector3 pos, Object3D* Object,Player* player);
 	void Update(bool move);
 	void Draw();
 	void OnCollision();

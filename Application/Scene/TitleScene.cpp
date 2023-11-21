@@ -10,7 +10,7 @@ void TitleScene::Initialize()
 	skyObject_ = std::make_unique<Object3D>();
 	skyObject_->SetModel(skydomModel_.get());
 	skyObject_->Initialize();
-	skyObject_->SetScale(XMFLOAT3({ 400,400,400 }));
+	skyObject_->SetScale(Vector3({ 400,400,400 }));
 	skyObject_->SetPosition({ 0,0,100 });
 
 	isStartSE_ = false;

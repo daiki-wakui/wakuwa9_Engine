@@ -37,13 +37,13 @@ private:
 	KeyBoard* input_;
 	GamePad* inputPad_;
 
-	XMFLOAT3 rot_;
-	XMFLOAT3 pos_;
-	XMFLOAT3 posPod_;
-	XMFLOAT3 eye_;
-	XMFLOAT3 target_;
+	Vector3 rot_;
+	Vector3 pos_;
+	Vector3 posPod_;
+	Vector3 eye_;
+	Vector3 target_;
 
-	XMFLOAT3 podRot_;
+	Vector3 podRot_;
 
 	XMFLOAT3 tmpPos_;
 
@@ -145,8 +145,8 @@ public:
 
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
 
-	DirectX::XMFLOAT3 GetWorldPos();
+	Vector3 GetWorldPos();
 
-	void SetPos(XMFLOAT3 pos);
+	void SetPos(Vector3 pos);
 };
 

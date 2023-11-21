@@ -9,6 +9,7 @@
 #include <DirectXMath.h>
 #include <string>
 #include <cstdint>
+#include "Vector3.h"
 
 class FbxObject3d
 {
@@ -31,7 +32,7 @@ public: // サブクラス
 
 		XMMATRIX viewproj;	//ビュープロジェクション行列
 		XMMATRIX world;		//ワールド行列
-		XMFLOAT3 cameraPos;	//カメラ座標(ワールド座標)
+		Vector3 cameraPos;	//カメラ座標(ワールド座標)
 	};
 
 	//ボーンの最大数
@@ -96,7 +97,7 @@ public:	//静的メンバ関数
 	//setter
 	static void SetDevice(ID3D12Device* device) { FbxObject3d::sDevice = device; }
 
-	static void SetCamera(XMFLOAT3& eye, XMFLOAT3& target, XMFLOAT3& up) {
+	static void SetCamera(Vector3& eye, Vector3& target, Vector3& up) {
 		FbxObject3d::sEye = eye,
 		FbxObject3d::sTarget = target,
 		FbxObject3d::sUp = up;
@@ -134,11 +135,11 @@ private:	//静的メンバ変数
 	static XMMATRIX sMatProjection;
 
 	// 視点座標
-	static XMFLOAT3 sEye;
+	static Vector3 sEye;
 	// 注視点座標
-	static XMFLOAT3 sTarget;
+	static Vector3 sTarget;
 	// 上方向ベクトル
-	static XMFLOAT3 sUp;
+	static Vector3 sUp;
 
 };
 

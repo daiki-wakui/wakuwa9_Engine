@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Easing.h"
 
-void Enemy::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int hp, int pattern)
+void Enemy::Initialize(Object3D* enemyObject, Vector3 pos, Player* player, int hp, int pattern)
 {
 	enemyObject_ = enemyObject;
 	pos_ = pos;
@@ -124,9 +124,9 @@ void Enemy::OnCollision()
 	}
 }
 
-DirectX::XMFLOAT3 Enemy::GetWorldPos()
+Vector3 Enemy::GetWorldPos()
 {
-	XMFLOAT3 worldPos;
+	Vector3 worldPos;
 
 	worldPos.x = pos_.x;
 	worldPos.y = pos_.y;

@@ -3,7 +3,7 @@
 #include "Easing.h"
 #include "MyRandom.h"
 
-void PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model)
+void PlayerBullet::Initialize(Vector3 pos, Vector3& velocity, Model* model)
 {
 	tPos_ = pos;
 	velocity_ = velocity;
@@ -86,9 +86,9 @@ void PlayerBullet::pDraw()
 	effectParticle_->Draw();
 }
 
-DirectX::XMFLOAT3 PlayerBullet::GetWorldPos()
+Vector3 PlayerBullet::GetWorldPos()
 {
-	DirectX::XMFLOAT3 worldPos;
+	Vector3 worldPos;
 
 	worldPos.x = tPos_.x;
 	worldPos.y = tPos_.y;

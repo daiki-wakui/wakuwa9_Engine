@@ -179,7 +179,7 @@ void GameScene::Initialize()
 	playerObject_ = std::make_unique<Object3D>();
 	playerObject_->SetModel(playerModel_.get());
 	playerObject_->Initialize();
-	playerObject_->SetScale(XMFLOAT3({ 1,1,1 }));
+	playerObject_->SetScale(Vector3({ 1,1,1 }));
 	playerObject_->SetPosition({ 0,0,0 });
 
 	podObject_ = std::make_unique<Object3D>();
@@ -193,7 +193,7 @@ void GameScene::Initialize()
 	skyObject_ = std::make_unique<Object3D>();
 	skyObject_->SetModel(skydomModel_.get());
 	skyObject_->Initialize();
-	skyObject_->SetScale(XMFLOAT3({ 900,900,900 }));
+	skyObject_->SetScale(Vector3({ 900,900,900 }));
 	skyObject_->SetPosition({ 0,0,100 });
 
 	bossObject_ = std::make_unique<Object3D>();
@@ -245,8 +245,8 @@ void GameScene::Update()
 		randShake_.x = MyRandom::GetFloatRandom(-2.0f, 2.0f);
 		randShake_.y = MyRandom::GetFloatRandom(-2.0f, 2.0f);
 
-		XMFLOAT3 toEye = Object3D::GetEye();
-		XMFLOAT3 toTerget = Object3D::GetTarget();
+		Vector3 toEye = Object3D::GetEye();
+		Vector3 toTerget = Object3D::GetTarget();
 		toEye.x += randShake_.x;
 		toEye.y += randShake_.y;
 		toTerget.x += randShake_.x;
@@ -298,8 +298,8 @@ void GameScene::Update()
 		return bullet->IsDead();
 	});
 	
-	XMFLOAT3 rocalEye = Object3D::GetEye();
-	XMFLOAT3 rocalTarget = Object3D::GetTarget();
+	Vector3 rocalEye = Object3D::GetEye();
+	Vector3 rocalTarget = Object3D::GetTarget();
 
 	if (change_) {
 		SoundManager::GetInstance()->StopBGM();
@@ -336,7 +336,7 @@ void GameScene::Update()
 		player_->SetIsShot(false);
 	}
 
-	XMFLOAT3 podPos;
+	Vector3 podPos;
 
 	if (coolTime_ < 0) {
 		isShotEffect_ = true;
@@ -381,12 +381,12 @@ void GameScene::Update()
 
 		iventEye_ = iventEye_.lerp(iventEye_, endEye_, Easing::EaseInCubic(timer_, maxTime_));
 
-		XMFLOAT3 tmpEye;
+		Vector3 tmpEye;
 		tmpEye.x = iventEye_.x;
 		tmpEye.y = iventEye_.y;
 		tmpEye.z = iventEye_.z;
 
-		XMFLOAT3 target;
+		Vector3 target;
 		target.x = iventTarget_.x;
 		target.y = iventTarget_.y;
 		target.z = iventTarget_.z;
@@ -405,7 +405,7 @@ void GameScene::Update()
 		//イベントシーン終わり
 		if (timer_ > maxTime_) {
 			isIvent_ = false;
-			XMFLOAT3 eye = { 0,20,-30 };
+			Vector3 eye = { 0,20,-30 };
 
 			Object3D::SetEye(eye);
 			eye = { 0,10,0 };
@@ -778,9 +778,14 @@ void GameScene::ReLoad(const std::string filename)
 		//blender上のカメラセット
 		if (levelData_->objects[i].fileName == "camera") {
 
+			Vector3 eyeVec;
 			DirectX::XMFLOAT3 eye;
 			DirectX::XMStoreFloat3(&eye, levelData_->objects[i].translation);
-			Object3D::CameraMoveVector(eye);
+
+			eyeVec.x = eye.x;
+			eyeVec.y = eye.y;
+			eyeVec.z = eye.z;
+			Object3D::CameraMoveVector(eyeVec);
 
 			continue;
 		}
@@ -792,7 +797,7 @@ void GameScene::ReLoad(const std::string filename)
 			Inport(model, i);
 
 			playerObject_->Initialize();
-			playerObject_->SetScale(XMFLOAT3({ 1,1,1 }));
+			playerObject_->SetScale(Vector3({ 1,1,1 }));
 			playerObject_->SetPosition(newObject[objSize_]->GetPosition());
 			playerObject_->SetRotation(newObject[objSize_]->GetRotation());
 			playerObject_->SetCamera({ 0, 10, -30.0f }, { 0, 10, 0 });
@@ -910,22 +915,6 @@ void GameScene::ReLoad(const std::string filename)
 			objSize_++;
 			enemySize_++;
 		}
-		else if (levelData_->objects[i].fileName == "enemySpawn2") {
-
-			//オブジェクト生成と座標情報代入
-			Inport(model, i);
-
-			//オブジェクト生成と座標情報代入
-			newEnemy2[enemySize2_] = std::make_unique<EnemyCharge>();
-
-			newEnemy2[enemySize2_]->Initialize(newObject[objSize_].get(), newObject[objSize_]->GetPosition(), player_.get());
-	
-			//敵を登録する
-			enemycharges_.push_back(std::move(newEnemy2[enemySize2_]));
-
-			objSize_++;
-			enemySize2_++;
-		}
 		else if (levelData_->objects[i].fileName == "boss") {
 			//オブジェクト生成と座標情報代入
  			Inport(model, i);
@@ -959,7 +948,7 @@ void GameScene::Inport(Model* model, int32_t size)
 	// 座標
 	DirectX::XMFLOAT3 rocalPos;
 	DirectX::XMStoreFloat3(&rocalPos, levelData_->objects[size].translation);
-	newObject[objSize_]->SetPosition(rocalPos);
+	newObject[objSize_]->SetPosition({ rocalPos.x,rocalPos.y, rocalPos.z });
 
 	// 回転角
 	DirectX::XMFLOAT3 rot;
@@ -970,7 +959,7 @@ void GameScene::Inport(Model* model, int32_t size)
 	// 座標
 	DirectX::XMFLOAT3 scale;
 	DirectX::XMStoreFloat3(&scale, levelData_->objects[size].scaling);
-	newObject[objSize_]->SetScale(scale);
+	newObject[objSize_]->SetScale({ scale.x,scale.y,scale.z });
 }
 
 void GameScene::Reset()
@@ -994,11 +983,11 @@ void GameScene::Reset()
 	waringSprite_->SetSize({ 1280,720 });
 }
 
-bool GameScene::Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale)
+bool GameScene::Collison(Vector3 posa, Vector3 posb, float aScale, float bScale)
 {
 	float r = aScale + bScale;
 
-	XMFLOAT3 dis;
+	Vector3 dis;
 	dis.x = posb.x - posa.x;
 	dis.y = posb.y - posa.y;
 	dis.z = posb.z - posa.z;
@@ -1013,7 +1002,7 @@ bool GameScene::Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScal
 void GameScene::AllCollison()
 {
 	//当たり判定
-	XMFLOAT3 posA, posB;
+	Vector3 posA, posB;
 	float r1 = 1.0f;	//イベントのスケール
 	float r2 = 1.0f;	//自機のスケール
 
@@ -1082,15 +1071,15 @@ void GameScene::AllCollison()
 
 			if (BulletEffect) {
 				for (int i = 0; i < 3; i++) {
-					XMFLOAT3 tmppos = posA;
+					Vector3 tmppos = posA;
 
 					const float md_vel = 10.0f;
-					XMFLOAT3 vel{};
+					Vector3 vel{};
 					vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 					vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 					vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 
-					XMFLOAT3 acc{};
+					Vector3 acc{};
 					const float md_acc = 0.001f;
 					acc.y = -(float)rand() / RAND_MAX * md_acc;
 
@@ -1246,15 +1235,15 @@ void GameScene::AllCollison()
 
 		if (BulletEffect) {
 			for (int i = 0; i < 3; i++) {
-				XMFLOAT3 tmpPos = posA;
+				Vector3 tmpPos = posA;
 
 				const float md_vel = 10.0f;
-				XMFLOAT3 vel{};
+				Vector3 vel{};
 				vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 				vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 				vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
 
-				XMFLOAT3 acc{};
+				Vector3 acc{};
 				const float md_acc = 0.001f;
 				acc.y = -(float)rand() / RAND_MAX * md_acc;
 

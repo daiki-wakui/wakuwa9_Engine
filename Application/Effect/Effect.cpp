@@ -2,7 +2,7 @@
 #include <random>
 #include "MyRandom.h"
 
-void Effect::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model)
+void Effect::Initialize(Vector3 pos, Vector3& velocity, Model* model)
 {
 	tPos_ = pos;
 	velocity_ = velocity;

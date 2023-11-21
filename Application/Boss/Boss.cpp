@@ -3,9 +3,9 @@
 #include "Easing.h"
 #include <stdlib.h>
 
-DirectX::XMFLOAT3 Boss::GetWorldPos()
+Vector3 Boss::GetWorldPos()
 {
-	DirectX::XMFLOAT3 worldPos;
+	Vector3 worldPos;
 
 	worldPos.x = object_->GetPosition().x;
 	worldPos.y = object_->GetPosition().y;
@@ -14,7 +14,7 @@ DirectX::XMFLOAT3 Boss::GetWorldPos()
 	return worldPos;
 }
 
-void Boss::Initialize(Model* model, XMFLOAT3 pos, Object3D* Object, Player* player)
+void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* player)
 {
 	model_ = model;
 	object_ = Object;

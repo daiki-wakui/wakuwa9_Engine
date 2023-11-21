@@ -1,6 +1,6 @@
 #include "EnemyBullet.h"
 
-void EnemyBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model)
+void EnemyBullet::Initialize(Vector3 pos, Vector3& velocity, Model* model)
 {
 	tPos_ = pos;
 	velocity_ = velocity;
@@ -34,9 +34,9 @@ void EnemyBullet::Draw()
 	bulletObject_->Draw();
 }
 
-DirectX::XMFLOAT3 EnemyBullet::GetWorldPos()
+Vector3 EnemyBullet::GetWorldPos()
 {
-	DirectX::XMFLOAT3 worldPos;
+	Vector3 worldPos;
 
 	worldPos.x = tPos_.x;
 	worldPos.y = tPos_.y;

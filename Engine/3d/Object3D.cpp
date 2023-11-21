@@ -22,9 +22,9 @@ ComPtr<ID3D12RootSignature> Object3D::sRootsignature;
 ComPtr<ID3D12PipelineState> Object3D::sPipelinestate;
 XMMATRIX Object3D::sMatView{};
 XMMATRIX Object3D::sMatProjection{};
-XMFLOAT3 Object3D::sEye = { 0, 20, -30.0f };
-XMFLOAT3 Object3D::sTarget = { 0, 10, 0 };
-XMFLOAT3 Object3D::sUp = { 0, 1, 0 };
+Vector3 Object3D::sEye = { 0, 20, -30.0f };
+Vector3 Object3D::sTarget = { 0, 10, 0 };
+Vector3 Object3D::sUp = { 0, 1, 0 };
 
 //DirectionalLight* Object3D::light = nullptr;
 LightGroup* Object3D::sLightGroup = nullptr;
@@ -74,24 +74,24 @@ void Object3D::PostDraw()
 	Object3D::sCmdList = nullptr;
 }
 
-void Object3D::SetEye(XMFLOAT3& eye)
+void Object3D::SetEye(Vector3& eye)
 {
 	Object3D::sEye = eye;
 
 	UpdateViewMatrix();
 }
 
-void Object3D::SetTarget(XMFLOAT3& target)
+void Object3D::SetTarget(Vector3& target)
 {
 	Object3D::sTarget = target;
 
 	UpdateViewMatrix();
 }
 
-void Object3D::CameraMoveVector(XMFLOAT3& move)
+void Object3D::CameraMoveVector(Vector3& move)
 {
-	XMFLOAT3 eye_moved = GetEye();
-	XMFLOAT3 target_moved = GetTarget();
+	Vector3 eye_moved = GetEye();
+	Vector3 target_moved = GetTarget();
 
 	eye_moved.x += move.x;
 	eye_moved.y += move.y;
@@ -107,7 +107,7 @@ void Object3D::CameraMoveVector(XMFLOAT3& move)
 
 void Object3D::CameraEyeMoveVector(Vector3& eye)
 {
-	XMFLOAT3 eye_ = GetEye();
+	Vector3 eye_ = GetEye();
 	Vector3 VecEye_;
 	VecEye_.x = eye_.x;
 	//VecEye_.y = eye_.y;
@@ -301,9 +301,24 @@ void Object3D::UpdateViewMatrix()
 	// ビュー行列の更新
 	//sMatView = XMMatrixLookAtLH(XMLoadFloat3(&sEye), XMLoadFloat3(&sTarget), XMLoadFloat3(&sUp));
 
-	XMVECTOR eyePosition = XMLoadFloat3(&sEye);
-	XMVECTOR targetPosition = XMLoadFloat3(&sTarget);
-	XMVECTOR upVector = XMLoadFloat3(&sUp);
+	XMFLOAT3 localEye;
+	localEye.x = sEye.x;
+	localEye.y = sEye.y;
+	localEye.z = sEye.z;
+
+	XMFLOAT3 localTerget;
+	localTerget.x = sTarget.x;
+	localTerget.y = sTarget.y;
+	localTerget.z = sTarget.z;
+
+	XMFLOAT3 localUp;
+	localUp.x = sUp.x;
+	localUp.y = sUp.y;
+	localUp.z = sUp.z;
+
+	XMVECTOR eyePosition = XMLoadFloat3(&localEye);
+	XMVECTOR targetPosition = XMLoadFloat3(&localTerget);
+	XMVECTOR upVector = XMLoadFloat3(&localUp);
 
 	XMVECTOR cameraAxisZ = XMVectorSubtract(targetPosition, eyePosition);
 
@@ -457,16 +472,16 @@ void Object3D::Draw()
 	model_->Draw(sCmdList, 1);
 }
 
-void Object3D::SetCamera(const XMFLOAT3& eye,const XMFLOAT3& terget)
+void Object3D::SetCamera(const Vector3& eye,const Vector3& terget)
 {
-	XMFLOAT3 setCamera_e = eye;
-	XMFLOAT3 setCamera_t = terget;
+	Vector3 setCamera_e = eye;
+	Vector3 setCamera_t = terget;
 
 	SetEye(setCamera_e);
 	SetTarget(setCamera_t);
 }
 
-XMFLOAT3 Object3D::Screen()
+Vector3 Object3D::Screen()
 {
 	XMMATRIX view = sMatView;
 	XMMATRIX proj = sMatProjection;
@@ -481,7 +496,7 @@ XMFLOAT3 Object3D::Screen()
 		w, h,0,1
 	};
 
-	XMFLOAT3 pos = position_;
+	Vector3 pos = position_;
 
 	pos = VTransform(pos, view);
 	pos = VTransform(pos, proj);
@@ -495,9 +510,9 @@ XMFLOAT3 Object3D::Screen()
 	return pos;
 }
 
-XMFLOAT3 Object3D::VTransform(XMFLOAT3 InV, XMMATRIX InM)
+Vector3 Object3D::VTransform(Vector3 InV, XMMATRIX InM)
 {
-	XMFLOAT3 result;
+	Vector3 result;
 
 	result.x = InV.x * InM.r[0].m128_f32[0] + InV.y * InM.r[1].m128_f32[0] + InV.z * InM.r[2].m128_f32[0] + InM.r[3].m128_f32[0];
 	result.y = InV.x * InM.r[0].m128_f32[1] + InV.y * InM.r[1].m128_f32[1] + InV.z * InM.r[2].m128_f32[1] + InM.r[3].m128_f32[1];

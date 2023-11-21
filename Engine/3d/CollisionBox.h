@@ -9,7 +9,7 @@ private:
 	Model* model_;
 	Object3D* object_;
 
-	DirectX::XMFLOAT3 scale_;
+	Vector3 scale_;
 
 public:
 
@@ -17,10 +17,10 @@ public:
 
 	bool arive = false;
 
-	DirectX::XMFLOAT3 GetWorldPos();
+	Vector3 GetWorldPos();
 
-	const DirectX::XMFLOAT3& GetScale() const { return scale_; }
-	void SetScale(const DirectX::XMFLOAT3& scale) { scale_ = scale; }
+	const Vector3& GetScale() const { return scale_; }
+	void SetScale(const Vector3& scale) { scale_ = scale; }
 
 	bool GetCollision() const { return hit_; }
 

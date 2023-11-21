@@ -1,8 +1,8 @@
 #include "CollisionBox.h"
 
-DirectX::XMFLOAT3 CollisionBox::GetWorldPos()
+Vector3 CollisionBox::GetWorldPos()
 {
-	DirectX::XMFLOAT3 worldPos;
+	Vector3 worldPos;
 
 	worldPos.x = object_->GetPosition().x;
 	worldPos.y = object_->GetPosition().y;

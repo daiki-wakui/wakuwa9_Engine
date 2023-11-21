@@ -13,7 +13,7 @@ public:
 
 	bool valid_ = false;
 
-	DirectX::XMFLOAT3 GetWorldPos();
+	Vector3 GetWorldPos();
 
 	void Initialize(Model* Model, Object3D* Object);
 	void Update();

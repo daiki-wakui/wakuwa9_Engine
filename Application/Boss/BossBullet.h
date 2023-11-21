@@ -14,7 +14,7 @@ private:
 	//Object3D* bulletObject_;
 	Vector3 velocity_;
 
-	DirectX::XMFLOAT3 tPos_;
+	Vector3 tPos_;
 	float addRand_ = 0;
 	int32_t bulletState_ = 0;
 
@@ -27,11 +27,11 @@ public:
 
 	bool IsDead() const { return isDead_; }
 
-	void Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model, int32_t randState);
+	void Initialize(Vector3 pos, Vector3& velocity, Model* model, int32_t randState);
 	void Update();
 	void Draw();
 
-	DirectX::XMFLOAT3 GetWorldPos();
+	Vector3 GetWorldPos();
 
 };
 

@@ -1,8 +1,8 @@
 #include "EventBox.h"
 
-DirectX::XMFLOAT3 EventBox::GetWorldPos()
+Vector3 EventBox::GetWorldPos()
 {
-	DirectX::XMFLOAT3 worldPos;
+	Vector3 worldPos;
 
 	worldPos.x = object_->GetPosition().x;
 	worldPos.y = object_->GetPosition().y;

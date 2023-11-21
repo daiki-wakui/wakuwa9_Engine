@@ -24,12 +24,12 @@ private:
 	Object3D* enemyObject_;
 	KeyBoard* input_;
 
-	XMFLOAT3 pos_;
+	Vector3 pos_;
 	Vector3 vPos_;
 
 	Player* player_ = nullptr;
-	XMFLOAT3 playerPos;
-	XMFLOAT3 enemyPos;
+	Vector3 playerPos;
+	Vector3 enemyPos;
 	Vector3	differenceVec;
 
 	Model* bulletModel_;
@@ -61,7 +61,7 @@ private:
 
 public:
 
-	void Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player, int hp = 3, int pattern = 1);
+	void Initialize(Object3D* enemyObject, Vector3 pos, Player* player, int hp = 3, int pattern = 1);
 	void Update(bool shot);
 	void Draw();
 
@@ -69,7 +69,7 @@ public:
 
 	void OnCollision();
 
-	DirectX::XMFLOAT3 GetWorldPos();
+	Vector3 GetWorldPos();
 	Object3D* GetObj();
 
 	int32_t frame_ = 0;

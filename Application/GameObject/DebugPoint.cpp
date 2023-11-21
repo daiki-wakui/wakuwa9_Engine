@@ -1,8 +1,8 @@
 #include "DebugPoint.h"
 
-DirectX::XMFLOAT3 DebugPoint::GetWorldPos()
+Vector3 DebugPoint::GetWorldPos()
 {
-	DirectX::XMFLOAT3 worldPos;
+	Vector3 worldPos;
 
 	worldPos.x = object_->GetPosition().x;
 	worldPos.y = object_->GetPosition().y;

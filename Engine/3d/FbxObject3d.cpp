@@ -7,9 +7,9 @@ using namespace Microsoft::WRL;
 
 ID3D12Device* FbxObject3d::sDevice = nullptr;
 ID3D12GraphicsCommandList* FbxObject3d::sCmdList = nullptr;
-XMFLOAT3 FbxObject3d::sEye = { 0, 0, 0.0f };
-XMFLOAT3 FbxObject3d::sTarget = { 0, 0, 0 };
-XMFLOAT3 FbxObject3d::sUp = { 0, 0, 0 };
+Vector3 FbxObject3d::sEye = { 0, 0, 0.0f };
+Vector3 FbxObject3d::sTarget = { 0, 0, 0 };
+Vector3 FbxObject3d::sUp = { 0, 0, 0 };
 
 ComPtr<ID3D12RootSignature> FbxObject3d::sRootsignature;
 ComPtr<ID3D12PipelineState> FbxObject3d::sPipelinestate;
@@ -353,11 +353,26 @@ void FbxObject3d::CreateGraphicsPipeline()
 
 void FbxObject3d::InitializeCamera(int32_t window_width, int32_t window_height)
 {
+	XMFLOAT3 localEye;
+	localEye.x = sEye.x;
+	localEye.y = sEye.y;
+	localEye.z = sEye.z;
+
+	XMFLOAT3 localTerget;
+	localTerget.x = sTarget.x;
+	localTerget.y = sTarget.y;
+	localTerget.z = sTarget.z;
+
+	XMFLOAT3 localUp;
+	localUp.x = sUp.x;
+	localUp.y = sUp.y;
+	localUp.z = sUp.z;
+
 	// ビュー行列の生成
 	sMatView = XMMatrixLookAtLH(
-		XMLoadFloat3(&sEye),
-		XMLoadFloat3(&sTarget),
-		XMLoadFloat3(&sUp));
+		XMLoadFloat3(&localEye),
+		XMLoadFloat3(&localTerget),
+		XMLoadFloat3(&localUp));
 
 
 	// 透視投影による射影行列の生成

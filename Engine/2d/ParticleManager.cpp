@@ -24,9 +24,9 @@ CD3DX12_CPU_DESCRIPTOR_HANDLE ParticleManager::cpuDescHandleSRV;
 CD3DX12_GPU_DESCRIPTOR_HANDLE ParticleManager::gpuDescHandleSRV;
 XMMATRIX ParticleManager::matView{};
 XMMATRIX ParticleManager::matProjection{};
-XMFLOAT3 ParticleManager::sEye = { 0, 0, 0.0f };
-XMFLOAT3 ParticleManager::sTarget = { 0, 0, 0 };
-XMFLOAT3 ParticleManager::sUp = { 0, 1, 0 };
+Vector3 ParticleManager::sEye = { 0, 0, 0.0f };
+Vector3 ParticleManager::sTarget = { 0, 0, 0 };
+Vector3 ParticleManager::sUp = { 0, 1, 0 };
 D3D12_VERTEX_BUFFER_VIEW ParticleManager::vbView{};
 ParticleManager::VertexPos ParticleManager::vertices[vertexCount];
 
@@ -75,24 +75,24 @@ void ParticleManager::PostDraw()
 	ParticleManager::sCmdList = nullptr;
 }
 
-void ParticleManager::SetEye(XMFLOAT3 eye)
+void ParticleManager::SetEye(Vector3 eye)
 {
 	ParticleManager::sEye = eye;
 
 	UpdateViewMatrix();
 }
 
-void ParticleManager::SetTarget(XMFLOAT3 target)
+void ParticleManager::SetTarget(Vector3 target)
 {
 	ParticleManager::sTarget = target;
 
 	UpdateViewMatrix();
 }
 
-void ParticleManager::CameraMoveVector(XMFLOAT3 move)
+void ParticleManager::CameraMoveVector(Vector3 move)
 {
-	XMFLOAT3 eye_moved = GetEye();
-	XMFLOAT3 target_moved = GetTarget();
+	Vector3 eye_moved = GetEye();
+	Vector3 target_moved = GetTarget();
 
 	eye_moved.x += move.x;
 	eye_moved.y += move.y;
@@ -106,10 +106,10 @@ void ParticleManager::CameraMoveVector(XMFLOAT3 move)
 	SetTarget(target_moved);
 }
 
-void ParticleManager::CameraMoveEyeVector(XMFLOAT3 move)
+void ParticleManager::CameraMoveEyeVector(Vector3 move)
 {
-	XMFLOAT3 eye_moved = GetEye();
-	XMFLOAT3 target_moved = GetTarget();
+	Vector3 eye_moved = GetEye();
+	Vector3 target_moved = GetTarget();
 
 	eye_moved.x += move.x;
 	eye_moved.y += move.y;
@@ -430,10 +430,25 @@ void ParticleManager::CreateModel()
 void ParticleManager::UpdateViewMatrix()
 {
 	// ビュー行列の更新
+	XMFLOAT3 localEye;
+	localEye.x = sEye.x;
+	localEye.y = sEye.y;
+	localEye.z = sEye.z;
 
-	XMVECTOR eyePosition = XMLoadFloat3(&sEye);
-	XMVECTOR targetPosition = XMLoadFloat3(&sTarget);
-	XMVECTOR upVector = XMLoadFloat3(&sUp);
+	XMFLOAT3 localTerget;
+	localTerget.x = sTarget.x;
+	localTerget.y = sTarget.y;
+	localTerget.z = sTarget.z;
+
+	XMFLOAT3 localUp;
+	localUp.x = sUp.x;
+	localUp.y = sUp.y;
+	localUp.z = sUp.z;
+
+
+	XMVECTOR eyePosition = XMLoadFloat3(&localEye);
+	XMVECTOR targetPosition = XMLoadFloat3(&localTerget);
+	XMVECTOR upVector = XMLoadFloat3(&localUp);
 
 	XMVECTOR cameraAxisZ = XMVectorSubtract(targetPosition, eyePosition);
 
@@ -599,7 +614,7 @@ void ParticleManager::Draw()
 	sCmdList->DrawInstanced((UINT)std::distance(particles.begin(), particles.end()), 1, 0, 0);
 }
 
-void ParticleManager::Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel, float start_scale, float end_scale)
+void ParticleManager::Add(int life, Vector3 position, Vector3 velocity, Vector3 accel, float start_scale, float end_scale)
 {
 	particles.emplace_front();
 	Particle& p = particles.front();

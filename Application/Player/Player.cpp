@@ -53,9 +53,9 @@ void Player::Update()
 	}
 
 	if (inputPad_->InputLStickUp()||input_->keyPush(DIK_UP)) {
-		XMFLOAT3 tmppos = pos_;
+		Vector3 tmppos = pos_;
 
-		XMFLOAT3 vel{};
+		Vector3 vel{};
 		vel.x = MyRandom::GetFloatRandom(-0.2f, 0.2f);
 		vel.y = MyRandom::GetFloatRandom(-0.2f, 0.2f);
 
@@ -75,9 +75,9 @@ void Player::Update()
 	}
 
 	if (inputPad_->InputLStickDown()||input_->keyPush(DIK_DOWN)) {
-		XMFLOAT3 tmppos = pos_;
+		Vector3 tmppos = pos_;
 
-		XMFLOAT3 vel{};
+		Vector3 vel{};
 		vel.x = MyRandom::GetFloatRandom(-0.2f, 0.2f);
 		vel.y = MyRandom::GetFloatRandom(-0.2f, 0.2f);
 
@@ -101,9 +101,9 @@ void Player::Update()
 
 	if (inputPad_->InputLStickRight()||input_->keyPush(DIK_RIGHT)) {
 
-		XMFLOAT3 tmppos = pos_;
+		Vector3 tmppos = pos_;
 
-		XMFLOAT3 vel{};
+		Vector3 vel{};
 		vel.x = MyRandom::GetFloatRandom(-0.2f, 0.2f);
 		vel.y = MyRandom::GetFloatRandom(-0.2f, 0.2f);
 
@@ -124,9 +124,9 @@ void Player::Update()
 
 	if (inputPad_->InputLStickLeft()||input_->keyPush(DIK_LEFT)) {
 
-		XMFLOAT3 tmppos = pos_;
+		Vector3 tmppos = pos_;
 
-		XMFLOAT3 vel{};
+		Vector3 vel{};
 		vel.x = MyRandom::GetFloatRandom(-0.2f, 0.2f);
 		vel.y = MyRandom::GetFloatRandom(-0.2f, 0.2f);
 
@@ -282,9 +282,9 @@ void Player::SetEnemy(Enemy* enemy)
 	targetEnemy_ = enemy;
 }
 
-DirectX::XMFLOAT3 Player::GetWorldPos()
+Vector3 Player::GetWorldPos()
 {
-	DirectX::XMFLOAT3 worldPos;
+	Vector3 worldPos;
 
 	worldPos.x = pos_.x;
 	worldPos.y = pos_.y;
@@ -293,7 +293,7 @@ DirectX::XMFLOAT3 Player::GetWorldPos()
 	return worldPos;
 }
 
-void Player::SetPos(XMFLOAT3 pos)
+void Player::SetPos(Vector3 pos)
 {
 	playerObject_->SetPosition(pos);
 }
@@ -357,7 +357,7 @@ void Player::PlayerCamera(){
 	float CameraXZLen = toCameraPosXZ.length();
 	toCameraPosXZ.normalize();
 
-	XMFLOAT3 terget = pos_;
+	Vector3 terget = pos_;
 	terget.y += 10.0f;
 
 	XMFLOAT3 toNewCameraPos;
@@ -382,7 +382,7 @@ void Player::PlayerCamera(){
 	toNewCameraPosv *= CameraXZLen;
 	toNewCameraPosv.y = height;
 
-	XMFLOAT3 newEye;
+	Vector3 newEye;
 	newEye.x = terget.x + toNewCameraPosv.x;
 	newEye.y = terget.y + toNewCameraPosv.y;
 	newEye.z = terget.z + toNewCameraPosv.z;

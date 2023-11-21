@@ -27,9 +27,9 @@ void Framework::Initialize()
 	FbxLoader::GetInstance()->Initialize(directX_->GetDevice());
 	
 	//カメラセット
-	XMFLOAT3 eye = Object3D::GetEye();
-	XMFLOAT3 target = Object3D::GetTarget();
-	XMFLOAT3 up = Object3D::GetUp();
+	Vector3 eye = Object3D::GetEye();
+	Vector3 target = Object3D::GetTarget();
+	Vector3 up = Object3D::GetUp();
 	FbxObject3d::SetCamera(eye, target, up);
 
 	FbxObject3d::StaticInitialize(directX_->GetDevice(), windows_->GetWindowWidth(), windows_->GetWindowHeight());
