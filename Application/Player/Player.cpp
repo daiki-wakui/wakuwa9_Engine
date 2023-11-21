@@ -32,16 +32,6 @@ void Player::Update()
 	std::mt19937_64 engine(seed_gen());
 	std::uniform_real_distribution<float> ve(-0.2f, 0.2f);
 
-	
-	//vel2.x = ve(engine);
-	//vel2.y = ve(engine);
-	//prot_ += 0.2f;
-
-	//as.x = pos_.x + (sinf(prot_) * 1);
-	//as.y = pos_.y + (cosf(prot_) * 1);
-
-	//moveParticle_->Add(60, as, {0,0,0}, { 0,0,0 }, 1.0f, 0.0f);
-
 
 	rot_ = playerObject_->GetRotation();
 	pos_ = playerObject_->GetPosition();
@@ -206,19 +196,12 @@ void Player::Update()
 
 	posPod_.x += sideMove_.x + 5;
 
-	posPod_.y = sinf(3.14f * frame * 40)*0.5f + 10;
+	posPod_.y = sinf(3.14f * frame * 40) * 0.5f + 10;
 	posPod_.y += 7;
 
 	bulletVec_.x = eye_.x - posPod_.x;
-	
 	bulletVec_.z = eye_.z - posPod_.z;
-
-	if (eye_.y < 20 && eye_.y > 14) {
-		bulletVec_.y = (eye_.y - 9.5f) - posPod_.y;
-	}
-	else {
-		bulletVec_.y = (eye_.y - 10.0f) - posPod_.y;
-	}
+	bulletVec_.y = (eye_.y - 5) - posPod_.y;
 
 	bulletVec_.normalize();
 

@@ -28,7 +28,7 @@ void Boss::Initialize(Model* model, XMFLOAT3 pos, Object3D* Object, Player* play
 	frame_ = 0;
 	moveTimer_ = 0;
 
-	
+	randState_ = 0;
 	
 
 	frameObject_.reset();
@@ -51,6 +51,8 @@ void Boss::Initialize(Model* model, XMFLOAT3 pos, Object3D* Object, Player* play
 	cononPos_ = object_->GetPosition();
 
 	randMoveChange_ = 60;
+
+	bullets_.clear();
 }
 
 void Boss::Update(bool move)

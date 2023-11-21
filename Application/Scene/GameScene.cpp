@@ -1010,6 +1010,8 @@ void GameScene::Reset()
 	for (std::unique_ptr<Door>& door : doors_) {
 		door->SetTutorial(true);
 	}
+
+	waringSprite_->SetSize({ 1280,720 });
 }
 
 bool GameScene::Collison(XMFLOAT3 posa, XMFLOAT3 posb, float aScale, float bScale)
