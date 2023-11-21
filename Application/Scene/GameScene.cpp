@@ -2,6 +2,7 @@
 #include "Easing.h"
 #include <random>
 #include "SoundManager.h"
+#include "MyRandom.h"
 
 void GameScene::Initialize()
 {
@@ -244,10 +245,6 @@ void GameScene::Finalize()
 void GameScene::Update()
 {
 
-	std::random_device seed_gen;
-	std::mt19937_64 engine(seed_gen());
-	std::uniform_real_distribution<float> ve(-2.0f, 2.0f);
-
 	if (isShake_) {
 		shakeTimer_++;
 
@@ -256,8 +253,8 @@ void GameScene::Update()
 			shakeTimer_ = 0;
 		}
 
-		randShake_.x = ve(engine);
-		randShake_.y = ve(engine);
+		randShake_.x = MyRandom::GetFloatRandom(-2.0f, 2.0f);
+		randShake_.y = MyRandom::GetFloatRandom(-2.0f, 2.0f);
 
 		XMFLOAT3 toEye = Object3D::GetEye();
 		XMFLOAT3 toTerget = Object3D::GetTarget();

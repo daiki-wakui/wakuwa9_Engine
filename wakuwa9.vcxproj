@@ -149,6 +149,7 @@
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyRandom.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +200,7 @@
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="GameUI.h" />
+    <ClInclude Include="MyRandom.h" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>

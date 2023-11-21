@@ -1,6 +1,7 @@
 #include "PlayerBullet.h"
 #include <random>
 #include "Easing.h"
+#include "MyRandom.h"
 
 void PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model)
 {
@@ -16,27 +17,17 @@ void PlayerBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* m
 	bulletObject_->SetPosition(tPos_);
 	bulletObject_->SetScale({ 0.7f,0.7f,0.7f });
 
-	//乱数シード生成器
-	std::random_device seed_gen;
-	//メルセンヌ・ツイスターの乱数エンジン
-	std::mt19937_64 engine(seed_gen());
-
-	std::uniform_real_distribution<float> posX(-50.0f, 50.0f);
-
 	Start.x = tPos_.x;
 	Start.y = tPos_.y;
 	Start.z = tPos_.z;
 
-	p0.x = Start.x + posX(engine);
+	p0.x = Start.x + MyRandom::GetFloatRandom(-50.0f, 50.0f);
 	p0.y = Start.y + 50;
 	p0.z = Start.z - 10;
 
 	End.x = velocity_.x;
 	End.y = velocity_.y;
 	End.z = velocity_.z;
-
-	/*effectParticle_->Initialize(L"Resources/01.png");
-	effectParticle_->Update();*/
 }
 
 void PlayerBullet::Update()

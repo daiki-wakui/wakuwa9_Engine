@@ -1,5 +1,6 @@
 #include "Effect.h"
 #include <random>
+#include "MyRandom.h"
 
 void Effect::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model)
 {
@@ -14,15 +15,8 @@ void Effect::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model)
 
 	bulletObject_->SetPosition(tPos_);
 
-	//乱数シード生成器
-	std::random_device seed_gen;
-	//メルセンヌ・ツイスターの乱数エンジン
-	std::mt19937_64 engine(seed_gen());
-
-	std::uniform_real_distribution<float> posX(-1, 1);
-
-	velocity_.x = posX(engine);
-	velocity_.z = posX(engine);
+	velocity_.x = MyRandom::GetFloatRandom(-1, 1);
+	velocity_.z = MyRandom::GetFloatRandom(-1, 1);
 }
 
 void Effect::Update()

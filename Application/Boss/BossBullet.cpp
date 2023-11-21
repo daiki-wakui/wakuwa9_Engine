@@ -1,5 +1,6 @@
 #include "BossBullet.h"
 #include <random>
+#include "MyRandom.h"
 
 void BossBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* model, int32_t randState)
 {
@@ -15,11 +16,7 @@ void BossBullet::Initialize(DirectX::XMFLOAT3 pos, Vector3& velocity, Model* mod
 
 	bulletObject_->SetPosition(tPos_);
 
-	std::random_device seed_gen;
-	std::mt19937_64 engine(seed_gen());
-	std::uniform_real_distribution<float> ve(-0.1f, 0.3f);
-
-	addRand_ = ve(engine);
+	addRand_ = MyRandom::GetFloatRandom(-0.1f, 0.3f);
 	bulletState_ = randState;
 }
 

@@ -6,6 +6,8 @@
 #include <d3dcompiler.h>
 #pragma comment(lib,"d3dcompiler.lib")
 
+#include "MyRandom.h"
+
 using namespace DirectX;
 
 const float PostEffect::sCLEAR_COLOR[4] = { 0.1f,0.1f,0.5f,0.0f };//緑っぽい色
@@ -414,20 +416,15 @@ void PostEffect::Update(Player* player)
 		noiseTimer_--;
 
 		if (frame_ <= 30 && noiseTimer_ < 0) {
-			std::random_device seed_gen;
-			std::mt19937_64 engine(seed_gen());
-			std::uniform_real_distribution<float> noizPower(0.1f, 1.0f);
-			std::uniform_real_distribution<float> noizPower2(-0.02f, 0.02f);
-			std::uniform_real_distribution<float> noizPowerLifeOne(-0.1f, 0.1f);
 
-			constMapMaterial->power = noizPower(engine);
+			constMapMaterial->power = MyRandom::GetFloatRandom(0.1f, 1.0f);
 
 			if (player->GetHP() <= 1) {
-				constMapMaterial->shiftPower = noizPowerLifeOne(engine);
+				constMapMaterial->shiftPower = MyRandom::GetFloatRandom(-0.1f, 0.1f);
 				noiseTimer_ = 2;
 			}
 			else {
-				constMapMaterial->shiftPower = noizPower2(engine);
+				constMapMaterial->shiftPower = MyRandom::GetFloatRandom(-0.02f, 0.02f);
 				noiseTimer_ = 1;
 			}
 			

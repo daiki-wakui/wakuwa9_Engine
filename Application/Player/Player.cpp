@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <random>
 
+#include "MyRandom.h"
+
 void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject)
 {
 	playerModel_ = playerModel;
@@ -26,12 +28,6 @@ void Player::clear() {
 void Player::Update()
 {
 	moveParticle_->Update();
-
-
-	std::random_device seed_gen;
-	std::mt19937_64 engine(seed_gen());
-	std::uniform_real_distribution<float> ve(-0.2f, 0.2f);
-
 
 	rot_ = playerObject_->GetRotation();
 	pos_ = playerObject_->GetPosition();
@@ -60,8 +56,8 @@ void Player::Update()
 		XMFLOAT3 tmppos = pos_;
 
 		XMFLOAT3 vel{};
-		vel.x = ve(engine);
-		vel.y = ve(engine);
+		vel.x = MyRandom::GetFloatRandom(-0.2f, 0.2f);
+		vel.y = MyRandom::GetFloatRandom(-0.2f, 0.2f);
 
 		moveParticle_->Add(60, tmppos, vel, { 0,0,0 }, 2.0f, 0.0f);
 
@@ -82,8 +78,8 @@ void Player::Update()
 		XMFLOAT3 tmppos = pos_;
 
 		XMFLOAT3 vel{};
-		vel.x = ve(engine);
-		vel.y = ve(engine);
+		vel.x = MyRandom::GetFloatRandom(-0.2f, 0.2f);
+		vel.y = MyRandom::GetFloatRandom(-0.2f, 0.2f);
 
 		moveParticle_->Add(60, tmppos, vel, { 0,0,0 }, 2.0f, 0.0f);
 
@@ -108,8 +104,8 @@ void Player::Update()
 		XMFLOAT3 tmppos = pos_;
 
 		XMFLOAT3 vel{};
-		vel.x = ve(engine);
-		vel.y = ve(engine);
+		vel.x = MyRandom::GetFloatRandom(-0.2f, 0.2f);
+		vel.y = MyRandom::GetFloatRandom(-0.2f, 0.2f);
 
 		moveParticle_->Add(60, tmppos, vel, { 0,0,0 }, 2.0f, 0.0f);
 
@@ -131,8 +127,8 @@ void Player::Update()
 		XMFLOAT3 tmppos = pos_;
 
 		XMFLOAT3 vel{};
-		vel.x = ve(engine);
-		vel.y = ve(engine);
+		vel.x = MyRandom::GetFloatRandom(-0.2f, 0.2f);
+		vel.y = MyRandom::GetFloatRandom(-0.2f, 0.2f);
 
 		moveParticle_->Add(60, tmppos, vel, { 0,0,0 }, 2.0f, 0.0f);
 
@@ -251,10 +247,6 @@ void Player::Draw()
 void Player::pDraw()
 {
 	moveParticle_->Draw();
-
-	/*for (std::unique_ptr<PlayerBullet>& bullet : bullets_) {
-		bullet->pDraw();
-	}*/
 }
 
 void Player::SetBulletModel(Model* model,Object3D* obj)
