@@ -12,7 +12,11 @@ void SoundManager::Initialize()
 	sound_->LoadWave("NieR_boss.wav");
 	//SE
 	sound_->LoadWave("Start.wav");
-
+	sound_->LoadWave("Shot.wav");
+	sound_->LoadWave("Hit.wav");
+	sound_->LoadWave("noise.wav");
+	sound_->LoadWave("Warning.wav");
+	sound_->LoadWave("electric_shock3.wav");
 }
 
 void SoundManager::Update(int32_t state)
