@@ -1082,7 +1082,7 @@ void GameScene::AllCollison()
 				BulletEffect = true;
 				boss_->OnCollision();
 
-				SoundManager::GetInstance()->PlayWave("Hit.wav", 0.25f);
+				SoundManager::GetInstance()->PlayWave("Hit.wav", 0.12f);
 			}
 
 			if (BulletEffect) {
@@ -1240,7 +1240,7 @@ void GameScene::AllCollison()
 				bullet->isDead_ = true;
 				enemy->OnCollision();
 				BulletEffect = true;
-				SoundManager::GetInstance()->PlayWave("Hit.wav", 0.25f);
+				SoundManager::GetInstance()->PlayWave("Hit.wav", 0.12f);
 			}
 
 			if (enemy->IsDead()) {
