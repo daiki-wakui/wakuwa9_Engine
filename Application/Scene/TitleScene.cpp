@@ -5,13 +5,13 @@ void TitleScene::Initialize()
 	titleUI_->Initialize();
 
 	skydomModel_ = std::make_unique<Model>();
-	skydomModel_->LoadFromObj("world2");
+	skydomModel_->LoadFromObj("cube");
 
 	skyObject_ = std::make_unique<Object3D>();
 	skyObject_->SetModel(skydomModel_.get());
 	skyObject_->Initialize();
-	skyObject_->SetScale(Vector3({ 400,400,400 }));
-	skyObject_->SetPosition({ 0,0,100 });
+	//skyObject_->SetScale(Vector3({ 400,400,400 }));
+	skyObject_->SetPosition({ 0,10,0 });
 
 	isStartSE_ = false;
 
@@ -27,36 +27,13 @@ void TitleScene::Update()
 {
 	titleUI_->TitleUpdate(changeStart_);
 
-	SoundManager::GetInstance()->Update(0);
-
-	if (changeStart_) {
-
-		if (!isStartSE_) {
-			SoundManager::GetInstance()->PlayWave("Start.wav", 0.25f);
-			isStartSE_ = true;
-		}
-
-		if (titleUI_->GetSceneChangeAlpha() >= 1) {
-			changeEnd_ = true;
-			isStartSE_ = false;
-			playBGM_ = false;
-		}
-
-		SoundManager::GetInstance()->StopBGM();
-	}
-
-	skyObject_->SetPosition({ 0,0,100 });
-	skyObject_->SetCamera({ 0, 20, -30.0f }, { 0, 10, 0 });
 	skyObject_->Update();
 }
 
 void TitleScene::Draw()
 {
-
 	skyObject_->Draw();
-
-
-	titleUI_->Draw();
+	//titleUI_->Draw();
 }
 
 void TitleScene::OffDraw()

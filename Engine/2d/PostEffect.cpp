@@ -406,10 +406,10 @@ PostEffect::PostEffect()
 
 void PostEffect::Update(Player* player)
 {
-	if (player->GetIsHit()) {
+	/*if (player->GetIsHit()) {
 		isEffect_ = true;
 		frame_ = 30;
-	}
+	}*/
 
 	if (isEffect_) {
 		frame_--;

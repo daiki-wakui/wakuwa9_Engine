@@ -78,7 +78,7 @@ public:
 	//コンストラクタ
 	PostEffect();
 
-	void Update(Player* player);
+	void Update(Player* player = nullptr);
 
 	//描画
 	void Draw();

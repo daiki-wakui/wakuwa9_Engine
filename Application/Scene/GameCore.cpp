@@ -7,8 +7,8 @@ void GameCore::Initialize()
 {
 	Framework::Initialize();
 
-	gamescene_->Initialize();
-	gamescene_->SetStart(true);
+	//gamescene_->Initialize();
+	//gamescene_->SetStart(true);
 
 
 	titlescene_->Initialize();
@@ -18,16 +18,13 @@ void GameCore::Initialize()
 
 	/*postEffect2_->SetDirectX(spBasis_, windows_, keyboard_);
 	postEffect2_->Initialize(2);*/
-
-	sound_->LoadWave("PerituneMaterial.wav");
-	sound_->LoadWave("ElectricWild.wav");
 }
 
 //後始末
 void GameCore::Finalize()
 {
 	titlescene_->Finalize();
-	gamescene_->Finalize();
+	//gamescene_->Finalize();
 	Framework::Finalize();
 }
 
@@ -37,68 +34,22 @@ void GameCore::Update()
 	Framework::Update();
 
 	//ノイズのエフェクト
-	postEffect_->Update(gamescene_->GetPlayer());
+	postEffect_->Update();
 
-	//タイトルシーンからシーン遷移開始
-	if (keyboard_->keyInstantPush(DIK_SPACE) || gamePad_->PushInstantB()) {
-
-		if (state == 0) {
-			titlescene_->SetStart(true);
-			gamescene_->SetChange(false);
-			gamescene_->Reset();
-		}
-	}
-
-	//タイトルシーンからゲームシーンへ
-	if (titlescene_->GetChange()) {
-		if (state == 0) {
-			postEffect_->SetIsEffect(false);
-		}
-		state = 1;	//ゲームシーン
-		gamescene_->SetStart(true);
-		
-	}
-
-	//タイトルシーンに戻る
-	if (keyboard_->keyInstantPush(DIK_T)) {
-		titlescene_->SetStart(false);
-		gamescene_->SetStart(false);
-		titlescene_->SetChange(false);
-		gamescene_->SetChange(true);
-		gamescene_->Reset();
-	}
-
-	//タイトルシーンの更新処理
-	if (state == 0) {
-		titlescene_->Update();
-		postEffect_->SetIsEffect(true);
-	}
-	//ゲームシーンの更新処理
-	else {
-		gamescene_->Update();
-	}
-
-	if (gamescene_->GetChange()) {
-		state = 0;
-	}
-
-	if (keyboard_->keyInstantPush(DIK_P)) {
-		isDebug++;
-		isDebug = isDebug % 2;
-	}
+	titlescene_->Update();
 	
 	//デバックImGui
 	imGuiM_->Begin();
 	ImGui::Text("Editor");
 
-	//オブジェクト読み込み直す
-	if (ImGui::Button("ReLoad")) {
-		gamescene_->EditorLoad("obj");
-	}
+	////オブジェクト読み込み直す
+	//if (ImGui::Button("ReLoad")) {
+	//	gamescene_->EditorLoad("obj");
+	//}
 
-	if (ImGui::Button("DebugPoint")) {
-		gamescene_->GetPlayer()->SetPos(gamescene_->GetDebugPoint()->GetWorldPos());
-	}
+	//if (ImGui::Button("DebugPoint")) {
+	//	gamescene_->GetPlayer()->SetPos(gamescene_->GetDebugPoint()->GetWorldPos());
+	//}
 
 	imGuiM_->End();
 }
@@ -111,21 +62,14 @@ void GameCore::Draw()
 	Object3D::PreDraw(directX_->GetCommandList());
 	FbxObject3d::PreSet(directX_->GetCommandList());
 	
-	//タイトルシーン描画
-	if (state == 0) {
-		titlescene_->Draw();
-	}
-	//ゲームシーン描画
-	else {
-		gamescene_->Draw();
-	}
+	titlescene_->Draw();
 
 	Object3D::PostDraw();
 
 	//パーティクル描画前準備
 	ParticleManager::PreDraw(directX_->GetCommandList());
 	//パーティクル描画
-	gamescene_->pDraw();
+//	gamescene_->pDraw();
 
 	ParticleManager::PostDraw();
 	
