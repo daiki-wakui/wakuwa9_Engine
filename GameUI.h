@@ -7,6 +7,8 @@ class GameUI : public TextureManager
 
 private:
 
+	std::unique_ptr<Sprite> ddsSprite_ = std::make_unique<Sprite>();
+
 	//スプライト
 	std::unique_ptr<Sprite> titleSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> titleUISprite_ = std::make_unique<Sprite>();

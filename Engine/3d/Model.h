@@ -57,17 +57,17 @@ public:
 
 
 	//OBJファイルから3Dモデルを読み込む
-	void LoadFromObj(const std::string& modelname, bool smoothing = false);
+	void LoadFromObj(const std::string& modelname, bool ddsTex = false, bool smoothing = false);
 
 	/// <summary>
 	/// マテリアル読み込み
 	/// </summary>
-	void LoadMaterial(const std::string& directoryPath, const std::string& filename);
+	void LoadMaterial(const std::string& directoryPath, const std::string& filename, bool ddsTex = false);
 
 	/// <summary>
 	/// テクスチャ読み込み
 	/// </summary>
-	void LoadTexture(const std::string& directoryPath, const std::string& filename);
+	void LoadTexture(const std::string& directoryPath, const std::string& filename, bool ddsTex = false);
 
 
 	void Draw(ID3D12GraphicsCommandList* cmdList, UINT rootParamIndexMaterial);
@@ -127,7 +127,7 @@ private:
 	//マテリアル
 	Material material;
 
-	void LoadFromOBJInternal(const std::string& modelname,bool smoothing);
+	void LoadFromOBJInternal(const std::string& modelname, bool smoothing, bool ddsTex = false);
 
 	//デスクリプタヒープの初期化
 	void InitializeDescriptorHeap();

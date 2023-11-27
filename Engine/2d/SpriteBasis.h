@@ -36,6 +36,9 @@ private:
 	UINT incrementSize_;
 
 
+	//ファイル拡張子
+	std::wstring fileExt_;
+
 	SpriteBasis() = default;
 	~SpriteBasis() = default;
 	//コピーコンストラクタ無効
@@ -62,6 +65,8 @@ public:
 
 	int32_t TextureData(const wchar_t* name);
 
+	//フォルダパスとファイル名を分離する
+	void SeparateFilePath(const std::wstring& filePath);
 
 	UINT GetincrementSize() const { return incrementSize_; };
 

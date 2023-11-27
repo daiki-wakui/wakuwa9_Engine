@@ -217,15 +217,30 @@ void SpriteBasis::Setting() {
 
 int32_t SpriteBasis::TextureData(const wchar_t* name)
 {
-	texNum_++;
-
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
-	//WICテクスチャのロード
-	result_ = LoadFromWICFile(
-		name,
-		WIC_FLAGS_NONE,
-		&metadata, scratchImg);
+
+	std::wstring filename = name;
+
+	SeparateFilePath(filename);
+	int dds = wcscmp(fileExt_.c_str(), L"dds");
+
+	if (dds == 0) {
+		//WICテクスチャのロード
+		result_ = LoadFromDDSFile(
+			name,
+			DDS_FLAGS_NONE,
+			&metadata, scratchImg);
+	}
+	else {
+		//WICテクスチャのロード
+		result_ = LoadFromWICFile(
+			name,
+			WIC_FLAGS_NONE,
+			&metadata, scratchImg);
+	}
+
+	texNum_++;
 
 	ScratchImage mipChain{};
 	//ミニマップ生成
@@ -321,5 +336,27 @@ int32_t SpriteBasis::TextureData(const wchar_t* name)
 	descriptorRange_.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
 	return texNum_;
+}
+
+void SpriteBasis::SeparateFilePath(const std::wstring& filePath)
+{
+	size_t pos1;
+	std::wstring exceptExt;
+
+	//区切り文字'.'が出てくる一番最後の部分を検索
+	pos1 = filePath.rfind('.');
+
+	//検索がヒットしたら
+	if (pos1 != std::wstring::npos) {
+		//区切り文字の後ろをファイル拡張子として保存
+		fileExt_ = filePath.substr(pos1 + 1, filePath.size() - pos1 - 1);
+		//区切り文字前までを抜き出す
+		exceptExt = filePath.substr(0, pos1);
+	}
+	else {
+		fileExt_ = L"";
+		exceptExt = filePath;
+	}
+
 }
 

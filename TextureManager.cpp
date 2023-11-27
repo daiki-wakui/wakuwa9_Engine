@@ -10,6 +10,8 @@ TextureManager::~TextureManager()
 
 void TextureManager::LoadTexture()
 {
+	testDDSImage_ = spBasis_->TextureData(L"Resources/test.dds");
+
 	titleImage_ = spBasis_->TextureData(L"Resources/title.png");
 	titleUIImage_ = spBasis_->TextureData(L"Resources/titleUI.png");
 	sceneChangeImage_ = spBasis_->TextureData(L"Resources/sceneChange.png");

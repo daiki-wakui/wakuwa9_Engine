@@ -12,6 +12,9 @@ void GameUI::Initialize()
 {
 	TextureManager::LoadTexture();
 
+	ddsSprite_->Initialize(testDDSImage_);
+	ddsSprite_->Create(100, 100);
+
 	titleSprite_->Initialize(titleImage_);
 	titleSprite_->Create();
 	titleSprite_->SetSize({ 1280,720 });
@@ -39,6 +42,8 @@ void GameUI::TitleUpdate(bool sceneChange)
 	titleUISprite_->Update();
 	sceneSprite_->Update();
 
+	ddsSprite_->Update();
+
 	if (sceneChange) {
 		ChangeAlpha_ += 0.05f;
 		ChangeAlpha_ = min(ChangeAlpha_, 1);
@@ -56,6 +61,8 @@ void GameUI::Draw()
 	titleSprite_->Draw(titleImage_);
 	titleUISprite_->Draw(titleUIImage_);
 	sceneSprite_->Draw(sceneChangeImage_);
+
+	ddsSprite_->Draw(testDDSImage_);
 }
 
 void GameUI::OffDraw()

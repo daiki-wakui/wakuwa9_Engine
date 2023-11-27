@@ -6,6 +6,7 @@ class TextureManager
 protected:
 
 	//画像
+	int32_t testDDSImage_ = 0;
 	int32_t titleImage_ = 0;
 	int32_t titleUIImage_ = 0;
 	int32_t sceneChangeImage_ = 0;

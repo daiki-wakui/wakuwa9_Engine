@@ -5,7 +5,7 @@ void TitleScene::Initialize()
 	titleUI_->Initialize();
 
 	skydomModel_ = std::make_unique<Model>();
-	skydomModel_->LoadFromObj("cube");
+	skydomModel_->LoadFromObj("cube", true);
 
 	skyObject_ = std::make_unique<Object3D>();
 	skyObject_->SetModel(skydomModel_.get());
@@ -33,7 +33,7 @@ void TitleScene::Update()
 void TitleScene::Draw()
 {
 	skyObject_->Draw();
-	//titleUI_->Draw();
+	titleUI_->Draw();
 }
 
 void TitleScene::OffDraw()

@@ -15,7 +15,7 @@ using namespace std;
 
 ID3D12Device* Model::sDevice = nullptr;
 
-void Model::LoadFromObj(const std::string& modelname, bool smoothing)
+void Model::LoadFromObj(const std::string& modelname, bool ddsTex, bool smoothing)
 {
 	//Model* model = new Model();
 
@@ -23,7 +23,7 @@ void Model::LoadFromObj(const std::string& modelname, bool smoothing)
 	InitializeDescriptorHeap();
 
 	//OBJファイルからデータを読み込む
-	LoadFromOBJInternal(modelname, smoothing);
+	LoadFromOBJInternal(modelname, smoothing, ddsTex);
 
 	//データを元にバッファ生成
 	CreateBuffers();
@@ -55,7 +55,7 @@ void Model::CalculateSmoothedVertexNormals()
 	}
 }
 
-void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
+void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing, bool ddsTex) {
 
 	//ファイルストリーム
 	std::ifstream file;
@@ -157,7 +157,7 @@ void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 			line_stream >> rocalFilename;
 
 			//マテリアル読み込み
-			LoadMaterial(directoryPath, rocalFilename);
+			LoadMaterial(directoryPath, rocalFilename, ddsTex);
 		}
 	}
 
@@ -169,7 +169,7 @@ void Model::LoadFromOBJInternal(const std::string& modelname, bool smoothing) {
 	}
 }
 
-void Model::LoadMaterial(const std::string& directoryPath, const std::string& filename)
+void Model::LoadMaterial(const std::string& directoryPath, const std::string& filename, bool ddsTex)
 {
 	//ファイルストリーム
 	std::ifstream file;
@@ -228,7 +228,7 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 			//テクスチャのファイル名読み込み
 			line_stream >> material.textrueFilename;
 			//テクスチャ読み込み
-			LoadTexture(directoryPath, material.textrueFilename);
+			LoadTexture(directoryPath, material.textrueFilename, ddsTex);
 		}
 	}
 
@@ -236,12 +236,17 @@ void Model::LoadMaterial(const std::string& directoryPath, const std::string& fi
 	file.close();
 }
 
-void Model::LoadTexture(const std::string& directoryPath, const std::string& filename)
+void Model::LoadTexture(const std::string& directoryPath, const std::string& filename, bool ddsTex)
 {
 	HRESULT result = S_FALSE;
 
 	TexMetadata metadata{};
 	ScratchImage scratchImg{};
+
+	if (ddsTex) {
+		int a = 0;
+		a++;
+	}
 
 	//ファイルパスを統合
 	string filepath = directoryPath + filename;
