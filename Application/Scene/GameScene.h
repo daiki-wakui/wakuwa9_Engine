@@ -117,6 +117,9 @@ private:	//メンバ変数
 	std::unique_ptr<Sprite> RBSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> dFilterSprite_ = std::make_unique<Sprite>();
 
+	std::unique_ptr<Sprite> bulletRreticleSprite_ = std::make_unique<Sprite>();
+
+
 	bool isLifeOne_ = false;
 	float fillAlpha_ = 0;
 	int32_t fillTimer_ = 0;
@@ -159,6 +162,7 @@ private:	//メンバ変数
 
 	int32_t damageFilter_ = 0;
 
+	int32_t bulletRreticleImage_ = 0;
 
 	//player
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();

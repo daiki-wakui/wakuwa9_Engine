@@ -36,6 +36,9 @@ void GameScene::Initialize()
 
 	damageFilter_ = spBasis_->TextureData(L"Resources/damageFilter.png");
 
+	bulletRreticleImage_ = spBasis_->TextureData(L"Resources/shotReticle.png");
+
+
 	spBasis_->TextureSetting();
 
 	playerHPSprite_->Initialize();
@@ -95,6 +98,12 @@ void GameScene::Initialize()
 	waringSprite_->Create(640, 360);
 	waringSprite_->SetSize({ 1280,720 });
 	waringSprite_->Update();
+
+	bulletRreticleSprite_->Initialize();
+	bulletRreticleSprite_->Create(0, 0);
+	bulletRreticleSprite_->SetSize({ 64,64 });
+	bulletRreticleSprite_->Update();
+
 
 	//OBJからモデルを読み込む
 	playerModel_ = std::make_unique<Model>();
@@ -466,6 +475,8 @@ void GameScene::SpriteUpdate()
 	screenPosPlayer_ = playerObject_->Screen();
 	//チュートリアルUI
 	RBSprite_->SetPosition({ screenPosPlayer_.x - 175,screenPosPlayer_.y - 90 });
+	bulletRreticleSprite_->SetPosition({ screenPosPlayer_.x,screenPosPlayer_.y });
+	bulletRreticleSprite_->Update();
 
 	if (!manualOK_) {
 		alphaRB_ += 0.15f;
@@ -590,6 +601,8 @@ void GameScene::SpriteUpdate()
 
 void GameScene::SpriteDraw()
 {
+	bulletRreticleSprite_->Draw(bulletRreticleImage_);
+
 	if (!isIvent_) {
 		playerHPSprite_->Draw(playerHP_);
 	}
