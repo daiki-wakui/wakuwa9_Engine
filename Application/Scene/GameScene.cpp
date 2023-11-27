@@ -158,7 +158,7 @@ void GameScene::Initialize()
 	bossFiledModel_->LoadFromObj("bossfiled");
 
 	bossFiledGateModel_ = std::make_unique<Model>();
-	bossFiledGateModel_->LoadFromObj("bossfiled2");
+	bossFiledGateModel_->LoadFromObj("bossfiledfront");
 
 	bossModel_ = std::make_unique<Model>();
 	bossModel_->LoadFromObj("bossbody");
