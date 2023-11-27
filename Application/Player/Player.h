@@ -34,6 +34,10 @@ private:
 	Object3D* playerObject_;
 	Object3D* podObject_;
 	Object3D* bulletObject_;
+
+	std::unique_ptr<Object3D> reticle3DObject_ = std::make_unique<Object3D>();
+
+
 	KeyBoard* input_;
 	GamePad* inputPad_;
 
@@ -55,6 +59,10 @@ private:
 	Vector3 tmpVecY = { 0,1,0 };
 
 	Vector3 bulletVec_ = { 0,0,0 };
+	Vector3 bulletRTVec_ = { 0,0,0 };
+	Vector3 bulletRTPos_ = { 0,0,0 };
+
+	
 
 	//float dashPower = 5.0f;
 	bool isStep = false;
@@ -146,6 +154,7 @@ public:
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
 
 	Vector3 GetWorldPos();
+	Vector3 GetScreenRTPos();
 
 	void SetPos(Vector3 pos);
 };

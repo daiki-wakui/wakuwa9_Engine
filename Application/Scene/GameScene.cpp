@@ -100,8 +100,8 @@ void GameScene::Initialize()
 	waringSprite_->Update();
 
 	bulletRreticleSprite_->Initialize();
-	bulletRreticleSprite_->Create(0, 0);
-	bulletRreticleSprite_->SetSize({ 64,64 });
+	bulletRreticleSprite_->Create(640, 360);
+	bulletRreticleSprite_->SetSize({ 32,32 });
 	bulletRreticleSprite_->Update();
 
 
@@ -475,7 +475,9 @@ void GameScene::SpriteUpdate()
 	screenPosPlayer_ = playerObject_->Screen();
 	//チュートリアルUI
 	RBSprite_->SetPosition({ screenPosPlayer_.x - 175,screenPosPlayer_.y - 90 });
-	bulletRreticleSprite_->SetPosition({ screenPosPlayer_.x,screenPosPlayer_.y });
+
+	
+	bulletRreticleSprite_->SetPosition({ player_->GetScreenRTPos().x,player_->GetScreenRTPos().y });
 	bulletRreticleSprite_->Update();
 
 	if (!manualOK_) {
@@ -601,10 +603,12 @@ void GameScene::SpriteUpdate()
 
 void GameScene::SpriteDraw()
 {
-	bulletRreticleSprite_->Draw(bulletRreticleImage_);
-
+	
 	if (!isIvent_) {
 		playerHPSprite_->Draw(playerHP_);
+		reticleSprite_->Draw(reticleImage_);
+		bulletRreticleSprite_->Draw(bulletRreticleImage_);
+
 	}
 
 	if (hitBox_ == true && boss_->GetArive() == true && isIvent_ == false) {
@@ -622,8 +626,7 @@ void GameScene::SpriteDraw()
 
 	sceneSprite_->Draw(scene_);
 
-	reticleSprite_->Draw(reticleImage_);
-
+	
 	fillSprite_->Draw(fillter_);
 
 	dFilterSprite_->Draw(damageFilter_);
@@ -817,8 +820,8 @@ void GameScene::ReLoad(const std::string filename)
 
 			player_.reset();
 			player_ = std::make_unique<Player>();
-			player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
 			player_->SetBulletModel(playerBulletCubeModel_.get(), bulletObject_.get());
+			player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
 		}
 		else if (levelData_->objects[i].fileName == "debugpoint") {
 			//オブジェクト生成と座標情報代入

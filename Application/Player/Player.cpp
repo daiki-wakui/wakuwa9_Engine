@@ -19,6 +19,10 @@ void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* in
 
 	moveParticle_->Initialize(L"Resources/01.png");
 	moveParticle_->Update();
+
+	reticle3DObject_->Initialize();
+	//reticle3DObject_->SetPosition({ 0, 0,0 });
+	reticle3DObject_->SetModel(bulletModel_);
 }
 
 void Player::clear() {
@@ -212,6 +216,17 @@ void Player::Update()
 	playerObject_->Update();
 	podObject_->Update();
 
+	bulletRTPos_ = posPod_;
+	bulletRTVec_ = bulletVec_;
+
+	bulletRTVec_ *= -150;
+
+	bulletRTPos_ += bulletRTVec_;
+
+
+	reticle3DObject_->SetPosition(bulletRTPos_);
+	reticle3DObject_->Update();
+
 
 	if (inputPad_->PushButtonRB()) {
 		coolTime--;
@@ -230,6 +245,8 @@ void Player::Update()
 	if (invincibleFrame_ == 0) {
 		isInvincible_ = false;
 	}
+
+	
 }
 
 void Player::Draw()
@@ -241,7 +258,6 @@ void Player::Draw()
 		bullet->Draw();
 	}
 
-	
 }
 
 void Player::pDraw()
@@ -291,6 +307,15 @@ Vector3 Player::GetWorldPos()
 	worldPos.z = pos_.z;
 
 	return worldPos;
+}
+
+Vector3 Player::GetScreenRTPos()
+{
+	Vector3 screenPos;
+
+	screenPos = reticle3DObject_->Screen();
+
+	return screenPos;
 }
 
 void Player::SetPos(Vector3 pos)
