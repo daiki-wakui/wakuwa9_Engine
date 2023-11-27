@@ -195,7 +195,7 @@ void Player::Update()
 	posPod_.y = sinf(3.14f * frame * 40) * 0.5f + 10;
 	posPod_.y += 7;
 
-	bulletVec_.x = eye_.x - posPod_.x;
+	bulletVec_.x = eye_.x - pos_.x;
 	bulletVec_.z = eye_.z - posPod_.z;
 	bulletVec_.y = (eye_.y - 5) - posPod_.y;
 
