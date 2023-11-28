@@ -53,10 +53,25 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 	randMoveChange_ = 60;
 
 	bullets_.clear();
+
+
+	movementPattern_[0] = 1;
+	movementPattern_[1] = 1;
+	movementPattern_[2] = 2;
+	movementPattern_[3] = 3;
+	movementPattern_[4] = 2;
+	movementPattern_[5] = 3;
+
+
+	movementPatternCount_ = 0;
 }
 
 void Boss::Update(bool move)
 {
+	if (movementPatternCount_ >= 6) {
+		movementPatternCount_ = 0;
+	}
+
 	arive_ = true;
 	
 	if (!move) {
@@ -446,8 +461,9 @@ void Boss::Move()
 
 		if (moveT_ >= 20) {
 			isPop_ = false;
-			randState_ = rand() % 3 + 1;
+			randState_ = movementPattern_[movementPatternCount_];
 			randMoveChange_ = rand() % 300 + 60;
+			movementPatternCount_++;
 		}
 	}
 
