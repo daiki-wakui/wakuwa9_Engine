@@ -88,6 +88,10 @@ private:
 
 	int32_t randState_;
 
+
+	int32_t movementPattern_[10];
+	int32_t movementPatternCount_;
+
 public:
 
 	bool arive_ = false;
