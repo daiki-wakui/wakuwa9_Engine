@@ -142,7 +142,10 @@ float4 main(VSOutput input) : SV_TARGET
 	}*/
 
 	// シェーディングによる色で描画
-	//return shadecolor * texcolor + fogColor;
+	if(fogActive){
+		return lerp(fogColor , shadecolor * texcolor ,res);
+	}
+	return shadecolor * texcolor;
 
-	return lerp(fogColor , shadecolor * texcolor ,res);
+	
 }

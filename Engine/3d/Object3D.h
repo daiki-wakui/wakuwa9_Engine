@@ -34,6 +34,7 @@ public: // サブクラス
 		XMMATRIX viewproj;	//ビュープロジェクション行列
 		XMMATRIX world;		//ワールド行列
 		Vector3 cameraPos;	//カメラ座標(ワールド座標)
+		bool fogActive;
 	};
 
 private: // 定数
@@ -171,7 +172,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update(bool billborad = false);
+	void Update(bool fog = true, bool billborad = false);
 
 	/// <summary>
 	/// 描画

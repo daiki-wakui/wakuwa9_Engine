@@ -410,7 +410,7 @@ bool Object3D::Initialize()
 	return true;
 }
 
-void Object3D::Update(bool billborad)
+void Object3D::Update(bool fog , bool billborad)
 {
 	HRESULT result;
 	XMMATRIX matScale, matRot, matTrans;
@@ -448,7 +448,12 @@ void Object3D::Update(bool billborad)
 	constMap->cameraPos = GetEye();
 	constBuffB0_->Unmap(0, nullptr);
 
-
+	if (!fog) {
+		constMap->fogActive = false;
+	}
+	else {
+		constMap->fogActive = true;
+	}
 }
 
 void Object3D::Draw()
