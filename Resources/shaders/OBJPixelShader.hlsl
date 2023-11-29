@@ -5,6 +5,21 @@ SamplerState smp : register(s0);      // 0番スロットに設定されたサンプラー
 
 float4 main(VSOutput input) : SV_TARGET
 {
+
+	
+
+	float3 dir = input.worldpos.xyz - cameraPos;
+	float dist = length(dir);
+
+	float fog_distance = dist;
+	float fog_start = 400;
+	float fog_end= 1000;
+	float res;
+	res = (fog_end - fog_distance) / (fog_end - fog_start);
+	res = clamp(res ,0, 1);
+
+	float4 fogColor = {1,1,1,1}
+;
 	// テクスチャマッピング
 	float4 texcolor = tex.Sample(smp, input.uv);
 
@@ -12,6 +27,9 @@ float4 main(VSOutput input) : SV_TARGET
 	const float shininess = 4.0f;
 	// 頂点から視点への方向ベクトル
 	float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
+
+	
+
 
 	// 環境反射光
 	float3 ambient = m_ambient;
@@ -124,5 +142,7 @@ float4 main(VSOutput input) : SV_TARGET
 	}*/
 
 	// シェーディングによる色で描画
-	return shadecolor * texcolor;
+	//return shadecolor * texcolor + fogColor;
+
+	return lerp(fogColor , shadecolor * texcolor ,res);
 }
