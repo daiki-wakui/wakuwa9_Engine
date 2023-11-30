@@ -1,7 +1,6 @@
 #pragma once
 #include "Framework.h"
-#include "GameScene.h"
-#include "TitleScene.h"
+#include "SceneManager.h"
 
 #include "PostEffect.h"
 #include "ParticleManager.h"
@@ -16,7 +15,11 @@
 #include <d3dcompiler.h>
 #include <cstdint>
 
-
+enum SceneList
+{
+	TITLE,
+	GAME,
+};
 
 class GameCore : public Framework 
 {
@@ -33,14 +36,9 @@ private:
 	
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_ = std::make_unique<PostEffect>();
-	//ポストエフェクト
-	std::unique_ptr<PostEffect> postEffect2_ = std::make_unique<PostEffect>();
 
+	std::unique_ptr<SceneManager> sceneManager_ = std::make_unique<SceneManager>();
 
-	std::unique_ptr<GameScene> gamescene_ = std::make_unique<GameScene>();
-	std::unique_ptr<TitleScene> titlescene_ = std::make_unique<TitleScene>();
-
-	int32_t state = 0;
 	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
 
 	int32_t isDebug;
@@ -49,12 +47,9 @@ public:
 
 	//初期化
 	void Initialize() override;
-
 	void Finalize() override;
-	
 	//毎フレーム
 	void Update() override;
-
 	void Draw() override;
 };
 

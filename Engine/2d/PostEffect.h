@@ -44,9 +44,9 @@ private:
 	ComPtr<ID3D12RootSignature> rootSignature;
 
 	//借りてくる
-	SpriteBasis* spBasis_ = nullptr;
-	WindowsApp* winApp_ = nullptr;
-	KeyBoard* key_ = nullptr;
+	SpriteBasis* spBasis_ = SpriteBasis::GetInstance();
+	WindowsApp* winApp_ = WindowsApp::GetInstance();
+	KeyBoard* key_ = KeyBoard::GetInstance();
 
 	static const float sCLEAR_COLOR[4];
 
@@ -70,8 +70,6 @@ public:
 	void IndexData();
 
 	void Crate();
-
-	void SetDirectX(SpriteBasis* spBasis, WindowsApp* winApp, KeyBoard* key);
 
 	void CreateGraphicsPipelineState(int32_t num = 0);
 
