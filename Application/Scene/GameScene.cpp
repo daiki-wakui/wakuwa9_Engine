@@ -1,109 +1,10 @@
 #include "GameScene.h"
-#include "Easing.h"
-#include <random>
 #include "SoundManager.h"
 #include "MyRandom.h"
+#include "Easing.h"
 
 void GameScene::Initialize()
 {
-
-	playerHP_ = spBasis_->TextureData(L"Resources/playerHP.png");
-	bossHP_ = spBasis_->TextureData(L"Resources/red.png");
-
-	title_ = spBasis_->TextureData(L"Resources/title.png");;
-	gameover_ = spBasis_->TextureData(L"Resources/gameover.png");
-	gameclear_ = spBasis_->TextureData(L"Resources/gameclear.png");
-
-	//シーン遷移時
-	scene_ = spBasis_->TextureData(L"Resources/sceneChange.png");
-
-	//フィルター
-	fillter_ = spBasis_->TextureData(L"Resources/fillter.png");
-
-	reticleImage_ = spBasis_->TextureData(L"Resources/reticle.png");
-
-	tesImage_ = spBasis_->TextureData(L"Resources/test.png");
-
-	targetImage_ = spBasis_->TextureData(L"Resources/targetPoint.png");
-
-	iventImage_ = spBasis_->TextureData(L"Resources/Ivent.png");
-
-	warningImage_ = spBasis_->TextureData(L"Resources/warning.png");
-
-	manualImageRB_ = spBasis_->TextureData(L"Resources/RB.png");
-
-	exImage_ = spBasis_->TextureData(L"Resources/ex.png");
-
-	damageFilter_ = spBasis_->TextureData(L"Resources/damageFilter.png");
-
-	bulletRreticleImage_ = spBasis_->TextureData(L"Resources/shotReticle.png");
-
-
-	spBasis_->TextureSetting();
-
-	playerHPSprite_->Initialize();
-	playerHPSprite_->Create(50, 20);
-	playerHPSprite_->SetAncP({ 0,0 });
-
-	bossHPSprite_->Initialize();
-	bossHPSprite_->Create(640, 80);
-
-	gameoverSprite_->Initialize();
-	gameoverSprite_->Create(640, 360);
-	gameoverSprite_->SetSize({ 1280,720 });
-	gameoverSprite_->Update();
-
-	gameclearSprite_->Initialize();
-	gameclearSprite_->Create(640, 360);
-	gameclearSprite_->SetSize({ 1280,720 });
-	gameclearSprite_->Update();
-
-	reticleSprite_->Initialize();
-	reticleSprite_->Create(640, 360);
-	reticleSprite_->SetSize({ 0,0 });
-
-	sceneSprite_->Initialize();
-	sceneSprite_->Create(640, 360);
-	sceneSprite_->SetSize({ 1280,720 });
-	sceneSprite_->SetColor({ 1,1,1,1 });
-
-	fillSprite_->Initialize();
-	fillSprite_->Create(640, 360);
-	fillSprite_->SetSize({ 1280,720 });
-	fillSprite_->Update();
-
-	dFilterSprite_->Initialize();
-	dFilterSprite_->Create(640, 360);
-	dFilterSprite_->SetSize({ 1280,720 });
-	dFilterSprite_->SetColor({ 1,1,1,0 });
-	dFilterSprite_->Update();
-
-	sSprite_->Initialize();
-	sSprite_->Create(0, 0);
-	sSprite_->SetSize({ 32,32 });
-	//sSprite_->SetAncP({ 0,0 });
-	sSprite_->Update();
-
-	RBSprite_->Initialize();
-	RBSprite_->Create(0, 0);
-	RBSprite_->SetSize({ 160,160 });
-
-	iventSprite_->Initialize();
-	iventSprite_->Create(640, 360);
-	iventSprite_->SetSize({ 1280,720 });
-	iventSprite_->SetColor({ 1,1,1,0 });
-	iventSprite_->Update();
-
-	waringSprite_->Initialize();
-	waringSprite_->Create(640, 360);
-	waringSprite_->SetSize({ 1280,720 });
-	waringSprite_->Update();
-
-	bulletRreticleSprite_->Initialize();
-	bulletRreticleSprite_->Create(640, 360);
-	bulletRreticleSprite_->SetSize({ 32,32 });
-	bulletRreticleSprite_->Update();
-
 
 	//OBJからモデルを読み込む
 	playerModel_ = std::make_unique<Model>();
@@ -229,6 +130,8 @@ void GameScene::Initialize()
 	particleMan_->Update();
 
 	resetOn_ = false;
+
+	gameUI_->GameSceneInitialize();
 }
 
 void GameScene::Finalize()
@@ -250,21 +153,17 @@ void GameScene::Update()
 			isShake_ = false;
 			shakeTimer_ = 0;
 		}
-
-		randShake_.x = MyRandom::GetFloatRandom(-2.0f, 2.0f);
-		randShake_.y = MyRandom::GetFloatRandom(-2.0f, 2.0f);
+		gameUI_->Shake();
 
 		Vector3 toEye = Object3D::GetEye();
 		Vector3 toTerget = Object3D::GetTarget();
-		toEye.x += randShake_.x;
-		toEye.y += randShake_.y;
-		toTerget.x += randShake_.x;
-		toTerget.y += randShake_.y;
+		toEye.x += gameUI_->GetRandShake().x;
+		toEye.y += gameUI_->GetRandShake().y;
+		toTerget.x += gameUI_->GetRandShake().x;
+		toTerget.y += gameUI_->GetRandShake().y;
 
 		Object3D::SetEye(toEye);
 		Object3D::SetTarget(toTerget);
-		playerHPSprite_->SetPosition({ 50 + randShake_.x * 5,20 + randShake_.y * 5 });
-		bossHPSprite_->SetPosition({ 640 + randShake_.x * 5,80 + randShake_.y * 5 });
 	}
 
 	
@@ -284,7 +183,7 @@ void GameScene::Update()
 		isChangeStage_ = false;
 	}
 
-	if (ChangeAlpha_ == 0) {
+	if (gameUI_->GetGameSceneChangeAlpha() == 0) {
 		SoundManager::GetInstance()->Update(1);
 	}
 
@@ -364,41 +263,21 @@ void GameScene::Update()
 	poriObject_->SetRotation(podRot);
 	poriObject_->Update();
 
-	//レティクルUpdate
-	if (!enemys_.empty()) {
-		screenPos_ = enemys_.front()->GetObj()->Screen();
-
-		spPos_.x = screenPos_.x;
-		spPos_.y = screenPos_.y;
-
-		sSprite_->SetPosition(spPos_);
-
-		sSprite_->Update();
-
-		player_->SetEnemy(enemys_.front().get());
-	}
-
 	if (isDebugBoss_) {
 		isIvent_ = false;
 		hitBox_ = true;
 	}
 	
-	if (isIvent_) {
-		alpha_ += 0.05f;
-		alpha_ = min(alpha_, 1);
-		timer_++;
+	gameUI_->BossIventSceneUI();
 
+	if (isIvent_) {
+		timer_++;
 		iventEye_ = iventEye_.lerp(iventEye_, endEye_, Easing::EaseInCubic(timer_, maxTime_));
 
 		Vector3 tmpEye;
-		tmpEye.x = iventEye_.x;
-		tmpEye.y = iventEye_.y;
-		tmpEye.z = iventEye_.z;
-
+		tmpEye = iventEye_;
 		Vector3 target;
-		target.x = iventTarget_.x;
-		target.y = iventTarget_.y;
-		target.z = iventTarget_.z;
+		target = iventTarget_;
 
 		Object3D::SetEye(tmpEye);
 		Object3D::SetTarget(target);
@@ -420,22 +299,14 @@ void GameScene::Update()
 			eye = { 0,10,0 };
 			Object3D::SetTarget(eye);
 			iventEye_ = { 450,100,750 };
-			movieEnd_ = true;
+			//movieEnd_ = true;
+			gameUI_->SetMovieEnd(true);
 			SoundManager::GetInstance()->PlayWave("Warning.wav", 2);
 		}
-	}
-	else {
-		alpha_ -= 0.05f;
-		alpha_ = max(alpha_, 0);
 	}
 
 	//enemyの死亡フラグ
 	enemys_.remove_if([](std::unique_ptr<Enemy>& enemy) {
-		return enemy->IsDead();
-	});
-
-	//enemyの死亡フラグ
-	enemycharges_.remove_if([](std::unique_ptr<EnemyCharge>& enemy) {
 		return enemy->IsDead();
 	});
 
@@ -444,15 +315,9 @@ void GameScene::Update()
 		enemy->Update(start_);
 	}
 
-	//敵の動き
-	for (std::unique_ptr<EnemyCharge>& enemy : enemycharges_) {
-		enemy->Update();
-	}
-
 	for (std::unique_ptr<CollisionBox>& collision : collisions_) {
 		collision->Update();
 	}
-
 
 	for (std::unique_ptr<Door>& door : doors_) {
 		door->Update();
@@ -463,100 +328,18 @@ void GameScene::Update()
 
 void GameScene::SpriteUpdate()
 {
-	dFilterSprite_->Update();
-	sceneSprite_->Update();
-	iventSprite_->Update();
-	waringSprite_->Update();
-	RBSprite_->Update();
-	fillSprite_->Update();
-
-	iventSprite_->SetColor({ 1,1,1,alpha_ });
-
-	screenPosPlayer_ = playerObject_->Screen();
-	//チュートリアルUI
-	RBSprite_->SetPosition({ screenPosPlayer_.x - 175,screenPosPlayer_.y - 90 });
-
-	
-	bulletRreticleSprite_->SetPosition({ player_->GetScreenRTPos().x,player_->GetScreenRTPos().y });
-	bulletRreticleSprite_->Update();
-
-	if (!manualOK_) {
-		alphaRB_ += 0.15f;
-		alphaRB_ = min(alphaRB_, 1);
-		RBSprite_->SetColor({ 1,1,1,alphaRB_ });
-	}
-	else {
-		alphaRB_ -= 0.15f;
-		alphaRB_ = max(alphaRB_, 0);
-		RBSprite_->SetColor({ 1,1,1,alphaRB_ });
-	}
-
-	//ライフ危ない時に出るフィルター
-	if (player_->GetHP() <= 1) {
-		isLifeOne_ = true;
-	}
-	else {
-		isLifeOne_ = false;
-	}
-	//ライフ危ない時に出るフィルター
-	if (isLifeOne_) {
-		fillTimer_++;
-
-		if (fillTimer_ < 50) {
-			fillAlpha_ += 0.07f;
-			fillAlpha_ = min(fillAlpha_, 1);
-		}
-		else {
-			fillAlpha_ -= 0.05f;
-			fillAlpha_ = max(fillAlpha_, 0);
-		}
-		dFilterSprite_->SetColor({ 1,1,1,fillAlpha_ });
-
-	}
-	else {
-		fillTimer_ = 0;
-	}
+	gameUI_->SetInfo(player_.get(),playerObject_.get(),boss_.get());
+	gameUI_->boolInfo(hitBox_, isIvent_);
+	gameUI_->GameUpdate();
 
 	//シーン切り替え
 	if (start_) {
 
-		ChangeAlpha_ -= 0.05f;
-		ChangeAlpha_ = max(ChangeAlpha_, 0);
-		sceneSprite_->SetColor({ 1,1,1,ChangeAlpha_ });
+		gameUI_->SceneStartFadeUI();
 
 		if (!resetOn_) {
 			resetOn_ = true;
 			Reset();
-		}
-	}
-
-	if (hitBox_ && !isIvent_) {
-		if (count_ < 3) {
-			pow_++;
-			wSize_.y = waringSprite_->GetSize().y;
-		}
-		else {
-			pow_ = 0;
-		}
-
-		//ワーニング点滅
-		if (pow_ > 2) {
-			pow_ = 0;
-			count_++;
-		}
-
-		//点滅後の動き
-		if (count_ == 3) {
-			popFrame_++;
-
-			if (popFrame_ > 60) {
-				wTimer_++;
-				wTimer_ = min(wTimer_, wMax_);
-
-				wSize_ = wSize_.lerp({ 1280,720,0 }, { 1280,0,0 }, Easing::EaseOutCubic(wTimer_, wMax_));
-
-				waringSprite_->SetSize({ wSize_.x,wSize_.y });
-			}
 		}
 	}
 
@@ -572,71 +355,13 @@ void GameScene::SpriteUpdate()
 			boss_->Update(isIvent_);
 		}
 
-		bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
-		bossHPSprite_->Update();
+		gameUI_->BossHpUI();
 	}
-
-	//左右レティクル
-	if (gamePad_->PushButtonRB()) {
-		manualOK_ = true;
-
-		reticleSize_ = reticleSprite_->GetSize();
-		reticleSize_.x += 300;
-		reticleSize_.y += 200;
-		reticleSize_.x = min(reticleSize_.x, 1280);
-		reticleSize_.y = min(reticleSize_.y, 720);
-	}
-	else {
-		reticleSize_ = reticleSprite_->GetSize();
-		reticleSize_.x -= 300;
-		reticleSize_.y -= 200;
-		reticleSize_.x = max(reticleSize_.x, 0);
-		reticleSize_.y = max(reticleSize_.y, 0);
-	}
-
-	reticleSprite_->SetSize(reticleSize_);
-	reticleSprite_->Update();
-
-	playerHPSprite_->SetSize({ 32.0f * (float)player_->GetHP(),16.0f });
-	playerHPSprite_->Update();
 }
 
 void GameScene::SpriteDraw()
 {
-	
-	if (!isIvent_) {
-		playerHPSprite_->Draw(playerHP_);
-		reticleSprite_->Draw(reticleImage_);
-		bulletRreticleSprite_->Draw(bulletRreticleImage_);
-
-	}
-
-	if (hitBox_ == true && boss_->GetArive() == true && isIvent_ == false) {
-		bossHPSprite_->Draw(bossHP_);
-	}
-
-	if (player_->IsDead()) {
-		gameoverSprite_->Draw(gameover_);
-	}
-
-	if (!boss_->GetArive()) {
-		gameclearSprite_->Draw(gameclear_);
-	}
-	RBSprite_->Draw(manualImageRB_);
-
-	sceneSprite_->Draw(scene_);
-
-	
-	fillSprite_->Draw(fillter_);
-
-	dFilterSprite_->Draw(damageFilter_);
-
-	iventSprite_->Draw(iventImage_);
-
-	if (pow_ < 1 && hitBox_ && movieEnd_) {
-		waringSprite_->Draw(warningImage_);
-	}
-
+	gameUI_->GameDraw();
 }
 
 void GameScene::ObjectUpdate()
@@ -705,11 +430,6 @@ void GameScene::Draw()
 		}
 	}
 
-	//敵の動き
-	for (std::unique_ptr<EnemyCharge>& enemy : enemycharges_) {
-		enemy->Draw();
-	}
-
 	if (hitBox_ == true && boss_->GetArive() == true) {
 		boss_->Draw();
 	}
@@ -726,14 +446,8 @@ void GameScene::Draw()
 		poriObject_->Draw();
 		isShotEffect_ = false;
 	}
-	
-	//fbx
-	//testObj_->Draw();
 
 	SpriteDraw();
-	
-	//sSprite_->Draw(targetImage_);
-	
 }
 
 void GameScene::pDraw()
@@ -743,14 +457,12 @@ void GameScene::pDraw()
 	if (!isIvent_) {
 		player_->pDraw();
 	}
-	
 }
 
 void GameScene::EditorLoad(const std::string filename)
 {
 	objects.clear();
 	enemys_.clear();
-	enemycharges_.clear();
 	doors_.clear();
 	ReLoad(filename);
 }
@@ -828,7 +540,6 @@ void GameScene::ReLoad(const std::string filename)
 			Inport(model, i);
 
 			dPoint_->Initialize(model, newObject[objSize_].get());
-			//eventBox_->Initialize(model, newObject[objSize_].get());
 			objSize_++;
 		}
 		else if (levelData_->objects[i].fileName == "dr") {
@@ -980,9 +691,6 @@ void GameScene::Inport(Model* model, int32_t size)
 
 void GameScene::Reset()
 {
-	isIvent_ = false;
-	pow_ = 0;
-	count_ = 0;
 	timer_ = 0;
 	alpha_ = 0;
 	bossBGM_ = false;
@@ -996,7 +704,7 @@ void GameScene::Reset()
 		door->SetTutorial(true);
 	}
 
-	waringSprite_->SetSize({ 1280,720 });
+	gameUI_->Reset();
 }
 
 bool GameScene::Collison(Vector3 posa, Vector3 posb, float aScale, float bScale)

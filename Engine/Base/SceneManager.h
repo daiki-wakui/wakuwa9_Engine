@@ -1,36 +1,28 @@
 #pragma once
 #include "TitleScene.h"
 #include "GameScene.h"
-#include "KeyBoard.h"
-#include "GamePad.h"
 
-#include "Object3D.h"
-#include "FbxLoader.h"
-#include "FbxObject3d.h"
-#include "ParticleManager.h"
-
-#include <fstream>
-#include <cassert>
-#include <map>
 #include <memory>
-#include <string>
-#include <DirectXTex.h>
-#include <DirectXMath.h>
-#include <d3dcompiler.h>
-#include <cstdint>
+
+enum Scene{
+	TITLE,
+	GAME
+};
 
 class SceneManager
 {
 private:
 
-	std::unique_ptr<GameScene> gamescene_ = std::make_unique<GameScene>();
-	std::unique_ptr<TitleScene> titlescene_ = std::make_unique<TitleScene>();
+	//キーボードクラスとゲームパッドを使えるように
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 	GamePad* gamePad_ = GamePad::GetInstance();
 
-	int32_t state = 0;
+	//シーンの追加
+	std::unique_ptr<GameScene> gamescene_ = std::make_unique<GameScene>();
+	std::unique_ptr<TitleScene> titlescene_ = std::make_unique<TitleScene>();
 
-	bool sceneChange_ = 0;
+	//現在のシーン
+	int32_t nowScene_ = 0;
 
 public:
 
@@ -43,12 +35,14 @@ public:
 	void ParticleDraw();
 	void OffEffectDraw();
 
-	int32_t GetSceneState() { return state; }
+	//タイトルシーンからゲームシーンに変わる時
+	bool ChangeToGameScene();
+	bool ChangeToTitleScene();
+
+public: //getter
+
+	int32_t GetSceneState() { return nowScene_; }
 	GameScene* GetGameScene() { return gamescene_.get(); }
 	TitleScene* GetTitleScene() { return titlescene_.get(); }
-
-	bool ChangeToGameScene();
-
-	//void SetNextScene(BaseScene* nextScene) { nextScene_ = nextScene; }
 };
 

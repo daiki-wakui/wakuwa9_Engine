@@ -1,19 +1,16 @@
 #pragma once
 #include "Framework.h"
 #include "BaseScene.h"
+#include "GameUI.h"
 
 #include "Model.h"
-#include "Sprite.h"
 #include "EventBox.h"
-#include "Player.h"
 #include "Enemy.h"
-#include "EnemyCharge.h"
-#include "Boss.h"
 #include "CollisionBox.h"
 #include "Door.h"
 
 #include "LevelLoader.h"
-#include "Easing.h"
+
 #include "Effect.h"
 #include "DebugPoint.h"
 
@@ -97,72 +94,10 @@ private:	//メンバ変数
 
 	std::unique_ptr<Model> konnpeModel_;
 
-	//スプライト
-	std::unique_ptr<Sprite> playerHPSprite_ = std::make_unique<Sprite>();
-	std::unique_ptr<Sprite> bossHPSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> titleSprite_ = std::make_unique<Sprite>();
-	std::unique_ptr<Sprite> gameoverSprite_ = std::make_unique<Sprite>();
-	std::unique_ptr<Sprite> gameclearSprite_ = std::make_unique<Sprite>();
-	std::unique_ptr<Sprite> fillSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> sceneSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> reticleSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> sSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> iventSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> RBSprite_ = std::make_unique<Sprite>();
-	std::unique_ptr<Sprite> dFilterSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> bulletRreticleSprite_ = std::make_unique<Sprite>();
-
-
-	bool isLifeOne_ = false;
-	float fillAlpha_ = 0;
-	int32_t fillTimer_ = 0;
 	int32_t sockSound_ = 0;
 
-	int32_t pow_ = 0;
-	int32_t count_ = 0;
-	float wTimer_ = 0;
-	float wMax_ = 10;
-	float popFrame_ = 0;
+	std::unique_ptr<GameUI> gameUI_ = std::make_unique<GameUI>();
 
-	Vector3 wSize_ = {};
-	bool movieEnd_ = false;
-
-	std::unique_ptr<Sprite> waringSprite_ = std::make_unique<Sprite>();
-
-	//画像
-
-	//HP
-	int32_t playerHP_ = 0;
-	int32_t bossHP_ = 0;
-
-	//タイトル
-	int32_t title_ = 0;
-	int32_t gameover_ = 0;
-	int32_t gameclear_ = 0;
-	int32_t scene_ = 0;
-	int32_t fillter_ = 0;
-
-	int32_t reticleImage_ = 0;
-
-	int32_t tesImage_ = 0;
-	int32_t targetImage_ = 0;
-
-	int32_t iventImage_ = 0;
-	int32_t warningImage_ = 0;
-	int32_t manualImageRB_ = 0;
-
-	int32_t exImage_ = 0;
-
-	int32_t damageFilter_ = 0;
-
-	int32_t bulletRreticleImage_ = 0;
 
 	//player
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
@@ -180,14 +115,12 @@ private:	//メンバ変数
 	std::map<std::string, Model*> models;
 	std::vector<Object3D*> objects;
 	std::list<std::unique_ptr<Enemy>> enemys_;
-	std::list<std::unique_ptr<EnemyCharge>> enemycharges_;
 	std::list<std::unique_ptr<CollisionBox>> collisions_;
 	std::list<std::unique_ptr<Door>> doors_;
 
 	
 	std::unique_ptr<Object3D> newObject[1000] = {};
 	std::unique_ptr<Enemy> newEnemy[1000] = {};
-	std::unique_ptr<EnemyCharge> newEnemy2[1000] = {};
 	std::unique_ptr<CollisionBox> collBox[1000] = {};
 	std::unique_ptr<Door> newDoor[100] = {};
 
@@ -210,8 +143,7 @@ private:	//メンバ変数
 	bool bossBGM_ = false;
 
 	
-	XMFLOAT2 reticleSize_ = {0,720};
-
+	
 	Vector3 screenPos_ = {};
 	XMFLOAT2 spPos_ = {};
 
@@ -226,9 +158,6 @@ private:	//メンバ変数
 	float maxTime_ = 300;
 
 
-	Vector3 screenPosPlayer_ = {};
-	bool manualOK_ = false;
-	float alphaRB_ = 0;
 	float addYRB_ = 0;
 	XMFLOAT2 posRB_ = {};
 
@@ -239,7 +168,7 @@ private:	//メンバ変数
 	int32_t coolTime_ = 7;
 	bool isShotEffect_ = false;
 
-	float ChangeAlpha_ = 1;
+	
 	bool resetOn_ = false;
 
 	bool hitBox_ = true;
@@ -250,12 +179,12 @@ private:	//メンバ変数
 
 	bool isDebugBoss_ = false;
 
-	XMFLOAT3 randShake_;
+	
 	bool isShake_;
 	int32_t shakeTimer_;
 
 public:
-
+	
 	bool Collison(Vector3 posa, Vector3 posb, float aScale, float bScale);
 	void AllCollison();
 
@@ -285,13 +214,19 @@ public:
 
 	void Reset();
 
-public:
+public:	//getter,setter
 
 	DebugPoint* GetDebugPoint() { return dPoint_.get(); }
 	Player* GetPlayer() { return player_.get(); }
+	Boss* GetBoss() { return boss_.get(); }
+
 	bool GetChange() { return change_; }
 	void SetChange(bool change) { change_ = change; }
 	bool GetStart() { return start_; }
 	void SetStart(bool start) { start_ = start; }
+
+
+	bool GetHitBox() { return hitBox_; }
+	bool GetIsIvent() { return isIvent_; }
 };
 
