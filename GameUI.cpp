@@ -1,5 +1,6 @@
 #include "GameUI.h"
 #include "MyRandom.h"
+#include "Easing.h"
 
 GameUI::GameUI()
 {
@@ -9,10 +10,17 @@ GameUI::~GameUI()
 {
 }
 
-void GameUI::SetInfo(Player* player ,Object3D* playerObject)
+void GameUI::SetInfo(Player* player ,Object3D* playerObject, Boss* boss)
 {
 	player_ = player;
 	playerObject_ = playerObject;
+	boss_ = boss;
+}
+
+void GameUI::boolInfo(bool hitBox, bool isIvent)
+{
+	hitBox_ = hitBox;
+	isIvent_ = isIvent;
 }
 
 void GameUI::TitleSceneInitialize()
@@ -83,12 +91,6 @@ void GameUI::GameSceneInitialize()
 	dFilterSprite_->SetColor({ 1,1,1,0 });
 	dFilterSprite_->Update();
 
-	sSprite_->Initialize();
-	sSprite_->Create(0, 0);
-	sSprite_->SetSize({ 32,32 });
-	//sSprite_->SetAncP({ 0,0 });
-	sSprite_->Update();
-
 	RBSprite_->Initialize();
 	RBSprite_->Create(0, 0);
 	RBSprite_->SetSize({ 160,160 });
@@ -118,35 +120,39 @@ void GameUI::TitleUpdate(bool sceneChange)
 	sceneSprite_->Update();
 
 	if (sceneChange) {
-		ChangeAlpha_ += 0.05f;
-		ChangeAlpha_ = min(ChangeAlpha_, 1);
-		sceneSprite_->SetColor({ 1, 1, 1, ChangeAlpha_ });
+		ChangeTitleAlpha_ += 0.05f;
+		ChangeTitleAlpha_ = min(ChangeTitleAlpha_, 1);
+		sceneSprite_->SetColor({ 1, 1, 1, ChangeTitleAlpha_ });
 	}
 	else {
-		ChangeAlpha_ = 0;
-		sceneSprite_->SetColor({ 1, 1, 1, ChangeAlpha_ });
+		ChangeTitleAlpha_ = 0;
+		sceneSprite_->SetColor({ 1, 1, 1, ChangeTitleAlpha_ });
 	}
 
 }
 
 void GameUI::GameUpdate()
 {
-	dFilterSprite_->Update();
-	sceneSprite_->Update();
-	iventSprite_->Update();
-	waringSprite_->Update();
-	RBSprite_->Update();
-	fillSprite_->Update();
-
 	iventSprite_->SetColor({ 1,1,1,iventAlpha_ });
-
 	playerHPSprite_->SetSize({ 32.0f * (float)player_->GetHP(),16.0f });
-	playerHPSprite_->Update();
 
+	//チュートリアルUI
+	RBSprite_->SetPosition({ screenPosPlayer_.x - 175,screenPosPlayer_.y - 90 });
+
+	if (!isManual_) {
+		alphaRB_ += 0.15f;
+		alphaRB_ = min(alphaRB_, 1);
+		RBSprite_->SetColor({ 1,1,1,alphaRB_ });
+	}
+	else {
+		alphaRB_ -= 0.15f;
+		alphaRB_ = max(alphaRB_, 0);
+		RBSprite_->SetColor({ 1,1,1,alphaRB_ });
+	}
 
 	//弾を打ったときの左右レティクル
 	if (gamePad_->PushButtonRB()) {
-		//manualOK_ = true;
+		isManual_ = true;
 
 		reticleSize_ = reticleSprite_->GetSize();
 		reticleSize_.x += 300;
@@ -163,13 +169,78 @@ void GameUI::GameUpdate()
 	}
 
 	reticleSprite_->SetSize(reticleSize_);
-	reticleSprite_->Update();
-
+	
 	//プレイヤーの3D座標をスクリーン変換した座標
 	screenPosPlayer_ = playerObject_->Screen();
 
 	//プレイヤーのレティクル座標
 	bulletRreticleSprite_->SetPosition({ player_->GetScreenRTPos().x,player_->GetScreenRTPos().y });
+	
+	//ライフ危ない時に出るフィルター
+	if (player_->GetHP() <= 1) {
+		isLifeOne_ = true;
+	}
+	else {
+		isLifeOne_ = false;
+	}
+	//ライフ危ない時に出るフィルター
+	if (isLifeOne_) {
+		fillTimer_++;
+
+		if (fillTimer_ < 50) {
+			fillAlpha_ += 0.07f;
+			fillAlpha_ = min(fillAlpha_, 1);
+		}
+		else {
+			fillAlpha_ -= 0.05f;
+			fillAlpha_ = max(fillAlpha_, 0);
+		}
+		dFilterSprite_->SetColor({ 1,1,1,fillAlpha_ });
+
+	}
+	else {
+		fillTimer_ = 0;
+	}
+
+
+	if (hitBox_ && !isIvent_) {
+		if (count_ < 3) {
+			pow_++;
+			wSize_.y = waringSprite_->GetSize().y;
+		}
+		else {
+			pow_ = 0;
+		}
+
+		//ワーニング点滅
+		if (pow_ > 2) {
+			pow_ = 0;
+			count_++;
+		}
+
+		//点滅後の動き
+		if (count_ == 3) {
+			popFrame_++;
+
+			if (popFrame_ > 60) {
+				wTimer_++;
+				wTimer_ = min(wTimer_, wMax_);
+
+				wSize_ = wSize_.lerp({ 1280,720,0 }, { 1280,0,0 }, Easing::EaseOutCubic(wTimer_, wMax_));
+
+				waringSprite_->SetSize({ wSize_.x,wSize_.y });
+			}
+		}
+	}
+
+	dFilterSprite_->Update();
+	sceneSprite_->Update();
+	iventSprite_->Update();
+	waringSprite_->Update();
+	RBSprite_->Update();
+	fillSprite_->Update();
+	playerHPSprite_->Update();
+	reticleSprite_->Update();
 	bulletRreticleSprite_->Update();
 }
 
@@ -180,27 +251,49 @@ void GameUI::TitleDraw()
 	sceneSprite_->Draw(sceneChangeImage_);
 }
 
+void GameUI::Reset()
+{
+	ChangeGameAlpha_ = 1;
+	pow_ = 0;
+	count_ = 0;
+	waringSprite_->SetSize({ 1280,720 });
+}
+
 void GameUI::GameDraw()
 {
-	playerHPSprite_->Draw(playerHP_);
-	reticleSprite_->Draw(reticleImage_);
-	bulletRreticleSprite_->Draw(bulletRreticleImage_);
 
-	///bossHPSprite_->Draw(bossHP_);
+	//ボスのイベントムービー中は非表示
+	if (!isIvent_) {
+		playerHPSprite_->Draw(playerHP_);
+		reticleSprite_->Draw(reticleImage_);
+		bulletRreticleSprite_->Draw(bulletRreticleImage_);
+	}
 
-//	gameoverSprite_->Draw(gameover_);
+	//ボスが現れたら表示
+	if (hitBox_ == true && boss_->GetArive() == true && isIvent_ == false) {
+		bossHPSprite_->Draw(bossHP_);
+	}
+	
+	//ゲームオーバー表示
+	if (player_->IsDead()) {
+		gameoverSprite_->Draw(gameover_);
+	}
 
-	//gameclearSprite_->Draw(gameclear_);
+	//ゲームクリア表示
+	if (!boss_->GetArive()) {
+		gameclearSprite_->Draw(gameclear_);
+	}
+	
+	if (pow_ < 1 && hitBox_ && movieEnd_) {
+		waringSprite_->Draw(warningImage_);
+	}
 
 
-
-	//RBSprite_->Draw(manualImageRB_);
-	//sceneSprite_->Draw(sceneChangeImage_);
-	//fillSprite_->Draw(filterImage_);
-	//dFilterSprite_->Draw(damageFilter_);
-	//iventSprite_->Draw(iventImage_);
-
-//	waringSprite_->Draw(warningImage_);
+	RBSprite_->Draw(manualImageRB_);
+	sceneSprite_->Draw(sceneChangeImage_);
+	fillSprite_->Draw(filterImage_);
+	dFilterSprite_->Draw(damageFilter_);
+	iventSprite_->Draw(iventImage_);
 }
 
 void GameUI::OffDraw()
@@ -215,4 +308,27 @@ void GameUI::Shake()
 
 	playerHPSprite_->SetPosition({ 50 + randShake_.x * 5,20 + randShake_.y * 5 });
 	bossHPSprite_->SetPosition({ 640 + randShake_.x * 5,80 + randShake_.y * 5 });
+}
+
+void GameUI::BossHpUI()
+{
+	bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
+	bossHPSprite_->Update();
+}
+
+void GameUI::SceneStartFadeUI() {
+	ChangeGameAlpha_ -= 0.05f;
+	ChangeGameAlpha_ = max(ChangeGameAlpha_, 0);
+	sceneSprite_->SetColor({ 1,1,1,ChangeGameAlpha_ });
+}
+
+void GameUI::BossIventSceneUI() {
+	if (isIvent_) {
+		iventAlpha_ += 0.05f;
+		iventAlpha_ = min(iventAlpha_, 1);
+	}
+	else {
+		iventAlpha_ -= 0.05f;
+		iventAlpha_ = max(iventAlpha_, 0);
+	}
 }

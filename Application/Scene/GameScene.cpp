@@ -184,7 +184,7 @@ void GameScene::Update()
 		isChangeStage_ = false;
 	}
 
-	if (ChangeAlpha_ == 0) {
+	if (gameUI_->GetGameSceneChangeAlpha() == 0) {
 		SoundManager::GetInstance()->Update(1);
 	}
 
@@ -269,22 +269,16 @@ void GameScene::Update()
 		hitBox_ = true;
 	}
 	
-	if (isIvent_) {
-		alpha_ += 0.05f;
-		alpha_ = min(alpha_, 1);
-		timer_++;
+	gameUI_->BossIventSceneUI();
 
+	if (isIvent_) {
+		timer_++;
 		iventEye_ = iventEye_.lerp(iventEye_, endEye_, Easing::EaseInCubic(timer_, maxTime_));
 
 		Vector3 tmpEye;
-		tmpEye.x = iventEye_.x;
-		tmpEye.y = iventEye_.y;
-		tmpEye.z = iventEye_.z;
-
+		tmpEye = iventEye_;
 		Vector3 target;
-		target.x = iventTarget_.x;
-		target.y = iventTarget_.y;
-		target.z = iventTarget_.z;
+		target = iventTarget_;
 
 		Object3D::SetEye(tmpEye);
 		Object3D::SetTarget(target);
@@ -306,13 +300,10 @@ void GameScene::Update()
 			eye = { 0,10,0 };
 			Object3D::SetTarget(eye);
 			iventEye_ = { 450,100,750 };
-			movieEnd_ = true;
+			//movieEnd_ = true;
+			gameUI_->SetMovieEnd(true);
 			SoundManager::GetInstance()->PlayWave("Warning.wav", 2);
 		}
-	}
-	else {
-		alpha_ -= 0.05f;
-		alpha_ = max(alpha_, 0);
 	}
 
 	//enemyの死亡フラグ
@@ -349,89 +340,18 @@ void GameScene::Update()
 
 void GameScene::SpriteUpdate()
 {
-	gameUI_->SetInfo(player_.get(),playerObject_.get());
+	gameUI_->SetInfo(player_.get(),playerObject_.get(),boss_.get());
+	gameUI_->boolInfo(hitBox_, isIvent_);
 	gameUI_->GameUpdate();
-
-	//チュートリアルUI
-	//RBSprite_->SetPosition({ screenPosPlayer_.x - 175,screenPosPlayer_.y - 90 });
-
-	if (!manualOK_) {
-		alphaRB_ += 0.15f;
-		alphaRB_ = min(alphaRB_, 1);
-	//	RBSprite_->SetColor({ 1,1,1,alphaRB_ });
-	}
-	else {
-		alphaRB_ -= 0.15f;
-		alphaRB_ = max(alphaRB_, 0);
-	//	RBSprite_->SetColor({ 1,1,1,alphaRB_ });
-	}
-
-	//ライフ危ない時に出るフィルター
-	if (player_->GetHP() <= 1) {
-		isLifeOne_ = true;
-	}
-	else {
-		isLifeOne_ = false;
-	}
-	//ライフ危ない時に出るフィルター
-	if (isLifeOne_) {
-		fillTimer_++;
-
-		if (fillTimer_ < 50) {
-			fillAlpha_ += 0.07f;
-			fillAlpha_ = min(fillAlpha_, 1);
-		}
-		else {
-			fillAlpha_ -= 0.05f;
-			fillAlpha_ = max(fillAlpha_, 0);
-		}
-	//	dFilterSprite_->SetColor({ 1,1,1,fillAlpha_ });
-
-	}
-	else {
-		fillTimer_ = 0;
-	}
 
 	//シーン切り替え
 	if (start_) {
 
-		ChangeAlpha_ -= 0.05f;
-		ChangeAlpha_ = max(ChangeAlpha_, 0);
-	//	sceneSprite_->SetColor({ 1,1,1,ChangeAlpha_ });
+		gameUI_->SceneStartFadeUI();
 
 		if (!resetOn_) {
 			resetOn_ = true;
 			Reset();
-		}
-	}
-
-	if (hitBox_ && !isIvent_) {
-		if (count_ < 3) {
-			pow_++;
-	//		wSize_.y = waringSprite_->GetSize().y;
-		}
-		else {
-			pow_ = 0;
-		}
-
-		//ワーニング点滅
-		if (pow_ > 2) {
-			pow_ = 0;
-			count_++;
-		}
-
-		//点滅後の動き
-		if (count_ == 3) {
-			popFrame_++;
-
-			if (popFrame_ > 60) {
-				wTimer_++;
-				wTimer_ = min(wTimer_, wMax_);
-
-				wSize_ = wSize_.lerp({ 1280,720,0 }, { 1280,0,0 }, Easing::EaseOutCubic(wTimer_, wMax_));
-
-	//			waringSprite_->SetSize({ wSize_.x,wSize_.y });
-			}
 		}
 	}
 
@@ -447,39 +367,13 @@ void GameScene::SpriteUpdate()
 			boss_->Update(isIvent_);
 		}
 
-	//	bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
-	//	bossHPSprite_->Update();
+		gameUI_->BossHpUI();
 	}
 }
 
 void GameScene::SpriteDraw()
 {
 	gameUI_->GameDraw();
-
-	//if (!isIvent_) {
-	//	/*playerHPSprite_->Draw(playerHP_);
-	//	reticleSprite_->Draw(reticleImage_);
-	//	bulletRreticleSprite_->Draw(bulletRreticleImage_);*/
-
-	//}
-
-	//if (hitBox_ == true && boss_->GetArive() == true && isIvent_ == false) {
-	//	
-	//}
-
-	//if (player_->IsDead()) {
-	//	
-	//}
-
-	//if (!boss_->GetArive()) {
-	//	
-	//}
-	
-
-	/*if (pow_ < 1 && hitBox_ && movieEnd_) {
-		
-	}*/
-
 }
 
 void GameScene::ObjectUpdate()
@@ -569,14 +463,8 @@ void GameScene::Draw()
 		poriObject_->Draw();
 		isShotEffect_ = false;
 	}
-	
-	//fbx
-	//testObj_->Draw();
 
 	SpriteDraw();
-	
-	//sSprite_->Draw(targetImage_);
-	
 }
 
 void GameScene::pDraw()
@@ -586,7 +474,6 @@ void GameScene::pDraw()
 	if (!isIvent_) {
 		player_->pDraw();
 	}
-	
 }
 
 void GameScene::EditorLoad(const std::string filename)
@@ -823,9 +710,6 @@ void GameScene::Inport(Model* model, int32_t size)
 
 void GameScene::Reset()
 {
-	isIvent_ = false;
-	pow_ = 0;
-	count_ = 0;
 	timer_ = 0;
 	alpha_ = 0;
 	bossBGM_ = false;
@@ -839,7 +723,7 @@ void GameScene::Reset()
 		door->SetTutorial(true);
 	}
 
-	//waringSprite_->SetSize({ 1280,720 });
+	gameUI_->Reset();
 }
 
 bool GameScene::Collison(Vector3 posa, Vector3 posb, float aScale, float bScale)

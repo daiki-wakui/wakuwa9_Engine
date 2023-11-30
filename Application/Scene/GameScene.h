@@ -98,53 +98,7 @@ private:	//メンバ変数
 
 	std::unique_ptr<Model> konnpeModel_;
 
-
-
-
-	bool isLifeOne_ = false;
-	float fillAlpha_ = 0;
-	int32_t fillTimer_ = 0;
 	int32_t sockSound_ = 0;
-
-	int32_t pow_ = 0;
-	int32_t count_ = 0;
-	float wTimer_ = 0;
-	float wMax_ = 10;
-	float popFrame_ = 0;
-
-	Vector3 wSize_ = {};
-	bool movieEnd_ = false;
-
-	
-	//画像
-
-	//HP
-	int32_t playerHP_ = 0;
-	int32_t bossHP_ = 0;
-
-	//タイトル
-	int32_t title_ = 0;
-	int32_t gameover_ = 0;
-	int32_t gameclear_ = 0;
-	int32_t scene_ = 0;
-	int32_t fillter_ = 0;
-
-	int32_t reticleImage_ = 0;
-
-	int32_t tesImage_ = 0;
-	int32_t targetImage_ = 0;
-
-	int32_t iventImage_ = 0;
-	int32_t warningImage_ = 0;
-	int32_t manualImageRB_ = 0;
-
-	int32_t exImage_ = 0;
-
-	int32_t damageFilter_ = 0;
-
-	int32_t bulletRreticleImage_ = 0;
-
-
 
 	std::unique_ptr<GameUI> gameUI_ = std::make_unique<GameUI>();
 
@@ -210,9 +164,6 @@ private:	//メンバ変数
 	float maxTime_ = 300;
 
 
-	
-	bool manualOK_ = false;
-	float alphaRB_ = 0;
 	float addYRB_ = 0;
 	XMFLOAT2 posRB_ = {};
 
@@ -223,7 +174,7 @@ private:	//メンバ変数
 	int32_t coolTime_ = 7;
 	bool isShotEffect_ = false;
 
-	float ChangeAlpha_ = 1;
+	
 	bool resetOn_ = false;
 
 	bool hitBox_ = true;
@@ -269,14 +220,19 @@ public:
 
 	void Reset();
 
-public:
+public:	//getter,setter
 
 	DebugPoint* GetDebugPoint() { return dPoint_.get(); }
 	Player* GetPlayer() { return player_.get(); }
+	Boss* GetBoss() { return boss_.get(); }
 
 	bool GetChange() { return change_; }
 	void SetChange(bool change) { change_ = change; }
 	bool GetStart() { return start_; }
 	void SetStart(bool start) { start_ = start; }
+
+
+	bool GetHitBox() { return hitBox_; }
+	bool GetIsIvent() { return isIvent_; }
 };
 

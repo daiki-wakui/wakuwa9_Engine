@@ -5,6 +5,7 @@ SceneManager::~SceneManager()
 	
 }
 
+//初期化
 void SceneManager::Initialize()
 {
 	gamescene_->Initialize();
@@ -12,24 +13,28 @@ void SceneManager::Initialize()
 	titlescene_->Initialize();
 }
 
+//更新処理
 void SceneManager::Update()
 {
-	//タイトルシーンからシーン遷移開始
 	if (keyboard_->keyInstantPush(DIK_SPACE) || gamePad_->PushInstantB()) {
 
-		if (state == 0) {
+		//タイトルシーンからシーン遷移開始
+		if (nowScene_ == TITLE) {
 			titlescene_->SetStart(true);
 			gamescene_->SetChange(false);
 			gamescene_->Reset();
 		}
 	}
 
-
+	//シーン遷移可能なら変える処理
 	if (ChangeToGameScene()) {
-		state = 1;	//ゲームシーン
+		nowScene_ = GAME;	//ゲームシーン
 		gamescene_->SetStart(true);
 	}
 
+	if (ChangeToTitleScene()) {
+		nowScene_ = TITLE;	
+	}
 
 	//タイトルシーンに戻る
 	if (keyboard_->keyInstantPush(DIK_T)) {
@@ -41,7 +46,7 @@ void SceneManager::Update()
 	}
 
 	//タイトルシーンの更新処理
-	if (state == 0) {
+	if (nowScene_ == TITLE) {
 		titlescene_->Update();
 		
 	}
@@ -49,18 +54,12 @@ void SceneManager::Update()
 	else {
 		gamescene_->Update();
 	}
-
-	if (gamescene_->GetChange()) {
-		state = 0;
-	}
-
-
 }
 
 void SceneManager::Draw()
 {
 	//タイトルシーン描画
-	if (state == 0) {
+	if (nowScene_ == TITLE) {
 		titlescene_->Draw();
 	}
 	//ゲームシーン描画
@@ -69,25 +68,39 @@ void SceneManager::Draw()
 	}
 }
 
+//後始末
 void SceneManager::Finalize()
 {
 	titlescene_->Finalize();
 	gamescene_->Finalize();
 }
 
+//パーティクルの描画
 void SceneManager::ParticleDraw()
 {
 	gamescene_->pDraw();
 }
 
+//ポストエフェクトをかけないスプライト描画
 void SceneManager::OffEffectDraw()
 {
 	titlescene_->OffDraw();
 }
 
+//ゲームシーンに遷移するかの関数
 bool SceneManager::ChangeToGameScene()
 {
 	if (titlescene_->GetChange()) {
+		return true;
+	}
+
+	return false;
+}
+
+//タイトルシーンに遷移するかの関数
+bool SceneManager::ChangeToTitleScene()
+{
+	if (gamescene_->GetChange()) {
 		return true;
 	}
 

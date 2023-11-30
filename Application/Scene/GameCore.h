@@ -15,12 +15,6 @@
 #include <d3dcompiler.h>
 #include <cstdint>
 
-enum SceneList
-{
-	TITLE,
-	GAME,
-};
-
 class GameCore : public Framework 
 {
 private:

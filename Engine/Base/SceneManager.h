@@ -19,6 +19,11 @@
 #include <d3dcompiler.h>
 #include <cstdint>
 
+enum Scene{
+	TITLE,
+	GAME
+};
+
 class SceneManager
 {
 private:
@@ -27,12 +32,12 @@ private:
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 	GamePad* gamePad_ = GamePad::GetInstance();
 
+	//シーンの追加
 	std::unique_ptr<GameScene> gamescene_ = std::make_unique<GameScene>();
 	std::unique_ptr<TitleScene> titlescene_ = std::make_unique<TitleScene>();
 
-	//bool sceneChange_ = 0;
-
-	int32_t state = 0;
+	//現在のシーン
+	int32_t nowScene_ = 0;
 
 public:
 
@@ -45,11 +50,14 @@ public:
 	void ParticleDraw();
 	void OffEffectDraw();
 
-	int32_t GetSceneState() { return state; }
-	GameScene* GetGameScene() { return gamescene_.get(); }
-	TitleScene* GetTitleScene() { return titlescene_.get(); }
-
 	//タイトルシーンからゲームシーンに変わる時
 	bool ChangeToGameScene();
+	bool ChangeToTitleScene();
+
+public: //getter
+
+	int32_t GetSceneState() { return nowScene_; }
+	GameScene* GetGameScene() { return gamescene_.get(); }
+	TitleScene* GetTitleScene() { return titlescene_.get(); }
 };
 
