@@ -118,6 +118,18 @@
     <Filter Include="ヘッダー ファイル\Application\GameObject">
       <UniqueIdentifier>{15e32323-1e89-480c-b2f4-20da756297db}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Application\OutGameSystem">
+      <UniqueIdentifier>{d402b9fa-08c0-480c-9a47-6b90514b5dc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application\OutGameSystem">
+      <UniqueIdentifier>{81fd218f-781b-4f4f-a2a7-0ddacea818ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application\AssetManager">
+      <UniqueIdentifier>{09560a3e-0127-42c9-b506-62498f048498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application\AssetManager">
+      <UniqueIdentifier>{cc143b6f-374b-4547-9fb5-e5c3f48bc05f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -146,12 +158,6 @@
     </ClCompile>
     <ClCompile Include="Engine\2d\SpriteBasis.cpp">
       <Filter>ソース ファイル\Engine\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3d\CollisionBox.cpp">
-      <Filter>ソース ファイル\Engine\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\3d\EventBox.cpp">
-      <Filter>ソース ファイル\Engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\3d\FbxLoader.cpp">
       <Filter>ソース ファイル\Engine\3d</Filter>
@@ -202,9 +208,6 @@
       <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\LevelLoader.cpp">
-      <Filter>ソース ファイル\Engine\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Base\SceneManager.cpp">
       <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Base\WindowsApp.cpp">
@@ -261,17 +264,26 @@
     <ClCompile Include="Application\GameField\LevelEditor.cpp">
       <Filter>ソース ファイル\Application\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\Math\MyRandom.cpp">
+      <Filter>ソース ファイル\Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="GameUI.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\Scene\SceneManager.cpp">
+      <Filter>ソース ファイル\Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="MyRandom.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\GameObject\CollisionBox.cpp">
+      <Filter>ソース ファイル\Application\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Pause.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\GameObject\EventBox.cpp">
+      <Filter>ソース ファイル\Application\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\OutGameSystem\GameUI.cpp">
+      <Filter>ソース ファイル\Application\OutGameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\OutGameSystem\Pause.cpp">
+      <Filter>ソース ファイル\Application\OutGameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\AssetManager\TextureManager.cpp">
+      <Filter>ソース ファイル\Application\AssetManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -298,12 +310,6 @@
     </ClInclude>
     <ClInclude Include="Engine\2d\SpriteBasis.h">
       <Filter>ヘッダー ファイル\Engine\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3d\CollisionBox.h">
-      <Filter>ヘッダー ファイル\Engine\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\3d\EventBox.h">
-      <Filter>ヘッダー ファイル\Engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\3d\FbxLoader.h">
       <Filter>ヘッダー ファイル\Engine\3d</Filter>
@@ -354,9 +360,6 @@
       <Filter>ヘッダー ファイル\Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\LevelLoader.h">
-      <Filter>ヘッダー ファイル\Engine\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Base\SceneManager.h">
       <Filter>ヘッダー ファイル\Engine\Base</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Base\WindowsApp.h">
@@ -413,17 +416,26 @@
     <ClInclude Include="Application\GameField\LevelEditor.h">
       <Filter>ヘッダー ファイル\Application\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\Math\MyRandom.h">
+      <Filter>ヘッダー ファイル\Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="GameUI.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\Scene\SceneManager.h">
+      <Filter>ヘッダー ファイル\Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="MyRandom.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\GameObject\CollisionBox.h">
+      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Pause.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\GameObject\EventBox.h">
+      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\OutGameSystem\GameUI.h">
+      <Filter>ヘッダー ファイル\Application\OutGameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\OutGameSystem\Pause.h">
+      <Filter>ヘッダー ファイル\Application\OutGameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\AssetManager\TextureManager.h">
+      <Filter>ヘッダー ファイル\Application\AssetManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
