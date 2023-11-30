@@ -231,9 +231,6 @@ void Player::Update()
 	if (inputPad_->PushButtonRB()) {
 		coolTime--;
 	}
-	else if (inputPad_->PushInstantA()) {
-		Missle();
-	}
 
 	Shot();
 

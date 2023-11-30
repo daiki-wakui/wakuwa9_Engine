@@ -2,7 +2,7 @@
 
 void TitleScene::Initialize()
 {
-	titleUI_->Initialize();
+	titleUI_->TitleSceneInitialize();
 
 	skydomModel_ = std::make_unique<Model>();
 	skydomModel_->LoadFromObj("world2");
@@ -56,7 +56,7 @@ void TitleScene::Draw()
 	skyObject_->Draw();
 
 
-	titleUI_->Draw();
+	titleUI_->TitleDraw();
 }
 
 void TitleScene::OffDraw()

@@ -23,14 +23,16 @@ class SceneManager
 {
 private:
 
-	std::unique_ptr<GameScene> gamescene_ = std::make_unique<GameScene>();
-	std::unique_ptr<TitleScene> titlescene_ = std::make_unique<TitleScene>();
+	//キーボードクラスとゲームパッドを使えるように
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 	GamePad* gamePad_ = GamePad::GetInstance();
 
-	int32_t state = 0;
+	std::unique_ptr<GameScene> gamescene_ = std::make_unique<GameScene>();
+	std::unique_ptr<TitleScene> titlescene_ = std::make_unique<TitleScene>();
 
-	bool sceneChange_ = 0;
+	//bool sceneChange_ = 0;
+
+	int32_t state = 0;
 
 public:
 
@@ -47,8 +49,7 @@ public:
 	GameScene* GetGameScene() { return gamescene_.get(); }
 	TitleScene* GetTitleScene() { return titlescene_.get(); }
 
+	//タイトルシーンからゲームシーンに変わる時
 	bool ChangeToGameScene();
-
-	//void SetNextScene(BaseScene* nextScene) { nextScene_ = nextScene; }
 };
 

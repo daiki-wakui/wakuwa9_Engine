@@ -1,6 +1,7 @@
 #pragma once
 #include "Framework.h"
 #include "BaseScene.h"
+#include "GameUI.h"
 
 #include "Model.h"
 #include "Sprite.h"
@@ -97,27 +98,7 @@ private:	//メンバ変数
 
 	std::unique_ptr<Model> konnpeModel_;
 
-	//スプライト
-	std::unique_ptr<Sprite> playerHPSprite_ = std::make_unique<Sprite>();
-	std::unique_ptr<Sprite> bossHPSprite_ = std::make_unique<Sprite>();
 
-	std::unique_ptr<Sprite> titleSprite_ = std::make_unique<Sprite>();
-	std::unique_ptr<Sprite> gameoverSprite_ = std::make_unique<Sprite>();
-	std::unique_ptr<Sprite> gameclearSprite_ = std::make_unique<Sprite>();
-	std::unique_ptr<Sprite> fillSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> sceneSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> reticleSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> sSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> iventSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> RBSprite_ = std::make_unique<Sprite>();
-	std::unique_ptr<Sprite> dFilterSprite_ = std::make_unique<Sprite>();
-
-	std::unique_ptr<Sprite> bulletRreticleSprite_ = std::make_unique<Sprite>();
 
 
 	bool isLifeOne_ = false;
@@ -134,8 +115,7 @@ private:	//メンバ変数
 	Vector3 wSize_ = {};
 	bool movieEnd_ = false;
 
-	std::unique_ptr<Sprite> waringSprite_ = std::make_unique<Sprite>();
-
+	
 	//画像
 
 	//HP
@@ -163,6 +143,11 @@ private:	//メンバ変数
 	int32_t damageFilter_ = 0;
 
 	int32_t bulletRreticleImage_ = 0;
+
+
+
+	std::unique_ptr<GameUI> gameUI_ = std::make_unique<GameUI>();
+
 
 	//player
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
@@ -210,8 +195,7 @@ private:	//メンバ変数
 	bool bossBGM_ = false;
 
 	
-	XMFLOAT2 reticleSize_ = {0,720};
-
+	
 	Vector3 screenPos_ = {};
 	XMFLOAT2 spPos_ = {};
 
@@ -226,7 +210,7 @@ private:	//メンバ変数
 	float maxTime_ = 300;
 
 
-	Vector3 screenPosPlayer_ = {};
+	
 	bool manualOK_ = false;
 	float alphaRB_ = 0;
 	float addYRB_ = 0;
@@ -250,12 +234,12 @@ private:	//メンバ変数
 
 	bool isDebugBoss_ = false;
 
-	XMFLOAT3 randShake_;
+	
 	bool isShake_;
 	int32_t shakeTimer_;
 
 public:
-
+	
 	bool Collison(Vector3 posa, Vector3 posb, float aScale, float bScale);
 	void AllCollison();
 
@@ -289,6 +273,7 @@ public:
 
 	DebugPoint* GetDebugPoint() { return dPoint_.get(); }
 	Player* GetPlayer() { return player_.get(); }
+
 	bool GetChange() { return change_; }
 	void SetChange(bool change) { change_ = change; }
 	bool GetStart() { return start_; }
