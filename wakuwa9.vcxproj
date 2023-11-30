@@ -44,11 +44,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)lib\DirectXTex;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)External\imgui;$(SolutionDir)lib\fbx_sdk\include;$(SolutionDir)External\nlohmann</IncludePath>
+    <IncludePath>$(SolutionDir)lib\DirectXTex;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)lib\imgui;$(SolutionDir)lib\fbx_sdk\include;$(SolutionDir)lib\nlohmann</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)lib\DirectXTex;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)External\imgui;$(SolutionDir)lib\fbx_sdk\include;$(SolutionDir)External\nlohmann</IncludePath>
+    <IncludePath>$(SolutionDir)lib\DirectXTex;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)lib\imgui;$(SolutionDir)lib\fbx_sdk\include;$(SolutionDir)lib\nlohmann</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -316,11 +316,11 @@
     <None Include="Resources\shaders\Sprite.hlsli" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="External\imgui\imgui.vcxproj">
-      <Project>{780a5243-b98e-4718-b547-fa50283f9f4f}</Project>
-    </ProjectReference>
     <ProjectReference Include="lib\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
       <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
+    </ProjectReference>
+    <ProjectReference Include="lib\imgui\imgui.vcxproj">
+      <Project>{780a5243-b98e-4718-b547-fa50283f9f4f}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
