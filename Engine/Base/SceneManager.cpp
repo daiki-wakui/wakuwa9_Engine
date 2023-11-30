@@ -56,9 +56,6 @@ void SceneManager::Update()
 	}
 }
 
-
-}
-
 void SceneManager::Draw()
 {
 	//タイトルシーン描画
