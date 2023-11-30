@@ -6,28 +6,15 @@ using namespace DirectX;
 void GameCore::Initialize()
 {
 	Framework::Initialize();
-
-	gamescene_->Initialize();
-	gamescene_->SetStart(true);
-
-
-	titlescene_->Initialize();
-
-	postEffect_->SetDirectX(spBasis_, windows_, keyboard_);
 	postEffect_->Initialize(0);
 
-	/*postEffect2_->SetDirectX(spBasis_, windows_, keyboard_);
-	postEffect2_->Initialize(2);*/
-
-	sound_->LoadWave("PerituneMaterial.wav");
-	sound_->LoadWave("ElectricWild.wav");
+	sceneManager_->Initialize();
 }
 
 //後始末
 void GameCore::Finalize()
 {
-	titlescene_->Finalize();
-	gamescene_->Finalize();
+	sceneManager_->Finalize();
 	Framework::Finalize();
 }
 
@@ -35,53 +22,25 @@ void GameCore::Finalize()
 void GameCore::Update()
 {
 	Framework::Update();
+	
+	sceneManager_->Update();
 
 	//ノイズのエフェクト
-	postEffect_->Update(gamescene_->GetPlayer());
+	postEffect_->Update(sceneManager_->GetGameScene()->GetPlayer());
 
-	//タイトルシーンからシーン遷移開始
-	if (keyboard_->keyInstantPush(DIK_SPACE) || gamePad_->PushInstantB()) {
-
-		if (state == 0) {
-			titlescene_->SetStart(true);
-			gamescene_->SetChange(false);
-			gamescene_->Reset();
-		}
-	}
-
-	//タイトルシーンからゲームシーンへ
-	if (titlescene_->GetChange()) {
-		if (state == 0) {
-			postEffect_->SetIsEffect(false);
-		}
-		state = 1;	//ゲームシーン
-		gamescene_->SetStart(true);
-		
-	}
-
-	//タイトルシーンに戻る
-	if (keyboard_->keyInstantPush(DIK_T)) {
-		titlescene_->SetStart(false);
-		gamescene_->SetStart(false);
-		titlescene_->SetChange(false);
-		gamescene_->SetChange(true);
-		gamescene_->Reset();
-	}
-
-	//タイトルシーンの更新処理
-	if (state == 0) {
-		titlescene_->Update();
+	
+	
+	if (sceneManager_->GetSceneState() == TITLE) {
 		postEffect_->SetIsEffect(true);
 	}
-	//ゲームシーンの更新処理
-	else {
-		gamescene_->Update();
-	}
 
-	if (gamescene_->GetChange()) {
-		state = 0;
-	}
+	if (sceneManager_->ChangeToGameScene()) {
 
+		if (sceneManager_->GetSceneState() == TITLE) {
+			postEffect_->SetIsEffect(false);
+		}
+	}
+	
 	if (keyboard_->keyInstantPush(DIK_P)) {
 		isDebug++;
 		isDebug = isDebug % 2;
@@ -93,11 +52,11 @@ void GameCore::Update()
 
 	//オブジェクト読み込み直す
 	if (ImGui::Button("ReLoad")) {
-		gamescene_->EditorLoad("obj");
+		sceneManager_->GetGameScene()->EditorLoad("obj");
 	}
 
 	if (ImGui::Button("DebugPoint")) {
-		gamescene_->GetPlayer()->SetPos(gamescene_->GetDebugPoint()->GetWorldPos());
+		sceneManager_->GetGameScene()->GetPlayer()->SetPos(sceneManager_->GetGameScene()->GetDebugPoint()->GetWorldPos());
 	}
 
 	imGuiM_->End();
@@ -111,30 +70,20 @@ void GameCore::Draw()
 	Object3D::PreDraw(directX_->GetCommandList());
 	FbxObject3d::PreSet(directX_->GetCommandList());
 	
-	//タイトルシーン描画
-	if (state == 0) {
-		titlescene_->Draw();
-	}
-	//ゲームシーン描画
-	else {
-		gamescene_->Draw();
-	}
+	sceneManager_->Draw();
 
 	Object3D::PostDraw();
 
 	//パーティクル描画前準備
 	ParticleManager::PreDraw(directX_->GetCommandList());
+	
 	//パーティクル描画
-	gamescene_->pDraw();
+	sceneManager_->ParticleDraw();
 
 	ParticleManager::PostDraw();
 	
 	//ここまでの描画にポストエフェクトをかける
 	postEffect_->PostDrawScene(directX_->GetCommandList());
-
-
-	
-	
 	
 	//描画前処理
 	directX_->PreDraw();
@@ -142,13 +91,12 @@ void GameCore::Draw()
 	//ポストエフェクトをかけた描画
 	postEffect_->Draw();
 
-	titlescene_->OffDraw();
-
+	sceneManager_->OffEffectDraw();
+	
 	//imgui
 	if (isDebug) {
 		imGuiM_->Draw();
 	}
-	
 
 	//描画後処理
 	directX_->PostDraw();

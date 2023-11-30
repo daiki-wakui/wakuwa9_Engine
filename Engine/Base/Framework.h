@@ -8,8 +8,6 @@
 #include "SpriteBasis.h"
 #include "Sound.h"
 
-#include "SceneManager.h"
-
 #include "Object3D.h"
 #include "FbxLoader.h"
 #include "FbxObject3d.h"
@@ -49,9 +47,6 @@ private:
 
 	
 public:
-
-	std::unique_ptr<SceneManager> sceneManager_ = nullptr;
-
 
 	virtual ~Framework() = default;
 

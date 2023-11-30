@@ -10,16 +10,14 @@
 
 using namespace DirectX;
 
-const float PostEffect::sCLEAR_COLOR[4] = { 0.1f,0.1f,0.5f,0.0f };//緑っぽい色
+const float PostEffect::sCLEAR_COLOR[4] = { 0.1f,0.1f,0.5f,0.0f };
 
 void PostEffect::Initialize(int32_t num)
 {
-
 	HRESULT result;
 
 	VertexData();
 	IndexData();
-
 
 	//テクスチャバッファ設定
 	//ヒープ設定
@@ -390,13 +388,6 @@ void PostEffect::Crate()
 	matWorld_ *= matTrans_;
 
 	constMapTransform_->mat = matWorld_ * matProjection_;
-}
-
-void PostEffect::SetDirectX(SpriteBasis* spBasis, WindowsApp* winApp, KeyBoard* key)
-{
-	spBasis_ = spBasis;
-	winApp_ = winApp;
-	key_ = key;
 }
 
 PostEffect::PostEffect()
