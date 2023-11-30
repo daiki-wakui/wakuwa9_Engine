@@ -1,12 +1,12 @@
 #pragma once
 #include "TextureManager.h"
 #include "Sprite.h"
-#include "Vector2.h"
-#include "Vector3.h"
 #include "Player.h"
+#include "Boss.h"
 #include "GamePad.h"
 #include "Object3D.h"
-#include "Boss.h"
+#include "Vector2.h"
+#include "Vector3.h"
 
 class GameUI : public TextureManager
 {

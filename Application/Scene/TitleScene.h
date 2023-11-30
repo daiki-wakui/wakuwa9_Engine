@@ -1,12 +1,8 @@
 #pragma once
 #include "Framework.h"
 #include "BaseScene.h"
-
-#include "Model.h"
-#include "Sprite.h"
-#include "Sound.h"
-#include "SoundManager.h"
 #include "GameUI.h"
+#include "Model.h"
 
 class TitleScene : public BaseScene
 {

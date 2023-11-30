@@ -1,8 +1,7 @@
 #include "GameScene.h"
-#include "Easing.h"
-#include <random>
 #include "SoundManager.h"
 #include "MyRandom.h"
+#include "Easing.h"
 
 void GameScene::Initialize()
 {
@@ -311,25 +310,14 @@ void GameScene::Update()
 		return enemy->IsDead();
 	});
 
-	//enemyの死亡フラグ
-	enemycharges_.remove_if([](std::unique_ptr<EnemyCharge>& enemy) {
-		return enemy->IsDead();
-	});
-
 	//敵の動き
 	for (std::unique_ptr<Enemy>& enemy : enemys_) {
 		enemy->Update(start_);
 	}
 
-	//敵の動き
-	for (std::unique_ptr<EnemyCharge>& enemy : enemycharges_) {
-		enemy->Update();
-	}
-
 	for (std::unique_ptr<CollisionBox>& collision : collisions_) {
 		collision->Update();
 	}
-
 
 	for (std::unique_ptr<Door>& door : doors_) {
 		door->Update();
@@ -442,11 +430,6 @@ void GameScene::Draw()
 		}
 	}
 
-	//敵の動き
-	for (std::unique_ptr<EnemyCharge>& enemy : enemycharges_) {
-		enemy->Draw();
-	}
-
 	if (hitBox_ == true && boss_->GetArive() == true) {
 		boss_->Draw();
 	}
@@ -480,7 +463,6 @@ void GameScene::EditorLoad(const std::string filename)
 {
 	objects.clear();
 	enemys_.clear();
-	enemycharges_.clear();
 	doors_.clear();
 	ReLoad(filename);
 }
@@ -558,7 +540,6 @@ void GameScene::ReLoad(const std::string filename)
 			Inport(model, i);
 
 			dPoint_->Initialize(model, newObject[objSize_].get());
-			//eventBox_->Initialize(model, newObject[objSize_].get());
 			objSize_++;
 		}
 		else if (levelData_->objects[i].fileName == "dr") {

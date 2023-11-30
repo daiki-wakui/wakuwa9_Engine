@@ -1,23 +1,8 @@
 #pragma once
 #include "TitleScene.h"
 #include "GameScene.h"
-#include "KeyBoard.h"
-#include "GamePad.h"
 
-#include "Object3D.h"
-#include "FbxLoader.h"
-#include "FbxObject3d.h"
-#include "ParticleManager.h"
-
-#include <fstream>
-#include <cassert>
-#include <map>
 #include <memory>
-#include <string>
-#include <DirectXTex.h>
-#include <DirectXMath.h>
-#include <d3dcompiler.h>
-#include <cstdint>
 
 enum Scene{
 	TITLE,

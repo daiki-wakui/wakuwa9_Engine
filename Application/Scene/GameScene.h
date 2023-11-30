@@ -4,17 +4,13 @@
 #include "GameUI.h"
 
 #include "Model.h"
-#include "Sprite.h"
 #include "EventBox.h"
-#include "Player.h"
 #include "Enemy.h"
-#include "EnemyCharge.h"
-#include "Boss.h"
 #include "CollisionBox.h"
 #include "Door.h"
 
 #include "LevelLoader.h"
-#include "Easing.h"
+
 #include "Effect.h"
 #include "DebugPoint.h"
 
@@ -119,14 +115,12 @@ private:	//メンバ変数
 	std::map<std::string, Model*> models;
 	std::vector<Object3D*> objects;
 	std::list<std::unique_ptr<Enemy>> enemys_;
-	std::list<std::unique_ptr<EnemyCharge>> enemycharges_;
 	std::list<std::unique_ptr<CollisionBox>> collisions_;
 	std::list<std::unique_ptr<Door>> doors_;
 
 	
 	std::unique_ptr<Object3D> newObject[1000] = {};
 	std::unique_ptr<Enemy> newEnemy[1000] = {};
-	std::unique_ptr<EnemyCharge> newEnemy2[1000] = {};
 	std::unique_ptr<CollisionBox> collBox[1000] = {};
 	std::unique_ptr<Door> newDoor[100] = {};
 
