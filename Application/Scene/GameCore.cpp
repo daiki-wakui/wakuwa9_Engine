@@ -1,4 +1,5 @@
 #include "GameCore.h"
+#include "SceneList.h"
 #pragma comment(lib, "d3dcompiler.lib")
 using namespace DirectX;
 
@@ -27,8 +28,6 @@ void GameCore::Update()
 
 	//ノイズのエフェクト
 	postEffect_->Update(sceneManager_->GetGameScene()->GetPlayer());
-
-	
 	
 	if (sceneManager_->GetSceneState() == TITLE) {
 		postEffect_->SetIsEffect(true);

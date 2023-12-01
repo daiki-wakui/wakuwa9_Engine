@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include "SceneList.h"
 
 SceneManager::~SceneManager()
 {

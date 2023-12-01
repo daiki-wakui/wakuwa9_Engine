@@ -101,6 +101,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Application\AssetManager\Model3DManager.cpp" />
     <ClCompile Include="Application\AssetManager\TextureManager.cpp" />
     <ClCompile Include="Application\Boss\Boss.cpp" />
     <ClCompile Include="Application\Boss\BossBullet.cpp" />
@@ -152,9 +153,9 @@
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Model3DManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application\AssetManager\Model3DManager.h" />
     <ClInclude Include="Application\AssetManager\TextureManager.h" />
     <ClInclude Include="Application\Boss\Boss.h" />
     <ClInclude Include="Application\Boss\BossBullet.h" />
@@ -174,6 +175,7 @@
     <ClInclude Include="Application\Player\PlayerBullet.h" />
     <ClInclude Include="Application\Scene\GameCore.h" />
     <ClInclude Include="Application\Scene\GameScene.h" />
+    <ClInclude Include="Application\Scene\SceneList.h" />
     <ClInclude Include="Application\Scene\SceneManager.h" />
     <ClInclude Include="Application\Scene\TitleScene.h" />
     <ClInclude Include="Engine\2d\ParticleManager.h" />
@@ -205,7 +207,6 @@
     <ClInclude Include="Engine\Math\MyRandom.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
-    <ClInclude Include="Model3DManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">
