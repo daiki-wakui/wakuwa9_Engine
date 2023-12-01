@@ -3,7 +3,6 @@
 #include "BaseScene.h"
 #include "GameUI.h"
 
-#include "Model.h"
 #include "EventBox.h"
 #include "Enemy.h"
 #include "CollisionBox.h"
@@ -41,63 +40,26 @@ private:	//メンバ変数
 
 	//OBJからモデルを読み込む
 	//天球
-	std::unique_ptr<Model> skydomModel_;
 	std::unique_ptr<Object3D> skyObject_;
+	std::unique_ptr<Object3D> poriObject_;
+	std::unique_ptr<Object3D> shadowObject_;
 
-	//player
-	std::unique_ptr<Model> playerModel_;
+	//player,肩のポッド
 	std::unique_ptr<Object3D> playerObject_;
-
-	//ポッド
-	std::unique_ptr<Model> podModel_;
 	std::unique_ptr<Object3D> podObject_;
 	std::unique_ptr<Object3D> bulletObject_;
 
-	//敵
-	std::unique_ptr<Model> enemyModel_;
-	std::unique_ptr<Model> enemyModel2_;
-
 	//ボス
-	std::unique_ptr<Model> bossModel_;
-	std::unique_ptr<Object3D> bossObject_;
-	std::unique_ptr<Model> bossBulletModel_;
-
-	//フィールドに使うモデル
-	std::unique_ptr<Model> cubeModel_;
-	std::unique_ptr<Model> playerBulletCubeModel_;
-	std::unique_ptr<Model> filedCubeModel_;
-	std::unique_ptr<Model> filedModel_;
-	std::unique_ptr<Model> filedTentoModel_;
-	std::unique_ptr<Model> filedTouModel_;
-	std::unique_ptr<Model> bossFiledModel_;
-	std::unique_ptr<Model> bossFiledGateModel_;
-
-	std::unique_ptr<Model> drModel_;
-	std::unique_ptr<Model> LeftDoorModel_;
-
-	std::unique_ptr<Model> poriModel_;
-	std::unique_ptr<Object3D> poriObject_;
-
-
-	std::unique_ptr<Model> shadowModel_;
-	std::unique_ptr<Object3D> shadowObject_;
+	std::unique_ptr<Object3D> bossObject_;	
 
 	//ボス戦に入るボックス
 	std::unique_ptr<EventBox> eventBox_;
 	std::unique_ptr<EventBox> ChangeBox_;
 
-
-	//FBX
-	std::unique_ptr<FbxModel> testModel_;
-	std::unique_ptr<FbxObject3d> testObj_;
 	Vector3 podRot = {};
-
-	std::unique_ptr<Model> konnpeModel_;
-
 	int32_t sockSound_ = 0;
 
 	std::unique_ptr<GameUI> gameUI_ = std::make_unique<GameUI>();
-
 
 	//player
 	std::unique_ptr<Player> player_ = std::make_unique<Player>();
@@ -105,8 +67,7 @@ private:	//メンバ変数
 	//boss
 	std::unique_ptr<Boss> boss_ = std::make_unique<Boss>();
 
-	std::unique_ptr<Model> bulletCononModel_ = std::make_unique<Model>();
-	std::unique_ptr<Model> frameModel_ = std::make_unique<Model>();
+	std::unique_ptr<DebugPoint> dPoint_ = std::make_unique<DebugPoint>();
 
 
 	//レベルエディタ関連
@@ -141,8 +102,6 @@ private:	//メンバ変数
 
 	bool playBGM_ = false;
 	bool bossBGM_ = false;
-
-	
 	
 	Vector3 screenPos_ = {};
 	XMFLOAT2 spPos_ = {};
@@ -157,7 +116,6 @@ private:	//メンバ変数
 	float timer_ = 0;
 	float maxTime_ = 300;
 
-
 	float addYRB_ = 0;
 	XMFLOAT2 posRB_ = {};
 
@@ -167,19 +125,14 @@ private:	//メンバ変数
 
 	int32_t coolTime_ = 7;
 	bool isShotEffect_ = false;
-
 	
 	bool resetOn_ = false;
 
 	bool hitBox_ = true;
 	bool isTutorial_ = false;
 	bool isChangeStage_ = false;
-
-	std::unique_ptr<DebugPoint> dPoint_ = std::make_unique<DebugPoint>();
-
-	bool isDebugBoss_ = false;
-
 	
+	bool isDebugBoss_ = false;
 	bool isShake_;
 	int32_t shakeTimer_;
 
@@ -187,6 +140,7 @@ public:
 	
 	bool Collison(Vector3 posa, Vector3 posb, float aScale, float bScale);
 	void AllCollison();
+	void Object3DGenerate();
 
 	//初期化
 	void Initialize()override;
@@ -224,7 +178,6 @@ public:	//getter,setter
 	void SetChange(bool change) { change_ = change; }
 	bool GetStart() { return start_; }
 	void SetStart(bool start) { start_ = start; }
-
 
 	bool GetHitBox() { return hitBox_; }
 	bool GetIsIvent() { return isIvent_; }

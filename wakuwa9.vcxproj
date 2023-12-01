@@ -152,6 +152,7 @@
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Model3DManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\AssetManager\TextureManager.h" />
@@ -204,6 +205,7 @@
     <ClInclude Include="Engine\Math\MyRandom.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
+    <ClInclude Include="Model3DManager.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">

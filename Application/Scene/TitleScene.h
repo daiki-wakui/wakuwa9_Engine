@@ -26,7 +26,7 @@ private:
 
 private:	//メンバ変数
 	//天球
-	std::unique_ptr<Model> skydomModel_;
+	
 	std::unique_ptr<Object3D> skyObject_;
 
 	std::unique_ptr<GameUI> titleUI_ = std::make_unique<GameUI>();

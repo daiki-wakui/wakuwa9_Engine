@@ -5,121 +5,12 @@
 
 void GameScene::Initialize()
 {
-
-	//OBJからモデルを読み込む
-	playerModel_ = std::make_unique<Model>();
-	playerModel_->LoadFromObj("player");
-
-	podModel_ = std::make_unique<Model>();
-	podModel_->LoadFromObj("pod");
-
-	skydomModel_ = std::make_unique<Model>();
-	skydomModel_->LoadFromObj("world");
-
-	enemyModel_ = std::make_unique<Model>();
-	enemyModel_->LoadFromObj("enemySou");
-
-	enemyModel2_ = std::make_unique<Model>();
-	enemyModel2_->LoadFromObj("enemySou2");
-
-	cubeModel_ = std::make_unique<Model>();
-	cubeModel_->LoadFromObj("cube");
-
-	playerBulletCubeModel_ = std::make_unique<Model>();
-	playerBulletCubeModel_->LoadFromObj("cube3");
-
-	filedCubeModel_ = std::make_unique<Model>();
-	filedCubeModel_->LoadFromObj("cube2");
-
-	filedModel_ = std::make_unique<Model>();
-	filedModel_->LoadFromObj("filed");
-
-	filedTentoModel_ = std::make_unique<Model>();
-	filedTentoModel_->LoadFromObj("nier_obj");
-
-	filedTouModel_ = std::make_unique<Model>();
-	filedTouModel_->LoadFromObj("nier_filed");
-
-	konnpeModel_ = std::make_unique<Model>();
-	konnpeModel_->LoadFromObj("konnpe");
-
-	poriModel_ = std::make_unique<Model>();
-	poriModel_->LoadFromObj("pori");
-
-	shadowModel_ = std::make_unique<Model>();
-	shadowModel_->LoadFromObj("cirshadow");
-
-	drModel_ = std::make_unique<Model>();
-	drModel_->LoadFromObj("doar");
-
-	LeftDoorModel_ = std::make_unique<Model>();
-	LeftDoorModel_->LoadFromObj("doar2");
-
-	bossFiledModel_ = std::make_unique<Model>();
-	bossFiledModel_->LoadFromObj("bossfiled");
-
-	bossFiledGateModel_ = std::make_unique<Model>();
-	bossFiledGateModel_->LoadFromObj("bossfiledfront");
-
-	bossModel_ = std::make_unique<Model>();
-	bossModel_->LoadFromObj("bossbody");
-
-	bossBulletModel_ = std::make_unique<Model>();
-	bossBulletModel_->LoadFromObj("bossbullet");
-
-	frameModel_->LoadFromObj("bossframe");
-	bulletCononModel_->LoadFromObj("bossconon");
-
-	shadowObject_ = std::make_unique<Object3D>();
-	shadowObject_->SetModel(shadowModel_.get());
-	shadowObject_->Initialize();
-	shadowObject_->SetScale({ 1.5f, 1.5f, 1.5f });
-
-	poriObject_ = std::make_unique<Object3D>();
-	poriObject_->SetModel(poriModel_.get());
-	poriObject_->Initialize();
-	poriObject_->SetScale({ 5,5,5 });
-	poriObject_->SetPosition({ 0,10,10 });
-
+	//3Dモデルの読み込みと生成
+	Model3DManager::Load3DModel();
+	Object3DGenerate();
 
 	eventBox_ = std::make_unique<EventBox>();
 	ChangeBox_ = std::make_unique<EventBox>();
-
-	//3Dオブジェクト生成
-	playerObject_ = std::make_unique<Object3D>();
-	playerObject_->SetModel(playerModel_.get());
-	playerObject_->Initialize();
-	playerObject_->SetScale(Vector3({ 1,1,1 }));
-	playerObject_->SetPosition({ 0,0,0 });
-
-	podObject_ = std::make_unique<Object3D>();
-	podObject_->SetModel(podModel_.get());
-	podObject_->Initialize();
-
-	bulletObject_ = std::make_unique<Object3D>();
-	bulletObject_->SetModel(playerBulletCubeModel_.get());
-	bulletObject_->Initialize();
-
-	skyObject_ = std::make_unique<Object3D>();
-	skyObject_->SetModel(skydomModel_.get());
-	skyObject_->Initialize();
-	skyObject_->SetScale(Vector3({ 900,900,900 }));
-	skyObject_->SetPosition({ 0,0,100 });
-
-	bossObject_ = std::make_unique<Object3D>();
-	bossObject_->SetModel(enemyModel_.get());
-	bossObject_->Initialize();
-	bossObject_->SetScale({ 15,15,15 });
-	bossObject_->SetPosition({ 0,20,370 });
-
-	//FBXファイル読み込み
-	testModel_ = std::make_unique<FbxModel>();
-	FbxLoader::GetInstance()->LoadModelFromFile(testModel_.get(), "boneTest");
-
-	testObj_ = std::make_unique<FbxObject3d>();
-	testObj_->Initialize();
-	testObj_->SetModel(testModel_.get());
-	testObj_->StartAnimation();
 
 	Reset();
 
@@ -136,8 +27,6 @@ void GameScene::Initialize()
 
 void GameScene::Finalize()
 {
-	testModel_->fbxScene_->Destroy();
-
 	models.clear();
 	objects.clear();
 	collisions_.clear();
@@ -165,8 +54,6 @@ void GameScene::Update()
 		Object3D::SetEye(toEye);
 		Object3D::SetTarget(toTerget);
 	}
-
-	
 
 	if (keyboard_->keyInstantPush(DIK_N)) {
 		isDebugBoss_ = true;
@@ -396,16 +283,6 @@ void GameScene::ObjectUpdate()
 
 	skyObject_->SetPosition(player_->GetWorldPos());
 	skyObject_->Update();
-
-	testObj_->Update();
-
-	if (keyboard_->keyInstantPush(DIK_J)) {
-		testObj_->StopAnimation();
-	}
-
-	if (keyboard_->keyInstantPush(DIK_K)) {
-		testObj_->PlayAnimation();
-	}
 }
 
 void GameScene::Draw()
@@ -976,4 +853,45 @@ void GameScene::AllCollison()
 			BulletEffect = false;
 		}
 	}
+}
+
+void GameScene::Object3DGenerate()
+{
+	shadowObject_ = std::make_unique<Object3D>();
+	shadowObject_->SetModel(shadowModel_.get());
+	shadowObject_->Initialize();
+	shadowObject_->SetScale({ 1.5f, 1.5f, 1.5f });
+
+	poriObject_ = std::make_unique<Object3D>();
+	poriObject_->SetModel(poriModel_.get());
+	poriObject_->Initialize();
+	poriObject_->SetScale({ 5,5,5 });
+	poriObject_->SetPosition({ 0,10,10 });
+
+	//3Dオブジェクト生成
+	playerObject_ = std::make_unique<Object3D>();
+	playerObject_->SetModel(playerModel_.get());
+	playerObject_->Initialize();
+	playerObject_->SetScale(Vector3({ 1,1,1 }));
+	playerObject_->SetPosition({ 0,0,0 });
+
+	podObject_ = std::make_unique<Object3D>();
+	podObject_->SetModel(podModel_.get());
+	podObject_->Initialize();
+
+	bulletObject_ = std::make_unique<Object3D>();
+	bulletObject_->SetModel(playerBulletCubeModel_.get());
+	bulletObject_->Initialize();
+
+	skyObject_ = std::make_unique<Object3D>();
+	skyObject_->SetModel(skydomGameModel_.get());
+	skyObject_->Initialize();
+	skyObject_->SetScale(Vector3({ 900,900,900 }));
+	skyObject_->SetPosition({ 0,0,100 });
+
+	bossObject_ = std::make_unique<Object3D>();
+	bossObject_->SetModel(enemyModel_.get());
+	bossObject_->Initialize();
+	bossObject_->SetScale({ 15,15,15 });
+	bossObject_->SetPosition({ 0,20,370 });
 }
