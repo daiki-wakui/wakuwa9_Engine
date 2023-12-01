@@ -26,6 +26,5 @@ public:
 	void Draw();
 
 	void SetTutorial(bool isChangeStage) { isChangeStage_ = isChangeStage; }
-	//bool GetIsArive() { return valid_; }
 };
 

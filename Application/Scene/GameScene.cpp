@@ -80,7 +80,6 @@ void GameScene::Update()
 	SpriteUpdate();
 
 	shadowObject_->SetPosition({ playerObject_->GetPosition().x,2,playerObject_->GetPosition().z });
-	//shadowObject_->SetPosition({ playerObject_->GetPosition().x,5,pl);
 	shadowObject_->Update();
 
 	//弾の更新処理
@@ -127,7 +126,6 @@ void GameScene::Update()
 	if (player_->GetIsShot()) {
 
 		SoundManager::GetInstance()->PlayWave("Shot.wav", 0.25f);
-		//sound_->PlayWave("Shot.wav", 0.25f);
 		player_->SetIsShot(false);
 	}
 
@@ -186,7 +184,6 @@ void GameScene::Update()
 			eye = { 0,10,0 };
 			Object3D::SetTarget(eye);
 			iventEye_ = { 450,100,750 };
-			//movieEnd_ = true;
 			gameUI_->SetMovieEnd(true);
 			SoundManager::GetInstance()->PlayWave("Warning.wav", 2);
 		}
