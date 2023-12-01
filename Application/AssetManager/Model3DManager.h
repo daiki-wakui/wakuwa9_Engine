@@ -43,7 +43,8 @@ public:
 	Model3DManager();
 	~Model3DManager();
 
-	void Load3DModel();
+	void LoadTitle3DModel();
+	void LoadGame3DModel();
 
 };
 

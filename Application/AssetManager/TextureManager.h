@@ -40,7 +40,8 @@ public:
 	TextureManager();
 	~TextureManager();
 
-	void LoadTexture();
+	void LoadTitleTexture();
+	void LoadGameTexture();
 
 };
 
