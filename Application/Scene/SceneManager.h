@@ -4,11 +4,6 @@
 
 #include <memory>
 
-enum Scene{
-	TITLE,
-	GAME
-};
-
 class SceneManager
 {
 private:

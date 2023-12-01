@@ -10,8 +10,6 @@ private:
 	Model* bulletModel_;
 	std::unique_ptr<Object3D> bulletObject_;
 
-	//Model* bulletModel = nullptr;
-	//Object3D* bulletObject_;
 	Vector3 velocity_;
 
 	Vector3 tPos_;

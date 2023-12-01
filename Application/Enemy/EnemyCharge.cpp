@@ -4,7 +4,6 @@ void EnemyCharge::Initialize(Object3D* enemyObject, XMFLOAT3 pos, Player* player
 {
 	enemyObject_ = enemyObject;
 	pos_ = pos;
-	//pos_.y += 10;
 	player_ = player;
 	hp_ = hp;
 	vPos_.x = pos_.x;

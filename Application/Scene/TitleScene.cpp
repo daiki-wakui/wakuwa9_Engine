@@ -1,16 +1,17 @@
 #include "TitleScene.h"
+#include "SceneList.h"
 #include "SoundManager.h"
 
 void TitleScene::Initialize()
 {
-	
+	//3Dモデル読み込み
 	Model3DManager::Load3DModel();
-
+	//3Dモデル生成
 	skyObject_ = std::make_unique<Object3D>();
 	skyObject_->SetModel(skydomTitleModel_.get());
 	skyObject_->Initialize();
-	skyObject_->SetScale(Vector3({ 400,400,400 }));
-	skyObject_->SetPosition({ 0,0,100 });
+	skyObject_->SetScale(SKYDOME_SCALE);
+	skyObject_->SetPosition(SKYDOME_POS);
 
 	isStartSE_ = false;
 
@@ -28,16 +29,18 @@ void TitleScene::Update()
 {
 	titleUI_->TitleUpdate(changeStart_);
 
-	SoundManager::GetInstance()->Update(0);
+	SoundManager::GetInstance()->Update(TITLE);
 
+	//シーン遷移開始
 	if (changeStart_) {
-
+		//SE1回鳴らす
 		if (!isStartSE_) {
-			SoundManager::GetInstance()->PlayWave("Start.wav", 0.25f);
+			SoundManager::GetInstance()->PlayWave("Start.wav", STARTSE_VOLUE);
 			isStartSE_ = true;
 		}
 
-		if (titleUI_->GetSceneChangeAlpha() >= 1) {
+		//シーン遷移終了
+		if (titleUI_->GetSceneChangeAlpha() >= MAX_ALPHA) {
 			changeEnd_ = true;
 			isStartSE_ = false;
 			playBGM_ = false;
@@ -46,17 +49,15 @@ void TitleScene::Update()
 		SoundManager::GetInstance()->StopBGM();
 	}
 
-	skyObject_->SetPosition({ 0,0,100 });
-	skyObject_->SetCamera({ 0, 20, -30.0f }, { 0, 10, 0 });
+	//天球
+	skyObject_->SetPosition(SKYDOME_POS);
+	skyObject_->SetCamera(CAMERA_EYE, CAMERA_TERGET);
 	skyObject_->Update(false);
 }
 
 void TitleScene::Draw()
 {
-
 	skyObject_->Draw();
-
-
 	titleUI_->TitleDraw();
 }
 

@@ -21,7 +21,6 @@ void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* in
 	moveParticle_->Update();
 
 	reticle3DObject_->Initialize();
-	//reticle3DObject_->SetPosition({ 0, 0,0 });
 	reticle3DObject_->SetModel(bulletModel_);
 }
 
@@ -44,8 +43,6 @@ void Player::Update()
 
 	frontVec.normalize();
 	frontVec /= 1.5f;
-
-	//bulletVec_ = frontVec;
 
 	if (dash) {
 		dashPower_ += 0.2f;

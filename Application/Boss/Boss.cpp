@@ -457,8 +457,6 @@ void Boss::Move()
 		pos_.z = vPos_.z;
 		cononPos_ = pos_;
 
-		//moveTimer_ = 0;
-
 		if (moveT_ >= 20) {
 			isPop_ = false;
 			randState_ = movementPattern_[movementPatternCount_];

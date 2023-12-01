@@ -80,7 +80,6 @@ void GameScene::Update()
 	SpriteUpdate();
 
 	shadowObject_->SetPosition({ playerObject_->GetPosition().x,2,playerObject_->GetPosition().z });
-	//shadowObject_->SetPosition({ playerObject_->GetPosition().x,5,pl);
 	shadowObject_->Update();
 
 	//弾の更新処理
@@ -127,7 +126,6 @@ void GameScene::Update()
 	if (player_->GetIsShot()) {
 
 		SoundManager::GetInstance()->PlayWave("Shot.wav", 0.25f);
-		//sound_->PlayWave("Shot.wav", 0.25f);
 		player_->SetIsShot(false);
 	}
 
@@ -186,7 +184,6 @@ void GameScene::Update()
 			eye = { 0,10,0 };
 			Object3D::SetTarget(eye);
 			iventEye_ = { 450,100,750 };
-			//movieEnd_ = true;
 			gameUI_->SetMovieEnd(true);
 			SoundManager::GetInstance()->PlayWave("Warning.wav", 2);
 		}
@@ -654,39 +651,12 @@ void GameScene::AllCollison()
 			//AとBの距離
 			r1 = 20.0f;	//敵のスケール
 			r2 = 1.0f;	//弾のスケール
-			float r = r1 + r2;
 
-			XMFLOAT3 dis;
-			dis.x = posB.x - posA.x;
-			dis.y = posB.y - posA.y;
-			dis.z = posB.z - posA.z;
-
-
-			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && hitBox_ == true) {
+			if (Collison(posA, posB, r1, r2) && hitBox_) {
 				bullet->isDead_ = true;
-				BulletEffect = true;
 				boss_->OnCollision();
 
 				SoundManager::GetInstance()->PlayWave("Hit.wav", 0.12f);
-			}
-
-			if (BulletEffect) {
-				for (int i = 0; i < 3; i++) {
-					Vector3 tmppos = posA;
-
-					const float md_vel = 10.0f;
-					Vector3 vel{};
-					vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-					vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-					vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-
-					Vector3 acc{};
-					const float md_acc = 0.001f;
-					acc.y = -(float)rand() / RAND_MAX * md_acc;
-
-					particleMan_->Add(60, tmppos, vel, acc, 2.0f, 0.0f);
-				}
-				BulletEffect = false;
 			}
 		}
 	}
@@ -702,19 +672,12 @@ void GameScene::AllCollison()
 			//AとBの距離
 			r1 = 7.0f;	//敵のスケール
 			r2 = 1.0f;	//弾のスケール
-			float r = r1 + r2;
 
-			XMFLOAT3 dis;
-			dis.x = posB.x - posA.x;
-			dis.y = posB.y - posA.y;
-			dis.z = posB.z - posA.z;
-
-			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
-
+			if (Collison(posA, posB, r1, r2)) {
 				bullet->isDead_ = true;
 
 				if (!player_->Getinvincible()) {
-					
+
 					SoundManager::GetInstance()->PlayWave("noise.wav", 0.5f);
 
 					isShake_ = true;
@@ -724,8 +687,6 @@ void GameScene::AllCollison()
 				if (player_->GetHP() <= 1) {
 					SoundManager::GetInstance()->PlayWave("electric_shock3.wav", 1.1f);
 				}
-
-				
 			}
 		}
 	}
@@ -739,53 +700,19 @@ void GameScene::AllCollison()
 			//AとBの距離
 			r1 = 7.0f;	//敵のスケール
 			r2 = 1.0f;	//弾のスケール
-			float r = r1 + r2;
 
-			XMFLOAT3 dis;
-			dis.x = posB.x - posA.x;
-			dis.y = posB.y - posA.y;
-			dis.z = posB.z - posA.z;
-
-			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
-
+			if (Collison(posA, posB, r1, r2)) {
 				bullet->isDead_ = true;
 
 				if (!player_->Getinvincible()) {
 
 					SoundManager::GetInstance()->PlayWave("noise.wav", 0.5f);
-					
+
 					isShake_ = true;
 				}
 				player_->OnCollision();
 
-				
 			}
-		}
-	}
-
-	//
-	posA = player_->GetWorldPos();
-
-	for (const std::unique_ptr<CollisionBox>& coll : collisions_) {
-		posB = coll->GetWorldPos();
-
-		//AとBの距離
-		r1 = 1.0f;
-		r2 = coll->GetScale().x;
-		float r = r1 + r2;
-
-		XMFLOAT3 dis;
-		dis.x = posB.x - posA.x;
-		dis.y = posB.y - posA.y;
-		dis.z = posB.z - posA.z;
-
-		if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r) && player_->GetHP() > 0) {
-
-			coll->OnCollision();
-			player_->wallHit();
-		}
-		else {
-			coll->hit_ = false;
 		}
 	}
 
@@ -813,15 +740,8 @@ void GameScene::AllCollison()
 			//AとBの距離
 			r1 = 7.0f;	//敵のスケール
 			r2 = 1.0f;	//弾のスケール
-			float r = r1 + r2;
 
-			XMFLOAT3 dis;
-			dis.x = posB.x - posA.x;
-			dis.y = posB.y - posA.y;
-			dis.z = posB.z - posA.z;
-
-
-			if ((dis.x * dis.x) + (dis.y * dis.y) + (dis.z * dis.z) <= (r * r)) {
+			if (Collison(posA, posB, r1, r2)) {
 				bullet->isDead_ = true;
 				enemy->OnCollision();
 				BulletEffect = true;
@@ -832,25 +752,6 @@ void GameScene::AllCollison()
 				isEffect_ = true;
 				startEffect_ = enemy->GetWorldPos();
 			}
-		}
-
-		if (BulletEffect) {
-			for (int i = 0; i < 3; i++) {
-				Vector3 tmpPos = posA;
-
-				const float md_vel = 10.0f;
-				Vector3 vel{};
-				vel.x = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-				vel.y = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-				vel.z = (float)rand() / RAND_MAX * md_vel - md_vel / 2.0f;
-
-				Vector3 acc{};
-				const float md_acc = 0.001f;
-				acc.y = -(float)rand() / RAND_MAX * md_acc;
-
-				particleMan_->Add(60, tmpPos, vel, acc, 2.0f, 0.0f);
-			}
-			BulletEffect = false;
 		}
 	}
 }
