@@ -25,7 +25,7 @@ void GameUI::boolInfo(bool hitBox, bool isIvent)
 
 void GameUI::TitleSceneInitialize()
 {
-	TextureManager::LoadTexture();
+	TextureManager::LoadTitleTexture();
 
 	titleSprite_->Initialize(titleImage_);
 	titleSprite_->Create();
@@ -51,7 +51,7 @@ void GameUI::TitleSceneInitialize()
 void GameUI::GameSceneInitialize()
 {
 	//リソースを読み込む
-	TextureManager::LoadTexture();
+	TextureManager::LoadGameTexture();
 
 	//スプライトの初期化
 	playerHPSprite_->Initialize();

@@ -6,7 +6,7 @@
 void GameScene::Initialize()
 {
 	//3Dモデルの読み込みと生成
-	Model3DManager::Load3DModel();
+	Model3DManager::LoadGame3DModel();
 	Object3DGenerate();
 
 	eventBox_ = std::make_unique<EventBox>();

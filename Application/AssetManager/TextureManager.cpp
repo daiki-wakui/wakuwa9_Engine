@@ -8,7 +8,7 @@ TextureManager::~TextureManager()
 {
 }
 
-void TextureManager::LoadTexture()
+void TextureManager::LoadTitleTexture()
 {
 	//タイトルシーンに使うアセット
 	titleImage_ = spBasis_->TextureData(L"Resources/title.png");
@@ -17,6 +17,15 @@ void TextureManager::LoadTexture()
 	filterImage_ = spBasis_->TextureData(L"Resources/fillter.png");
 	testImage_ = spBasis_->TextureData(L"Resources/testB.png");
 
+	spBasis_->TextureSetting();
+
+}
+
+void TextureManager::LoadGameTexture()
+{
+	titleImage_ = spBasis_->TextureData(L"Resources/title.png");
+	sceneChangeImage_ = spBasis_->TextureData(L"Resources/sceneChange.png");
+	filterImage_ = spBasis_->TextureData(L"Resources/fillter.png");
 	//ゲームシーンに使うアセット
 	playerHP_ = spBasis_->TextureData(L"Resources/playerHP.png");
 	bossHP_ = spBasis_->TextureData(L"Resources/red.png");
@@ -34,5 +43,4 @@ void TextureManager::LoadTexture()
 
 
 	spBasis_->TextureSetting();
-
 }
