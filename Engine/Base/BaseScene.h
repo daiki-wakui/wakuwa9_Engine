@@ -7,8 +7,9 @@
 #include "LightGroup.h"
 #include "SpriteBasis.h"
 #include "Sound.h"
+#include "Model3DManager.h"
 
-class BaseScene
+class BaseScene : public Model3DManager
 {
 private:
 

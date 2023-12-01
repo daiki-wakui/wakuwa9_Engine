@@ -285,6 +285,9 @@
     <ClCompile Include="Application\AssetManager\TextureManager.cpp">
       <Filter>ソース ファイル\Application\AssetManager</Filter>
     </ClCompile>
+    <ClCompile Include="Model3DManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Math\Matrix4.h">
@@ -436,6 +439,9 @@
     </ClInclude>
     <ClInclude Include="Application\AssetManager\TextureManager.h">
       <Filter>ヘッダー ファイル\Application\AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Model3DManager.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
