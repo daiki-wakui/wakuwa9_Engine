@@ -55,7 +55,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;DIRECTINPUT_VERSION=0x0800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Application;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Camera;$(ProjectDir)Application\Player;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Boss;$(ProjectDir)Application\Scene;$(ProjectDir)Application\GameSound;$(ProjectDir)Application\Effect;$(ProjectDir)Application\GameObject;$(ProjectDir)Application\GameField;$(ProjectDir)Application\OutGameSystem;$(ProjectDir)Application\AssetManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
