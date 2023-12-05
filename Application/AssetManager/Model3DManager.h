@@ -38,6 +38,8 @@ protected:
 	std::unique_ptr<Model> bulletCononModel_ = std::make_unique<Model>();
 	std::unique_ptr<Model> frameModel_ = std::make_unique<Model>();
 
+private:
+
 public:
 
 	Model3DManager();

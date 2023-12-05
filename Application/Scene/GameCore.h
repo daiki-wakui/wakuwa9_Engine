@@ -1,6 +1,8 @@
 #pragma once
 #include "Framework.h"
 #include "SceneManager.h"
+#include "GameScene.h"
+#include "TitleScene.h"
 
 #include "PostEffect.h"
 #include "ParticleManager.h"
@@ -27,11 +29,13 @@ private:
 	ImGuiManager* imGuiM_ = ImGuiManager::GetInstance();
 	Sound* sound_ = Sound::GetInstance();
 
+	SceneManager* sceneManager_ = SceneManager::GetInstance();
+
 	
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_ = std::make_unique<PostEffect>();
 
-	std::unique_ptr<SceneManager> sceneManager_ = std::make_unique<SceneManager>();
+	//std::unique_ptr<SceneManager> sceneManager_ = std::make_unique<SceneManager>();
 
 	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
 

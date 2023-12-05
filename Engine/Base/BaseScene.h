@@ -9,6 +9,8 @@
 #include "Sound.h"
 #include "Model3DManager.h"
 
+class SceneManager;
+
 class BaseScene : public Model3DManager
 {
 private:
@@ -22,7 +24,11 @@ private:
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 	GamePad* gamePad_ = GamePad::GetInstance();
 
+	
 public:
+	SceneManager* sceneManager_ = nullptr;
+
+	BaseScene();
 	~BaseScene() = default;
 
 	//初期化
@@ -36,6 +42,8 @@ public:
 
 	//描画
 	virtual void Draw() = 0;
+
+	virtual void SetSceneManager(SceneManager* sceneManager) { sceneManager_ = sceneManager; }
 
 };
 

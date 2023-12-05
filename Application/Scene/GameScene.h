@@ -16,6 +16,8 @@
 #include <memory>
 #include <list>
 
+#include "Model3DManager.h"
+
 class GameScene : public BaseScene
 {
 private: // エイリアス

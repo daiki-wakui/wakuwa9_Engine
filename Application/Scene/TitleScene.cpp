@@ -1,6 +1,8 @@
 #include "TitleScene.h"
 #include "SceneList.h"
 #include "SoundManager.h"
+#include "SceneManager.h"
+#include "GameScene.h"
 
 void TitleScene::Initialize()
 {
@@ -53,6 +55,11 @@ void TitleScene::Update()
 	skyObject_->SetPosition(SKYDOME_POS);
 	skyObject_->SetCamera(CAMERA_EYE, CAMERA_TERGET);
 	skyObject_->Update(false);
+
+	if (keyboard_->keyInstantPush(DIK_G)) {
+		BaseScene* scene = new GameScene();
+		sceneManager_->SetNextScene(scene);
+	}
 }
 
 void TitleScene::Draw()

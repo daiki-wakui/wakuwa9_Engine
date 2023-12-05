@@ -48,13 +48,12 @@ void Framework::Initialize()
 
 	//オーディオ初期化
 	sound_->Initialize();
-
-	
 }
 
 void Framework::Finalize()
 {
-
+	sceneManager_->Finalize();
+	
 	imGuiM_->Finalize();
 
 	sound_->Finalize();
@@ -73,6 +72,8 @@ void Framework::Update()
 	gamePad_->Update();
 
 	lightGroup->Update();
+
+	sceneManager_->Update();
 }
 
 void Framework::IsEnd(){

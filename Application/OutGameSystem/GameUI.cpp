@@ -248,7 +248,7 @@ void GameUI::TitleDraw()
 {
 	titleSprite_->Draw(titleImage_);
 	titleUISprite_->Draw(titleUIImage_);
-	sceneSprite_->Draw(sceneChangeImage_);
+	//sceneSprite_->Draw(sceneChangeImage_);
 }
 
 void GameUI::Reset()
@@ -290,7 +290,7 @@ void GameUI::GameDraw()
 
 
 	RBSprite_->Draw(manualImageRB_);
-	sceneSprite_->Draw(sceneChangeImage_);
+	//sceneSprite_->Draw(sceneChangeImage_);
 	fillSprite_->Draw(filterImage_);
 	dFilterSprite_->Draw(damageFilter_);
 	iventSprite_->Draw(iventImage_);

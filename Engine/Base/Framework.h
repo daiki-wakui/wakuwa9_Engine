@@ -7,6 +7,7 @@
 #include "LightGroup.h"
 #include "SpriteBasis.h"
 #include "Sound.h"
+#include "SceneManager.h"
 
 #include "Object3D.h"
 #include "FbxLoader.h"
@@ -45,6 +46,7 @@ private:
 	//サウンド
 	Sound* sound_ = Sound::GetInstance();
 
+	SceneManager* sceneManager_ = SceneManager::GetInstance();
 	
 public:
 

@@ -9,13 +9,16 @@ void GameCore::Initialize()
 	Framework::Initialize();
 	postEffect_->Initialize(0);
 
-	sceneManager_->Initialize();
+	//sceneManager_->Initialize();
+
+	BaseScene* scene = new TitleScene();
+	sceneManager_->SetNextScene(scene);
 }
 
 //後始末
 void GameCore::Finalize()
 {
-	sceneManager_->Finalize();
+	//sceneManager_->Finalize();
 	Framework::Finalize();
 }
 
@@ -24,39 +27,39 @@ void GameCore::Update()
 {
 	Framework::Update();
 	
-	sceneManager_->Update();
+	//sceneManager_->Update();
 
-	//ノイズのエフェクト
-	postEffect_->Update(sceneManager_->GetGameScene()->GetPlayer());
-	
-	if (sceneManager_->GetSceneState() == TITLE) {
-		postEffect_->SetIsEffect(true);
-	}
+	////ノイズのエフェクト
+	//postEffect_->Update(sceneManager_->GetGameScene()->GetPlayer());
+	//
+	//if (sceneManager_->GetSceneState() == TITLE) {
+	//	postEffect_->SetIsEffect(true);
+	//}
 
-	if (sceneManager_->ChangeToGameScene()) {
+	//if (sceneManager_->ChangeToGameScene()) {
 
-		if (sceneManager_->GetSceneState() == TITLE) {
-			postEffect_->SetIsEffect(false);
-		}
-	}
-	
-	if (keyboard_->keyInstantPush(DIK_P)) {
-		isDebug++;
-		isDebug = isDebug % 2;
-	}
+	//	if (sceneManager_->GetSceneState() == TITLE) {
+	//		postEffect_->SetIsEffect(false);
+	//	}
+	//}
+	//
+	//if (keyboard_->keyInstantPush(DIK_P)) {
+	//	isDebug++;
+	//	isDebug = isDebug % 2;
+	//}
 	
 	//デバックImGui
 	imGuiM_->Begin();
 	ImGui::Text("Editor");
 
 	//オブジェクト読み込み直す
-	if (ImGui::Button("ReLoad")) {
+	/*if (ImGui::Button("ReLoad")) {
 		sceneManager_->GetGameScene()->EditorLoad("obj");
 	}
 
 	if (ImGui::Button("DebugPoint")) {
 		sceneManager_->GetGameScene()->GetPlayer()->SetPos(sceneManager_->GetGameScene()->GetDebugPoint()->GetWorldPos());
-	}
+	}*/
 
 	imGuiM_->End();
 }
@@ -77,7 +80,7 @@ void GameCore::Draw()
 	ParticleManager::PreDraw(directX_->GetCommandList());
 	
 	//パーティクル描画
-	sceneManager_->ParticleDraw();
+	//sceneManager_->ParticleDraw();
 
 	ParticleManager::PostDraw();
 	
@@ -90,7 +93,7 @@ void GameCore::Draw()
 	//ポストエフェクトをかけた描画
 	postEffect_->Draw();
 
-	sceneManager_->OffEffectDraw();
+	//sceneManager_->OffEffectDraw();
 	
 	//imgui
 	if (isDebug) {
