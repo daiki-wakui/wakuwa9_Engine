@@ -153,8 +153,10 @@
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SceneFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstactSceneFactory.h" />
     <ClInclude Include="Application\AssetManager\Model3DManager.h" />
     <ClInclude Include="Application\AssetManager\TextureManager.h" />
     <ClInclude Include="Application\Boss\Boss.h" />
@@ -207,6 +209,7 @@
     <ClInclude Include="Engine\Math\MyRandom.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
+    <ClInclude Include="SceneFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">

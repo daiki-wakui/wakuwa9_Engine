@@ -14,6 +14,14 @@ SceneManager* SceneManager::GetInstance()
 	return &instance;
 }
 
+void SceneManager::ChangeScene(const std::string& sceneName)
+{
+	assert(sceneFactory_);
+	assert(nextScene_ == nullptr);
+
+	nextScene_ = sceneFactory_->CreateScene(sceneName);
+}
+
 //初期化
 void SceneManager::Initialize()
 {

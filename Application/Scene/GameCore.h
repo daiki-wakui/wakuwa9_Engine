@@ -3,6 +3,7 @@
 #include "SceneManager.h"
 #include "GameScene.h"
 #include "TitleScene.h"
+#include "SceneFactory.h"
 
 #include "PostEffect.h"
 #include "ParticleManager.h"
@@ -40,6 +41,8 @@ private:
 	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
 
 	int32_t isDebug;
+
+	SceneFactory* sceneFactory_ = nullptr;
 
 public:
 

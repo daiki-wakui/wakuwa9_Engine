@@ -2,7 +2,6 @@
 #include "SceneList.h"
 #include "SoundManager.h"
 #include "SceneManager.h"
-#include "GameScene.h"
 
 void TitleScene::Initialize()
 {
@@ -57,8 +56,7 @@ void TitleScene::Update()
 	skyObject_->Update(false);
 
 	if (keyboard_->keyInstantPush(DIK_G)) {
-		BaseScene* scene = new GameScene();
-		sceneManager_->SetNextScene(scene);
+		sceneManager_->ChangeScene("GAME");
 	}
 }
 

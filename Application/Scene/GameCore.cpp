@@ -11,8 +11,12 @@ void GameCore::Initialize()
 
 	//sceneManager_->Initialize();
 
-	BaseScene* scene = new TitleScene();
-	sceneManager_->SetNextScene(scene);
+	/*BaseScene* scene = new TitleScene();
+	sceneManager_->SetNextScene(scene);*/
+
+	sceneFactory_ = new SceneFactory();
+	SceneManager::GetInstance()->SetSceneFactory(sceneFactory_);
+	SceneManager::GetInstance()->ChangeScene("TITLE");
 }
 
 //後始末
