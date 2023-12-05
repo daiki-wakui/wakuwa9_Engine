@@ -4,7 +4,7 @@
 SceneManager::~SceneManager()
 {
 	scene_->Finalize();
-	delete scene_;
+	scene_.reset();
 }
 
 SceneManager* SceneManager::GetInstance()
@@ -19,7 +19,7 @@ void SceneManager::ChangeScene(const std::string& sceneName)
 	assert(sceneFactory_);
 	assert(nextScene_ == nullptr);
 
-	nextScene_ = sceneFactory_->CreateScene(sceneName);
+	nextScene_ = std::move(sceneFactory_->CreateScene(sceneName));
 }
 
 //初期化
@@ -75,7 +75,7 @@ void SceneManager::Update()
 	if (nextScene_) {
 		if (scene_) {
 			scene_->Finalize();
-			delete scene_;
+			scene_.reset();
 			//scene_ = nullptr;
 			//.reset
 		}
@@ -83,7 +83,7 @@ void SceneManager::Update()
 		//scene_->SetSceneManager(this);
 
 		//unique_ move
-		scene_ = nextScene_;
+		scene_ = std::move(nextScene_);
 		nextScene_ = nullptr;
 		scene_->Initialize();
 	}

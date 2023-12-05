@@ -9,20 +9,17 @@ void GameCore::Initialize()
 	Framework::Initialize();
 	postEffect_->Initialize(0);
 
-	//sceneManager_->Initialize();
-
 	/*BaseScene* scene = new TitleScene();
 	sceneManager_->SetNextScene(scene);*/
 
-	sceneFactory_ = new SceneFactory();
-	SceneManager::GetInstance()->SetSceneFactory(sceneFactory_);
+	sceneFactory_ = std::make_unique<SceneFactory>();
+	SceneManager::GetInstance()->SetSceneFactory(sceneFactory_.get());
 	SceneManager::GetInstance()->ChangeScene("TITLE");
 }
 
 //後始末
 void GameCore::Finalize()
 {
-	//sceneManager_->Finalize();
 	Framework::Finalize();
 }
 

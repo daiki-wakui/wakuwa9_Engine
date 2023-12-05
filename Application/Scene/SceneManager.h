@@ -20,9 +20,11 @@ private:
 	int32_t nowScene_ = 1;
 
 
+	std::unique_ptr<BaseScene> scene_ = nullptr;
+	std::unique_ptr<BaseScene> nextScene_ = nullptr;
 
-	BaseScene* scene_ = nullptr;
-	BaseScene* nextScene_ = nullptr;
+	//BaseScene* scene_ = nullptr;
+	//BaseScene* nextScene_ = nullptr;
 
 	AbstractSceneFactory* sceneFactory_ = nullptr;
 
@@ -40,9 +42,9 @@ private:
 public:
 	static SceneManager* GetInstance();
 
-	void SetNextScene(BaseScene* nextScene) { nextScene_ = nextScene; }
+	//void SetNextScene(BaseScene* nextScene) { nextScene_ = nextScene; }
 	
-	void SetSceneFactory(AbstractSceneFactory* sceneFactory) {sceneFactory_ = sceneFactory;}
+	void SetSceneFactory(AbstractSceneFactory* sceneFactory) {sceneFactory_ = sceneFactory; }
 
 	void ChangeScene(const std::string& sceneName);
 

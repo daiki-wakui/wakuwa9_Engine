@@ -60,8 +60,6 @@ void Framework::Finalize()
 	FbxLoader::GetInstance()->Finalize();
 
 	windows_->Release();
-
-	delete sceneFactory_;
 }
 
 void Framework::Update()

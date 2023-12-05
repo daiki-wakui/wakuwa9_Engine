@@ -48,7 +48,7 @@ private:
 	Sound* sound_ = Sound::GetInstance();
 
 	SceneManager* sceneManager_ = SceneManager::GetInstance();
-	AbstractSceneFactory* sceneFactory_ = nullptr;
+	std::unique_ptr<AbstractSceneFactory> sceneFactory_ = nullptr;
 
 public:
 

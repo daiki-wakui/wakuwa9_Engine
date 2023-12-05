@@ -42,7 +42,7 @@ private:
 
 	int32_t isDebug;
 
-	SceneFactory* sceneFactory_ = nullptr;
+	std::unique_ptr<SceneFactory> sceneFactory_ = nullptr;
 
 public:
 
