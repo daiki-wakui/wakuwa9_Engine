@@ -81,6 +81,6 @@ void Model3DManager::LoadGame3DModel()
 	bossBulletModel_ = std::make_unique<Model>();
 	bossBulletModel_->LoadFromObj("bossbullet");
 
-	frameModel_->LoadFromObj("bossframe");
+	frameModel_->LoadFromObj("b_tele");
 	bulletCononModel_->LoadFromObj("bossconon");
 }

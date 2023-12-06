@@ -51,6 +51,13 @@ private:
 	Vector3 frameRot_;
 	XMFLOAT3 addRot_;
 
+	//しっぽにつかう
+	Vector3 frontVec = { 0, 0, 0 };
+	Vector3 telePos_;
+	float radi_;
+	float angle_;
+	//
+
 	Vector3 cononPos_;
 	Vector3 centerPos_;
 

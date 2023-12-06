@@ -35,7 +35,7 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 	frameObject_ = std::make_unique<Object3D>();
 	frameObject_->SetModel(frameModel_);
 	frameObject_->Initialize();
-	frameObject_->SetScale({ 15,15,15 });
+	frameObject_->SetScale({ 10,10,10 });
 	frameObject_->SetPosition(object_->GetPosition());
 
 	vScale_ = { 15,15,15 };
@@ -64,6 +64,10 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 
 
 	movementPatternCount_ = 0;
+
+	telePos_.x = object_->GetPosition().x;
+	telePos_.y = object_->GetPosition().y;
+	telePos_.z = object_->GetPosition().z + 100;
 }
 
 void Boss::Update(bool move)
@@ -72,31 +76,41 @@ void Boss::Update(bool move)
 		movementPatternCount_ = 0;
 	}
 
+	if (KeyBoard::GetInstance()->keyInstantPush(DIK_1)) {
+		state_ = 1;
+	}
+	if (KeyBoard::GetInstance()->keyInstantPush(DIK_2)) {
+		state_ = 2;
+	}
+	if (KeyBoard::GetInstance()->keyInstantPush(DIK_3)) {
+		state_ = 3;
+	}
+
 	arive_ = true;
-	
+
 	if (!move) {
 		Move();
 	}
 
-	state_ = randState_;
+	//state_ = randState_;
 	frame_++;
 
-	frameRot_.y++;
-	frameRot_.x++;
-	pos_.y = 0.5f * cosf(3.14f * frame_ / 50) + pos_.y;
+	//frameRot_.y++;
+	//frameRot_.x++;
+	//pos_.y = 0.5f * cosf(3.14f * frame_ / 150) + pos_.y;
 	cononPos_.y = pos_.y;
 
 	switch (state_)
 	{
 	case 1:
 
-		frameRot_.y += 3;
-		frameRot_.x -= 10;
+		//frameRot_.y += 3;
+		//frameRot_.x -= 10;
 
 		if (!isPop_ && !isDisappear_) {
 			coolTime_--;
 		}
-		
+
 		visualRot_.x++;
 		visualRot_.z++;
 
@@ -109,8 +123,8 @@ void Boss::Update(bool move)
 		addRot_.y = 2;
 		addRot_.x = 2;
 
-		frameRot_.y += addRot_.y;
-		frameRot_.x += addRot_.x;
+		//frameRot_.y += addRot_.y;
+		//frameRot_.x += addRot_.x;
 
 		if (!isPop_ && !isDisappear_) {
 			coolTime_--;
@@ -123,11 +137,11 @@ void Boss::Update(bool move)
 	case 3:
 
 
-		addRot_.y+=0.1f;
-		addRot_.x+=0.1f;
+		addRot_.y += 0.1f;
+		addRot_.x += 0.1f;
 
-		frameRot_.y += addRot_.y;
-		frameRot_.x += addRot_.x;
+		//frameRot_.y += addRot_.y;
+		//frameRot_.x += addRot_.x;
 
 		if (!isPop_ && !isDisappear_) {
 			coolTime_--;
@@ -135,7 +149,7 @@ void Boss::Update(bool move)
 
 		visualRot_.z += 14.5f;
 		visualRot_.x += 14.5f;
-		
+
 		bulletDirRot_.y += 0.5f;
 		cononPos_.y = pos_.y - 25;
 
@@ -167,7 +181,7 @@ void Boss::Update(bool move)
 			Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };
 			Vector3 end({ 0,0,0 });
 			Vector3 length = { 0, 0, 10 };
-			Vector3 frontVec = { 0, 0, 0 };
+			frontVec = { 0, 0, 0 };
 
 			//終点座標を設定
 			end.x = start.x + length.x;
@@ -175,8 +189,8 @@ void Boss::Update(bool move)
 			end.z = start.z + length.z;
 
 			//回転を考慮した座標を設定
-			end.x = start.x + sinf(bulletDirRot_.y / 40);
-			end.z = start.z + cosf(bulletDirRot_.y / 40);
+			end.x = start.x + sinf(bulletDirRot_.y);
+			end.z = start.z + cosf(bulletDirRot_.y);
 
 			//始点と終点から正面ベクトルを求める
 			frontVec.x = end.x - start.x;
@@ -193,7 +207,7 @@ void Boss::Update(bool move)
 			Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };
 			Vector3 end({ 0,0,0 });
 			Vector3 length = { 0, 0, 10 };
-			Vector3 frontVec = { 0, 0, 0 };
+			frontVec = { 0, 0, 0 };
 
 			//終点座標を設定
 			end.x = start.x + length.x;
@@ -213,9 +227,7 @@ void Boss::Update(bool move)
 
 			velocity_ = frontVec;
 		}
-		
 
-		
 		if (state_ == 1) {
 			std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
 
@@ -227,21 +239,7 @@ void Boss::Update(bool move)
 			coolTime_ = 5;
 		}
 		else if (state_ == 2) {
-			for (int i = 0; i < 2; i++) {
-				std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
-
-				if (i == 0) {
-					newBullet->Initialize(cononPos_, velocity_, bulletModel_, 0);
-				}
-				else {
-					newBullet->Initialize(cononPos_, velocity_, bulletModel_, 1);
-				}
-
-				//弾を登録する
-				bullets_.push_back(std::move(newBullet));
-
-			}
-
+			
 			coolTime_ = 5;
 		}
 		else if (state_ == 3) {
@@ -262,8 +260,8 @@ void Boss::Update(bool move)
 
 			coolTime_ = 2;
 		}
-		
-		
+
+
 	}
 
 	//デスフラグが立った弾を削除
@@ -275,14 +273,22 @@ void Boss::Update(bool move)
 		bullet->Update();
 	}
 
+	//しっぽの座標
+	
+	telePos_.y = 0.5f * cosf(3.14f * frame_ / 100) + telePos_.y;
+
+	playerPos = player_->GetWorldPos();
+	radi_ = std::atan2(telePos_.z - playerPos.z, telePos_.x - playerPos.x);
+	angle_ = radi_ * (180 / 3.14f)+90;
+
 	object_->SetScale({ vScale_.x,vScale_.y ,vScale_.z });
-	frameObject_->SetScale({ vScale_.x,vScale_.y ,vScale_.z });
+//	frameObject_->SetScale({ vScale_.x,vScale_.y ,vScale_.z });
 	bulletCononObject_->SetScale({ vScale_.x,vScale_.y ,vScale_.z });
 
 	object_->SetPosition(pos_);
 	object_->SetRotation(visualRot_);
-	frameObject_->SetRotation(frameRot_);
-	frameObject_->SetPosition(object_->GetPosition());
+	frameObject_->SetRotation({ 90,-angle_,0 });
+	frameObject_->SetPosition(telePos_);
 
 	bulletCononObject_->SetPosition(cononPos_);
 	bulletCononObject_->Update();
