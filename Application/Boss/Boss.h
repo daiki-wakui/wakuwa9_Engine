@@ -54,8 +54,30 @@ private:
 	//しっぽにつかう
 	Vector3 frontVec = { 0, 0, 0 };
 	Vector3 telePos_;
+	bool iaAttack_;
 	float radi_;
 	float angle_;
+	float angle2_;
+	float movetime_;
+	Vector3 attackStart_;
+	Vector3 attackEnd_;
+
+	Vector3 rokStart_;
+	Vector3 rokEnd_;
+	bool isAk_;
+	float atting_;
+	float atting2_;
+	bool backAk_;
+
+	Vector3 endStart_;
+	bool endAk_;
+	Vector3 rotLeapS_;
+	Vector3 rotLeapE_;
+	Vector3 tealRot_;
+
+	Vector3 teleLen_;
+	float len_;
+
 	//
 
 	Vector3 cononPos_;

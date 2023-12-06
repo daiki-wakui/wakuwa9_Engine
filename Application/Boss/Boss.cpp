@@ -67,7 +67,7 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 
 	telePos_.x = object_->GetPosition().x;
 	telePos_.y = object_->GetPosition().y;
-	telePos_.z = object_->GetPosition().z + 100;
+	telePos_.z = object_->GetPosition().z + 30;
 }
 
 void Boss::Update(bool move)
@@ -76,6 +76,25 @@ void Boss::Update(bool move)
 		movementPatternCount_ = 0;
 	}
 
+	//ロックした瞬間(かり)
+	if (KeyBoard::GetInstance()->keyInstantPush(DIK_6)) {
+		atting_ = 0;
+		isAk_ = false;
+		backAk_ = false;
+		rokStart_ = telePos_;
+		rokEnd_ = playerPos;
+	}
+
+	if (KeyBoard::GetInstance()->keyInstantPush(DIK_7)) {
+		isAk_ = true;
+	}
+	
+	if (KeyBoard::GetInstance()->keyInstantPush(DIK_5)) {
+		iaAttack_ = true;
+		attackStart_ = telePos_;
+		attackEnd_ = telePos_;
+		attackEnd_.y += 50;
+	}
 	if (KeyBoard::GetInstance()->keyInstantPush(DIK_1)) {
 		state_ = 1;
 	}
@@ -275,11 +294,77 @@ void Boss::Update(bool move)
 
 	//しっぽの座標
 	
-	telePos_.y = 0.5f * cosf(3.14f * frame_ / 100) + telePos_.y;
+	//telePos_.y = 0.5f * cosf(3.14f * frame_ / 100) + telePos_.y;
+
+	teleLen_ = pos_ - telePos_;
+	len_ = teleLen_.length();
+	teleLen_.normalize();
+
+	if (iaAttack_ && !isAk_) {
+		movetime_++;
+		movetime_ = min(20, movetime_);
+		telePos_ = telePos_.lerp(attackStart_, attackEnd_, Easing::EaseOutQuint(movetime_, 20));
+		angle2_ = 120;
+
+		radi_ = std::atan2(telePos_.z - playerPos.z, telePos_.x - playerPos.x);
+		angle_ = radi_ * (180 / 3.14f) + 90;
+	}
+	else if (isAk_) {
+		angle_ = radi_ * (180 / 3.14f) + 90;
+	}
+	else {
+		telePos_.y = 0.2f * cosf(3.14f * frame_ / 80) + telePos_.y;
+		angle_ = 0;
+		//angle2_ = 0;
+		movetime_ = 0;
+	}
+
+	
+	//しっぽ攻撃中
+	if (isAk_) {
+		
+		telePos_ = telePos_.lerp(rokStart_, rokEnd_, Easing::EaseInCubic(atting_, 30));
+
+		//戻る
+		if (atting_ >= 60) {
+			backAk_ = true;
+
+		}
+
+		if (backAk_) {
+			atting_--;
+			atting_ = max(0, atting_);
+
+			//終了
+			if (atting_ <= 0) {
+				iaAttack_ = false;
+				isAk_ = false;
+				endAk_ = true;
+				endStart_ = object_->GetPosition();
+				endStart_.z += 30;
+				rotLeapS_.x = angle2_;
+				rotLeapE_.x = 0;
+			}
+		}
+		else {
+			atting_++;
+			//atting_ = min(30, atting_);
+		}
+		
+	}
+
+	if (endAk_) {
+		atting_++;
+		telePos_ = telePos_.lerp(rokStart_, endStart_, Easing::EaseInCubic(atting_, 30));
+		tealRot_ = tealRot_.lerp(rotLeapS_, rotLeapE_, Easing::EaseOutBack(atting_, 20));
+		angle2_ = tealRot_.x;
+
+		if (atting_ >= 30) {
+			endAk_ = false;
+		}
+	}
 
 	playerPos = player_->GetWorldPos();
-	radi_ = std::atan2(telePos_.z - playerPos.z, telePos_.x - playerPos.x);
-	angle_ = radi_ * (180 / 3.14f)+90;
 
 	object_->SetScale({ vScale_.x,vScale_.y ,vScale_.z });
 //	frameObject_->SetScale({ vScale_.x,vScale_.y ,vScale_.z });
@@ -287,7 +372,7 @@ void Boss::Update(bool move)
 
 	object_->SetPosition(pos_);
 	object_->SetRotation(visualRot_);
-	frameObject_->SetRotation({ 90,-angle_,0 });
+	frameObject_->SetRotation({ angle2_,-angle_,0});
 	frameObject_->SetPosition(telePos_);
 
 	bulletCononObject_->SetPosition(cononPos_);
@@ -301,9 +386,8 @@ void Boss::Draw()
 {
 	object_->Draw();
 	frameObject_->Draw();
-	
 
-	bulletCononObject_->Draw();
+	//bulletCononObject_->Draw();
 
 	for (std::unique_ptr<BossBullet>& bullet : bullets_) {
 		bullet->Draw();
