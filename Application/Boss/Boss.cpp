@@ -2,6 +2,7 @@
 #include <random>
 #include "Easing.h"
 #include <stdlib.h>
+#include "MyRandom.h"
 
 Vector3 Boss::GetWorldPos()
 {
@@ -325,10 +326,13 @@ void Boss::Update(bool move)
 		
 		telePos_ = telePos_.lerp(rokStart_, rokEnd_, Easing::EaseInCubic(atting_, 30));
 
+		if (atting_ == 30) {
+			grandtele_ = true;
+		}
+
 		//戻る
 		if (atting_ >= 60) {
 			backAk_ = true;
-
 		}
 
 		if (backAk_) {
@@ -351,6 +355,28 @@ void Boss::Update(bool move)
 			//atting_ = min(30, atting_);
 		}
 		
+	}
+
+	if (grandtele_) {
+		Vector3 toEye = Object3D::GetEye();
+		Vector3 toTerget = Object3D::GetTarget();
+		randShack_.x = MyRandom::GetFloatRandom(-2.0f, 2.0f);
+		randShack_.y = MyRandom::GetFloatRandom(-2.0f, 2.0f);
+
+		toEye.x += randShack_.x;
+		toEye.y += randShack_.y;
+		toTerget.x += randShack_.x;
+		toTerget.y += randShack_.y;
+
+		Object3D::SetEye(toEye);
+		Object3D::SetTarget(toTerget);
+
+		shackTimer_++;
+
+		if (shackTimer_ > 15) {
+			grandtele_ = false;
+			shackTimer_ = 0;
+		}
 	}
 
 	if (endAk_) {

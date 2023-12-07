@@ -78,6 +78,9 @@ private:
 	Vector3 teleLen_;
 	float len_;
 
+	bool grandtele_;
+	Vector2 randShack_;
+	float shackTimer_;
 	//
 
 	Vector3 cononPos_;
