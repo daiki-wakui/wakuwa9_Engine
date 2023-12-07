@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "KeyBoard.h"
 #include "Vector2.h"
+#include "Effect.h"
 
 #include <memory>
 
@@ -81,6 +82,12 @@ private:
 	bool grandtele_;
 	Vector2 randShack_;
 	float shackTimer_;
+	bool startAtk_;
+	bool isRokAtk_;
+	float atkTime_[3];
+
+	std::list<std::unique_ptr<Effect>> effects_;
+	bool isEffect_;
 	//
 
 	Vector3 cononPos_;

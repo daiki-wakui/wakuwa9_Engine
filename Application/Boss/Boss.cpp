@@ -77,25 +77,7 @@ void Boss::Update(bool move)
 		movementPatternCount_ = 0;
 	}
 
-	//ロックした瞬間(かり)
-	if (KeyBoard::GetInstance()->keyInstantPush(DIK_6)) {
-		atting_ = 0;
-		isAk_ = false;
-		backAk_ = false;
-		rokStart_ = telePos_;
-		rokEnd_ = playerPos;
-	}
 
-	if (KeyBoard::GetInstance()->keyInstantPush(DIK_7)) {
-		isAk_ = true;
-	}
-	
-	if (KeyBoard::GetInstance()->keyInstantPush(DIK_5)) {
-		iaAttack_ = true;
-		attackStart_ = telePos_;
-		attackEnd_ = telePos_;
-		attackEnd_.y += 50;
-	}
 	if (KeyBoard::GetInstance()->keyInstantPush(DIK_1)) {
 		state_ = 1;
 	}
@@ -112,12 +94,13 @@ void Boss::Update(bool move)
 		Move();
 	}
 
-	//state_ = randState_;
+	state_ = randState_;
 	frame_++;
 
 	//frameRot_.y++;
 	//frameRot_.x++;
-	//pos_.y = 0.5f * cosf(3.14f * frame_ / 150) + pos_.y;
+
+	pos_.y = 0.3f * cosf(3.14f * frame_ / 50) + pos_.y;
 	cononPos_.y = pos_.y;
 
 	switch (state_)
@@ -178,7 +161,7 @@ void Boss::Update(bool move)
 		break;
 	}
 
-	if (coolTime_ == 0) {
+	if (coolTime_ <= 0) {
 
 		if (state_ == 1) {
 			playerPos = player_->GetWorldPos();
@@ -251,15 +234,30 @@ void Boss::Update(bool move)
 		if (state_ == 1) {
 			std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
 
-			newBullet->Initialize(cononPos_, velocity_, bulletModel_, 3);
+			newBullet->Initialize(pos_, velocity_, bulletModel_, 3);
 
 			//弾を登録する
 			bullets_.push_back(std::move(newBullet));
 
-			coolTime_ = 5;
+			coolTime_ = 20;
 		}
 		else if (state_ == 2) {
 			
+			for (int i = 0; i < 2; i++) {
+				std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
+
+				if (i == 0) {
+					newBullet->Initialize(pos_, velocity_, bulletModel_, 0);
+				}
+				else {
+					newBullet->Initialize(pos_, velocity_, bulletModel_, 1);
+				}
+
+				//弾を登録する
+				bullets_.push_back(std::move(newBullet));
+
+			}
+
 			coolTime_ = 5;
 		}
 		else if (state_ == 3) {
@@ -267,10 +265,10 @@ void Boss::Update(bool move)
 				std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
 
 				if (i == 0) {
-					newBullet->Initialize(cononPos_, velocity_, bulletModel_, 0);
+					newBullet->Initialize(pos_, velocity_, bulletModel_, 0);
 				}
 				else {
-					newBullet->Initialize(cononPos_, velocity_, bulletModel_, 1);
+					newBullet->Initialize(pos_, velocity_, bulletModel_, 1);
 				}
 
 				//弾を登録する
@@ -292,6 +290,16 @@ void Boss::Update(bool move)
 	for (std::unique_ptr<BossBullet>& bullet : bullets_) {
 		bullet->Update();
 	}
+
+	//弾の更新処理
+	for (std::unique_ptr<Effect>& effect : effects_) {
+		effect->Update();
+	}
+
+	//デスフラグが立った弾を削除
+	effects_.remove_if([](std::unique_ptr<Effect>& bullet) {
+		return bullet->IsDead();
+		});
 
 	//しっぽの座標
 	
@@ -341,6 +349,11 @@ void Boss::Update(bool move)
 
 			//終了
 			if (atting_ <= 0) {
+				atkTime_[0] = 0;
+				atkTime_[1] = 0;
+				startAtk_ = false;
+				isRokAtk_ = false;
+
 				iaAttack_ = false;
 				isAk_ = false;
 				endAk_ = true;
@@ -348,6 +361,7 @@ void Boss::Update(bool move)
 				endStart_.z += 30;
 				rotLeapS_.x = angle2_;
 				rotLeapE_.x = 0;
+				isEffect_ = false;
 			}
 		}
 		else {
@@ -377,6 +391,19 @@ void Boss::Update(bool move)
 			grandtele_ = false;
 			shackTimer_ = 0;
 		}
+
+		if (!isEffect_) {
+			Vector3 v = { 0,2.0f,0 };
+			for (int i = 0; i < 15; i++) {
+
+				std::unique_ptr<Effect> newObj = std::make_unique<Effect>();
+				newObj->Initialize(telePos_, v, model_);
+				newObj->SetScale(2.0f);
+				effects_.push_back(std::move(newObj));
+			}
+			isEffect_ = true;
+		}
+		
 	}
 
 	if (endAk_) {
@@ -418,6 +445,10 @@ void Boss::Draw()
 	for (std::unique_ptr<BossBullet>& bullet : bullets_) {
 		bullet->Draw();
 	}
+
+	for (std::unique_ptr<Effect>& effect : effects_) {
+		effect->Draw();
+	}
 }
 
 void Boss::OnCollision()
@@ -443,6 +474,38 @@ void Boss::SetBossModels(Model* framemodel, Model* cannonModel)
 
 void Boss::Move()
 {
+	if (atkTime_[0] > 120 && !iaAttack_) {
+		startAtk_ = true;
+	}
+	else {
+		atkTime_[0]++;
+	}
+
+	if (iaAttack_) {
+		atkTime_[1]++;
+
+		if (atkTime_[1] == 60) {
+			atting_ = 0;
+			isAk_ = false;
+			backAk_ = false;
+			rokStart_ = telePos_;
+			rokEnd_ = playerPos;
+		}
+
+		if (atkTime_[1] >= 80) {
+			isAk_ = true;
+			atkTime_[0] = 0;
+		}
+	}
+
+	if (startAtk_) {
+		iaAttack_ = true;
+		attackStart_ = telePos_;
+		attackEnd_ = telePos_;
+		attackEnd_.y += 50;
+		startAtk_ = false;
+	}
+
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
 	std::uniform_real_distribution<float> moveLimitX(-bossLimit_.x, bossLimit_.x);
@@ -491,7 +554,7 @@ void Boss::Move()
 			disappearStart_.z = object_->GetPosition().z;
 
 			disappearEnd_ = disappearStart_;
-			disappearEnd_.y += 150;
+			//disappearEnd_.y;
 		}
 
 		moveTimer_ = 0;

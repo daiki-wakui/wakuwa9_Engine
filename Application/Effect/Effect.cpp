@@ -15,13 +15,14 @@ void Effect::Initialize(Vector3 pos, Vector3& velocity, Model* model)
 
 	bulletObject_->SetPosition(tPos_);
 
-	velocity_.x = MyRandom::GetFloatRandom(-1, 1);
-	velocity_.z = MyRandom::GetFloatRandom(-1, 1);
+	velocity_.x = MyRandom::GetFloatRandom(-2, 3);
+	velocity_.z = MyRandom::GetFloatRandom(-2, 4);
+
 }
 
 void Effect::Update()
 {
-	pow_ += 0.005f;
+	pow_ += 0.01f;
 	velocity_.y -= pow_;
 
 	scale_ -= 0.02f;
@@ -51,4 +52,9 @@ void Effect::Update()
 void Effect::Draw()
 {
 	bulletObject_->Draw();
+}
+
+void Effect::SetScale(float scale)
+{
+	scale_ = scale;
 }

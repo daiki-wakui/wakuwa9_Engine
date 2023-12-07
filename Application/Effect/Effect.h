@@ -31,6 +31,7 @@ public:
 	void Initialize(Vector3 pos, Vector3& velocity, Model* model);
 	void Update();
 	void Draw();
+	void SetScale(float scale);
 
 	DirectX::XMFLOAT3 GetWorldPos();
 };
