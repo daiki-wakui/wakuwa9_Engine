@@ -165,7 +165,7 @@ void Boss::Update(bool move)
 
 		if (state_ == 1) {
 			playerPos = player_->GetWorldPos();
-			enemyPos = bulletCononObject_->GetPosition();
+			enemyPos = object_->GetPosition();
 
 			differenceVec.x = enemyPos.x - playerPos.x;
 			differenceVec.y = enemyPos.y - playerPos.y;
@@ -192,8 +192,8 @@ void Boss::Update(bool move)
 			end.z = start.z + length.z;
 
 			//回転を考慮した座標を設定
-			end.x = start.x + sinf(bulletDirRot_.y);
-			end.z = start.z + cosf(bulletDirRot_.y);
+			end.x = start.x + sinf(bulletDirRot_.y/40);
+			end.z = start.z + cosf(bulletDirRot_.y/40);
 
 			//始点と終点から正面ベクトルを求める
 			frontVec.x = end.x - start.x;
@@ -239,7 +239,7 @@ void Boss::Update(bool move)
 			//弾を登録する
 			bullets_.push_back(std::move(newBullet));
 
-			coolTime_ = 20;
+			coolTime_ = 7;
 		}
 		else if (state_ == 2) {
 			
@@ -469,6 +469,13 @@ void Boss::SetBossModels(Model* framemodel, Model* cannonModel)
 {
 	bulletCononModel_ = cannonModel;
 	frameModel_ = framemodel;
+}
+
+Vector3 Boss::GetBossteleWorldPos()
+{
+	Vector3 pos = telePos_;
+
+	return pos;
 }
 
 

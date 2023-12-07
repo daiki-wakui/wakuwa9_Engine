@@ -691,6 +691,23 @@ void GameScene::AllCollison()
 		}
 	}
 
+	posA = player_->GetWorldPos();
+	posB = boss_->GetBossteleWorldPos();
+
+	r1 = 3;
+	r2 = 25;
+
+	if (Collison(posA, posB, r1, r2)) {
+		if (!player_->Getinvincible()) {
+
+			SoundManager::GetInstance()->PlayWave("noise.wav", 0.5f);
+
+			isShake_ = true;
+		}
+		player_->OnCollision();
+
+	}
+
 	//ボス弾と自機の当たり判定
 	if (boss_->GetArive()) {
 		for (const std::unique_ptr<BossBullet>& bullet : boss_->GetBullets()) {
