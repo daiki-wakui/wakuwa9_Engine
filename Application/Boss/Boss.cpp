@@ -3,6 +3,7 @@
 #include "Easing.h"
 #include <stdlib.h>
 #include "MyRandom.h"
+#include "wa9Math.h"
 
 Vector3 Boss::GetWorldPos()
 {
@@ -25,36 +26,20 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 
 	hp = 50;
 	arive_ = true;
-	state_ = 0;
+	nowState_ = 0;
 	frame_ = 0;
 	moveTimer_ = 0;
 
-	randState_ = 0;
-	
+	tailObject_.reset();
+	tailObject_ = std::make_unique<Object3D>();
+	tailObject_->SetModel(tailModel_);
+	tailObject_->Initialize();
+	tailObject_->SetScale({ 10,10,10 });
+	tailObject_->SetPosition(object_->GetPosition());
 
-	frameObject_.reset();
-	frameObject_ = std::make_unique<Object3D>();
-	frameObject_->SetModel(frameModel_);
-	frameObject_->Initialize();
-	frameObject_->SetScale({ 10,10,10 });
-	frameObject_->SetPosition(object_->GetPosition());
-
-	vScale_ = { 15,15,15 };
-	
-	
-
-	bulletCononObject_.reset();
-	bulletCononObject_ = std::make_unique<Object3D>();
-	bulletCononObject_->SetModel(bulletCononModel_);
-	bulletCononObject_->Initialize();
-	bulletCononObject_->SetScale({ 15,15,15 });
-	bulletCononObject_->SetPosition(object_->GetPosition());
-	cononPos_ = object_->GetPosition();
-
-	randMoveChange_ = 60;
-
+	leapScale_ = { 15,15,15 };
+	randMoveChangeTime_ = 60;
 	bullets_.clear();
-
 
 	movementPattern_[0] = 1;
 	movementPattern_[1] = 1;
@@ -62,13 +47,11 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 	movementPattern_[3] = 3;
 	movementPattern_[4] = 2;
 	movementPattern_[5] = 3;
-
-
 	movementPatternCount_ = 0;
 
-	telePos_.x = object_->GetPosition().x;
-	telePos_.y = object_->GetPosition().y;
-	telePos_.z = object_->GetPosition().z + 30;
+	tailPos_.x = object_->GetPosition().x;
+	tailPos_.y = object_->GetPosition().y;
+	tailPos_.z = object_->GetPosition().z + 30;
 }
 
 void Boss::Update(bool move)
@@ -77,15 +60,14 @@ void Boss::Update(bool move)
 		movementPatternCount_ = 0;
 	}
 
-
 	if (KeyBoard::GetInstance()->keyInstantPush(DIK_1)) {
-		state_ = 1;
+		nowState_ = 1;
 	}
 	if (KeyBoard::GetInstance()->keyInstantPush(DIK_2)) {
-		state_ = 2;
+		nowState_ = 2;
 	}
 	if (KeyBoard::GetInstance()->keyInstantPush(DIK_3)) {
-		state_ = 3;
+		nowState_ = 3;
 	}
 
 	arive_ = true;
@@ -94,57 +76,35 @@ void Boss::Update(bool move)
 		Move();
 	}
 
-	state_ = randState_;
 	frame_++;
 
-	//frameRot_.y++;
-	//frameRot_.x++;
+	pos_.y = 0.3f * cosf(wa9Math::PI() * frame_ / 50) + pos_.y;
 
-	pos_.y = 0.3f * cosf(3.14f * frame_ / 50) + pos_.y;
-	cononPos_.y = pos_.y;
-
-	switch (state_)
+	switch (nowState_)
 	{
 	case 1:
-
-		//frameRot_.y += 3;
-		//frameRot_.x -= 10;
-
 		if (!isPop_ && !isDisappear_) {
 			coolTime_--;
 		}
 
 		visualRot_.x++;
 		visualRot_.z++;
-
-		cononPos_.y = pos_.y - 25;
-
+		
 		break;
 	case 2:
-
-
 		addRot_.y = 2;
 		addRot_.x = 2;
-
-		//frameRot_.y += addRot_.y;
-		//frameRot_.x += addRot_.x;
-
+		
 		if (!isPop_ && !isDisappear_) {
 			coolTime_--;
 		}
 		bulletDirRot_.y += 1.5f;
 		visualRot_.y += 1.5f;
-		cononPos_.y = pos_.y - 25;
-
+		
 		break;
 	case 3:
-
-
 		addRot_.y += 0.1f;
 		addRot_.x += 0.1f;
-
-		//frameRot_.y += addRot_.y;
-		//frameRot_.x += addRot_.x;
 
 		if (!isPop_ && !isDisappear_) {
 			coolTime_--;
@@ -154,133 +114,12 @@ void Boss::Update(bool move)
 		visualRot_.x += 14.5f;
 
 		bulletDirRot_.y += 0.5f;
-		cononPos_.y = pos_.y - 25;
-
 		break;
 	default:
 		break;
 	}
 
-	if (coolTime_ <= 0) {
-
-		if (state_ == 1) {
-			playerPos = player_->GetWorldPos();
-			enemyPos = object_->GetPosition();
-
-			differenceVec.x = enemyPos.x - playerPos.x;
-			differenceVec.y = enemyPos.y - playerPos.y;
-			differenceVec.z = enemyPos.z - playerPos.z;
-			differenceVec /= 3;
-			differenceVec.normalize();
-
-			object_->SetRotation({ 0,0,0 });
-			object_->Update();
-
-			velocity_ = differenceVec;
-			velocity_.multiplyMat4(object_->matWorld_);
-			velocity_ /= 10;
-		}
-		else if (state_ == 2) {
-			Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };
-			Vector3 end({ 0,0,0 });
-			Vector3 length = { 0, 0, 10 };
-			frontVec = { 0, 0, 0 };
-
-			//終点座標を設定
-			end.x = start.x + length.x;
-			end.y = start.y + length.y;
-			end.z = start.z + length.z;
-
-			//回転を考慮した座標を設定
-			end.x = start.x + sinf(bulletDirRot_.y/40);
-			end.z = start.z + cosf(bulletDirRot_.y/40);
-
-			//始点と終点から正面ベクトルを求める
-			frontVec.x = end.x - start.x;
-			frontVec.y = end.y - start.y;
-			frontVec.z = end.z - start.z;
-
-
-			frontVec.normalize();
-
-
-			velocity_ = frontVec;
-		}
-		else if (state_ == 3) {
-			Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };
-			Vector3 end({ 0,0,0 });
-			Vector3 length = { 0, 0, 10 };
-			frontVec = { 0, 0, 0 };
-
-			//終点座標を設定
-			end.x = start.x + length.x;
-			end.y = start.y + length.y;
-			end.z = start.z + length.z;
-
-			//回転を考慮した座標を設定
-			end.x = start.x + sinf(bulletDirRot_.y);
-			end.z = start.z + cosf(bulletDirRot_.y);
-
-			//始点と終点から正面ベクトルを求める
-			frontVec.x = end.x - start.x;
-			frontVec.y = end.y - start.y;
-			frontVec.z = end.z - start.z;
-
-			frontVec.normalize();
-
-			velocity_ = frontVec;
-		}
-
-		if (state_ == 1) {
-			std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
-
-			newBullet->Initialize(pos_, velocity_, bulletModel_, 3);
-
-			//弾を登録する
-			bullets_.push_back(std::move(newBullet));
-
-			coolTime_ = 7;
-		}
-		else if (state_ == 2) {
-			
-			for (int i = 0; i < 2; i++) {
-				std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
-
-				if (i == 0) {
-					newBullet->Initialize(pos_, velocity_, bulletModel_, 0);
-				}
-				else {
-					newBullet->Initialize(pos_, velocity_, bulletModel_, 1);
-				}
-
-				//弾を登録する
-				bullets_.push_back(std::move(newBullet));
-
-			}
-
-			coolTime_ = 5;
-		}
-		else if (state_ == 3) {
-			for (int i = 0; i < 2; i++) {
-				std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
-
-				if (i == 0) {
-					newBullet->Initialize(pos_, velocity_, bulletModel_, 0);
-				}
-				else {
-					newBullet->Initialize(pos_, velocity_, bulletModel_, 1);
-				}
-
-				//弾を登録する
-				bullets_.push_back(std::move(newBullet));
-
-			}
-
-			coolTime_ = 2;
-		}
-
-
-	}
+	Shot();
 
 	//デスフラグが立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<BossBullet>& bullet) {
@@ -299,148 +138,28 @@ void Boss::Update(bool move)
 	//デスフラグが立った弾を削除
 	effects_.remove_if([](std::unique_ptr<Effect>& bullet) {
 		return bullet->IsDead();
-		});
+	});
 
-	//しっぽの座標
-	
-	//telePos_.y = 0.5f * cosf(3.14f * frame_ / 100) + telePos_.y;
+	Tail();
 
-	teleLen_ = pos_ - telePos_;
-	len_ = teleLen_.length();
-	teleLen_.normalize();
-
-	if (iaAttack_ && !isAk_) {
-		movetime_++;
-		movetime_ = min(20, movetime_);
-		telePos_ = telePos_.lerp(attackStart_, attackEnd_, Easing::EaseOutQuint(movetime_, 20));
-		angle2_ = 120;
-
-		radi_ = std::atan2(telePos_.z - playerPos.z, telePos_.x - playerPos.x);
-		angle_ = radi_ * (180 / 3.14f) + 90;
-	}
-	else if (isAk_) {
-		angle_ = radi_ * (180 / 3.14f) + 90;
-	}
-	else {
-		telePos_.y = 0.2f * cosf(3.14f * frame_ / 80) + telePos_.y;
-		angle_ = 0;
-		//angle2_ = 0;
-		movetime_ = 0;
-	}
-
-	
-	//しっぽ攻撃中
-	if (isAk_) {
-		
-		telePos_ = telePos_.lerp(rokStart_, rokEnd_, Easing::EaseInCubic(atting_, 30));
-
-		if (atting_ == 30) {
-			grandtele_ = true;
-		}
-
-		//戻る
-		if (atting_ >= 60) {
-			backAk_ = true;
-		}
-
-		if (backAk_) {
-			atting_--;
-			atting_ = max(0, atting_);
-
-			//終了
-			if (atting_ <= 0) {
-				atkTime_[0] = 0;
-				atkTime_[1] = 0;
-				startAtk_ = false;
-				isRokAtk_ = false;
-
-				iaAttack_ = false;
-				isAk_ = false;
-				endAk_ = true;
-				endStart_ = object_->GetPosition();
-				endStart_.z += 30;
-				rotLeapS_.x = angle2_;
-				rotLeapE_.x = 0;
-				isEffect_ = false;
-			}
-		}
-		else {
-			atting_++;
-			//atting_ = min(30, atting_);
-		}
-		
-	}
-
-	if (grandtele_) {
-		Vector3 toEye = Object3D::GetEye();
-		Vector3 toTerget = Object3D::GetTarget();
-		randShack_.x = MyRandom::GetFloatRandom(-2.0f, 2.0f);
-		randShack_.y = MyRandom::GetFloatRandom(-2.0f, 2.0f);
-
-		toEye.x += randShack_.x;
-		toEye.y += randShack_.y;
-		toTerget.x += randShack_.x;
-		toTerget.y += randShack_.y;
-
-		Object3D::SetEye(toEye);
-		Object3D::SetTarget(toTerget);
-
-		shackTimer_++;
-
-		if (shackTimer_ > 15) {
-			grandtele_ = false;
-			shackTimer_ = 0;
-		}
-
-		if (!isEffect_) {
-			Vector3 v = { 0,2.0f,0 };
-			for (int i = 0; i < 15; i++) {
-
-				std::unique_ptr<Effect> newObj = std::make_unique<Effect>();
-				newObj->Initialize(telePos_, v, model_);
-				newObj->SetScale(2.0f);
-				effects_.push_back(std::move(newObj));
-			}
-			isEffect_ = true;
-		}
-		
-	}
-
-	if (endAk_) {
-		atting_++;
-		telePos_ = telePos_.lerp(rokStart_, endStart_, Easing::EaseInCubic(atting_, 30));
-		tealRot_ = tealRot_.lerp(rotLeapS_, rotLeapE_, Easing::EaseOutBack(atting_, 20));
-		angle2_ = tealRot_.x;
-
-		if (atting_ >= 30) {
-			endAk_ = false;
-		}
-	}
+	ShackEffect();
 
 	playerPos = player_->GetWorldPos();
 
-	object_->SetScale({ vScale_.x,vScale_.y ,vScale_.z });
-//	frameObject_->SetScale({ vScale_.x,vScale_.y ,vScale_.z });
-	bulletCononObject_->SetScale({ vScale_.x,vScale_.y ,vScale_.z });
-
+	object_->SetScale({ leapScale_.x,leapScale_.y ,leapScale_.z });
 	object_->SetPosition(pos_);
 	object_->SetRotation(visualRot_);
-	frameObject_->SetRotation({ angle2_,-angle_,0});
-	frameObject_->SetPosition(telePos_);
-
-	bulletCononObject_->SetPosition(cononPos_);
-	bulletCononObject_->Update();
+	tailObject_->SetRotation({ tailAngle_.x,-tailAngle_.y,0});
+	tailObject_->SetPosition(tailPos_);
 
 	object_->Update();
-	frameObject_->Update();
+	tailObject_->Update();
 }
 
 void Boss::Draw()
 {
 	object_->Draw();
-	frameObject_->Draw();
-
-	//bulletCononObject_->Draw();
+	tailObject_->Draw();
 
 	for (std::unique_ptr<BossBullet>& bullet : bullets_) {
 		bullet->Draw();
@@ -465,15 +184,14 @@ void Boss::SetBulletModel(Model* model)
 	bulletModel_ = model;
 }
 
-void Boss::SetBossModels(Model* framemodel, Model* cannonModel)
+void Boss::SetBossModels(Model* framemodel)
 {
-	bulletCononModel_ = cannonModel;
-	frameModel_ = framemodel;
+	tailModel_ = framemodel;
 }
 
 Vector3 Boss::GetBossteleWorldPos()
 {
-	Vector3 pos = telePos_;
+	Vector3 pos = tailPos_;
 
 	return pos;
 }
@@ -481,36 +199,36 @@ Vector3 Boss::GetBossteleWorldPos()
 
 void Boss::Move()
 {
-	if (atkTime_[0] > 120 && !iaAttack_) {
-		startAtk_ = true;
+	if (tailStateTime_[Wait] > 120 && !iaAttacking_) {
+		startAttack_ = true;
 	}
 	else {
-		atkTime_[0]++;
+		tailStateTime_[Wait]++;
 	}
 
-	if (iaAttack_) {
-		atkTime_[1]++;
+	if (iaAttacking_) {
+		tailStateTime_[Attack]++;
 
-		if (atkTime_[1] == 60) {
-			atting_ = 0;
-			isAk_ = false;
-			backAk_ = false;
-			rokStart_ = telePos_;
+		if (tailStateTime_[Attack] == 60) {
+			attackingTime_ = 0;
+			isTailAttacking_ = false;
+			backTail_ = false;
+			rokStart_ = tailPos_;
 			rokEnd_ = playerPos;
 		}
 
-		if (atkTime_[1] >= 80) {
-			isAk_ = true;
-			atkTime_[0] = 0;
+		if (tailStateTime_[Attack] >= 80) {
+			isTailAttacking_ = true;
+			tailStateTime_[Wait] = 0;
 		}
 	}
 
-	if (startAtk_) {
-		iaAttack_ = true;
-		attackStart_ = telePos_;
-		attackEnd_ = telePos_;
+	if (startAttack_) {
+		iaAttacking_ = true;
+		attackStart_ = tailPos_;
+		attackEnd_ = tailPos_;
 		attackEnd_.y += 50;
-		startAtk_ = false;
+		startAttack_ = false;
 	}
 
 	std::random_device seed_gen;
@@ -552,16 +270,15 @@ void Boss::Move()
 
 	moveTimer_++;
 
-	if (moveTimer_ >= randMoveChange_) {
+	if (moveTimer_ >= randMoveChangeTime_) {
 		if (!isDisappear_) {
-			moveT_ = 0;
+			moveDisappearTime_ = 0;
 			isDisappear_ = true;
 			disappearStart_.x = object_->GetPosition().x;
 			disappearStart_.y = object_->GetPosition().y;
 			disappearStart_.z = object_->GetPosition().z;
 
 			disappearEnd_ = disappearStart_;
-			//disappearEnd_.y;
 		}
 
 		moveTimer_ = 0;
@@ -571,18 +288,17 @@ void Boss::Move()
 
 	//瞬間移動始め
 	if (isDisappear_) {
-		moveT_++;
-		moveT_ = min(20, moveT_);
+		moveDisappearTime_++;
+		moveDisappearTime_ = min(20, moveDisappearTime_);
 
-		vPos_ = vPos_.lerp(disappearStart_, disappearEnd_, Easing::EaseOutQuint(moveT_, 20));
-		vScale_ = vScale_.lerp({ 15,15,15 }, { 0,0,15 }, Easing::EaseOutQuint(moveT_, 20));
+		vPos_ = vPos_.lerp(disappearStart_, disappearEnd_, Easing::EaseOutQuint(moveDisappearTime_, 20));
+		leapScale_ = leapScale_.lerp({ 15,15,15 }, { 0,0,15 }, Easing::EaseOutQuint(moveDisappearTime_, 20));
 
 		pos_.x = vPos_.x;
 		pos_.y = vPos_.y;
 		pos_.z = vPos_.z;
-		cononPos_ = pos_;
-
-		if (moveT_ >= 20) {
+		
+		if (moveDisappearTime_ >= 20) {
 			isPop_ = true;
 
 			pos_.x = centerPos_.x;
@@ -612,7 +328,7 @@ void Boss::Move()
 			isDisappear_ = false;
 			isPop_ = true;
 
-			moveT_ = 0;
+			moveDisappearTime_ = 0;
 
 			object_->SetPosition(pos_);
 			object_->Update();
@@ -632,23 +348,262 @@ void Boss::Move()
 
 	//瞬間移動後
 	if (isPop_) {
-		moveT_++;
-		moveT_ = min(20, moveT_);
+		moveDisappearTime_++;
+		moveDisappearTime_ = min(20, moveDisappearTime_);
 
-		vPos_ = vPos_.lerp(popStart_, popEnd_, Easing::EaseOutQuint(moveT_, 20));
-		vScale_ = vScale_.lerp({ 0,0,15 }, { 15,15,15 }, Easing::EaseOutQuint(moveT_, 20));
+		vPos_ = vPos_.lerp(popStart_, popEnd_, Easing::EaseOutQuint(moveDisappearTime_, 20));
+		leapScale_ = leapScale_.lerp({ 0,0,15 }, { 15,15,15 }, Easing::EaseOutQuint(moveDisappearTime_, 20));
 
 		pos_.x = vPos_.x;
 		pos_.y = vPos_.y;
 		pos_.z = vPos_.z;
-		cononPos_ = pos_;
-
-		if (moveT_ >= 20) {
+		
+		if (moveDisappearTime_ >= 20) {
 			isPop_ = false;
-			randState_ = movementPattern_[movementPatternCount_];
-			randMoveChange_ = rand() % 300 + 60;
+			nowState_ = movementPattern_[movementPatternCount_];
+			randMoveChangeTime_ = rand() % 300 + 60;
 			movementPatternCount_++;
 		}
 	}
 
+}
+
+void Boss::Shot()
+{
+	if (coolTime_ <= 0) {
+
+		if (nowState_ == 1) {
+			playerPos = player_->GetWorldPos();
+			myPos = object_->GetPosition();
+
+			differenceVec.x = myPos.x - playerPos.x;
+			differenceVec.y = myPos.y - playerPos.y;
+			differenceVec.z = myPos.z - playerPos.z;
+			differenceVec /= 3;
+			differenceVec.normalize();
+
+			object_->SetRotation({ 0,0,0 });
+			object_->Update();
+
+			velocity_ = differenceVec;
+			velocity_.multiplyMat4(object_->matWorld_);
+			velocity_ /= 10;
+		}
+		else if (nowState_ == 2) {
+			Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };
+			Vector3 end({ 0,0,0 });
+			Vector3 length = { 0, 0, 10 };
+			frontVec = { 0, 0, 0 };
+
+			//終点座標を設定
+			end.x = start.x + length.x;
+			end.y = start.y + length.y;
+			end.z = start.z + length.z;
+
+			//回転を考慮した座標を設定
+			end.x = start.x + sinf(bulletDirRot_.y / 40);
+			end.z = start.z + cosf(bulletDirRot_.y / 40);
+
+			//始点と終点から正面ベクトルを求める
+			frontVec.x = end.x - start.x;
+			frontVec.y = end.y - start.y;
+			frontVec.z = end.z - start.z;
+
+
+			frontVec.normalize();
+
+
+			velocity_ = frontVec;
+		}
+		else if (nowState_ == 3) {
+			Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };
+			Vector3 end({ 0,0,0 });
+			Vector3 length = { 0, 0, 10 };
+			frontVec = { 0, 0, 0 };
+
+			//終点座標を設定
+			end.x = start.x + length.x;
+			end.y = start.y + length.y;
+			end.z = start.z + length.z;
+
+			//回転を考慮した座標を設定
+			end.x = start.x + sinf(bulletDirRot_.y);
+			end.z = start.z + cosf(bulletDirRot_.y);
+
+			//始点と終点から正面ベクトルを求める
+			frontVec.x = end.x - start.x;
+			frontVec.y = end.y - start.y;
+			frontVec.z = end.z - start.z;
+
+			frontVec.normalize();
+
+			velocity_ = frontVec;
+		}
+
+		if (nowState_ == 1) {
+			std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
+
+			newBullet->Initialize(pos_, velocity_, bulletModel_, 3);
+
+			//弾を登録する
+			bullets_.push_back(std::move(newBullet));
+
+			coolTime_ = 7;
+		}
+		else if (nowState_ == 2) {
+
+			for (int i = 0; i < 2; i++) {
+				std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
+
+				if (i == 0) {
+					newBullet->Initialize(pos_, velocity_, bulletModel_, 0);
+				}
+				else {
+					newBullet->Initialize(pos_, velocity_, bulletModel_, 1);
+				}
+
+				//弾を登録する
+				bullets_.push_back(std::move(newBullet));
+
+			}
+
+			coolTime_ = 5;
+		}
+		else if (nowState_ == 3) {
+			for (int i = 0; i < 2; i++) {
+				std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
+
+				if (i == 0) {
+					newBullet->Initialize(pos_, velocity_, bulletModel_, 0);
+				}
+				else {
+					newBullet->Initialize(pos_, velocity_, bulletModel_, 1);
+				}
+
+				//弾を登録する
+				bullets_.push_back(std::move(newBullet));
+
+			}
+
+			coolTime_ = 2;
+		}
+
+
+	}
+}
+
+void Boss::Tail()
+{
+	//しっぽの座標
+	teleLen_ = pos_ - tailPos_;
+	len_ = teleLen_.length();
+	teleLen_.normalize();
+
+	if (iaAttacking_ && !isTailAttacking_) {
+		movetime_++;
+		movetime_ = min(20, movetime_);
+		tailPos_ = tailPos_.lerp(attackStart_, attackEnd_, Easing::EaseOutQuint(movetime_, 20));
+		tailAngle_.x = 120;
+
+		radian_ = std::atan2(tailPos_.z - playerPos.z, tailPos_.x - playerPos.x);
+		tailAngle_.y = radian_ * (wa9Math::Degree180() / wa9Math::PI()) + wa9Math::Degree90();
+	}
+	else if (isTailAttacking_) {
+		tailAngle_.y = radian_ * (wa9Math::Degree180() / wa9Math::PI()) + wa9Math::Degree90();
+	}
+	else {
+		tailPos_.y = 0.2f * cosf(wa9Math::PI() * frame_ / 80) + tailPos_.y;
+		tailAngle_.y = 0;
+		movetime_ = 0;
+	}
+
+
+	//しっぽ攻撃中
+	if (isTailAttacking_) {
+
+		tailPos_ = tailPos_.lerp(rokStart_, rokEnd_, Easing::EaseInCubic(attackingTime_, 30));
+
+		if (attackingTime_ == 30) {
+			grandTail_ = true;
+		}
+
+		//戻る
+		if (attackingTime_ >= 60) {
+			backTail_ = true;
+		}
+
+		if (backTail_) {
+			attackingTime_--;
+			attackingTime_ = max(0, attackingTime_);
+
+			//終了
+			if (attackingTime_ <= 0) {
+				tailStateTime_[Wait] = 0;
+				tailStateTime_[Attack] = 0;
+				startAttack_ = false;
+
+				iaAttacking_ = false;
+				isTailAttacking_ = false;
+				endAttack_ = true;
+				backTailStart_ = object_->GetPosition();
+				backTailStart_.z += 30;
+				tailRotLeapStart_.x = tailAngle_.x;
+				tailRotLeapEnd_.x = 0;
+				isEffect_ = false;
+			}
+		}
+		else {
+			attackingTime_++;
+		}
+
+	}
+
+	if (endAttack_) {
+		attackingTime_++;
+		tailPos_ = tailPos_.lerp(rokStart_, backTailStart_, Easing::EaseInCubic(attackingTime_, 30));
+		tailRot_ = tailRot_.lerp(tailRotLeapStart_, tailRotLeapEnd_, Easing::EaseOutBack(attackingTime_, 20));
+		tailAngle_.x = tailRot_.x;
+
+		if (attackingTime_ >= 30) {
+			endAttack_ = false;
+		}
+	}
+}
+
+void Boss::ShackEffect()
+{
+	if (grandTail_) {
+		Vector3 toEye = Object3D::GetEye();
+		Vector3 toTerget = Object3D::GetTarget();
+		randShack_.x = MyRandom::GetFloatRandom(-2.0f, 2.0f);
+		randShack_.y = MyRandom::GetFloatRandom(-2.0f, 2.0f);
+
+		toEye.x += randShack_.x;
+		toEye.y += randShack_.y;
+		toTerget.x += randShack_.x;
+		toTerget.y += randShack_.y;
+
+		Object3D::SetEye(toEye);
+		Object3D::SetTarget(toTerget);
+
+		shackTimer_++;
+
+		if (shackTimer_ > 15) {
+			grandTail_ = false;
+			shackTimer_ = 0;
+		}
+
+		if (!isEffect_) {
+			Vector3 v = { 0,2.0f,0 };
+			for (int i = 0; i < 15; i++) {
+
+				std::unique_ptr<Effect> newObj = std::make_unique<Effect>();
+				newObj->Initialize(tailPos_, v, model_);
+				newObj->SetScale(2.0f);
+				effects_.push_back(std::move(newObj));
+			}
+			isEffect_ = true;
+		}
+
+	}
 }

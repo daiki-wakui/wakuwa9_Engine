@@ -113,10 +113,6 @@ void GameScene::Update()
 	if (dPoint_->GetIsArive()) {
 		dPoint_->Update();
 	}
-
-	if (gamePad_->PushInstantY()) {
-		player_->SetPos(dPoint_->GetWorldPos());
-	}
 	
 	for (auto& object : objects) {
 		object->Update();
@@ -524,7 +520,7 @@ void GameScene::ReLoad(const std::string filename)
 			newObject[objSize_]->SetScale({ 15,15,15 });
 			boss_->Initialize(model,newObject[objSize_]->GetPosition(), newObject[objSize_].get(), player_.get());
 			boss_->SetBulletModel(bossBulletModel_.get());
-			boss_->SetBossModels(frameModel_.get(), bulletCononModel_.get());
+			boss_->SetBossModels(frameModel_.get());
 
 			objSize_++;
 		}

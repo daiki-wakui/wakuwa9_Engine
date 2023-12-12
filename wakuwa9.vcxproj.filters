@@ -288,6 +288,9 @@
     <ClCompile Include="Application\AssetManager\Model3DManager.cpp">
       <Filter>ソース ファイル\Application\AssetManager</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Math\wa9Math.cpp">
+      <Filter>ソース ファイル\Engine\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Math\Matrix4.h">
@@ -445,6 +448,9 @@
     </ClInclude>
     <ClInclude Include="Application\AssetManager\Model3DManager.h">
       <Filter>ヘッダー ファイル\Application\AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\wa9Math.h">
+      <Filter>ヘッダー ファイル\Engine\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

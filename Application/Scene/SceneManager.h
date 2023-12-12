@@ -17,7 +17,7 @@ private:
 	std::unique_ptr<TitleScene> titlescene_ = std::make_unique<TitleScene>();
 
 	//現在のシーン
-	int32_t nowScene_ = 1;
+	int32_t nowScene_ = 0;
 
 public:
 

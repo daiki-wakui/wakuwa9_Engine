@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "Easing.h"
+#include "wa9Math.h"
 
 void Enemy::Initialize(Object3D* enemyObject, Vector3 pos, Player* player, int hp, int pattern)
 {
@@ -36,9 +37,7 @@ void Enemy::Initialize(Object3D* enemyObject, Vector3 pos, Player* player, int h
 
 void Enemy::Update(bool shot)
 {
-
 	if (isMove_) {
-
 		timer_++;
 
 		if (pattern_) {
@@ -49,7 +48,7 @@ void Enemy::Update(bool shot)
 			pos_.y = vPos_.y;
 			pos_.z = vPos_.z;
 
-			pos_.y = sinf(3.14f * frame_ * 50) + pos_.y;
+			pos_.y = sinf(wa9Math::PI() * frame_ * 50) + pos_.y;
 
 			frame_++;
 		}
@@ -58,12 +57,10 @@ void Enemy::Update(bool shot)
 			pos_.y = vPos_.y;
 			pos_.z = vPos_.z;
 		}
-		
 
 		if (shot && pattern_) {
 			coolTime_--;
 		}
-
 	}
 	
 	if (coolTime_ == 0) {
@@ -153,4 +150,3 @@ void Enemy::SetShadow(Model* model)
 {
 	shadowModel_ = model;
 }
-
