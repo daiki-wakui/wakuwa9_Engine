@@ -26,6 +26,8 @@ private: // エイリアス
 private:
 
 	Enemy* targetEnemy_ = nullptr;
+	KeyBoard* input_;
+	GamePad* inputPad_;
 
 	Model* playerModel_;
 	Model* bulletModel_;
@@ -36,10 +38,6 @@ private:
 	Object3D* bulletObject_;
 
 	std::unique_ptr<Object3D> reticle3DObject_ = std::make_unique<Object3D>();
-
-
-	KeyBoard* input_;
-	GamePad* inputPad_;
 
 	Vector3 rot_;
 	Vector3 pos_;

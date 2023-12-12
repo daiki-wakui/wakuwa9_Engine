@@ -21,43 +21,42 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 private:
-	Object3D* enemyObject_;
+	const float ENEMY_SCALE_VALUE = 3.0f;
+	const float SHADOW_SCALE_VALUE = 3.5f;
+
 	KeyBoard* input_;
-
-	Vector3 pos_;
-	Vector3 vPos_;
-
 	Player* player_ = nullptr;
+
+	//モデル、オブジェクトを作成する変数
+	Object3D* enemyObject_;
+	Model* bulletModel_;
+	Model* shadowModel_;
+	std::unique_ptr<Object3D> shadowObject_;
+	
+	//playerの情報
 	Vector3 playerPos;
 	Vector3 enemyPos;
 	Vector3	differenceVec;
 
-	Model* bulletModel_;
-
-	Model* shadowModel_;
-	std::unique_ptr<Object3D> shadowObject_;
-
-
-	bool isDead_ = false;
-
+	//雑魚敵の情報
+	Vector3 pos_;
+	Vector3 vPos_;
 	int32_t hp_ = 5;
-
 	int32_t coolTime_ = 10;
-
-	std::list<std::unique_ptr<EnemyBullet>> bullets_;
-
-	int pattern_;
-
-	float addMoveX_ = 0;
-
+	int shotOrNotShot_;	//弾撃つか撃たないか
+	float timer_ = 0;
+	float timerMax_ = 120;
+	bool isDead_ = false;
 	bool isMove_ = false;
 
+	//線形補間の使う変数
 	Vector3 start_;
 	Vector3 end_;
 	Vector3 p0_;
 
-	float timer_ = 0;
-	float timerMax_ = 120;
+	std::list<std::unique_ptr<EnemyBullet>> bullets_;
+
+	void Shot();
 
 public:
 
@@ -66,16 +65,13 @@ public:
 	void Draw();
 
 	bool IsDead() const { return isDead_; }
-
 	void OnCollision();
-
 	Vector3 GetWorldPos();
 	Object3D* GetObj();
 
 	int32_t frame_ = 0;
 
 	void SetBulletModel(Model* model);
-	
 	bool GetIsMove() { return isMove_; }
 	void SetIsMove(bool isMove) { isMove_ = isMove; }
 	void SetShadow(Model* model);
