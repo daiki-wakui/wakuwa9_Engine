@@ -114,6 +114,9 @@ private:
 
 	int32_t isBossRokon_ = false;
 
+
+	float cAngle_;
+	float cRadian_;
 public:
 	void SetRok(bool isactive) { isBossRokon_ = isactive; }
 

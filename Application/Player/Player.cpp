@@ -360,14 +360,15 @@ void Player::tergetCamera()
 	camerapos.y = 10.0f;
 
 	eye = pos_ + camerapos;
-	
-	/*eye_ = eye;
-	target_ = terget;*/
 
 	ParticleManager::SetEye(eye);
 	ParticleManager::SetTarget(terget);
 	playerObject_->SetEye(eye);
 	playerObject_->SetTarget(terget);
+
+	cRadian_ = std::atan2(pos_.z - targetBoss_->GetWorldPos().z, pos_.x - targetBoss_->GetWorldPos().x);
+	cAngle_ = cRadian_ * (180 / (float)PI) - 90;
+	cameraAngle_ = -cAngle_;
 }
 
 void Player::Shot(){
@@ -466,9 +467,6 @@ void Player::PlayerCamera(){
 		r_ = cameraAngle_ * 3.14f / 180.0f;
 		cameraTargetAngle_ = max(cameraTargetAngle_, 0.5f);
 		cameraTargetAngle_ = min(cameraTargetAngle_, 30.0f);
-
-
-		
 
 		eye_.x = pos_.x + (sinf(r_) * CameraXZLen);
 		eye_.z = pos_.z + (cosf(r_) * CameraXZLen);
