@@ -67,6 +67,24 @@ bool GamePad::PushInstantY()
     return false;
 }
 
+bool GamePad::PushInstantLB()
+{
+    if (state_.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER && oldState_.Gamepad.wButtons != XINPUT_GAMEPAD_LEFT_SHOULDER) {
+        return true;
+    }
+
+    return false;
+}
+
+bool GamePad::PushInstantRB()
+{
+    if (state_.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER && oldState_.Gamepad.wButtons != XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+        return true;
+    }
+
+    return false;
+}
+
 bool GamePad::PushButtonA(){
     if (state_.Gamepad.wButtons & XINPUT_GAMEPAD_A) {return true;}
     return false;

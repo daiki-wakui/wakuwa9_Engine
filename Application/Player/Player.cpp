@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Enemy.h"
+#include "Boss.h"
 
 #include <cmath>
 #include <algorithm>
@@ -187,7 +188,19 @@ void Player::Update()
 		rot_.y = -angle_;
 	}
 
-	PlayerCamera();
+	
+	if (inputPad_->PushInstantLB()) {
+		isBossRokon_++;
+		isBossRokon_ = isBossRokon_ % 2;
+	}
+
+	if (isBossRokon_) {
+		tergetCamera();
+	}
+	else {
+		PlayerCamera();
+
+	}
 
 	posPod_ = pos_;
 
@@ -287,9 +300,9 @@ void Player::wallHit()
 	wallHit_ = true;
 }
 
-void Player::SetEnemy(Enemy* enemy)
+void Player::SetEnemy(Boss* boss)
 {
-	targetEnemy_ = enemy;
+	targetBoss_ = boss;
 }
 
 Vector3 Player::GetWorldPos()
@@ -333,6 +346,30 @@ void Player::Missle()
 	}
 }
 
+void Player::tergetCamera()
+{
+	Vector3 terget;
+	Vector3 eye;
+	Vector3 camerapos;
+	terget = targetBoss_->GetWorldPos();
+	camerapos = pos_ - targetBoss_->GetWorldPos();
+	camerapos.y = 0.0f;
+
+	camerapos.normalize();
+	camerapos *= 30;
+	camerapos.y = 10.0f;
+
+	eye = pos_ + camerapos;
+	
+	/*eye_ = eye;
+	target_ = terget;*/
+
+	ParticleManager::SetEye(eye);
+	ParticleManager::SetTarget(terget);
+	playerObject_->SetEye(eye);
+	playerObject_->SetTarget(terget);
+}
+
 void Player::Shot(){
 
 	if (coolTime < 0) {
@@ -373,7 +410,7 @@ void Player::PlayerCamera(){
 
 	float height = toCameraPosXZ.y;
 	toCameraPosXZ.y = 0.0f;
-	float CameraXZLen = toCameraPosXZ.length();
+	float CameraXZLen = 30;
 	toCameraPosXZ.normalize();
 
 	Vector3 terget = pos_;
@@ -431,11 +468,13 @@ void Player::PlayerCamera(){
 		cameraTargetAngle_ = min(cameraTargetAngle_, 30.0f);
 
 
-		eye_.y = cameraTargetAngle_;
+		
 
 		eye_.x = pos_.x + (sinf(r_) * CameraXZLen);
 		eye_.z = pos_.z + (cosf(r_) * CameraXZLen);
 	}
+
+	eye_.y = cameraTargetAngle_;
 
 	playerObject_->SetEye(eye_);
 	playerObject_->SetTarget(target_);

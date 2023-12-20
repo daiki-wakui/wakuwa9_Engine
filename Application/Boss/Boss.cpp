@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "MyRandom.h"
 #include "wa9Math.h"
+#include "Player.h"
 
 Vector3 Boss::GetWorldPos()
 {

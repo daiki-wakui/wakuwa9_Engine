@@ -125,6 +125,8 @@ void GameScene::Update()
 		player_->SetIsShot(false);
 	}
 
+	player_->SetEnemy(boss_.get());
+
 	Vector3 podPos;
 
 	if (coolTime_ < 0) {
@@ -398,7 +400,7 @@ void GameScene::ReLoad(const std::string filename)
 			playerObject_->SetScale(Vector3({ 1,1,1 }));
 			playerObject_->SetPosition(newObject[objSize_]->GetPosition());
 			playerObject_->SetRotation(newObject[objSize_]->GetRotation());
-			playerObject_->SetCamera({ 0, 10, -30.0f }, { 0, 10, 0 });
+			playerObject_->SetCamera({ 0, 20, -30.0f }, { 0, 10, 0 });
 
 			player_.reset();
 			player_ = std::make_unique<Player>();

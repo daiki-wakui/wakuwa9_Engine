@@ -13,6 +13,7 @@
 #include <list>
 
 class Enemy;
+class Boss;
 
 class Player
 {
@@ -25,6 +26,7 @@ private: // エイリアス
 
 private:
 
+	Boss* targetBoss_ = nullptr;
 	Enemy* targetEnemy_ = nullptr;
 	KeyBoard* input_;
 	GamePad* inputPad_;
@@ -59,8 +61,6 @@ private:
 	Vector3 bulletVec_ = { 0,0,0 };
 	Vector3 bulletRTVec_ = { 0,0,0 };
 	Vector3 bulletRTPos_ = { 0,0,0 };
-
-	
 
 	//float dashPower = 5.0f;
 	bool isStep = false;
@@ -112,7 +112,12 @@ private:
 
 	XMFLOAT3 randShake_;
 
+	int32_t isBossRokon_ = false;
+
 public:
+	void SetRok(bool isactive) { isBossRokon_ = isactive; }
+
+
 	bool GetIsShot() { return isShot_; }
 	void SetIsShot(bool isShot) { isShot_ = isShot; }
 
@@ -141,13 +146,15 @@ public:
 
 	void Shot();
 	void Missle();
+	void tergetCamera();
 
 	void PlayerCamera();
 	void RotateAngle();
 	
 	void wallHit();
 
-	void SetEnemy(Enemy* enemy);
+	void SetEnemy(Boss* boss);
+	
 
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
 

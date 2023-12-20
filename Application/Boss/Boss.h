@@ -2,12 +2,13 @@
 #include "Model.h"
 #include "Object3D.h"
 #include "BossBullet.h"
-#include "Player.h"
 #include "KeyBoard.h"
 #include "Vector2.h"
 #include "Effect.h"
 
 #include <memory>
+
+class Player;
 
 //ボスがエリアのどこにいるか
 enum pArea
