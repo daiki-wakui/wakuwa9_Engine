@@ -6,6 +6,7 @@
 #include "wa9Math.h"
 #include "Player.h"
 
+//getter
 Vector3 Boss::GetWorldPos()
 {
 	Vector3 worldPos;
@@ -17,6 +18,7 @@ Vector3 Boss::GetWorldPos()
 	return worldPos;
 }
 
+//初期化
 void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* player)
 {
 	model_ = model;
@@ -55,6 +57,7 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 	tailPos_.z = object_->GetPosition().z + 30;
 }
 
+//更新処理
 void Boss::Update(bool move)
 {
 	if (movementPatternCount_ >= 6) {
@@ -157,6 +160,7 @@ void Boss::Update(bool move)
 	tailObject_->Update();
 }
 
+//描画関数
 void Boss::Draw()
 {
 	object_->Draw();
@@ -171,6 +175,7 @@ void Boss::Draw()
 	}
 }
 
+//当たったときの処理
 void Boss::OnCollision()
 {
 	hp--;
@@ -180,24 +185,26 @@ void Boss::OnCollision()
 	}
 }
 
+//弾のモデル
 void Boss::SetBulletModel(Model* model)
 {
 	bulletModel_ = model;
 }
 
+//ボスのしっぽモデル
 void Boss::SetBossModels(Model* framemodel)
 {
 	tailModel_ = framemodel;
 }
 
-Vector3 Boss::GetBossteleWorldPos()
+Vector3 Boss::GetBossTailWorldPos()
 {
 	Vector3 pos = tailPos_;
 
 	return pos;
 }
 
-
+//移動処理
 void Boss::Move()
 {
 	if (tailStateTime_[Wait] > 120 && !iaAttacking_) {
@@ -369,6 +376,7 @@ void Boss::Move()
 
 }
 
+//弾の処理
 void Boss::Shot()
 {
 	if (coolTime_ <= 0) {
@@ -493,6 +501,7 @@ void Boss::Shot()
 	}
 }
 
+//しっぽ処理
 void Boss::Tail()
 {
 	//しっぽの座標

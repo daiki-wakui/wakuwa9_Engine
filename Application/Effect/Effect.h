@@ -26,13 +26,25 @@ private:
 public:
 	bool isDead_ = false;
 
-	bool IsDead() const { return isDead_; }
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="pos"></param> 初期座標
+	/// <param name="velocity"></param> オブジェクトに加わる速度
+	/// <param name="model"></param> エフェクトに使うモデルの見た目
 	void Initialize(Vector3 pos, Vector3& velocity, Model* model);
+
+	//更新処理
 	void Update();
+
+	//描画関数
 	void Draw();
+
+	//スケール変更
 	void SetScale(float scale);
 
-	DirectX::XMFLOAT3 GetWorldPos();
+	//getter
+	bool IsDead() const { return isDead_; }
 };
 

@@ -108,7 +108,6 @@
     <ClCompile Include="Application\Effect\Effect.cpp" />
     <ClCompile Include="Application\Enemy\Enemy.cpp" />
     <ClCompile Include="Application\Enemy\EnemyBullet.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyCharge.cpp" />
     <ClCompile Include="Application\GameField\LevelEditor.cpp" />
     <ClCompile Include="Application\GameObject\CollisionBox.cpp" />
     <ClCompile Include="Application\GameObject\DebugPoint.cpp" />
@@ -163,7 +162,6 @@
     <ClInclude Include="Application\Effect\Effect.h" />
     <ClInclude Include="Application\Enemy\Enemy.h" />
     <ClInclude Include="Application\Enemy\EnemyBullet.h" />
-    <ClInclude Include="Application\Enemy\EnemyCharge.h" />
     <ClInclude Include="Application\GameField\LevelEditor.h" />
     <ClInclude Include="Application\GameObject\CollisionBox.h" />
     <ClInclude Include="Application\GameObject\DebugPoint.h" />

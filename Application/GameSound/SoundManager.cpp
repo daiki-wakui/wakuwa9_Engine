@@ -1,6 +1,7 @@
 #include "SoundManager.h"
 #include "KeyBoard.h"
 
+//初期化
 void SoundManager::Initialize()
 {
 	//BGM
@@ -19,6 +20,7 @@ void SoundManager::Initialize()
 	sound_->LoadWave("electric_shock3.wav");
 }
 
+//更新処理
 void SoundManager::Update(int32_t state)
 {
 	if (isFiledBGM_) {
@@ -53,16 +55,19 @@ void SoundManager::Update(int32_t state)
 	}
 }
 
+//setter
 void SoundManager::SetBasis(Sound* sound)
 {
 	sound_ = sound;
 }
 
+//SE鳴らす用
 void SoundManager::PlayWave(const std::string& filename, float volue)
 {
 	sound_->PlayWave(filename, volue);
 }
 
+//シングルートン
 SoundManager* SoundManager::GetInstance()
 {
 	static SoundManager instance;
@@ -70,6 +75,7 @@ SoundManager* SoundManager::GetInstance()
 	return &instance;
 }
 
+//BGMを止める
 void SoundManager::StopBGM()
 {
 	

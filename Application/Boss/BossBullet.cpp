@@ -2,6 +2,7 @@
 #include <random>
 #include "MyRandom.h"
 
+//初期化
 void BossBullet::Initialize(Vector3 pos, Vector3& velocity, Model* model, int32_t randState)
 {
 	tPos_ = pos;
@@ -20,6 +21,7 @@ void BossBullet::Initialize(Vector3 pos, Vector3& velocity, Model* model, int32_
 	bulletState_ = randState;
 }
 
+//更新処理
 void BossBullet::Update()
 {
 
@@ -49,11 +51,13 @@ void BossBullet::Update()
 	}
 }
 
+//描画関数
 void BossBullet::Draw()
 {
 	bulletObject_->Draw();
 }
 
+//getter
 Vector3 BossBullet::GetWorldPos()
 {
 	Vector3 worldPos;

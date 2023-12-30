@@ -1,13 +1,16 @@
 #include "TextureManager.h"
 
+//コンストラクタ
 TextureManager::TextureManager()
 {
 }
 
+//デストラクタ
 TextureManager::~TextureManager()
 {
 }
 
+//タイトルシーンで使うスプライト読み込み
 void TextureManager::LoadTitleTexture()
 {
 	//タイトルシーンに使うアセット
@@ -21,6 +24,7 @@ void TextureManager::LoadTitleTexture()
 
 }
 
+//ゲームシーンで使うスプライト読み込み
 void TextureManager::LoadGameTexture()
 {
 	titleImage_ = spBasis_->TextureData(L"Resources/title.png");

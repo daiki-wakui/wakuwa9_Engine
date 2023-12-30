@@ -1,5 +1,6 @@
 #include "DebugPoint.h"
 
+//getter
 Vector3 DebugPoint::GetWorldPos()
 {
 	Vector3 worldPos;
@@ -11,6 +12,7 @@ Vector3 DebugPoint::GetWorldPos()
 	return worldPos;
 }
 
+//初期化
 void DebugPoint::Initialize(Model* Model, Object3D* Object)
 {
 	model_ = Model;
@@ -19,11 +21,13 @@ void DebugPoint::Initialize(Model* Model, Object3D* Object)
 	valid_ = true;
 }
 
+//更新処理
 void DebugPoint::Update()
 {
 	object_->Update();
 }
 
+//描画関数
 void DebugPoint::Draw()
 {
 	object_->Draw();

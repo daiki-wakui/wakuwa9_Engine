@@ -79,19 +79,34 @@ private:
 	bool movieEnd_ = false;
 public:
 
+	//コンストラクタ、デストラクタ
 	GameUI();
 	~GameUI();
 
+	//リセット関数
 	void Reset();
 
 	//タイトルシーンUI
+	//初期化
 	void TitleSceneInitialize();
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	/// <param name="sceneChange"></param> シーン遷移中
 	void TitleUpdate(bool sceneChange);
+
+	//描画関数
 	void TitleDraw();
 
 	//ゲームシーンUI
+	//初期化
 	void GameSceneInitialize();
+
+	//更新処理
 	void GameUpdate();
+
+	//描画関数
 	void GameDraw();
 
 	//ポストエフェクトをかけないスプライトの描画
@@ -100,10 +115,13 @@ public:
 	//ダメージシェイク時の処理
 	void Shake();
 
+	//BossHPUIの更新処理
 	void BossHpUI();
 
+	//ゲームシーンのシーン遷移のフェード用関数
 	void SceneStartFadeUI();
 
+	//ボス戦のイベントムービー用の関数
 	void BossIventSceneUI();
 
 public:	//getter,setter
@@ -114,11 +132,10 @@ public:	//getter,setter
 	float GetSceneChangeAlpha() { return ChangeTitleAlpha_; }
 	float GetGameSceneChangeAlpha() { return ChangeGameAlpha_; }
 
+	void SetMovieEnd(bool movieEnd) { movieEnd_ = movieEnd; }
+
 	//必要な情報を借りてくる
 	void SetInfo(Player* player, Object3D* playerObject, Boss* boss);
 	void boolInfo(bool hitBox, bool isIvent);
-
-
-	void SetMovieEnd(bool movieEnd) { movieEnd_ = movieEnd; }
 };
 

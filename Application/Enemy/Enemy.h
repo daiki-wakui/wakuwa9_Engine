@@ -41,6 +41,7 @@ private:
 	//雑魚敵の情報
 	Vector3 pos_;
 	Vector3 vPos_;
+	int32_t frame_ = 0;
 	int32_t hp_ = 5;
 	int32_t coolTime_ = 10;
 	int shotOrNotShot_;	//弾撃つか撃たないか
@@ -56,27 +57,44 @@ private:
 
 	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 
+	//弾の処理
 	void Shot();
 
 public:
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="enemyObject"></param> オブジェクト情報
+	/// <param name="pos"></param> 初期座標
+	/// <param name="player"></param> player情報
+	/// <param name="hp"></param> このオブジェクトのHP
+	/// <param name="pattern"></param> 行動パターンパラメータ
 	void Initialize(Object3D* enemyObject, Vector3 pos, Player* player, int hp = 3, int pattern = 1);
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	/// <param name="shot"></param> 弾を撃つか撃たないか
 	void Update(bool shot);
+
+	//描画関数
 	void Draw();
 
-	bool IsDead() const { return isDead_; }
+	//当たったときの処理
 	void OnCollision();
+
+	//getter
+	bool IsDead() const { return isDead_; }
+	bool GetIsMove() { return isMove_; }
 	Vector3 GetWorldPos();
 	Object3D* GetObj();
+	const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
 
-	int32_t frame_ = 0;
-
+	//setter
 	void SetBulletModel(Model* model);
-	bool GetIsMove() { return isMove_; }
 	void SetIsMove(bool isMove) { isMove_ = isMove; }
 	void SetShadow(Model* model);
-
-	const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
 };
 
 

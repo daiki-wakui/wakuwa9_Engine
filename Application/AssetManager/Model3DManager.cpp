@@ -1,13 +1,16 @@
 #include "Model3DManager.h"
 
+//コンストラクタ
 Model3DManager::Model3DManager()
 {
 }
 
+//デストラクタ
 Model3DManager::~Model3DManager()
 {
 }
 
+//タイトルシーンで使うモデル読み込み
 void Model3DManager::LoadTitle3DModel()
 {
 	//タイトル
@@ -17,6 +20,7 @@ void Model3DManager::LoadTitle3DModel()
 
 }
 
+//ゲームシーンで使うモデル読み込み
 void Model3DManager::LoadGame3DModel()
 {
 	//ゲーム

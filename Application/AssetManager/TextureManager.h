@@ -37,10 +37,14 @@ protected:
 
 public:
 
+	//コンストラクタ、デストラクタ
 	TextureManager();
 	~TextureManager();
 
+	//タイトルシーンで使うスプライト読み込み
 	void LoadTitleTexture();
+
+	//ゲームシーンで使うスプライト読み込み
 	void LoadGameTexture();
 
 };

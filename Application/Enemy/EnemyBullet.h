@@ -20,13 +20,24 @@ private:
 public:
 	bool isDead_ = false;
 
-	bool IsDead() const { return isDead_; }
-
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="pos"></param> 初期座標
+	/// <param name="velocity"></param> 弾の速度
+	/// <param name="model"></param> モデルの見た目
 	void Initialize(Vector3 pos, Vector3& velocity,Model* model);
+
+	//更新処理
 	void Update();
+
+	//描画関数
 	void Draw();
 
+	//getter
 	Vector3 GetWorldPos();
+	bool IsDead() const { return isDead_; }
+
 };
 
 

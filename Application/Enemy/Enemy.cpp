@@ -28,6 +28,7 @@ void Enemy::Initialize(Object3D* enemyObject, Vector3 pos, Player* player, int h
 	shadowObject_->SetScale({ SHADOW_SCALE_VALUE, SHADOW_SCALE_VALUE, SHADOW_SCALE_VALUE });
 }
 
+//更新処理
 void Enemy::Update(bool shot)
 {
 	//動き開始
@@ -64,6 +65,7 @@ void Enemy::Update(bool shot)
 	shadowObject_->Update();
 }
 
+//描画関数
 void Enemy::Draw()
 {
 	enemyObject_->Draw();
@@ -74,6 +76,7 @@ void Enemy::Draw()
 	}
 }
 
+//当たったときの処理
 void Enemy::OnCollision()
 {
 	hp_--;
@@ -83,6 +86,7 @@ void Enemy::OnCollision()
 	}
 }
 
+//座標のgetter
 Vector3 Enemy::GetWorldPos()
 {
 	Vector3 worldPos;
@@ -94,6 +98,7 @@ Vector3 Enemy::GetWorldPos()
 	return worldPos;
 }
 
+//オブジェクト情報のgetter
 Object3D* Enemy::GetObj()
 {
 	Object3D* obj;
@@ -103,6 +108,7 @@ Object3D* Enemy::GetObj()
 	return obj;
 }
 
+//setter
 void Enemy::SetBulletModel(Model* model)
 {
 	bulletModel_ = model;
@@ -113,6 +119,7 @@ void Enemy::SetShadow(Model* model)
 	shadowModel_ = model;
 }
 
+//弾の処理
 void Enemy::Shot()
 {
 	//弾発射

@@ -129,11 +129,14 @@ private:
 	Vector2 randShack_;
 	float shackTimer_;
 
-	//移動
+	//移動処理
 	void Move();
+	//弾打つ関数
 	void Shot();
+	//しっぽの処理関数
 	void Tail();
 
+	//しっぽ攻撃時に発生するシェイク
 	void ShackEffect();
 
 public:
@@ -141,21 +144,35 @@ public:
 	bool arive_ = false;
 	int32_t hp = 50;
 
-	Vector3 GetWorldPos();
-
+	//初期化
+	//Model ボスのモデル
+	//Vector3 初期座標
+	//Object3D ボスのオブジェクト情報
+	//Player プレイヤーの情報
 	void Initialize(Model* model, Vector3 pos, Object3D* Object,Player* player);
+
+	//更新処理
+	//bool ボスが移動可能な状態か
 	void Update(bool move);
+
+	//描画関数
 	void Draw();
+
+	//当たったときの処理
 	void OnCollision();
 
+	//弾のモデルの見た目登録
 	void SetBulletModel(Model* model);
+
+	//しっぽのモデルの見た目登録
 	void SetBossModels(Model* tailmodel);
 
+	//gettter
 	int32_t GetHP() const { return hp; }
 	bool GetArive() const { return arive_; }
-
 	const std::list<std::unique_ptr<BossBullet>>& GetBullets() { return bullets_; }
-
-	Vector3 GetBossteleWorldPos();
+	//座標のgettter
+	Vector3 GetWorldPos();
+	Vector3 GetBossTailWorldPos();
 };
 

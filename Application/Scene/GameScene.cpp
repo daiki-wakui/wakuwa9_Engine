@@ -327,7 +327,7 @@ void GameScene::pDraw()
 	particleMan_->Draw();
 
 	if (!isIvent_) {
-		player_->pDraw();
+		player_->ParticleDraw();
 	}
 }
 
@@ -690,7 +690,7 @@ void GameScene::AllCollison()
 	}
 
 	posA = player_->GetWorldPos();
-	posB = boss_->GetBossteleWorldPos();
+	posB = boss_->GetBossTailWorldPos();
 
 	r1 = 3;
 	r2 = 25;

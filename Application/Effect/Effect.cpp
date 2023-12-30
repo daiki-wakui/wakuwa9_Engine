@@ -2,6 +2,7 @@
 #include <random>
 #include "MyRandom.h"
 
+//初期化
 void Effect::Initialize(Vector3 pos, Vector3& velocity, Model* model)
 {
 	tPos_ = pos;
@@ -20,6 +21,7 @@ void Effect::Initialize(Vector3 pos, Vector3& velocity, Model* model)
 
 }
 
+//更新処理
 void Effect::Update()
 {
 	pow_ += 0.01f;
@@ -49,11 +51,13 @@ void Effect::Update()
 	}
 }
 
+//描画関数
 void Effect::Draw()
 {
 	bulletObject_->Draw();
 }
 
+//スケール変更
 void Effect::SetScale(float scale)
 {
 	scale_ = scale;

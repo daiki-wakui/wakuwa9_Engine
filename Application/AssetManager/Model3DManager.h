@@ -40,10 +40,14 @@ protected:
 
 public:
 
+	//コンストラクタ、デストラクタ
 	Model3DManager();
 	~Model3DManager();
 
+	//タイトルシーンで使うモデル読み込み
 	void LoadTitle3DModel();
+
+	//ゲームシーンで使うモデル読み込み
 	void LoadGame3DModel();
 
 };

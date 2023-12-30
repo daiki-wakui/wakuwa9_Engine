@@ -2,14 +2,17 @@
 #include "MyRandom.h"
 #include "Easing.h"
 
+//コンストラクタ
 GameUI::GameUI()
 {
 }
 
+//デストラクタ
 GameUI::~GameUI()
 {
 }
 
+//借りてくる情報
 void GameUI::SetInfo(Player* player ,Object3D* playerObject, Boss* boss)
 {
 	player_ = player;
@@ -23,6 +26,7 @@ void GameUI::boolInfo(bool hitBox, bool isIvent)
 	isIvent_ = isIvent;
 }
 
+//タイトルシーンUI初期化
 void GameUI::TitleSceneInitialize()
 {
 	TextureManager::LoadTitleTexture();
@@ -48,6 +52,7 @@ void GameUI::TitleSceneInitialize()
 	fillSprite_->Update();
 }
 
+//ゲームシーンUI初期化
 void GameUI::GameSceneInitialize()
 {
 	//リソースを読み込む
@@ -113,6 +118,7 @@ void GameUI::GameSceneInitialize()
 
 }
 
+//タイトルシーンUI更新処理
 void GameUI::TitleUpdate(bool sceneChange)
 {
 	titleSprite_->Update();
@@ -131,6 +137,7 @@ void GameUI::TitleUpdate(bool sceneChange)
 
 }
 
+//ゲームシーンUI更新処理
 void GameUI::GameUpdate()
 {
 	iventSprite_->SetColor({ 1,1,1,iventAlpha_ });
@@ -244,6 +251,7 @@ void GameUI::GameUpdate()
 	bulletRreticleSprite_->Update();
 }
 
+//タイトルシーンUI描画関数
 void GameUI::TitleDraw()
 {
 	titleSprite_->Draw(titleImage_);
@@ -251,14 +259,7 @@ void GameUI::TitleDraw()
 	sceneSprite_->Draw(sceneChangeImage_);
 }
 
-void GameUI::Reset()
-{
-	ChangeGameAlpha_ = 1;
-	pow_ = 0;
-	count_ = 0;
-	waringSprite_->SetSize({ 1280,720 });
-}
-
+//ゲームシーンUI描画関数
 void GameUI::GameDraw()
 {
 
@@ -296,11 +297,22 @@ void GameUI::GameDraw()
 	iventSprite_->Draw(iventImage_);
 }
 
+//リセット関数
+void GameUI::Reset()
+{
+	ChangeGameAlpha_ = 1;
+	pow_ = 0;
+	count_ = 0;
+	waringSprite_->SetSize({ 1280,720 });
+}
+
+//ポストエフェクトをかけないスプライトの描画
 void GameUI::OffDraw()
 {
 	fillSprite_->Draw(filterImage_);
 }
 
+//ダメージシェイク時の処理
 void GameUI::Shake()
 {
 	randShake_.x = MyRandom::GetFloatRandom(-2.0f, 2.0f);
@@ -310,18 +322,21 @@ void GameUI::Shake()
 	bossHPSprite_->SetPosition({ 640 + randShake_.x * 5,80 + randShake_.y * 5 });
 }
 
+//BossHPUIの更新処理
 void GameUI::BossHpUI()
 {
 	bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
 	bossHPSprite_->Update();
 }
 
+//ゲームシーンのシーン遷移のフェード用関数
 void GameUI::SceneStartFadeUI() {
 	ChangeGameAlpha_ -= 0.05f;
 	ChangeGameAlpha_ = max(ChangeGameAlpha_, 0);
 	sceneSprite_->SetColor({ 1,1,1,ChangeGameAlpha_ });
 }
 
+//ボス戦のイベントムービー用の関数
 void GameUI::BossIventSceneUI() {
 	if (isIvent_) {
 		iventAlpha_ += 0.05f;
