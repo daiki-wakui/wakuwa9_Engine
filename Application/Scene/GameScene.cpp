@@ -41,7 +41,7 @@ void GameScene::Update()
 	if (isShake_) {
 		shakeTimer_++;
 
-		if (shakeTimer_ > 30) {
+		if (shakeTimer_ > MAX_SHACK_TIME) {
 			isShake_ = false;
 			shakeTimer_ = 0;
 		}
@@ -82,7 +82,7 @@ void GameScene::Update()
 	//スプライト更新処理
 	SpriteUpdate();
 
-	shadowObject_->SetPosition({ playerObject_->GetPosition().x,2,playerObject_->GetPosition().z });
+	shadowObject_->SetPosition({ playerObject_->GetPosition().x,SHADOW_POS_Y,playerObject_->GetPosition().z });
 	shadowObject_->Update();
 
 	//弾の更新処理
@@ -100,9 +100,6 @@ void GameScene::Update()
 
 	if (change_) {
 		SoundManager::GetInstance()->StopBGM();
-		
-		playBGM_ = false;
-		power = 1;
 	}
 
 	//ゲーム画面
@@ -124,7 +121,7 @@ void GameScene::Update()
 	player_->Update();
 	if (player_->GetIsShot()) {
 
-		SoundManager::GetInstance()->PlayWave("Shot.wav", 0.25f);
+		SoundManager::GetInstance()->PlayWave("Shot.wav", BULLET_SHOT_VOLUE);
 		player_->SetIsShot(false);
 	}
 
@@ -134,12 +131,12 @@ void GameScene::Update()
 
 	if (coolTime_ < 0) {
 		isShotEffect_ = true;
-		coolTime_ = 2;
+		coolTime_ = COOLTIME_NUM;
 	}
 
 	if (gamePad_->PushButtonRB()) {
-		podRot.y = podObject_->GetRotation().y - 180;
-		podRot.z += 225;
+		podRot.y = podObject_->GetRotation().y - BIT_ROT_VOLUE_Y;
+		podRot.z += BIT_ROT_VOLUE_Z;
 		coolTime_--;
 	}
 
@@ -168,7 +165,7 @@ void GameScene::Update()
 		Object3D::SetEye(tmpEye);
 		Object3D::SetTarget(target);
 
-		if (timer_ > 60) {
+		if (timer_ > EVENT_TIME_FRAME) {
 
 			if (!bossBGM_) {
 				SoundManager::GetInstance()->Update(2);
@@ -179,14 +176,14 @@ void GameScene::Update()
 		//イベントシーン終わり
 		if (timer_ > maxTime_) {
 			isIvent_ = false;
-			Vector3 eye = { 0,20,-30 };
+			Vector3 eye = LNIT_EYE;
 
 			Object3D::SetEye(eye);
-			eye = { 0,10,0 };
+			eye = LNIT_TERGET;
 			Object3D::SetTarget(eye);
-			iventEye_ = { 450,100,750 };
+			iventEye_ = LNIT_EVENT_EYE;
 			gameUI_->SetMovieEnd(true);
-			SoundManager::GetInstance()->PlayWave("Warning.wav", 2);
+			SoundManager::GetInstance()->PlayWave("Warning.wav", WARNING_VOLUE);
 		}
 	}
 
@@ -267,9 +264,9 @@ void GameScene::ObjectUpdate()
 		int size = 0;
 		//弾の生成と初期化
 
-		Vector3 v = { 0,1.5f,0 };
+		Vector3 v = { 0,EFFECT_Y,0 };
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < EFFECT_NUM; i++) {
 
 			std::unique_ptr<Effect> newObj = std::make_unique<Effect>();
 			newObj->Initialize(startEffect_, v, konnpeModel_.get());
@@ -277,7 +274,7 @@ void GameScene::ObjectUpdate()
 			size++;
 		}
 
-		if (size == 10) {
+		if (size == EFFECT_NUM) {
 			isEffect_ = false;
 		}
 	}
@@ -407,10 +404,10 @@ void GameScene::ReLoad(const std::string filename)
 			Inport(model, i);
 
 			playerObject_->Initialize();
-			playerObject_->SetScale(Vector3({ 1,1,1 }));
+			playerObject_->SetScale(PLAYER_SCALE);
 			playerObject_->SetPosition(newObject[objSize_]->GetPosition());
 			playerObject_->SetRotation(newObject[objSize_]->GetRotation());
-			playerObject_->SetCamera({ 0, 20, -30.0f }, { 0, 10, 0 });
+			playerObject_->SetCamera(LNIT_EYE, LNIT_TERGET);
 
 			player_.reset();
 			player_ = std::make_unique<Player>();
@@ -430,7 +427,7 @@ void GameScene::ReLoad(const std::string filename)
 			// 座標
 			DirectX::XMFLOAT3 rocalPos;
 			DirectX::XMStoreFloat3(&rocalPos, levelData_->objects[i].translation);
-			newObject[objSize_]->SetPosition({ rocalPos.x+15,rocalPos.y,rocalPos.z });
+			newObject[objSize_]->SetPosition({ rocalPos.x+ DOOR_POS_VOLUE_X,rocalPos.y,rocalPos.z });
 
 			newDoor[doorCount_] = std::make_unique<Door>();
 			newDoor[doorCount_]->Initialize(model, newObject[objSize_].get());
@@ -529,7 +526,7 @@ void GameScene::ReLoad(const std::string filename)
  			Inport(model, i);
 
 
-			newObject[objSize_]->SetScale({ 15,15,15 });
+			newObject[objSize_]->SetScale(BOSS_SCALE);
 			boss_->Initialize(model,newObject[objSize_]->GetPosition(), newObject[objSize_].get(), player_.get());
 			boss_->SetBulletModel(bossBulletModel_.get());
 			boss_->SetBossModels(frameModel_.get());
@@ -613,8 +610,8 @@ void GameScene::AllCollison()
 {
 	//当たり判定
 	Vector3 posA, posB;
-	float r1 = 1.0f;	//イベントのスケール
-	float r2 = 1.0f;	//自機のスケール
+	float r1;	//イベントのスケール
+	float r2;	//自機のスケール
 
 	//自弾リストの取得
 	const std::list<std::unique_ptr<PlayerBullet>>& playerBullets = player_->GetBullets();
@@ -625,8 +622,8 @@ void GameScene::AllCollison()
 		posB = eventBox_->GetWorldPos();
 
 		//AとBの距離
-		r1 = 6.0f;	//イベントのスケール
-		r2 = 13.0f;	//自機のスケール
+		r1 = COL_PLAYER_SCALE;	//イベントのスケール
+		r2 = COL_EVENTBOX_SCALE;	//自機のスケール
 
 		if (Collison(posA, posB, r1, r2)) {
 			if (!isTutorial_) {
@@ -642,8 +639,8 @@ void GameScene::AllCollison()
 		posB = ChangeBox_->GetWorldPos();
 
 		//AとBの距離
-		r1 = 3.0f;	//イベントのスケール
-		r2 = 13.0f;	//自機のスケール
+		r1 = COL_PLAYER_SCALE;	//イベントのスケール
+		r2 = COL_EVENTBOX_SCALE;	//自機のスケール
 
 		if (Collison(posA, posB, r1, r2)) {
 			if (ChangeBox_->GetLoadEditor()) {
@@ -661,8 +658,8 @@ void GameScene::AllCollison()
 			posB = bullet->GetWorldPos();
 
 			//AとBの距離
-			r1 = 20.0f;	//敵のスケール
-			r2 = 1.0f;	//弾のスケール
+			r1 = COL_BOSS_SCALE;	//敵のスケール
+			r2 = COL_BULLET_SCALE;	//弾のスケール
 
 			if (Collison(posA, posB, r1, r2) && hitBox_) {
 				bullet->isDead_ = true;
@@ -682,8 +679,8 @@ void GameScene::AllCollison()
 			posB = bullet->GetWorldPos();
 
 			//AとBの距離
-			r1 = 7.0f;	//敵のスケール
-			r2 = 1.0f;	//弾のスケール
+			r1 = COL_PLAYER_SCALE;	//敵のスケール
+			r2 = COL_BULLET_SCALE;	//弾のスケール
 
 			if (Collison(posA, posB, r1, r2)) {
 				bullet->isDead_ = true;
@@ -706,8 +703,8 @@ void GameScene::AllCollison()
 	posA = player_->GetWorldPos();
 	posB = boss_->GetBossTailWorldPos();
 
-	r1 = 3;
-	r2 = 25;
+	r1 = COL_PLAYER_SCALE;
+	r2 = COL_BOSS_TAIL_SCALE;
 
 	if (Collison(posA, posB, r1, r2)) {
 		if (!player_->Getinvincible()) {
@@ -727,8 +724,8 @@ void GameScene::AllCollison()
 			posB = bullet->GetWorldPos();
 
 			//AとBの距離
-			r1 = 7.0f;	//敵のスケール
-			r2 = 1.0f;	//弾のスケール
+			r1 = COL_PLAYER_SCALE;	//敵のスケール
+			r2 = COL_BULLET_SCALE;	//弾のスケール
 
 			if (Collison(posA, posB, r1, r2)) {
 				bullet->isDead_ = true;
@@ -747,8 +744,8 @@ void GameScene::AllCollison()
 
 	for (const std::unique_ptr<Enemy>& enemy : enemys_) {
 		//AとBの距離
-		r1 = 3.0f;	//自機のスケール
-		r2 = 175.0f;	//索敵範囲のスケール
+		r1 = COL_PLAYER_SCALE;	//自機のスケール
+		r2 = COL_SEARCH_ENEMY_SCALE;	//索敵範囲のスケール
 
 		posA = player_->GetWorldPos();
 		posB = enemy->GetWorldPos();
@@ -767,8 +764,8 @@ void GameScene::AllCollison()
 			posB = bullet->GetWorldPos();
 
 			//AとBの距離
-			r1 = 7.0f;	//敵のスケール
-			r2 = 1.0f;	//弾のスケール
+			r1 = COL_ENEMY_SCALE;	//敵のスケール
+			r2 = COL_BULLET_SCALE;	//弾のスケール
 
 			if (Collison(posA, posB, r1, r2)) {
 				bullet->isDead_ = true;
@@ -791,19 +788,19 @@ void GameScene::Object3DGenerate()
 	shadowObject_ = std::make_unique<Object3D>();
 	shadowObject_->SetModel(shadowModel_.get());
 	shadowObject_->Initialize();
-	shadowObject_->SetScale({ 1.5f, 1.5f, 1.5f });
+	shadowObject_->SetScale(SHADOW_SCALE);
 
 	poriObject_ = std::make_unique<Object3D>();
 	poriObject_->SetModel(poriModel_.get());
 	poriObject_->Initialize();
-	poriObject_->SetScale({ 5,5,5 });
-	poriObject_->SetPosition({ 0,10,10 });
+	poriObject_->SetScale(SHOT_EFFECT_SCALE);
+	poriObject_->SetPosition(SHOT_EFFECT_POS);
 
 	//3Dオブジェクト生成
 	playerObject_ = std::make_unique<Object3D>();
 	playerObject_->SetModel(playerModel_.get());
 	playerObject_->Initialize();
-	playerObject_->SetScale(Vector3({ 1,1,1 }));
+	playerObject_->SetScale(Vector3(PLAYER_SCALE));
 	playerObject_->SetPosition({ 0,0,0 });
 
 	podObject_ = std::make_unique<Object3D>();
@@ -817,12 +814,12 @@ void GameScene::Object3DGenerate()
 	skyObject_ = std::make_unique<Object3D>();
 	skyObject_->SetModel(skydomGameModel_.get());
 	skyObject_->Initialize();
-	skyObject_->SetScale(Vector3({ 900,900,900 }));
-	skyObject_->SetPosition({ 0,0,100 });
+	skyObject_->SetScale(SKY_SCALE);
+	skyObject_->SetPosition(SKY_POS);
 
 	bossObject_ = std::make_unique<Object3D>();
 	bossObject_->SetModel(enemyModel_.get());
 	bossObject_->Initialize();
-	bossObject_->SetScale({ 15,15,15 });
-	bossObject_->SetPosition({ 0,20,370 });
+	bossObject_->SetScale(BOSS_SCALE);
+	bossObject_->SetPosition(BOSS_POS);
 }
