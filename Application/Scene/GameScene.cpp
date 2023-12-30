@@ -665,7 +665,7 @@ void GameScene::AllCollison()
 				bullet->isDead_ = true;
 				boss_->OnCollision();
 
-				SoundManager::GetInstance()->PlayWave("Hit.wav", 0.12f);
+				SoundManager::GetInstance()->PlayWave("Hit.wav", HIT_SE_VOLUE);
 			}
 		}
 	}
@@ -687,14 +687,14 @@ void GameScene::AllCollison()
 
 				if (!player_->Getinvincible()) {
 
-					SoundManager::GetInstance()->PlayWave("noise.wav", 0.5f);
+					SoundManager::GetInstance()->PlayWave("noise.wav", NOISE_SE_VOLUE);
 
 					isShake_ = true;
 				}
 				player_->OnCollision();
 
 				if (player_->GetHP() <= 1) {
-					SoundManager::GetInstance()->PlayWave("electric_shock3.wav", 1.1f);
+					SoundManager::GetInstance()->PlayWave("electric_shock3.wav", SHOCK_SE_VOLUE);
 				}
 			}
 		}
@@ -709,7 +709,7 @@ void GameScene::AllCollison()
 	if (Collison(posA, posB, r1, r2)) {
 		if (!player_->Getinvincible()) {
 
-			SoundManager::GetInstance()->PlayWave("noise.wav", 0.5f);
+			SoundManager::GetInstance()->PlayWave("noise.wav", NOISE_SE_VOLUE);
 
 			isShake_ = true;
 		}
@@ -732,7 +732,7 @@ void GameScene::AllCollison()
 
 				if (!player_->Getinvincible()) {
 
-					SoundManager::GetInstance()->PlayWave("noise.wav", 0.5f);
+					SoundManager::GetInstance()->PlayWave("noise.wav", NOISE_SE_VOLUE);
 
 					isShake_ = true;
 				}
@@ -771,7 +771,7 @@ void GameScene::AllCollison()
 				bullet->isDead_ = true;
 				enemy->OnCollision();
 				BulletEffect = true;
-				SoundManager::GetInstance()->PlayWave("Hit.wav", 0.12f);
+				SoundManager::GetInstance()->PlayWave("Hit.wav", HIT_SE_VOLUE);
 			}
 
 			if (enemy->IsDead()) {

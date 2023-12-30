@@ -48,6 +48,9 @@ private: //定数
 	const Vector3 SHADOW_SCALE = { 1.5f, 1.5f, 1.5f};
 	const float BULLET_SHOT_VOLUE = 0.25f;
 	const float WARNING_VOLUE = 2.0f;
+	const float NOISE_SE_VOLUE = 0.5f;
+	const float SHOCK_SE_VOLUE = 1.1f;
+	const float HIT_SE_VOLUE = 0.12f;
 	const Vector3 SHOT_EFFECT_SCALE = { 5.0f, 5.0f, 5.0f };
 	const Vector3 SHOT_EFFECT_POS = { 0.0f, 10.0f, 10.0f };
 	const Vector3 SKY_SCALE = { 900.0f, 900.0f, 900.0f };
