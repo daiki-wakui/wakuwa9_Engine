@@ -33,6 +33,7 @@ void Effect::Update()
 	rot_.y = bulletObject_->GetRotation().y;
 	rot_.z = bulletObject_->GetRotation().z;
 
+	
 	rot_.x += 1000;
 	rot_.z += 1000;
 
@@ -40,6 +41,7 @@ void Effect::Update()
 	bulletObject_->SetScale({ scale_,scale_,scale_ });
 	bulletObject_->Update();
 
+	//飛び散る
 	tPos_.x += velocity_.x;
 	tPos_.y += velocity_.y;
 	tPos_.z += velocity_.z;

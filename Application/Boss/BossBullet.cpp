@@ -24,7 +24,7 @@ void BossBullet::Initialize(Vector3 pos, Vector3& velocity, Model* model, int32_
 //更新処理
 void BossBullet::Update()
 {
-
+	//弾の動き方によって処理を変える
 	if (bulletState_ != 3) {
 		if (bulletState_) {
 			tPos_.x -= velocity_.x + addRand_;
