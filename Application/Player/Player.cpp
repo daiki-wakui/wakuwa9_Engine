@@ -7,6 +7,7 @@
 #include <random>
 
 #include "MyRandom.h"
+#include "wa9Math.h"
 
 //初期化
 void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject)
@@ -46,12 +47,12 @@ void Player::Update()
 	frontVec.z = eye_.z - target_.z;
 
 	frontVec.normalize();
-	frontVec /= 1.5f;
+	frontVec /= FRONT_VECTOR_RATE;
 
 	if (dash) {
-		dashPower_ += 0.2f;
+		dashPower_ += DASH_POWTER_VOLUE;
 
-		dashPower_ = min(dashPower_, 1.5f);
+		dashPower_ = min(dashPower_, DASH_POWTER_MAX_VOLUE);
 
 		frontVec.x *= dashPower_;
 		frontVec.z *= dashPower_;
@@ -61,15 +62,15 @@ void Player::Update()
 		Vector3 tmppos = pos_;
 
 		Vector3 vel{};
-		vel.x = MyRandom::GetFloatRandom(-0.2f, 0.2f);
-		vel.y = MyRandom::GetFloatRandom(-0.2f, 0.2f);
+		vel.x = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
+		vel.y = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
 
-		moveParticle_->Add(60, tmppos, vel, { 0,0,0 }, 2.0f, 0.0f);
+		moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);
 
 		frontMove_.x = -frontVec.x;
 		frontMove_.z = -frontVec.z;
 		rot_.x++;
-		rot_.x = min(rot_.x, 5);
+		rot_.x = min(rot_.x, ROT_MAX);
 	}
 	else {
 		if (!inputPad_->InputLStick() && rot_.x > 0) {
@@ -83,15 +84,15 @@ void Player::Update()
 		Vector3 tmppos = pos_;
 
 		Vector3 vel{};
-		vel.x = MyRandom::GetFloatRandom(-0.2f, 0.2f);
-		vel.y = MyRandom::GetFloatRandom(-0.2f, 0.2f);
+		vel.x = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
+		vel.y = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
 
-		moveParticle_->Add(60, tmppos, vel, { 0,0,0 }, 2.0f, 0.0f);
+		moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);
 
 		frontMove_.x = frontVec.x;
 		frontMove_.z = frontVec.z;
 		rot_.x--;
-		rot_.x = max(rot_.x, -5);
+		rot_.x = max(rot_.x, -ROT_MAX);
 	}
 	else {
 		if (!inputPad_->InputLStick() && rot_.x < 0) {
@@ -109,15 +110,15 @@ void Player::Update()
 		Vector3 tmppos = pos_;
 
 		Vector3 vel{};
-		vel.x = MyRandom::GetFloatRandom(-0.2f, 0.2f);
-		vel.y = MyRandom::GetFloatRandom(-0.2f, 0.2f);
+		vel.x = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
+		vel.y = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
 
-		moveParticle_->Add(60, tmppos, vel, { 0,0,0 }, 2.0f, 0.0f);
+		moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);
 
 		sideMove_.x = -moveXVec.x;
 		sideMove_.z = -moveXVec.z;
 		rot_.z--;
-		rot_.z = max(rot_.z, -5);
+		rot_.z = max(rot_.z, -ROT_MAX);
 	}
 	else {
 		sideMove_ *= friction;
@@ -132,15 +133,15 @@ void Player::Update()
 		Vector3 tmppos = pos_;
 
 		Vector3 vel{};
-		vel.x = MyRandom::GetFloatRandom(-0.2f, 0.2f);
-		vel.y = MyRandom::GetFloatRandom(-0.2f, 0.2f);
+		vel.x = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
+		vel.y = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
 
-		moveParticle_->Add(60, tmppos, vel, { 0,0,0 }, 2.0f, 0.0f);
+		moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);
 
 		sideMove_.x = moveXVec.x;
 		sideMove_.z = moveXVec.z;
 		rot_.z++;
-		rot_.z = min(rot_.z, 5);
+		rot_.z = min(rot_.z, ROT_MAX);
 	}
 	else {
 		if (!inputPad_->InputLStick() && rot_.z > 0) {
@@ -168,7 +169,7 @@ void Player::Update()
 	pos_.y += sideMove_.y;
 	pos_.z += sideMove_.z;
 	
-	pos_.y = sinf(3.14f * (frame + 20) * 40) * 0.5f + 10;
+	pos_.y = sinf(wa9Math::PI() * (frame + ADD_FRAME) * FRAME_RATE) * POS_Y_RATE + ADD_POS_Y_VOLUE;
 
 	frame++;
 
@@ -202,14 +203,14 @@ void Player::Update()
 
 	posPod_ = pos_;
 
-	posPod_.x += sideMove_.x + 5;
+	posPod_.x += sideMove_.x + ADD_BIT_X_VOLUE;
 
-	posPod_.y = sinf(3.14f * frame * 40) * 0.5f + 10;
+	posPod_.y = sinf(wa9Math::PI() * frame * BIT_FRAME_RATE) * BIT_POS_Y_RATE + ADD_BIT_POS_Y_VOLUE;
 	posPod_.y += 7;
 
 	bulletVec_.x = eye_.x - pos_.x;
 	bulletVec_.z = eye_.z - posPod_.z;
-	bulletVec_.y = (eye_.y - 5) - posPod_.y;
+	bulletVec_.y = (eye_.y - BULLET_VECTOR_Y_VOLUE) - posPod_.y;
 
 	bulletVec_.normalize();
 
@@ -227,7 +228,7 @@ void Player::Update()
 	bulletRTPos_ = posPod_;
 	bulletRTVec_ = bulletVec_;
 
-	bulletRTVec_ *= -150;
+	bulletRTVec_ *= BULLET_RT_VECTOR_RATE;
 
 	bulletRTPos_ += bulletRTVec_;
 
@@ -278,7 +279,7 @@ bool Player::OnCollision()
 
 		isHit_ = true;
 		isInvincible_ = true;
-		invincibleFrame_ = 200;
+		invincibleFrame_ = INVINCIBLE_FRAME_VLOUE;
 	}
 
 	if (HP <= 0) {
@@ -297,7 +298,7 @@ void Player::Missle()
 	target.z = targetEnemy_->GetWorldPos().z;
 
 	//弾の生成と初期化
-	for (int i = 0; i < 4; i++) {
+	for (int i = 0; i < MISSLE_NUM; i++) {
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 		newBullet->Initialize(posPod_, target, bulletModel_);
 		newBullet->SetMissile(true);
@@ -316,8 +317,8 @@ void Player::tergetCamera()
 	camerapos.y = 0.0f;
 
 	camerapos.normalize();
-	camerapos *= 30;
-	camerapos.y = 10.0f;
+	camerapos *= ROK_CAMERA_POS_RATE;
+	camerapos.y = ROK_CAMERA_POS_Y_VOLUE;
 
 	eye = pos_ + camerapos;
 
@@ -327,7 +328,7 @@ void Player::tergetCamera()
 	playerObject_->SetTarget(terget);
 
 	cRadian_ = std::atan2(pos_.z - targetBoss_->GetWorldPos().z, pos_.x - targetBoss_->GetWorldPos().x);
-	cAngle_ = cRadian_ * (180 / (float)PI) - 90;
+	cAngle_ = cRadian_ * (wa9Math::Degree180() / (float)PI) - wa9Math::Degree90();
 	cameraAngle_ = -cAngle_;
 }
 
@@ -338,17 +339,16 @@ void Player::Shot(){
 		isShot_ = true;
 
 		//弾の速度
-		const float kBulletSpeed = 15.0f;
+		const float kBulletSpeed = SHOT_SPEED_VOLUE;
 
 		bulletVec_ *= -kBulletSpeed;
-
 
 		//弾の生成と初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 		newBullet->Initialize(posPod_, bulletVec_, bulletModel_);
 		bullets_.push_back(std::move(newBullet));
 
-		coolTime = 4;
+		coolTime = SHOT_COOLTIME_VOLUE;
 	}
 
 	//弾の更新処理
@@ -359,7 +359,7 @@ void Player::Shot(){
 	//デスフラグが立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {
 		return bullet->IsDead();
-		});
+	});
 }
 
 //操作カメラ
@@ -373,11 +373,11 @@ void Player::PlayerCamera(){
 
 	float height = toCameraPosXZ.y;
 	toCameraPosXZ.y = 0.0f;
-	float CameraXZLen = 30;
+	float CameraXZLen = MOVE_CAMERA_LENGTH_VOLUE;
 	toCameraPosXZ.normalize();
 
 	Vector3 terget = pos_;
-	terget.y += 10.0f;
+	terget.y += MOVE_CAMERA_TARGET_Y_VOLUE;
 
 	XMFLOAT3 toNewCameraPos;
 	toNewCameraPos.x = eye_.x - terget.x;
@@ -394,9 +394,9 @@ void Player::PlayerCamera(){
 
 	toNewCameraPosv.normalize();
 
-	float weight = 0.3f;
+	float weight = MOVE_CAMERA_ROT_WEIGHT_VOLUE;
 
-	toNewCameraPosv = toNewCameraPosv * weight + toCameraPosXZ * (1.0f - weight);
+	toNewCameraPosv = toNewCameraPosv * weight + toCameraPosXZ * (MOVE_CAMERA_ROT_MAX_WEIGHT_VOLUE - weight);
 	toNewCameraPosv.normalize();
 	toNewCameraPosv *= CameraXZLen;
 	toNewCameraPosv.y = height;
@@ -412,23 +412,23 @@ void Player::PlayerCamera(){
 	cameraTargetAngle_ = playerObject_->GetEye().y;
 
 	if (inputPad_->InputRStickRight()) {
-		cameraAngle_ += 1.5f;
+		cameraAngle_ += MOVE_CAMERA_ANGLE_VOLUE;
 	}
 	else if (inputPad_->InputRStickLeft()) {
-		cameraAngle_ -= 1.5f;
+		cameraAngle_ -= MOVE_CAMERA_ANGLE_VOLUE;
 	}
 
 	if (inputPad_->InputRStickUp()) {
-		cameraTargetAngle_ -= 0.25f;
+		cameraTargetAngle_ -= MOVE_CAMERA_TARGET_ANGLE_VOLUE;
 	}
 	else if (inputPad_->InputRStickDown()) {
-		cameraTargetAngle_ += 0.25f;
+		cameraTargetAngle_ += MOVE_CAMERA_TARGET_ANGLE_VOLUE;
 	}
 
 	if (inputPad_->InputRStick()) {
-		r_ = cameraAngle_ * 3.14f / 180.0f;
-		cameraTargetAngle_ = max(cameraTargetAngle_, 0.5f);
-		cameraTargetAngle_ = min(cameraTargetAngle_, 30.0f);
+		r_ = cameraAngle_ * wa9Math::PI() / wa9Math::Degree180();
+		cameraTargetAngle_ = max(cameraTargetAngle_, MOVE_CAMERA_TARGET_MIN_ANGLE);
+		cameraTargetAngle_ = min(cameraTargetAngle_, MOVE_CAMERA_TARGET_MAX_ANGLE);
 
 		eye_.x = pos_.x + (sinf(r_) * CameraXZLen);
 		eye_.z = pos_.z + (cosf(r_) * CameraXZLen);
@@ -447,7 +447,7 @@ void Player::PlayerCamera(){
 void Player::RotateAngle()
 {
 	radi_ = std::atan2(pos_.z - eye_.z, pos_.x - eye_.x);
-	angle_ = radi_ * (180 / (float)PI) - 90;
+	angle_ = radi_ * (wa9Math::Degree180() / wa9Math::PI()) - wa9Math::Degree90();
 }
 
 void Player::SetBulletModel(Model* model, Object3D* obj)

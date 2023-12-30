@@ -31,6 +31,52 @@ private: // エイリアス
 
 private:
 
+	const float FRONT_VECTOR_RATE = 1.5f;
+	const float DASH_POWTER_VOLUE = 0.2f;
+	const float DASH_POWTER_MAX_VOLUE = 1.5f;
+
+	const float EFFECT_MIN = -0.2f;
+	const float EFFECT_MAX = 0.2f;
+	const int32_t PARTICLE_TIME = 60;
+	const Vector3 PARTICLE_ACCEL = { 0,0,0 };
+	const float PARTICLE_START_SCALE = 2.0f;
+	const float PARTICLE_END_SCALE = 0.0f;
+
+	const float ROT_MAX = 5;
+
+	const int32_t ADD_FRAME = 20;
+	const int32_t FRAME_RATE = 40;
+	const float POS_Y_RATE = 0.5f;
+	const float ADD_POS_Y_VOLUE = 10.0f;
+
+	const float ADD_BIT_X_VOLUE = 5.0f;
+	const int32_t BIT_FRAME_RATE = 40;
+	const float BIT_POS_Y_RATE = 0.5f;
+	const float ADD_BIT_POS_Y_VOLUE = 10.0f;
+
+	const float BULLET_VECTOR_Y_VOLUE = 5.0f;
+	const float BULLET_RT_VECTOR_RATE = -150.0f;
+
+	const int32_t INVINCIBLE_FRAME_VLOUE = 200;
+	const int32_t MISSLE_NUM = 4;
+
+	const float ROK_CAMERA_POS_RATE = 30.0f;
+	const float ROK_CAMERA_POS_Y_VOLUE = 10.0f;
+
+	const float SHOT_SPEED_VOLUE = 15.0f;
+	const int32_t SHOT_COOLTIME_VOLUE = 4;
+
+	const float MOVE_CAMERA_LENGTH_VOLUE = 30.0f;
+	const float MOVE_CAMERA_TARGET_Y_VOLUE = 10.0f;
+	const float MOVE_CAMERA_ROT_MAX_WEIGHT_VOLUE = 1.0f;
+	const float MOVE_CAMERA_ROT_WEIGHT_VOLUE = 0.3f;
+	const float MOVE_CAMERA_ANGLE_VOLUE = 1.5f;
+	const float MOVE_CAMERA_TARGET_ANGLE_VOLUE = 0.25f;
+	const float MOVE_CAMERA_TARGET_MIN_ANGLE = 0.5f;
+	const float MOVE_CAMERA_TARGET_MAX_ANGLE = 30.0f;
+
+private:
+
 	Boss* targetBoss_ = nullptr;
 	Enemy* targetEnemy_ = nullptr;
 	KeyBoard* input_;
