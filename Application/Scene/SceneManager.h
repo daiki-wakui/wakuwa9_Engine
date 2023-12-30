@@ -4,6 +4,11 @@
 
 #include <memory>
 
+/**
+ * @file SceneManager
+ * @brief シーン管理しているクラス
+ */
+
 class SceneManager
 {
 private:

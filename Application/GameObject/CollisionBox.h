@@ -2,6 +2,11 @@
 #include "Model.h"
 #include "Object3D.h"
 
+/**
+ * @file CollisionBox
+ * @brief 壁の判定を行うクラス(現在使ってない消して作り直すかも)
+ */
+
 class CollisionBox
 {
 private:

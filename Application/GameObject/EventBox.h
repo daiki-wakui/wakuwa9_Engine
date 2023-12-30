@@ -2,6 +2,11 @@
 #include "Model.h"
 #include "Object3D.h"
 
+/**
+ * @file EventBox
+ * @brief フィールドに設置するボスのイベントムービーの開始判定やステージ切り替えの判定を行うクラス
+ */
+
 class EventBox
 {
 private:

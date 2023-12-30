@@ -2,6 +2,11 @@
 #include "Model.h"
 #include "Object3D.h"
 
+/**
+ * @file Door
+ * @brief フィールドにあるドアの更新、描画クラス
+ */
+
 class Door
 {
 private:

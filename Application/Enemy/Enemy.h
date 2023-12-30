@@ -11,6 +11,11 @@
 
 class Player;
 
+/**
+ * @file Enemy
+ * @brief 雑魚敵の行動や攻撃を行うクラス
+ */
+
 class Enemy
 {
 private: // エイリアス

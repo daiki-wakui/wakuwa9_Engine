@@ -3,6 +3,11 @@
 #include "Object3D.h"
 #include "Vector3.h"
 
+/**
+ * @file Effect
+ * @brief 飛び散るエフェクトを出すクラス
+ */
+
 class Effect
 {
 private:

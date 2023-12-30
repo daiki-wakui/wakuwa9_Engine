@@ -3,6 +3,11 @@
 #include "Object3D.h"
 #include "Vector3.h"
 
+/**
+ * @file BossBullet
+ * @brief ボスの弾の攻撃の処理、描画を行うクラス
+ */
+
 class BossBullet
 {
 private:

@@ -1,6 +1,11 @@
 #pragma once
 #include "Sound.h"
 
+/**
+ * @file SoundManager
+ * @brief BGMやSEを管理しているクラス
+ */
+
 class SoundManager
 {
 public:

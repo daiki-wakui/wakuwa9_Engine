@@ -3,6 +3,11 @@
 #include "Object3D.h"
 #include "Vector3.h"
 
+/**
+ * @file EnemyBullet
+ * @brief 雑魚敵の弾の攻撃の更新、描画を行うクラス
+ */
+
 class EnemyBullet
 {
 private:

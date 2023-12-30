@@ -16,6 +16,11 @@
 #include <memory>
 #include <list>
 
+/**
+ * @file GameScene
+ * @brief ゲームシーンを動かしているクラス
+ */
+
 class GameScene : public BaseScene
 {
 private: // エイリアス

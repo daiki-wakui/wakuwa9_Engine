@@ -8,6 +8,11 @@
 #include "Vector2.h"
 #include "Vector3.h"
 
+/**
+ * @file GameUI
+ * @brief スプライトを制御、描画するクラス
+ */
+
 class GameUI : public TextureManager
 {
 private:

@@ -1,6 +1,11 @@
 #pragma once
 #include "Model.h"
 
+/**
+ * @file Model3DManager
+ * @brief ゲームで使う3Dモデルの読み込みクラス
+ */
+
 class Model3DManager
 {
 protected:

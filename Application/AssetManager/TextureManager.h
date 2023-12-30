@@ -1,6 +1,11 @@
 #pragma once
 #include "SpriteBasis.h"
 
+/**
+ * @file TextureManager
+ * @brief ゲームで使う2Dスプライトの読み込みクラス
+ */
+
 class TextureManager
 {
 protected:

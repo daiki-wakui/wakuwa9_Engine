@@ -26,6 +26,11 @@ enum tailState
 	Back
 };
 
+/**
+ * @file Boss
+ * @brief ボスの行動や攻撃を行うクラス
+ */
+
 class Boss
 {
 private: // エイリアス

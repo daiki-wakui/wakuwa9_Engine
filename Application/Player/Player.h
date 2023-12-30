@@ -15,6 +15,11 @@
 class Enemy;
 class Boss;
 
+/**
+ * @file Player
+ * @brief Playerの行動、攻撃を行うクラス
+ */
+
 class Player
 {
 private: // エイリアス

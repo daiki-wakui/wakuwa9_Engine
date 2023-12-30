@@ -15,6 +15,11 @@
 #include <d3dcompiler.h>
 #include <cstdint>
 
+/**
+ * @file GameCore
+ * @brief ゲームを動かしている基盤クラス
+ */
+
 class GameCore : public Framework 
 {
 private:

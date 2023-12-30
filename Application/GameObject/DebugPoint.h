@@ -2,6 +2,11 @@
 #include "Model.h"
 #include "Object3D.h"
 
+/**
+ * @file DebugPoint
+ * @brief デバック時にプレイヤーが設定した座標にスポーンするクラス
+ */
+
 class DebugPoint
 {
 private:

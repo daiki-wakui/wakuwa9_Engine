@@ -5,6 +5,11 @@
 #include "Model.h"
 #include "Vector3.h"
 
+/**
+ * @file TitleScene
+ * @brief タイトルシーンを動かしているクラス
+ */
+
 class TitleScene : public BaseScene
 {
 private: // エイリアス
