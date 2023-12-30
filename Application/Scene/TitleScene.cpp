@@ -2,6 +2,7 @@
 #include "SceneList.h"
 #include "SoundManager.h"
 
+//初期化
 void TitleScene::Initialize()
 {
 	//3Dモデル読み込み
@@ -21,10 +22,12 @@ void TitleScene::Initialize()
 	SoundManager::GetInstance()->Initialize();
 }
 
+//後始末
 void TitleScene::Finalize()
 {
 }
 
+//更新処理
 void TitleScene::Update()
 {
 	titleUI_->TitleUpdate(changeStart_);
@@ -55,12 +58,14 @@ void TitleScene::Update()
 	skyObject_->Update(false);
 }
 
+//描画関数
 void TitleScene::Draw()
 {
 	skyObject_->Draw();
 	titleUI_->TitleDraw();
 }
 
+//ポストエフェクトをかけない描画
 void TitleScene::OffDraw()
 {
 	titleUI_->OffDraw();

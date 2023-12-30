@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "SceneList.h"
 
+//デストラクタ
 SceneManager::~SceneManager()
 {
 	
@@ -57,6 +58,7 @@ void SceneManager::Update()
 	}
 }
 
+//描画関数
 void SceneManager::Draw()
 {
 	//タイトルシーン描画
@@ -79,7 +81,7 @@ void SceneManager::Finalize()
 //パーティクルの描画
 void SceneManager::ParticleDraw()
 {
-	gamescene_->pDraw();
+	gamescene_->ParticleDraw();
 }
 
 //ポストエフェクトをかけないスプライト描画

@@ -2,14 +2,10 @@
 #include "Model.h"
 #include "Object3D.h"
 #include "Vector3.h"
-#include "ParticleManager.h"
 
 class PlayerBullet
 {
 private:
-
-	std::unique_ptr<ParticleManager> effectParticle_ = std::make_unique<ParticleManager>();
-
 
 	Model* bulletModel_;
 	std::unique_ptr<Object3D> bulletObject_;
@@ -35,16 +31,26 @@ private:
 public:
 	bool isDead_ = false;
 
-	bool IsDead() const { return isDead_; }
-
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="pos"></param> 初期座標
+	/// <param name="velocity"></param>	弾の方向、速度
+	/// <param name="model"></param> モデルの見た目
 	void Initialize(Vector3 pos, Vector3& velocity,Model* model);
-	void Update();
-	void Draw();
-	void pDraw();
 
+	//更新処理
+	void Update();
+
+	//描画関数
+	void Draw();
+
+public: //getter,setter
+
+	bool IsDead() const { return isDead_; }
+	bool GetMissile() const { return missile_; }
 	Vector3 GetWorldPos();
 
-	bool GetMissile() const { return missile_; }
 	void SetMissile(bool missile) { missile_ = missile; }
 };
 

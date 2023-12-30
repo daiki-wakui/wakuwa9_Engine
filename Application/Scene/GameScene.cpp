@@ -3,6 +3,7 @@
 #include "MyRandom.h"
 #include "Easing.h"
 
+//初期化
 void GameScene::Initialize()
 {
 	//3Dモデルの読み込みと生成
@@ -25,6 +26,7 @@ void GameScene::Initialize()
 	gameUI_->GameSceneInitialize();
 }
 
+//後始末
 void GameScene::Finalize()
 {
 	models.clear();
@@ -32,6 +34,7 @@ void GameScene::Finalize()
 	collisions_.clear();
 }
 
+//更新処理
 void GameScene::Update()
 {
 
@@ -208,6 +211,7 @@ void GameScene::Update()
 	AllCollison();
 }
 
+//スプライト更新処理
 void GameScene::SpriteUpdate()
 {
 	gameUI_->SetInfo(player_.get(),playerObject_.get(),boss_.get());
@@ -241,11 +245,13 @@ void GameScene::SpriteUpdate()
 	}
 }
 
+//スプライト描画
 void GameScene::SpriteDraw()
 {
 	gameUI_->GameDraw();
 }
 
+//オブジェクト更新処理
 void GameScene::ObjectUpdate()
 {
 	particleMan_->Update();
@@ -280,6 +286,7 @@ void GameScene::ObjectUpdate()
 	skyObject_->Update();
 }
 
+//描画関数
 void GameScene::Draw()
 {
 	shadowObject_->Draw();
@@ -322,7 +329,8 @@ void GameScene::Draw()
 	SpriteDraw();
 }
 
-void GameScene::pDraw()
+//パーティクル描画
+void GameScene::ParticleDraw()
 {
 	particleMan_->Draw();
 
@@ -331,6 +339,7 @@ void GameScene::pDraw()
 	}
 }
 
+//フィールド情報読み込み
 void GameScene::EditorLoad(const std::string filename)
 {
 	objects.clear();
@@ -339,6 +348,7 @@ void GameScene::EditorLoad(const std::string filename)
 	ReLoad(filename);
 }
 
+//フィールド情報再読み込み
 void GameScene::ReLoad(const std::string filename)
 {
 	// レベルデータの読み込み
@@ -538,6 +548,7 @@ void GameScene::ReLoad(const std::string filename)
 	}
 }
 
+//オブジェクト配置時の情報
 void GameScene::Inport(Model* model, int32_t size)
 {
 	newObject[objSize_] = std::make_unique<Object3D>();
@@ -561,6 +572,7 @@ void GameScene::Inport(Model* model, int32_t size)
 	newObject[objSize_]->SetScale({ scale.x,scale.y,scale.z });
 }
 
+//シーンリセット関数
 void GameScene::Reset()
 {
 	timer_ = 0;
@@ -579,6 +591,7 @@ void GameScene::Reset()
 	gameUI_->Reset();
 }
 
+//当たり判定関数
 bool GameScene::Collison(Vector3 posa, Vector3 posb, float aScale, float bScale)
 {
 	float r = aScale + bScale;
@@ -595,6 +608,7 @@ bool GameScene::Collison(Vector3 posa, Vector3 posb, float aScale, float bScale)
 	return false;
 }
 
+//ゲームシーン上の当たり判定
 void GameScene::AllCollison()
 {
 	//当たり判定
@@ -771,6 +785,7 @@ void GameScene::AllCollison()
 	}
 }
 
+//3dオブジェクト生成
 void GameScene::Object3DGenerate()
 {
 	shadowObject_ = std::make_unique<Object3D>();

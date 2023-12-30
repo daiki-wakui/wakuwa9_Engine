@@ -137,9 +137,7 @@ private:	//メンバ変数
 	int32_t shakeTimer_;
 
 public:
-	
-	bool Collison(Vector3 posa, Vector3 posb, float aScale, float bScale);
-	void AllCollison();
+	//3dオブジェクト生成
 	void Object3DGenerate();
 
 	//初期化
@@ -148,25 +146,37 @@ public:
 	//終了
 	void Finalize()override;
 
-	//毎フレーム
+	//更新処理
 	void Update()override;
-
+	//スプライト更新処理
 	void SpriteUpdate();
+	//スプライト描画
 	void SpriteDraw();
+
+	//3dオブジェクト更新処理
 	void ObjectUpdate();
 
 	//描画
 	void Draw()override;
 
-	void pDraw();
+	//パーティクル描画
+	void ParticleDraw();
 
+	//シーンリセット関数
+	void Reset();
+
+	//フィールド情報読み込み
 	void EditorLoad(const std::string filename);
-
+	//フィールド情報再読み込み
 	void ReLoad(const std::string filename);
-
+	//オブジェクト配置時の情報
 	void Inport(Model* model, int32_t size);
 
-	void Reset();
+
+	//当たり判定関数
+	bool Collison(Vector3 posa, Vector3 posb, float aScale, float bScale);
+	//ゲームシーン上の当たり判定
+	void AllCollison();
 
 public:	//getter,setter
 

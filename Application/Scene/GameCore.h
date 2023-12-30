@@ -41,9 +41,11 @@ public:
 
 	//初期化
 	void Initialize() override;
+	//終了
 	void Finalize() override;
-	//毎フレーム
+	//更新処理
 	void Update() override;
+	//描画関数
 	void Draw() override;
 };
 
