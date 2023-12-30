@@ -11,6 +11,12 @@ class Door
 {
 private:
 
+	const float OBJECT_ROT_VOLUE = 0.3f;
+	const float OBJECT_ROT_MAX = -90.0f;
+	const float OBJECT_ROT_MIN = 90.0f;
+
+private:
+
 	Model* model_;
 	Object3D* object_;
 

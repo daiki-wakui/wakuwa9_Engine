@@ -12,6 +12,17 @@ class Effect
 {
 private:
 
+	const float VELOCITY_X_MIN = -2.0f;
+	const float VELOCITY_X_MAX = 3.0f;
+	const float VELOCITY_Z_MIN = -2.0f;
+	const float VELOCITY_Z_MAX = 4.0f;
+	const float ADD_POW_VOLUE = 0.01f;
+	const float POW_MAX_VOLUE = 0.5f;
+	const float SUB_SCALE_VOLUE = 0.02f;
+	const float ADD_ROT_VOLUE = 1000.0f;
+
+private:
+
 	Model* bulletModel_;
 	std::unique_ptr<Object3D> bulletObject_;
 	Vector3 velocity_;

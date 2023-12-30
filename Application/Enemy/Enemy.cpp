@@ -8,7 +8,7 @@ void Enemy::Initialize(Object3D* enemyObject, Vector3 pos, Player* player, int h
 {
 	enemyObject_ = enemyObject;
 	pos_ = pos;
-	pos_.y += 10;
+	pos_.y += ADD_POS_Y;
 	player_ = player;
 	hp_ = hp;
 
@@ -19,7 +19,7 @@ void Enemy::Initialize(Object3D* enemyObject, Vector3 pos, Player* player, int h
 	start_ = pos;
 
 	end_.x = start_.x;
-	end_.y = start_.y - 45;
+	end_.y = start_.y - END_Y_VOLUE;
 	end_.z = start_.z;
 
 	shadowObject_ = std::make_unique<Object3D>();
@@ -43,7 +43,7 @@ void Enemy::Update(bool shot)
 			pos_.y = vPos_.y;
 			pos_.z = vPos_.z;
 
-			pos_.y = sinf(wa9Math::PI() * frame_ * 50) + pos_.y;
+			pos_.y = sinf(wa9Math::PI() * frame_ * MOVE_SPEED_VOLUE) + pos_.y;
 
 			frame_++;
 		}
@@ -142,7 +142,7 @@ void Enemy::Shot()
 		//弾を登録する
 		bullets_.push_back(std::move(newBullet));
 
-		coolTime_ = 50;
+		coolTime_ = COOLTIME_VOLUE;
 	}
 
 	//デスフラグが立った弾を削除

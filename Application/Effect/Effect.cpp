@@ -16,26 +16,26 @@ void Effect::Initialize(Vector3 pos, Vector3& velocity, Model* model)
 
 	bulletObject_->SetPosition(tPos_);
 
-	velocity_.x = MyRandom::GetFloatRandom(-2, 3);
-	velocity_.z = MyRandom::GetFloatRandom(-2, 4);
+	velocity_.x = MyRandom::GetFloatRandom(VELOCITY_X_MIN, VELOCITY_X_MAX);
+	velocity_.z = MyRandom::GetFloatRandom(VELOCITY_Z_MIN, VELOCITY_Z_MAX);
 
 }
 
 //更新処理
 void Effect::Update()
 {
-	pow_ += 0.01f;
+	pow_ += ADD_POW_VOLUE;
 	velocity_.y -= pow_;
 
-	scale_ -= 0.02f;
+	scale_ -= SUB_SCALE_VOLUE;
 
 	rot_.x = bulletObject_->GetRotation().x;
 	rot_.y = bulletObject_->GetRotation().y;
 	rot_.z = bulletObject_->GetRotation().z;
 
 	
-	rot_.x += 1000;
-	rot_.z += 1000;
+	rot_.x += ADD_ROT_VOLUE;
+	rot_.z += ADD_ROT_VOLUE;
 
 	bulletObject_->SetRotation({ rot_.x,rot_.y,rot_.z });
 	bulletObject_->SetScale({ scale_,scale_,scale_ });
@@ -48,7 +48,7 @@ void Effect::Update()
 
 	bulletObject_->SetPosition(tPos_);
 
-	if (pow_ > 0.5f) {
+	if (pow_ > POW_MAX_VOLUE) {
 		isDead_ = true;
 	}
 }

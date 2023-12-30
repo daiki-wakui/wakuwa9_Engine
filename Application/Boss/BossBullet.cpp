@@ -13,11 +13,11 @@ void BossBullet::Initialize(Vector3 pos, Vector3& velocity, Model* model, int32_
 	bulletObject_ = std::make_unique<Object3D>();
 	bulletObject_->SetModel(bulletModel_);
 	bulletObject_->Initialize();
-	bulletObject_->SetScale({ 3,3,3 });
+	bulletObject_->SetScale({ OBJECT_SCALE,OBJECT_SCALE,OBJECT_SCALE });
 
 	bulletObject_->SetPosition(tPos_);
 
-	addRand_ = MyRandom::GetFloatRandom(-0.1f, 0.3f);
+	addRand_ = MyRandom::GetFloatRandom(ADD_MIN_RAND, ADD_MAX_RAND);
 	bulletState_ = randState;
 }
 

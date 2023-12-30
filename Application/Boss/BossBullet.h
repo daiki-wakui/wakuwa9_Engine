@@ -12,6 +12,13 @@ class BossBullet
 {
 private:
 
+	const float OBJECT_SCALE = 3.0f;
+	const float ADD_MIN_RAND = -0.1f;
+	const float ADD_MAX_RAND = 3.0f;
+
+
+private:
+
 	Model* bulletModel_;
 	std::unique_ptr<Object3D> bulletObject_;
 	Vector3 velocity_;

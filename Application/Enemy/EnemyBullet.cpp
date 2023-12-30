@@ -18,10 +18,9 @@ void EnemyBullet::Initialize(Vector3 pos, Vector3& velocity, Model* model)
 //更新処理
 void EnemyBullet::Update()
 {
-	tPos_.x -= velocity_.x / 5;
-	tPos_.y -= velocity_.y / 5;
-
-	tPos_.z -= velocity_.z / 5;
+	tPos_.x -= velocity_.x / VELOCITY_RATE;
+	tPos_.y -= velocity_.y / VELOCITY_RATE;
+	tPos_.z -= velocity_.z / VELOCITY_RATE;
 
 	bulletObject_->SetPosition(tPos_);
 

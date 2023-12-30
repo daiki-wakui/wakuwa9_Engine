@@ -10,6 +10,10 @@
 
 class EnemyBullet
 {
+private:	//定数
+
+	const float VELOCITY_RATE = 5.0f;
+
 private:
 
 	Model* bulletModel_;

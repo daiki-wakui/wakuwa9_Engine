@@ -6,8 +6,27 @@
  * @brief BGMやSEを管理しているクラス
  */
 
+enum BGMpattern
+{
+	TITLE_BGM,
+	GAME_BGM,
+	BOSS_BGM,
+};
+
 class SoundManager
 {
+private: //定数
+
+	const float ADD_FILED_VOLUE = 0.01f;
+	const float MAX_FILED_VOLUE = 1.0f;
+
+	const float TITLE_BGM_VOLUE = 0.75f;
+	const float GAME_BGM_VOLUE = 0.25f;
+	const float GAME_BGM_VOLUE_RATE = 4.0f;
+	const float MAX_VLOUE = 1.0f;
+	const float MIN_VLOUE = 0.0f;
+	const float BOSS_BGM_VOLUE = 0.4f;
+
 public:
 	//インスタンス
 	static SoundManager* GetInstance();

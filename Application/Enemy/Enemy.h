@@ -26,8 +26,15 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 private:
+
 	const float ENEMY_SCALE_VALUE = 3.0f;
 	const float SHADOW_SCALE_VALUE = 3.5f;
+	const float ADD_POS_Y = 10.0f;
+	const float END_Y_VOLUE = 45.0f;
+	const float MOVE_SPEED_VOLUE = 50.0f;
+	const int32_t COOLTIME_VOLUE = 50;
+
+private:
 
 	KeyBoard* input_;
 	Player* player_ = nullptr;
