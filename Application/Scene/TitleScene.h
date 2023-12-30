@@ -5,6 +5,11 @@
 #include "Model.h"
 #include "Vector3.h"
 
+/**
+ * @file TitleScene
+ * @brief タイトルシーンを動かしているクラス
+ */
+
 class TitleScene : public BaseScene
 {
 private: // エイリアス
@@ -60,12 +65,13 @@ public:	//メンバ関数
 	//終了
 	void Finalize()override;
 
-	//毎フレーム
+	//更新処理
 	void Update()override;
 
 	//描画
 	void Draw()override;
 
+	//ポストエフェクトをかけない描画
 	void OffDraw();
 
 public:	//setter,getter

@@ -240,9 +240,6 @@
     <ClCompile Include="Application\Enemy\EnemyBullet.cpp">
       <Filter>ソース ファイル\Application\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Enemy\EnemyCharge.cpp">
-      <Filter>ソース ファイル\Application\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Boss\Boss.cpp">
       <Filter>ソース ファイル\Application\Boss</Filter>
     </ClCompile>
@@ -287,6 +284,9 @@
     </ClCompile>
     <ClCompile Include="Application\AssetManager\Model3DManager.cpp">
       <Filter>ソース ファイル\Application\AssetManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Math\wa9Math.cpp">
+      <Filter>ソース ファイル\Engine\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -395,9 +395,6 @@
     <ClInclude Include="Application\Enemy\EnemyBullet.h">
       <Filter>ヘッダー ファイル\Application\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Enemy\EnemyCharge.h">
-      <Filter>ヘッダー ファイル\Application\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Boss\Boss.h">
       <Filter>ヘッダー ファイル\Application\Boss</Filter>
     </ClInclude>
@@ -445,6 +442,9 @@
     </ClInclude>
     <ClInclude Include="Application\AssetManager\Model3DManager.h">
       <Filter>ヘッダー ファイル\Application\AssetManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Math\wa9Math.h">
+      <Filter>ヘッダー ファイル\Engine\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,11 @@
 #include <memory>
 #include <list>
 
+/**
+ * @file GameScene
+ * @brief ゲームシーンを動かしているクラス
+ */
+
 class GameScene : public BaseScene
 {
 private: // エイリアス
@@ -36,6 +41,48 @@ private:
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 	GamePad* gamePad_ = GamePad::GetInstance();
 	
+private: //定数
+
+	const float MAX_SHACK_TIME = 30.0f;
+	const float SHADOW_POS_Y = 2.0f;
+	const Vector3 SHADOW_SCALE = { 1.5f, 1.5f, 1.5f};
+	const float BULLET_SHOT_VOLUE = 0.25f;
+	const float WARNING_VOLUE = 2.0f;
+	const float NOISE_SE_VOLUE = 0.5f;
+	const float SHOCK_SE_VOLUE = 1.1f;
+	const float HIT_SE_VOLUE = 0.12f;
+	const Vector3 SHOT_EFFECT_SCALE = { 5.0f, 5.0f, 5.0f };
+	const Vector3 SHOT_EFFECT_POS = { 0.0f, 10.0f, 10.0f };
+	const Vector3 SKY_SCALE = { 900.0f, 900.0f, 900.0f };
+	const Vector3 SKY_POS = { 0.0f, 0.0f, 100.0f };
+
+
+	const int32_t COOLTIME_NUM = 2;
+	const int32_t EFFECT_NUM = 10;
+	const float EFFECT_Y = 1.5f;
+
+	const float BIT_ROT_VOLUE_Y = 180.0f;
+	const float BIT_ROT_VOLUE_Z = 225.0f;
+
+	const float EVENT_TIME_FRAME = 60.0f;
+	const Vector3 LNIT_EYE = { 0.0f,20.0f,-30.0f };
+	const Vector3 LNIT_EVENT_EYE = { 450.0f,100.0f,750.0f };
+	const Vector3 LNIT_TERGET = { 0.0f,10.0f,0.0f };
+	const Vector3 PLAYER_SCALE = { 1.0f,1.0f,1.0f };
+	const Vector3 BOSS_SCALE = { 15.0f,15.0f,15.0f };
+	const Vector3 BOSS_POS = { 0.0f,20.0f,370.0f };
+
+	const float DOOR_POS_VOLUE_X = 15.0f;
+
+	const float COL_PLAYER_SCALE = 6.0f;
+	const float COL_ENEMY_SCALE = 7.0f;
+	const float COL_EVENTBOX_SCALE = 13.0f;
+	const float COL_BOSS_SCALE = 20.0f;
+	const float COL_BOSS_TAIL_SCALE = 20.0f;
+	const float COL_BULLET_SCALE = 1.0f;
+	const float COL_SEARCH_ENEMY_SCALE = 175.0f;
+
+
 private:	//メンバ変数
 
 	//OBJからモデルを読み込む
@@ -98,9 +145,7 @@ private:	//メンバ変数
 	bool start_ = false;
 	bool change_ = false;
 	XMFLOAT2 pos = { 0,0 };
-	float power = -1;
-
-	bool playBGM_ = false;
+	
 	bool bossBGM_ = false;
 	
 	Vector3 screenPos_ = {};
@@ -137,9 +182,7 @@ private:	//メンバ変数
 	int32_t shakeTimer_;
 
 public:
-	
-	bool Collison(Vector3 posa, Vector3 posb, float aScale, float bScale);
-	void AllCollison();
+	//3dオブジェクト生成
 	void Object3DGenerate();
 
 	//初期化
@@ -148,25 +191,37 @@ public:
 	//終了
 	void Finalize()override;
 
-	//毎フレーム
+	//更新処理
 	void Update()override;
-
+	//スプライト更新処理
 	void SpriteUpdate();
+	//スプライト描画
 	void SpriteDraw();
+
+	//3dオブジェクト更新処理
 	void ObjectUpdate();
 
 	//描画
 	void Draw()override;
 
-	void pDraw();
+	//パーティクル描画
+	void ParticleDraw();
 
+	//シーンリセット関数
+	void Reset();
+
+	//フィールド情報読み込み
 	void EditorLoad(const std::string filename);
-
+	//フィールド情報再読み込み
 	void ReLoad(const std::string filename);
-
+	//オブジェクト配置時の情報
 	void Inport(Model* model, int32_t size);
 
-	void Reset();
+
+	//当たり判定関数
+	bool Collison(Vector3 posa, Vector3 posb, float aScale, float bScale);
+	//ゲームシーン上の当たり判定
+	void AllCollison();
 
 public:	//getter,setter
 

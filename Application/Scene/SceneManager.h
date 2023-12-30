@@ -4,6 +4,11 @@
 
 #include <memory>
 
+/**
+ * @file SceneManager
+ * @brief シーン管理しているクラス
+ */
+
 class SceneManager
 {
 private:
@@ -21,17 +26,25 @@ private:
 
 public:
 
+	//デストラクタ
 	~SceneManager();
 
+	//初期化
 	void Initialize();
+	//更新処理
 	void Update();
+	//描画関数
 	void Draw();
+	//後始末
 	void Finalize();
+	//パーティクル描画
 	void ParticleDraw();
+	//ポストエフェクトをかけない描画
 	void OffEffectDraw();
 
-	//タイトルシーンからゲームシーンに変わる時
+	//ゲームシーンに遷移するかの関数
 	bool ChangeToGameScene();
+	//タイトルシーンに遷移するかの関数
 	bool ChangeToTitleScene();
 
 public: //getter

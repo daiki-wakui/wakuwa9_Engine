@@ -2,14 +2,17 @@
 #include "MyRandom.h"
 #include "Easing.h"
 
+//コンストラクタ
 GameUI::GameUI()
 {
 }
 
+//デストラクタ
 GameUI::~GameUI()
 {
 }
 
+//借りてくる情報
 void GameUI::SetInfo(Player* player ,Object3D* playerObject, Boss* boss)
 {
 	player_ = player;
@@ -23,31 +26,33 @@ void GameUI::boolInfo(bool hitBox, bool isIvent)
 	isIvent_ = isIvent;
 }
 
+//タイトルシーンUI初期化
 void GameUI::TitleSceneInitialize()
 {
 	TextureManager::LoadTitleTexture();
 
 	titleSprite_->Initialize(titleImage_);
 	titleSprite_->Create();
-	titleSprite_->SetSize({ 1280,720 });
+	titleSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
 	titleSprite_->SetAncP({ 0,0 });
 
 	titleUISprite_->Initialize(titleUIImage_);
 	titleUISprite_->Create();
-	titleUISprite_->SetSize({ 1280,720 });
+	titleUISprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
 	titleUISprite_->SetAncP({ 0,0 });
 
 	sceneSprite_->Initialize();
-	sceneSprite_->Create(640, 360);
-	sceneSprite_->SetSize({ 1280,720 });
-	sceneSprite_->SetColor({ 1,1,1,0 });
+	sceneSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	sceneSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	sceneSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,0 });
 
 	fillSprite_->Initialize();
-	fillSprite_->Create(640, 360);
-	fillSprite_->SetSize({ 1280,720 });
+	fillSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	fillSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
 	fillSprite_->Update();
 }
 
+//ゲームシーンUI初期化
 void GameUI::GameSceneInitialize()
 {
 	//リソースを読み込む
@@ -55,64 +60,65 @@ void GameUI::GameSceneInitialize()
 
 	//スプライトの初期化
 	playerHPSprite_->Initialize();
-	playerHPSprite_->Create(50, 20);
+	playerHPSprite_->Create(PLAYER_HP_X, PLAYER_HP_Y);
 	playerHPSprite_->SetAncP({ 0,0 });
 
 	bossHPSprite_->Initialize();
-	bossHPSprite_->Create(640, 80);
+	bossHPSprite_->Create(HALF_SCREEN_SIZE_X, BOSS_HP_Y);
 
 	gameoverSprite_->Initialize();
-	gameoverSprite_->Create(640, 360);
-	gameoverSprite_->SetSize({ 1280,720 });
+	gameoverSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	gameoverSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
 	gameoverSprite_->Update();
 
 	gameclearSprite_->Initialize();
-	gameclearSprite_->Create(640, 360);
-	gameclearSprite_->SetSize({ 1280,720 });
+	gameclearSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_X);
+	gameclearSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
 	gameclearSprite_->Update();
 
 	reticleSprite_->Initialize();
-	reticleSprite_->Create(640, 360);
+	reticleSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
 	reticleSprite_->SetSize({ 0,0 });
 
 	sceneSprite_->Initialize();
-	sceneSprite_->Create(640, 360);
-	sceneSprite_->SetSize({ 1280,720 });
-	sceneSprite_->SetColor({ 1,1,1,1 });
+	sceneSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	sceneSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	sceneSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,MAX_ALPHA });
 
 	fillSprite_->Initialize();
-	fillSprite_->Create(640, 360);
-	fillSprite_->SetSize({ 1280,720 });
+	fillSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	fillSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
 	fillSprite_->Update();
 
 	dFilterSprite_->Initialize();
-	dFilterSprite_->Create(640, 360);
-	dFilterSprite_->SetSize({ 1280,720 });
-	dFilterSprite_->SetColor({ 1,1,1,0 });
+	dFilterSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	dFilterSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	dFilterSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,0 });
 	dFilterSprite_->Update();
 
 	RBSprite_->Initialize();
 	RBSprite_->Create(0, 0);
-	RBSprite_->SetSize({ 160,160 });
+	RBSprite_->SetSize({ RB_UI_SIZE,RB_UI_SIZE });
 
 	iventSprite_->Initialize();
-	iventSprite_->Create(640, 360);
-	iventSprite_->SetSize({ 1280,720 });
-	iventSprite_->SetColor({ 1,1,1,0 });
+	iventSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	iventSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	iventSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,0 });
 	iventSprite_->Update();
 
 	waringSprite_->Initialize();
-	waringSprite_->Create(640, 360);
-	waringSprite_->SetSize({ 1280,720 });
+	waringSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	waringSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
 	waringSprite_->Update();
 
 	bulletRreticleSprite_->Initialize();
-	bulletRreticleSprite_->Create(640, 360);
-	bulletRreticleSprite_->SetSize({ 32,32 });
+	bulletRreticleSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	bulletRreticleSprite_->SetSize({ PLAYER_BULLETRETICLE_SIZE,PLAYER_BULLETRETICLE_SIZE });
 	bulletRreticleSprite_->Update();
 
 }
 
+//タイトルシーンUI更新処理
 void GameUI::TitleUpdate(bool sceneChange)
 {
 	titleSprite_->Update();
@@ -120,34 +126,34 @@ void GameUI::TitleUpdate(bool sceneChange)
 	sceneSprite_->Update();
 
 	if (sceneChange) {
-		ChangeTitleAlpha_ += 0.05f;
-		ChangeTitleAlpha_ = min(ChangeTitleAlpha_, 1);
-		sceneSprite_->SetColor({ 1, 1, 1, ChangeTitleAlpha_ });
+		ChangeTitleAlpha_ += CHANGE_TITLE_ALPHA_VOLUE;
+		ChangeTitleAlpha_ = min(ChangeTitleAlpha_, MAX_ALPHA);
+		sceneSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE, COLOR_WIHTE, ChangeTitleAlpha_ });
 	}
 	else {
 		ChangeTitleAlpha_ = 0;
-		sceneSprite_->SetColor({ 1, 1, 1, ChangeTitleAlpha_ });
+		sceneSprite_->SetColor({ COLOR_WIHTE, COLOR_WIHTE, COLOR_WIHTE, ChangeTitleAlpha_ });
 	}
-
 }
 
+//ゲームシーンUI更新処理
 void GameUI::GameUpdate()
 {
-	iventSprite_->SetColor({ 1,1,1,iventAlpha_ });
-	playerHPSprite_->SetSize({ 32.0f * (float)player_->GetHP(),16.0f });
+	iventSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,iventAlpha_ });
+	playerHPSprite_->SetSize({ PLAYER_HP_SIZE_X * (float)player_->GetHP(),PLAYER_HP_SIZE_Y });
 
 	//チュートリアルUI
-	RBSprite_->SetPosition({ screenPosPlayer_.x - 175,screenPosPlayer_.y - 90 });
+	RBSprite_->SetPosition({ screenPosPlayer_.x - RB_UI_POS_X_VOLUE,screenPosPlayer_.y - RB_UI_POS_Y_VOLUE });
 
 	if (!isManual_) {
-		alphaRB_ += 0.15f;
-		alphaRB_ = min(alphaRB_, 1);
-		RBSprite_->SetColor({ 1,1,1,alphaRB_ });
+		alphaRB_ += RB_ALPHA_VOLUE;
+		alphaRB_ = min(alphaRB_, MAX_ALPHA);
+		RBSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,alphaRB_ });
 	}
 	else {
-		alphaRB_ -= 0.15f;
+		alphaRB_ -= RB_ALPHA_VOLUE;
 		alphaRB_ = max(alphaRB_, 0);
-		RBSprite_->SetColor({ 1,1,1,alphaRB_ });
+		RBSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,alphaRB_ });
 	}
 
 	//弾を打ったときの左右レティクル
@@ -155,15 +161,15 @@ void GameUI::GameUpdate()
 		isManual_ = true;
 
 		reticleSize_ = reticleSprite_->GetSize();
-		reticleSize_.x += 300;
-		reticleSize_.y += 200;
-		reticleSize_.x = min(reticleSize_.x, 1280);
-		reticleSize_.y = min(reticleSize_.y, 720);
+		reticleSize_.x += SIDE_RETICLE_SIZE_VOLUE_X;
+		reticleSize_.y += SIDE_RETICLE_SIZE_VOLUE_Y;
+		reticleSize_.x = min(reticleSize_.x, SCREEN_SIZE_X);
+		reticleSize_.y = min(reticleSize_.y, SCREEN_SIZE_Y);
 	}
 	else {
 		reticleSize_ = reticleSprite_->GetSize();
-		reticleSize_.x -= 300;
-		reticleSize_.y -= 200;
+		reticleSize_.x -= SIDE_RETICLE_SIZE_VOLUE_X;
+		reticleSize_.y -= SIDE_RETICLE_SIZE_VOLUE_Y;
 		reticleSize_.x = max(reticleSize_.x, 0);
 		reticleSize_.y = max(reticleSize_.y, 0);
 	}
@@ -177,7 +183,7 @@ void GameUI::GameUpdate()
 	bulletRreticleSprite_->SetPosition({ player_->GetScreenRTPos().x,player_->GetScreenRTPos().y });
 	
 	//ライフ危ない時に出るフィルター
-	if (player_->GetHP() <= 1) {
+	if (player_->GetHP() <= PLAYER_HP_DANGER) {
 		isLifeOne_ = true;
 	}
 	else {
@@ -187,15 +193,15 @@ void GameUI::GameUpdate()
 	if (isLifeOne_) {
 		fillTimer_++;
 
-		if (fillTimer_ < 50) {
-			fillAlpha_ += 0.07f;
-			fillAlpha_ = min(fillAlpha_, 1);
+		if (fillTimer_ < FILLTER_TIMER_FRAME) {
+			fillAlpha_ += FILLTER_ALPHA_ADD_VOLUE;
+			fillAlpha_ = min(fillAlpha_, MAX_ALPHA);
 		}
 		else {
-			fillAlpha_ -= 0.05f;
+			fillAlpha_ -= FILLTER_ALPHA_SUB_VOLUE;
 			fillAlpha_ = max(fillAlpha_, 0);
 		}
-		dFilterSprite_->SetColor({ 1,1,1,fillAlpha_ });
+		dFilterSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,fillAlpha_ });
 
 	}
 	else {
@@ -204,7 +210,7 @@ void GameUI::GameUpdate()
 
 
 	if (hitBox_ && !isIvent_) {
-		if (count_ < 3) {
+		if (count_ < BLINKING_COUNT) {
 			pow_++;
 			wSize_.y = waringSprite_->GetSize().y;
 		}
@@ -213,20 +219,20 @@ void GameUI::GameUpdate()
 		}
 
 		//ワーニング点滅
-		if (pow_ > 2) {
+		if (pow_ > WARING_FRAME) {
 			pow_ = 0;
 			count_++;
 		}
 
 		//点滅後の動き
-		if (count_ == 3) {
+		if (count_ == BLINKING_COUNT) {
 			popFrame_++;
 
-			if (popFrame_ > 60) {
+			if (popFrame_ > POP_FRAME_MAX) {
 				wTimer_++;
 				wTimer_ = min(wTimer_, wMax_);
 
-				wSize_ = wSize_.lerp({ 1280,720,0 }, { 1280,0,0 }, Easing::EaseOutCubic(wTimer_, wMax_));
+				wSize_ = wSize_.lerp({ SCREEN_SIZE_X,SCREEN_SIZE_Y,0 }, { SCREEN_SIZE_X,0,0 }, Easing::EaseOutCubic(wTimer_, wMax_));
 
 				waringSprite_->SetSize({ wSize_.x,wSize_.y });
 			}
@@ -244,6 +250,7 @@ void GameUI::GameUpdate()
 	bulletRreticleSprite_->Update();
 }
 
+//タイトルシーンUI描画関数
 void GameUI::TitleDraw()
 {
 	titleSprite_->Draw(titleImage_);
@@ -251,14 +258,7 @@ void GameUI::TitleDraw()
 	sceneSprite_->Draw(sceneChangeImage_);
 }
 
-void GameUI::Reset()
-{
-	ChangeGameAlpha_ = 1;
-	pow_ = 0;
-	count_ = 0;
-	waringSprite_->SetSize({ 1280,720 });
-}
-
+//ゲームシーンUI描画関数
 void GameUI::GameDraw()
 {
 
@@ -296,39 +296,53 @@ void GameUI::GameDraw()
 	iventSprite_->Draw(iventImage_);
 }
 
+//リセット関数
+void GameUI::Reset()
+{
+	ChangeGameAlpha_ = MAX_ALPHA;
+	pow_ = 0;
+	count_ = 0;
+	waringSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+}
+
+//ポストエフェクトをかけないスプライトの描画
 void GameUI::OffDraw()
 {
 	fillSprite_->Draw(filterImage_);
 }
 
+//ダメージシェイク時の処理
 void GameUI::Shake()
 {
-	randShake_.x = MyRandom::GetFloatRandom(-2.0f, 2.0f);
-	randShake_.y = MyRandom::GetFloatRandom(-2.0f, 2.0f);
+	randShake_.x = MyRandom::GetFloatRandom(SHACK_MIN, SHACK_MAX);
+	randShake_.y = MyRandom::GetFloatRandom(SHACK_MIN, SHACK_MAX);
 
-	playerHPSprite_->SetPosition({ 50 + randShake_.x * 5,20 + randShake_.y * 5 });
-	bossHPSprite_->SetPosition({ 640 + randShake_.x * 5,80 + randShake_.y * 5 });
+	playerHPSprite_->SetPosition({ PLAYER_HP_X + randShake_.x * SHACK_RATE,PLAYER_HP_Y + randShake_.y * SHACK_RATE });
+	bossHPSprite_->SetPosition({ HALF_SCREEN_SIZE_X + randShake_.x * SHACK_RATE,BOSS_HP_Y + randShake_.y * SHACK_RATE });
 }
 
+//BossHPUIの更新処理
 void GameUI::BossHpUI()
 {
-	bossHPSprite_->SetSize({ 16.0f * (float)boss_->GetHP(),32.0f });
+	bossHPSprite_->SetSize({ BOSS_HP_SIZE_X * (float)boss_->GetHP(),BOSS_HP_SIZE_Y });
 	bossHPSprite_->Update();
 }
 
+//ゲームシーンのシーン遷移のフェード用関数
 void GameUI::SceneStartFadeUI() {
-	ChangeGameAlpha_ -= 0.05f;
+	ChangeGameAlpha_ -= CHANGE_GAME_ALPHA_VOLUE;
 	ChangeGameAlpha_ = max(ChangeGameAlpha_, 0);
-	sceneSprite_->SetColor({ 1,1,1,ChangeGameAlpha_ });
+	sceneSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,ChangeGameAlpha_ });
 }
 
+//ボス戦のイベントムービー用の関数
 void GameUI::BossIventSceneUI() {
 	if (isIvent_) {
-		iventAlpha_ += 0.05f;
-		iventAlpha_ = min(iventAlpha_, 1);
+		iventAlpha_ += EVENT_MOVIE_ALPHA_VOLUE;
+		iventAlpha_ = min(iventAlpha_, MAX_ALPHA);
 	}
 	else {
-		iventAlpha_ -= 0.05f;
+		iventAlpha_ -= EVENT_MOVIE_ALPHA_VOLUE;
 		iventAlpha_ = max(iventAlpha_, 0);
 	}
 }

@@ -22,6 +22,14 @@ void GameCore::Finalize()
 //更新処理
 void GameCore::Update()
 {
+#ifdef _DEBUG
+	if (keyboard_->keyInstantPush(DIK_P)) {
+		isDebug++;
+		isDebug = isDebug % 2;
+	}
+#endif // _DEBUG
+	
+
 	Framework::Update();
 	
 	sceneManager_->Update();
@@ -38,11 +46,6 @@ void GameCore::Update()
 		if (sceneManager_->GetSceneState() == TITLE) {
 			postEffect_->SetIsEffect(false);
 		}
-	}
-	
-	if (keyboard_->keyInstantPush(DIK_P)) {
-		isDebug++;
-		isDebug = isDebug % 2;
 	}
 	
 	//デバックImGui

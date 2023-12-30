@@ -37,6 +37,8 @@ public:
     bool PushInstantB();
     bool PushInstantX();
     bool PushInstantY();
+    bool PushInstantLB();
+    bool PushInstantRB();
     //ボタン入力
     bool PushButtonA();
     bool PushButtonB();

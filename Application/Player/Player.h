@@ -13,6 +13,12 @@
 #include <list>
 
 class Enemy;
+class Boss;
+
+/**
+ * @file Player
+ * @brief Playerの行動、攻撃を行うクラス
+ */
 
 class Player
 {
@@ -25,7 +31,10 @@ private: // エイリアス
 
 private:
 
+	Boss* targetBoss_ = nullptr;
 	Enemy* targetEnemy_ = nullptr;
+	KeyBoard* input_;
+	GamePad* inputPad_;
 
 	Model* playerModel_;
 	Model* bulletModel_;
@@ -36,10 +45,6 @@ private:
 	Object3D* bulletObject_;
 
 	std::unique_ptr<Object3D> reticle3DObject_ = std::make_unique<Object3D>();
-
-
-	KeyBoard* input_;
-	GamePad* inputPad_;
 
 	Vector3 rot_;
 	Vector3 pos_;
@@ -61,8 +66,6 @@ private:
 	Vector3 bulletVec_ = { 0,0,0 };
 	Vector3 bulletRTVec_ = { 0,0,0 };
 	Vector3 bulletRTPos_ = { 0,0,0 };
-
-	
 
 	//float dashPower = 5.0f;
 	bool isStep = false;
@@ -103,8 +106,6 @@ private:
 	float moveLimitX = 119.0f;
 	float moveLimitZ = 119.0f;
 
-	bool wallHit_ = false;
-
 	int32_t	invincibleFrame_ = 0;
 	bool isInvincible_ = false;
 
@@ -114,48 +115,72 @@ private:
 
 	XMFLOAT3 randShake_;
 
+	int32_t isBossRokon_ = false;
+
+
+	float cAngle_;
+	float cRadian_;
+
 public:
-	bool GetIsShot() { return isShot_; }
-	void SetIsShot(bool isShot) { isShot_ = isShot; }
-
-	bool GetIsHit() { return isHit_; }
-	void SetIsHit(bool isHit) { isHit_ = isHit; }
-
-	bool Getinvincible() const { return isInvincible_; }
-
 	int32_t HP = 10;
 	bool isDead = false;
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="playerModel"></param> モデルの見た目
+	/// <param name="playerObject"></param> オブジェクト情報
+	/// <param name="input"></param> キーボード情報
+	/// <param name="inputPad"></param> ゲームパッド情報
+	/// <param name="podObject"></param> ビットオブジェクト情報
 	void Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject);
+	
+	//更新処理
 	void Update();
+
+	//描画関数
 	void Draw();
-	void pDraw();
-	void SetBulletModel(Model* model,Object3D* obj);
 
-	int GetCoolTime() const { return coolTime; };
-
+	//パーティクル描画
+	void ParticleDraw();
+	
+	//弾リストをクリア
 	void clear();
+	//当たったときの処理
 	bool OnCollision();
+
+	//弾撃つ処理
+	void Shot();
+	//ミサイル攻撃処理
+	void Missle();
+	//ロックオンカメラ
+	void tergetCamera();
+	//操作カメラ
+	void PlayerCamera();
+	//角度算出
+	void RotateAngle();
+
+public:	//getter,setter
+
+	bool GetIsShot() { return isShot_; }
+	bool GetIsHit() { return isHit_; }
+	bool Getinvincible() const { return isInvincible_; }
 	bool IsDead() const { return isDead; }
 	bool GetIsStep() const { return isStep; }
 
+	int GetCoolTime() const { return coolTime; };
 	int GetHP() const { return HP; }
-
-	void Shot();
-	void Missle();
-
-	void PlayerCamera();
-	void RotateAngle();
-	
-	void wallHit();
-
-	void SetEnemy(Enemy* enemy);
-
-	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
 
 	Vector3 GetWorldPos();
 	Vector3 GetScreenRTPos();
 
+	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
+
+	void SetRok(bool isactive) { isBossRokon_ = isactive; }
+	void SetIsShot(bool isShot) { isShot_ = isShot; }
+	void SetIsHit(bool isHit) { isHit_ = isHit; }
+	void SetBulletModel(Model* model, Object3D* obj);
+	void SetEnemy(Boss* boss);
 	void SetPos(Vector3 pos);
 };
 

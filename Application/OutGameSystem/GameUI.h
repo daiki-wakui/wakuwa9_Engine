@@ -8,8 +8,57 @@
 #include "Vector2.h"
 #include "Vector3.h"
 
+/**
+ * @file GameUI
+ * @brief スプライトを制御、描画するクラス
+ */
+
 class GameUI : public TextureManager
 {
+private:
+
+	const float SCREEN_SIZE_X = 1280.0f;
+	const float SCREEN_SIZE_Y = 720.0f;
+	const float HALF_SCREEN_SIZE_X = SCREEN_SIZE_X / 2.0f;
+	const float HALF_SCREEN_SIZE_Y = SCREEN_SIZE_Y / 2.0f;
+	const float COLOR_WIHTE = 1.0f;
+	const float MAX_ALPHA = 1.0f;
+
+	const float PLAYER_HP_X = 50.0f;
+	const float PLAYER_HP_Y = 20.0f;
+	const float PLAYER_HP_SIZE_X = 32.0f;
+	const float PLAYER_HP_SIZE_Y = 16.0f;
+	const float PLAYER_HP_DANGER = 1.0f;
+
+	const float BOSS_HP_Y = 80.0f;
+	const float BOSS_HP_SIZE_X = 16.0f;
+	const float BOSS_HP_SIZE_Y = 32.0f;
+
+	const float RB_UI_SIZE = 160.0f;
+	const float RB_UI_POS_X_VOLUE = 175.0f;
+	const float RB_UI_POS_Y_VOLUE = 90.0f;
+	const float RB_ALPHA_VOLUE = 0.15f;
+
+	const float PLAYER_BULLETRETICLE_SIZE = 32.0f;
+	const float CHANGE_TITLE_ALPHA_VOLUE = 0.05f;
+	const float CHANGE_GAME_ALPHA_VOLUE = 0.05f;
+	const float EVENT_MOVIE_ALPHA_VOLUE = 0.05f;
+
+	const float SIDE_RETICLE_SIZE_VOLUE_X = 300.0f;
+	const float SIDE_RETICLE_SIZE_VOLUE_Y = 200.0f;
+
+	const float FILLTER_TIMER_FRAME = 50.0f;
+	const float FILLTER_ALPHA_ADD_VOLUE = 0.07f;
+	const float FILLTER_ALPHA_SUB_VOLUE = 0.05f;
+
+	const int32_t BLINKING_COUNT = 3;
+	const int32_t WARING_FRAME = 2;
+	const float POP_FRAME_MAX = 60.0f;
+
+	const float SHACK_MIN = -2.0f;
+	const float SHACK_MAX = 2.0f;
+	const float SHACK_RATE = 5.0f;
+
 private:
 
 	//ゲームパッド処理使えるように
@@ -79,19 +128,34 @@ private:
 	bool movieEnd_ = false;
 public:
 
+	//コンストラクタ、デストラクタ
 	GameUI();
 	~GameUI();
 
+	//リセット関数
 	void Reset();
 
 	//タイトルシーンUI
+	//初期化
 	void TitleSceneInitialize();
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	/// <param name="sceneChange"></param> シーン遷移中
 	void TitleUpdate(bool sceneChange);
+
+	//描画関数
 	void TitleDraw();
 
 	//ゲームシーンUI
+	//初期化
 	void GameSceneInitialize();
+
+	//更新処理
 	void GameUpdate();
+
+	//描画関数
 	void GameDraw();
 
 	//ポストエフェクトをかけないスプライトの描画
@@ -100,10 +164,13 @@ public:
 	//ダメージシェイク時の処理
 	void Shake();
 
+	//BossHPUIの更新処理
 	void BossHpUI();
 
+	//ゲームシーンのシーン遷移のフェード用関数
 	void SceneStartFadeUI();
 
+	//ボス戦のイベントムービー用の関数
 	void BossIventSceneUI();
 
 public:	//getter,setter
@@ -114,11 +181,10 @@ public:	//getter,setter
 	float GetSceneChangeAlpha() { return ChangeTitleAlpha_; }
 	float GetGameSceneChangeAlpha() { return ChangeGameAlpha_; }
 
+	void SetMovieEnd(bool movieEnd) { movieEnd_ = movieEnd; }
+
 	//必要な情報を借りてくる
 	void SetInfo(Player* player, Object3D* playerObject, Boss* boss);
 	void boolInfo(bool hitBox, bool isIvent);
-
-
-	void SetMovieEnd(bool movieEnd) { movieEnd_ = movieEnd; }
 };
 

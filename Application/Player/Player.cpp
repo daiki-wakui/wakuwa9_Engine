@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Enemy.h"
+#include "Boss.h"
 
 #include <cmath>
 #include <algorithm>
@@ -7,6 +8,7 @@
 
 #include "MyRandom.h"
 
+//初期化
 void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject)
 {
 	playerModel_ = playerModel;
@@ -24,10 +26,12 @@ void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* in
 	reticle3DObject_->SetModel(bulletModel_);
 }
 
+//弾リストをクリア
 void Player::clear() {
 	bullets_.clear();
 }
 
+//更新処理
 void Player::Update()
 {
 	moveParticle_->Update();
@@ -156,11 +160,6 @@ void Player::Update()
 		dash = true;
 	}
 
-	if (wallHit_) {
-		frontMove_ = -frontMove_;
-		sideMove_ = -sideMove_;
-	}
-
 	pos_.x += frontMove_.x;
 	pos_.y += frontMove_.y;
 	pos_.z += frontMove_.z;
@@ -187,7 +186,19 @@ void Player::Update()
 		rot_.y = -angle_;
 	}
 
-	PlayerCamera();
+	
+	if (inputPad_->PushInstantLB()) {
+		isBossRokon_++;
+		isBossRokon_ = isBossRokon_ % 2;
+	}
+
+	if (isBossRokon_) {
+		tergetCamera();
+	}
+	else {
+		PlayerCamera();
+
+	}
 
 	posPod_ = pos_;
 
@@ -231,8 +242,6 @@ void Player::Update()
 
 	Shot();
 
-	wallHit_ = false;
-
 	invincibleFrame_--;
 	invincibleFrame_ = max(invincibleFrame_, 0);
 
@@ -243,6 +252,7 @@ void Player::Update()
 	
 }
 
+//描画関数
 void Player::Draw()
 {
 	playerObject_->Draw();
@@ -254,17 +264,13 @@ void Player::Draw()
 
 }
 
-void Player::pDraw()
+//パーティクル描画
+void Player::ParticleDraw()
 {
 	moveParticle_->Draw();
 }
 
-void Player::SetBulletModel(Model* model,Object3D* obj)
-{
-	bulletModel_ = model;
-	bulletObject_ = obj;
-}
-
+//当たったときの処理
 bool Player::OnCollision()
 {
 	if (!isInvincible_) {
@@ -282,41 +288,7 @@ bool Player::OnCollision()
 	return true;
 }
 
-void Player::wallHit()
-{
-	wallHit_ = true;
-}
-
-void Player::SetEnemy(Enemy* enemy)
-{
-	targetEnemy_ = enemy;
-}
-
-Vector3 Player::GetWorldPos()
-{
-	Vector3 worldPos;
-
-	worldPos.x = pos_.x;
-	worldPos.y = pos_.y;
-	worldPos.z = pos_.z;
-
-	return worldPos;
-}
-
-Vector3 Player::GetScreenRTPos()
-{
-	Vector3 screenPos;
-
-	screenPos = reticle3DObject_->Screen();
-
-	return screenPos;
-}
-
-void Player::SetPos(Vector3 pos)
-{
-	playerObject_->SetPosition(pos);
-}
-
+//ミサイル攻撃
 void Player::Missle()
 {
 	Vector3 target;
@@ -333,6 +305,33 @@ void Player::Missle()
 	}
 }
 
+//ロックオンカメラ
+void Player::tergetCamera()
+{
+	Vector3 terget;
+	Vector3 eye;
+	Vector3 camerapos;
+	terget = targetBoss_->GetWorldPos();
+	camerapos = pos_ - targetBoss_->GetWorldPos();
+	camerapos.y = 0.0f;
+
+	camerapos.normalize();
+	camerapos *= 30;
+	camerapos.y = 10.0f;
+
+	eye = pos_ + camerapos;
+
+	ParticleManager::SetEye(eye);
+	ParticleManager::SetTarget(terget);
+	playerObject_->SetEye(eye);
+	playerObject_->SetTarget(terget);
+
+	cRadian_ = std::atan2(pos_.z - targetBoss_->GetWorldPos().z, pos_.x - targetBoss_->GetWorldPos().x);
+	cAngle_ = cRadian_ * (180 / (float)PI) - 90;
+	cameraAngle_ = -cAngle_;
+}
+
+//弾攻撃
 void Player::Shot(){
 
 	if (coolTime < 0) {
@@ -363,6 +362,7 @@ void Player::Shot(){
 		});
 }
 
+//操作カメラ
 void Player::PlayerCamera(){
 
 	Vector3 toCameraPosXZ;
@@ -373,7 +373,7 @@ void Player::PlayerCamera(){
 
 	float height = toCameraPosXZ.y;
 	toCameraPosXZ.y = 0.0f;
-	float CameraXZLen = toCameraPosXZ.length();
+	float CameraXZLen = 30;
 	toCameraPosXZ.normalize();
 
 	Vector3 terget = pos_;
@@ -430,12 +430,11 @@ void Player::PlayerCamera(){
 		cameraTargetAngle_ = max(cameraTargetAngle_, 0.5f);
 		cameraTargetAngle_ = min(cameraTargetAngle_, 30.0f);
 
-
-		eye_.y = cameraTargetAngle_;
-
 		eye_.x = pos_.x + (sinf(r_) * CameraXZLen);
 		eye_.z = pos_.z + (cosf(r_) * CameraXZLen);
 	}
+
+	eye_.y = cameraTargetAngle_;
 
 	playerObject_->SetEye(eye_);
 	playerObject_->SetTarget(target_);
@@ -444,8 +443,45 @@ void Player::PlayerCamera(){
 
 }
 
+//角度算出
 void Player::RotateAngle()
 {
 	radi_ = std::atan2(pos_.z - eye_.z, pos_.x - eye_.x);
 	angle_ = radi_ * (180 / (float)PI) - 90;
+}
+
+void Player::SetBulletModel(Model* model, Object3D* obj)
+{
+	bulletModel_ = model;
+	bulletObject_ = obj;
+}
+
+void Player::SetEnemy(Boss* boss)
+{
+	targetBoss_ = boss;
+}
+
+Vector3 Player::GetWorldPos()
+{
+	Vector3 worldPos;
+
+	worldPos.x = pos_.x;
+	worldPos.y = pos_.y;
+	worldPos.z = pos_.z;
+
+	return worldPos;
+}
+
+Vector3 Player::GetScreenRTPos()
+{
+	Vector3 screenPos;
+
+	screenPos = reticle3DObject_->Screen();
+
+	return screenPos;
+}
+
+void Player::SetPos(Vector3 pos)
+{
+	playerObject_->SetPosition(pos);
 }

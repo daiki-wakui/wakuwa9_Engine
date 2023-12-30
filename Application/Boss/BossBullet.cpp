@@ -2,6 +2,7 @@
 #include <random>
 #include "MyRandom.h"
 
+//初期化
 void BossBullet::Initialize(Vector3 pos, Vector3& velocity, Model* model, int32_t randState)
 {
 	tPos_ = pos;
@@ -12,17 +13,18 @@ void BossBullet::Initialize(Vector3 pos, Vector3& velocity, Model* model, int32_
 	bulletObject_ = std::make_unique<Object3D>();
 	bulletObject_->SetModel(bulletModel_);
 	bulletObject_->Initialize();
-	bulletObject_->SetScale({ 3,3,3 });
+	bulletObject_->SetScale({ OBJECT_SCALE,OBJECT_SCALE,OBJECT_SCALE });
 
 	bulletObject_->SetPosition(tPos_);
 
-	addRand_ = MyRandom::GetFloatRandom(-0.1f, 0.3f);
+	addRand_ = MyRandom::GetFloatRandom(ADD_MIN_RAND, ADD_MAX_RAND);
 	bulletState_ = randState;
 }
 
+//更新処理
 void BossBullet::Update()
 {
-
+	//弾の動き方によって処理を変える
 	if (bulletState_ != 3) {
 		if (bulletState_) {
 			tPos_.x -= velocity_.x + addRand_;
@@ -49,11 +51,13 @@ void BossBullet::Update()
 	}
 }
 
+//描画関数
 void BossBullet::Draw()
 {
 	bulletObject_->Draw();
 }
 
+//getter
 Vector3 BossBullet::GetWorldPos()
 {
 	Vector3 worldPos;

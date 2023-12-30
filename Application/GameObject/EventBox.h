@@ -2,6 +2,11 @@
 #include "Model.h"
 #include "Object3D.h"
 
+/**
+ * @file EventBox
+ * @brief フィールドに設置するボスのイベントムービーの開始判定やステージ切り替えの判定を行うクラス
+ */
+
 class EventBox
 {
 private:
@@ -14,12 +19,22 @@ public:
 
 	bool valid_ = false;
 
-	Vector3 GetWorldPos();
-
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="Model"></param> モデルの見た目
+	/// <param name="Object"></param> オブジェクト情報
+	/// <param name="scene"></param> イベントムービーbox = false ステージチェンジbox = true
 	void Initialize(Model* Model, Object3D* Object, bool scene = false);
+
+	//更新処理
 	void Update();
+
+	//描画関数
 	void Draw();
 
+	//getter
+	Vector3 GetWorldPos();
 	bool GetIsArive() { return valid_; }
 	bool GetLoadEditor() { return isLoadEditor_; }
 };

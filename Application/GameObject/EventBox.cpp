@@ -1,5 +1,6 @@
 #include "EventBox.h"
 
+//getter
 Vector3 EventBox::GetWorldPos()
 {
 	Vector3 worldPos;
@@ -11,6 +12,7 @@ Vector3 EventBox::GetWorldPos()
 	return worldPos;
 }
 
+//初期化
 void EventBox::Initialize(Model* Model, Object3D* Object, bool scene)
 {
 	model_ = Model;
@@ -20,12 +22,13 @@ void EventBox::Initialize(Model* Model, Object3D* Object, bool scene)
 	isLoadEditor_ = scene;
 }
 
-
+//更新処理
 void EventBox::Update()
 {
 	object_->Update();
 }
 
+//描画関数
 void EventBox::Draw()
 {
 	object_->Draw();

@@ -3,6 +3,7 @@
 #include "Easing.h"
 #include "MyRandom.h"
 
+//初期化
 void PlayerBullet::Initialize(Vector3 pos, Vector3& velocity, Model* model)
 {
 	tPos_ = pos;
@@ -30,6 +31,7 @@ void PlayerBullet::Initialize(Vector3 pos, Vector3& velocity, Model* model)
 	End.z = velocity_.z;
 }
 
+//更新処理
 void PlayerBullet::Update()
 {
 	prot_ += 0.2f;
@@ -61,14 +63,10 @@ void PlayerBullet::Update()
 	bulletObject_->SetPosition(tPos_);
 }
 
+//描画関数
 void PlayerBullet::Draw()
 {
 	bulletObject_->Draw();
-}
-
-void PlayerBullet::pDraw()
-{
-	effectParticle_->Draw();
 }
 
 Vector3 PlayerBullet::GetWorldPos()

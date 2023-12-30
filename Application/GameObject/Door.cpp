@@ -26,18 +26,15 @@ void Door::Update()
 {
 	if (!isChangeStage_) {
 		if (filp_) {
-			objectRot_ -= 0.3f;
-			objectRot_ = max(-90, objectRot_);
+			objectRot_ -= OBJECT_ROT_VOLUE;
+			objectRot_ = max(OBJECT_ROT_MAX, objectRot_);
 		}
 		else {
-			objectRot_ += 0.3f;
-			objectRot_ = min(90, objectRot_);
+			objectRot_ += OBJECT_ROT_VOLUE;
+			objectRot_ = min(OBJECT_ROT_MIN, objectRot_);
 		}
 	}
-	
-
 	object_->SetRotation({0,objectRot_,0 });
-
 	object_->Update();
 }
 

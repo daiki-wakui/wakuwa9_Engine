@@ -55,7 +55,7 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;DIRECTINPUT_VERSION=0x0800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Application;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Camera;$(ProjectDir)Application\Player;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Boss;$(ProjectDir)Application\Scene;$(ProjectDir)Application\GameSound;$(ProjectDir)Application\Effect;$(ProjectDir)Application\GameObject;$(ProjectDir)Application\GameField;$(ProjectDir)Application\OutGameSystem;$(ProjectDir)Application\AssetManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -108,7 +108,6 @@
     <ClCompile Include="Application\Effect\Effect.cpp" />
     <ClCompile Include="Application\Enemy\Enemy.cpp" />
     <ClCompile Include="Application\Enemy\EnemyBullet.cpp" />
-    <ClCompile Include="Application\Enemy\EnemyCharge.cpp" />
     <ClCompile Include="Application\GameField\LevelEditor.cpp" />
     <ClCompile Include="Application\GameObject\CollisionBox.cpp" />
     <ClCompile Include="Application\GameObject\DebugPoint.cpp" />
@@ -152,6 +151,7 @@
     <ClCompile Include="Engine\Math\MyRandom.cpp" />
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
+    <ClCompile Include="Engine\Math\wa9Math.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -162,7 +162,6 @@
     <ClInclude Include="Application\Effect\Effect.h" />
     <ClInclude Include="Application\Enemy\Enemy.h" />
     <ClInclude Include="Application\Enemy\EnemyBullet.h" />
-    <ClInclude Include="Application\Enemy\EnemyCharge.h" />
     <ClInclude Include="Application\GameField\LevelEditor.h" />
     <ClInclude Include="Application\GameObject\CollisionBox.h" />
     <ClInclude Include="Application\GameObject\DebugPoint.h" />
@@ -207,6 +206,7 @@
     <ClInclude Include="Engine\Math\MyRandom.h" />
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
+    <ClInclude Include="Engine\Math\wa9Math.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">

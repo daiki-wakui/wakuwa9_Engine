@@ -1,26 +1,26 @@
 #include "Model3DManager.h"
 
+//コンストラクタ
 Model3DManager::Model3DManager()
 {
 }
 
+//デストラクタ
 Model3DManager::~Model3DManager()
 {
 }
 
+//タイトルシーンで使うモデル読み込み
 void Model3DManager::LoadTitle3DModel()
 {
-	//タイトル
 	skydomTitleModel_ = std::make_unique<Model>();
 	skydomTitleModel_->LoadFromObj("world2");
-
-
 }
 
+//ゲームシーンで使うモデル読み込み
 void Model3DManager::LoadGame3DModel()
 {
-	//ゲーム
-//OBJからモデルを読み込む
+	//OBJからモデルを読み込む
 	playerModel_ = std::make_unique<Model>();
 	playerModel_->LoadFromObj("player");
 
@@ -81,6 +81,6 @@ void Model3DManager::LoadGame3DModel()
 	bossBulletModel_ = std::make_unique<Model>();
 	bossBulletModel_->LoadFromObj("bossbullet");
 
-	frameModel_->LoadFromObj("bossframe");
+	frameModel_->LoadFromObj("b_tele");
 	bulletCononModel_->LoadFromObj("bossconon");
 }

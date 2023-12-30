@@ -1,6 +1,7 @@
 #include "SoundManager.h"
 #include "KeyBoard.h"
 
+//初期化
 void SoundManager::Initialize()
 {
 	//BGM
@@ -19,50 +20,54 @@ void SoundManager::Initialize()
 	sound_->LoadWave("electric_shock3.wav");
 }
 
+//更新処理
 void SoundManager::Update(int32_t state)
 {
 	if (isFiledBGM_) {
-		filedVolue_ += 0.01f;
-		filedVolue_ = min(1.0f, filedVolue_);
+		filedVolue_ += ADD_FILED_VOLUE;
+		filedVolue_ = min(MAX_FILED_VOLUE, filedVolue_);
 	}
 
-	if (state == 0) {
+	if (state == TITLE_BGM) {
 
 		if (!titleBGM_) {
-			sound_->PlayLoopWave("NieR_Title.wav", 0.75f);
+			sound_->PlayLoopWave("NieR_Title.wav", TITLE_BGM_VOLUE);
 			titleBGM_ = true;
 		}
 	}
 
-	if (state == 1) {
+	if (state == GAME_BGM) {
 		if (!gameBGM_ && !bossBGM_) {
-			sound_->PlayLoopWave("NieR_Field.wav", 0.25f);
-			sound_->PlayLoopWave("NieR_freld2.wav", 0.25f);
+			sound_->PlayLoopWave("NieR_Field.wav", GAME_BGM_VOLUE);
+			sound_->PlayLoopWave("NieR_freld2.wav", GAME_BGM_VOLUE);
 			gameBGM_ = true;
 		}
 
-		sound_->SetVolue("NieR_Field.wav", (1.0f - filedVolue_) / 4);
-		sound_->SetVolue("NieR_freld2.wav", (0.0f + filedVolue_) / 4);
+		sound_->SetVolue("NieR_Field.wav", (MAX_VLOUE - filedVolue_) / GAME_BGM_VOLUE_RATE);
+		sound_->SetVolue("NieR_freld2.wav", (MIN_VLOUE + filedVolue_) / GAME_BGM_VOLUE_RATE);
 	}
 
-	if (state == 2) {
+	if (state == BOSS_BGM) {
 		if (!bossBGM_) {
-			sound_->PlayLoopWave("NieR_boss.wav", 0.4f);
+			sound_->PlayLoopWave("NieR_boss.wav", BOSS_BGM_VOLUE);
 			bossBGM_ = true;
 		}
 	}
 }
 
+//setter
 void SoundManager::SetBasis(Sound* sound)
 {
 	sound_ = sound;
 }
 
+//SE鳴らす用
 void SoundManager::PlayWave(const std::string& filename, float volue)
 {
 	sound_->PlayWave(filename, volue);
 }
 
+//シングルートン
 SoundManager* SoundManager::GetInstance()
 {
 	static SoundManager instance;
@@ -70,6 +75,7 @@ SoundManager* SoundManager::GetInstance()
 	return &instance;
 }
 
+//BGMを止める
 void SoundManager::StopBGM()
 {
 	

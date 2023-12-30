@@ -2,6 +2,11 @@
 #include "Model.h"
 #include "Object3D.h"
 
+/**
+ * @file CollisionBox
+ * @brief 壁の判定を行うクラス(現在使ってない消して作り直すかも)
+ */
+
 class CollisionBox
 {
 private:
@@ -17,17 +22,30 @@ public:
 
 	bool arive = false;
 
-	Vector3 GetWorldPos();
-
-	const Vector3& GetScale() const { return scale_; }
-	void SetScale(const Vector3& scale) { scale_ = scale; }
-
-	bool GetCollision() const { return hit_; }
-
+	
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="Model"></param> モデル見た目
+	/// <param name="Object"></param> オブジェクト情報
 	void Initialize(Model* Model, Object3D* Object);
+
+	//更新処理
 	void Update();
+
+	//描画関数
 	void Draw();
 
+	//当たったときの処理
 	bool OnCollision();
+
+	//getter
+	Vector3 GetWorldPos();
+	const Vector3& GetScale() const { return scale_; }
+	bool GetCollision() const { return hit_; }
+
+	//setter
+	void SetScale(const Vector3& scale) { scale_ = scale; }
+
 };
 

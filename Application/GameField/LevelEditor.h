@@ -4,6 +4,11 @@
 #include "Object3D.h"
 #include "LevelLoader.h"
 
+/**
+ * @file LevelEditor
+ * @brief ゲームシーンクラスからの分離先として作ってるクラス
+ */
+
 class LevelEditor
 {
 private:
@@ -12,9 +17,13 @@ private:
 
 public:
 
+	//初期化
 	void Initialize();
+	//更新処理
 	void Update();
+	//描画関数
 	void Darw();
+	//リロード関数
 	void ReLoad();
 
 };

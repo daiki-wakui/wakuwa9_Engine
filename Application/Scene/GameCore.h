@@ -15,6 +15,11 @@
 #include <d3dcompiler.h>
 #include <cstdint>
 
+/**
+ * @file GameCore
+ * @brief ゲームを動かしている基盤クラス
+ */
+
 class GameCore : public Framework 
 {
 private:
@@ -41,9 +46,11 @@ public:
 
 	//初期化
 	void Initialize() override;
+	//終了
 	void Finalize() override;
-	//毎フレーム
+	//更新処理
 	void Update() override;
+	//描画関数
 	void Draw() override;
 };
 

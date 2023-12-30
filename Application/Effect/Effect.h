@@ -3,8 +3,24 @@
 #include "Object3D.h"
 #include "Vector3.h"
 
+/**
+ * @file Effect
+ * @brief 飛び散るエフェクトを出すクラス
+ */
+
 class Effect
 {
+private:
+
+	const float VELOCITY_X_MIN = -2.0f;
+	const float VELOCITY_X_MAX = 3.0f;
+	const float VELOCITY_Z_MIN = -2.0f;
+	const float VELOCITY_Z_MAX = 4.0f;
+	const float ADD_POW_VOLUE = 0.01f;
+	const float POW_MAX_VOLUE = 0.5f;
+	const float SUB_SCALE_VOLUE = 0.02f;
+	const float ADD_ROT_VOLUE = 1000.0f;
+
 private:
 
 	Model* bulletModel_;
@@ -26,12 +42,25 @@ private:
 public:
 	bool isDead_ = false;
 
-	bool IsDead() const { return isDead_; }
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="pos"></param> 初期座標
+	/// <param name="velocity"></param> オブジェクトに加わる速度
+	/// <param name="model"></param> エフェクトに使うモデルの見た目
 	void Initialize(Vector3 pos, Vector3& velocity, Model* model);
+
+	//更新処理
 	void Update();
+
+	//描画関数
 	void Draw();
 
-	DirectX::XMFLOAT3 GetWorldPos();
+	//スケール変更
+	void SetScale(float scale);
+
+	//getter
+	bool IsDead() const { return isDead_; }
 };
 

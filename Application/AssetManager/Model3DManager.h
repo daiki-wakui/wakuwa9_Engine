@@ -1,6 +1,11 @@
 #pragma once
 #include "Model.h"
 
+/**
+ * @file Model3DManager
+ * @brief ゲームで使う3Dモデルの読み込みクラス
+ */
+
 class Model3DManager
 {
 protected:
@@ -40,10 +45,14 @@ protected:
 
 public:
 
+	//コンストラクタ、デストラクタ
 	Model3DManager();
 	~Model3DManager();
 
+	//タイトルシーンで使うモデル読み込み
 	void LoadTitle3DModel();
+
+	//ゲームシーンで使うモデル読み込み
 	void LoadGame3DModel();
 
 };
