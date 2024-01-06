@@ -16,6 +16,9 @@
 #include <memory>
 #include <list>
 
+#include "BaseObject.h"
+#include "PlayerBasis.h"
+
 /**
  * @file GameScene
  * @brief ゲームシーンを動かしているクラス
@@ -84,6 +87,12 @@ private: //定数
 
 
 private:	//メンバ変数
+
+	std::list<std::unique_ptr<BaseObject>> gameObjects_;
+	std::unique_ptr<BaseObject> baseObject_[1000] = {};
+	int32_t objNum_ = 0;
+
+	std::unique_ptr<BaseObject> bPlayer_ = std::make_unique<PlayerBasis>();
 
 	//OBJからモデルを読み込む
 	//天球

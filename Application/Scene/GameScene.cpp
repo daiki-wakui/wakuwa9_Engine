@@ -206,6 +206,10 @@ void GameScene::Update()
 	}
 
 	AllCollison();
+
+	for (std::unique_ptr<BaseObject>& objects_ : gameObjects_) {
+		objects_->Update();
+	}
 }
 
 //スプライト更新処理
@@ -286,6 +290,11 @@ void GameScene::ObjectUpdate()
 //描画関数
 void GameScene::Draw()
 {
+	for (std::unique_ptr<BaseObject>& objects_ : gameObjects_) {
+		objects_->Draw();
+	}
+	//bPlayer_->Draw();
+
 	shadowObject_->Draw();
 
 	for (auto& object : objects) {
@@ -297,7 +306,7 @@ void GameScene::Draw()
 	}
 
 	if (player_->IsDead() == false && isIvent_ == false) {
-		player_->Draw();
+		//player_->Draw();
 	}
 
 	for (std::unique_ptr<Enemy>& enemy : enemys_) {
@@ -342,6 +351,7 @@ void GameScene::EditorLoad(const std::string filename)
 	objects.clear();
 	enemys_.clear();
 	doors_.clear();
+	gameObjects_.clear();
 	ReLoad(filename);
 }
 
@@ -400,6 +410,7 @@ void GameScene::ReLoad(const std::string filename)
 
 
 		if (levelData_->objects[i].fileName == "player") {
+
 			//オブジェクト生成と座標情報代入
 			Inport(model, i);
 
@@ -408,6 +419,15 @@ void GameScene::ReLoad(const std::string filename)
 			playerObject_->SetPosition(newObject[objSize_]->GetPosition());
 			playerObject_->SetRotation(newObject[objSize_]->GetRotation());
 			playerObject_->SetCamera(LNIT_EYE, LNIT_TERGET);
+
+			bPlayer_->Initialize(playerModel_.get(), playerObject_.get());
+
+			//オブジェクト生成と座標情報代入
+			baseObject_[objNum_] = std::make_unique<PlayerBasis>();
+			baseObject_[objNum_]->Initialize(playerModel_.get(), playerObject_.get());
+			//オブジェクトを登録する
+			gameObjects_.push_back(std::move(baseObject_[objNum_]));
+			objNum_++;
 
 			player_.reset();
 			player_ = std::make_unique<Player>();
