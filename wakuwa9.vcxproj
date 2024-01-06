@@ -155,6 +155,7 @@
     <ClCompile Include="Engine\Math\wa9Math.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerBasis.cpp" />
+    <ClCompile Include="PlayerMove.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\AssetManager\Model3DManager.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\wa9Math.h" />
     <ClInclude Include="PlayerBasis.h" />
+    <ClInclude Include="PlayerMove.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">

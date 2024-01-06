@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseObject.h"
 
+class PlayerMove;
+
 class PlayerBasis : public BaseObject
 {
 public:
@@ -17,6 +19,12 @@ public:
 private:	//メンバ変数
 
 	Model* thismodel_;
+
+	std::unique_ptr<PlayerMove> move_ = std::make_unique<PlayerMove>();
+
+
+protected:
+
 	Object3D* thisObject_;
 };
 

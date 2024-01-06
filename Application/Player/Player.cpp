@@ -47,12 +47,12 @@ void Player::Update()
 	frontVec.z = eye_.z - target_.z;
 
 	frontVec.normalize();
-	frontVec /= FRONT_VECTOR_RATE;
+	//frontVec /= FRONT_VECTOR_RATE;
 
 	if (dash) {
-		dashPower_ += DASH_POWTER_VOLUE;
+		//dashPower_ += DASH_POWTER_VOLUE;
 
-		dashPower_ = min(dashPower_, DASH_POWTER_MAX_VOLUE);
+		//dashPower_ = min(dashPower_, DASH_POWTER_MAX_VOLUE);
 
 		frontVec.x *= dashPower_;
 		frontVec.z *= dashPower_;
@@ -70,7 +70,7 @@ void Player::Update()
 		frontMove_.x = -frontVec.x;
 		frontMove_.z = -frontVec.z;
 		rot_.x++;
-		rot_.x = min(rot_.x, ROT_MAX);
+	//	rot_.x = min(rot_.x, ROT_MAX);
 	}
 	else {
 		if (!inputPad_->InputLStick() && rot_.x > 0) {
@@ -92,7 +92,7 @@ void Player::Update()
 		frontMove_.x = frontVec.x;
 		frontMove_.z = frontVec.z;
 		rot_.x--;
-		rot_.x = max(rot_.x, -ROT_MAX);
+	//	rot_.x = max(rot_.x, -ROT_MAX);
 	}
 	else {
 		if (!inputPad_->InputLStick() && rot_.x < 0) {
@@ -118,7 +118,7 @@ void Player::Update()
 		sideMove_.x = -moveXVec.x;
 		sideMove_.z = -moveXVec.z;
 		rot_.z--;
-		rot_.z = max(rot_.z, -ROT_MAX);
+	//	rot_.z = max(rot_.z, -ROT_MAX);
 	}
 	else {
 		sideMove_ *= friction;
@@ -141,7 +141,7 @@ void Player::Update()
 		sideMove_.x = moveXVec.x;
 		sideMove_.z = moveXVec.z;
 		rot_.z++;
-		rot_.z = min(rot_.z, ROT_MAX);
+	//	rot_.z = min(rot_.z, ROT_MAX);
 	}
 	else {
 		if (!inputPad_->InputLStick() && rot_.z > 0) {
@@ -169,7 +169,7 @@ void Player::Update()
 	pos_.y += sideMove_.y;
 	pos_.z += sideMove_.z;
 	
-	pos_.y = sinf(wa9Math::PI() * (frame + ADD_FRAME) * FRAME_RATE) * POS_Y_RATE + ADD_POS_Y_VOLUE;
+//	pos_.y = sinf(wa9Math::PI() * (frame + ADD_FRAME) * FRAME_RATE) * POS_Y_RATE + ADD_POS_Y_VOLUE;
 
 	frame++;
 
