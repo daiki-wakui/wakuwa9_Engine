@@ -46,10 +46,8 @@ private:
 	
 
 
-	const float ADD_BIT_X_VOLUE = 5.0f;
-	const int32_t BIT_FRAME_RATE = 40;
-	const float BIT_POS_Y_RATE = 0.5f;
-	const float ADD_BIT_POS_Y_VOLUE = 10.0f;
+	
+	
 
 	const float BULLET_VECTOR_Y_VOLUE = 5.0f;
 	const float BULLET_RT_VECTOR_RATE = -150.0f;

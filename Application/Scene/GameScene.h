@@ -18,6 +18,7 @@
 
 #include "BaseObject.h"
 #include "PlayerBasis.h"
+#include "BitBasis.h"
 
 /**
  * @file GameScene

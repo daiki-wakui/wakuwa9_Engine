@@ -420,11 +420,20 @@ void GameScene::ReLoad(const std::string filename)
 			playerObject_->SetRotation(newObject[objSize_]->GetRotation());
 			playerObject_->SetCamera(LNIT_EYE, LNIT_TERGET);
 
-			bPlayer_->Initialize(playerModel_.get(), playerObject_.get());
 
+			podObject_->SetPosition(playerObject_->GetPosition());
+
+			
 			//オブジェクト生成と座標情報代入
 			baseObject_[objNum_] = std::make_unique<PlayerBasis>();
 			baseObject_[objNum_]->Initialize(playerModel_.get(), playerObject_.get());
+			//オブジェクトを登録する
+			gameObjects_.push_back(std::move(baseObject_[objNum_]));
+			objNum_++;
+
+			//オブジェクト生成と座標情報代入
+			baseObject_[objNum_] = std::make_unique<BitBasis>();
+			baseObject_[objNum_]->Initialize(podModel_.get(), podObject_.get());
 			//オブジェクトを登録する
 			gameObjects_.push_back(std::move(baseObject_[objNum_]));
 			objNum_++;

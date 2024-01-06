@@ -1,22 +1,17 @@
 #pragma once
-#include "PlayerBasis.h"
+#include "Object3D.h"
 #include "KeyBoard.h"
 #include "GamePad.h"
-#include "Vector3.h"
 
-class PlayerMove
+class BitMove
 {
-public:	//メンバ関数
+public:
+
 	//初期化
 	void Initialize(Object3D* object);
 	//毎フレーム
 	void Update();
-
-private:
-	//角度算出
-	void RotateAngle();
 	void Move();
-
 private:
 
 	const float FRONT_VECTOR_RATE = 1.5f;
@@ -30,7 +25,13 @@ private:
 	const float POS_Y_RATE = 0.5f;
 	const float ADD_POS_Y_VOLUE = 10.0f;
 
-protected:
+
+	const float ADD_BIT_X_VOLUE = 5.0f;
+	const int32_t BIT_FRAME_RATE = 40;
+	const float BIT_POS_Y_RATE = 0.5f;
+	const float ADD_BIT_POS_Y_VOLUE = 10.0f;
+
+private:
 
 	Object3D* obj_;
 
@@ -57,8 +58,5 @@ protected:
 	float friction = 0.8f;
 
 	int32_t frame = 0;
-
-	float radi_;
-	float angle_;
 };
 

@@ -203,9 +203,9 @@ void Player::Update()
 
 	posPod_ = pos_;
 
-	posPod_.x += sideMove_.x + ADD_BIT_X_VOLUE;
-
-	posPod_.y = sinf(wa9Math::PI() * frame * BIT_FRAME_RATE) * BIT_POS_Y_RATE + ADD_BIT_POS_Y_VOLUE;
+	//posPod_.x += sideMove_.x + ADD_BIT_X_VOLUE;
+//
+//	posPod_.y = sinf(wa9Math::PI() * frame * BIT_FRAME_RATE) * BIT_POS_Y_RATE + ADD_BIT_POS_Y_VOLUE;
 	posPod_.y += 7;
 
 	bulletVec_.x = eye_.x - pos_.x;
