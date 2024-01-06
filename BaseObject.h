@@ -13,5 +13,6 @@ public:
 	//描画
 	virtual void Draw() = 0;
 
+	virtual Vector3 GetWorldPos() = 0;
 };
 

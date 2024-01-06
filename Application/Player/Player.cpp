@@ -365,7 +365,7 @@ void Player::Shot(){
 //操作カメラ
 void Player::PlayerCamera(){
 
-	Vector3 toCameraPosXZ;
+	/*Vector3 toCameraPosXZ;
 	toCameraPosXZ.x = eye_.x - target_.x;
 	toCameraPosXZ.y = eye_.y - target_.y;
 	toCameraPosXZ.z = eye_.z - target_.z;
@@ -439,7 +439,7 @@ void Player::PlayerCamera(){
 	playerObject_->SetEye(eye_);
 	playerObject_->SetTarget(target_);
 	ParticleManager::SetEye(eye_);
-	ParticleManager::SetTarget(target_);
+	ParticleManager::SetTarget(target_);*/
 
 }
 

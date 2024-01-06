@@ -13,7 +13,8 @@ public:	//メンバ関数
 	void Update();
 
 private:
-
+	//角度算出
+	void RotateAngle();
 	void Move();
 
 private:
@@ -54,5 +55,8 @@ private:
 	float friction = 0.8f;
 
 	int32_t frame = 0;
+
+	float radi_;
+	float angle_;
 };
 

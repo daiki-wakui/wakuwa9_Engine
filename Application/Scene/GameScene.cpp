@@ -118,14 +118,14 @@ void GameScene::Update()
 		object->Update();
 	}
 
-	player_->Update();
-	if (player_->GetIsShot()) {
+	//player_->Update();
+	//if (player_->GetIsShot()) {
 
-		SoundManager::GetInstance()->PlayWave("Shot.wav", BULLET_SHOT_VOLUE);
-		player_->SetIsShot(false);
-	}
+	//	SoundManager::GetInstance()->PlayWave("Shot.wav", BULLET_SHOT_VOLUE);
+	//	player_->SetIsShot(false);
+	//}
 
-	player_->SetEnemy(boss_.get());
+	//player_->SetEnemy(boss_.get());
 
 	Vector3 podPos;
 
@@ -283,7 +283,7 @@ void GameScene::ObjectUpdate()
 		}
 	}
 
-	skyObject_->SetPosition(player_->GetWorldPos());
+	skyObject_->SetPosition(gameObjects_.begin()->get()->GetWorldPos());
 	skyObject_->Update();
 }
 

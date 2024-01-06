@@ -63,14 +63,8 @@ private:
 	const float SHOT_SPEED_VOLUE = 15.0f;
 	const int32_t SHOT_COOLTIME_VOLUE = 4;
 
-	const float MOVE_CAMERA_LENGTH_VOLUE = 30.0f;
-	const float MOVE_CAMERA_TARGET_Y_VOLUE = 10.0f;
-	const float MOVE_CAMERA_ROT_MAX_WEIGHT_VOLUE = 1.0f;
-	const float MOVE_CAMERA_ROT_WEIGHT_VOLUE = 0.3f;
-	const float MOVE_CAMERA_ANGLE_VOLUE = 1.5f;
-	const float MOVE_CAMERA_TARGET_ANGLE_VOLUE = 0.25f;
-	const float MOVE_CAMERA_TARGET_MIN_ANGLE = 0.5f;
-	const float MOVE_CAMERA_TARGET_MAX_ANGLE = 30.0f;
+	
+	
 
 private:
 
@@ -121,7 +115,6 @@ private:
 	const double PI = 3.141492;
 
 	float radi_;
-
 	float angle_;
 
 	float cameraAngle_ = 180.0f;

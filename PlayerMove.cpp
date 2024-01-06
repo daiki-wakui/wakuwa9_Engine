@@ -147,4 +147,27 @@ void PlayerMove::Move()
 	pos_.y = sinf(wa9Math::PI() * (frame + ADD_FRAME) * FRAME_RATE) * POS_Y_RATE + ADD_POS_Y_VOLUE;
 
 	frame++;
+
+	if (inputPad_->InputRStick() == false && inputPad_->InputLStick() == false) {
+		RotateAngle();
+	}
+	else if (inputPad_->InputLStick() && inputPad_->InputRStick()) {
+		RotateAngle();
+
+		rot_.y = -angle_;
+	}
+	else if (inputPad_->InputLStick() && inputPad_->InputRStick() == false) {
+		RotateAngle();
+
+		rot_.y = -angle_;
+	}
+
+	obj_->SetRotation(rot_);
+	obj_->SetPosition(pos_);
+}
+
+void PlayerMove::RotateAngle()
+{
+	radi_ = std::atan2(pos_.z - eye_.z, pos_.x - eye_.x);
+	angle_ = radi_ * (wa9Math::Degree180() / wa9Math::PI()) - wa9Math::Degree90();
 }

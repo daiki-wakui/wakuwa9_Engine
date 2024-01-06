@@ -2,6 +2,7 @@
 #include "BaseObject.h"
 
 class PlayerMove;
+class PlayerCamera;
 
 class PlayerBasis : public BaseObject
 {
@@ -16,11 +17,13 @@ public:
 	//描画
 	void Draw() override;
 
+	Vector3 GetWorldPos() override;
 private:	//メンバ変数
 
 	Model* thismodel_;
 
 	std::unique_ptr<PlayerMove> move_ = std::make_unique<PlayerMove>();
+	std::unique_ptr<PlayerCamera> camera_ = std::make_unique<PlayerCamera>();
 
 
 protected:
