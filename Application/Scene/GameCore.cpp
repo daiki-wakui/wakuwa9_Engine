@@ -1,5 +1,7 @@
 #include "GameCore.h"
 #include "SceneList.h"
+#include "Model3DManager.h"
+
 #pragma comment(lib, "d3dcompiler.lib")
 using namespace DirectX;
 
@@ -8,6 +10,10 @@ void GameCore::Initialize()
 {
 	Framework::Initialize();
 	postEffect_->Initialize(0);
+
+	Model3DManager m;
+	m.LoadTitle3DModel();
+	m.insertModel();
 
 	sceneManager_->Initialize();
 }

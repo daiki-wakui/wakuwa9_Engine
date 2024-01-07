@@ -10,7 +10,7 @@
  * @brief タイトルシーンを動かしているクラス
  */
 
-class TitleScene : public BaseScene
+class TitleScene
 {
 private: // エイリアス
 	// DirectX::を省略
@@ -60,16 +60,16 @@ private:	//メンバ変数
 public:	//メンバ関数
 
 	//初期化
-	void Initialize() override;
+	void Initialize();
 
 	//終了
-	void Finalize()override;
+	void Finalize();
 
 	//更新処理
-	void Update()override;
+	void Update();
 
 	//描画
-	void Draw()override;
+	void Draw();
 
 	//ポストエフェクトをかけない描画
 	void OffDraw();

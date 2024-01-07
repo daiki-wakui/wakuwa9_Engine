@@ -1,5 +1,6 @@
 #pragma once
 #include "Model.h"
+#include <map>
 
 /**
  * @file Model3DManager
@@ -43,11 +44,18 @@ protected:
 	std::unique_ptr<Model> bulletCononModel_ = std::make_unique<Model>();
 	std::unique_ptr<Model> frameModel_ = std::make_unique<Model>();
 
-public:
+private:
+	// charをキー、intを値として扱う連想配列
+	std::map<std::string, Model*> models_;
 
+	
+public:
+	
 	//コンストラクタ、デストラクタ
 	Model3DManager();
 	~Model3DManager();
+
+	void insertModel();
 
 	//タイトルシーンで使うモデル読み込み
 	void LoadTitle3DModel();
@@ -55,5 +63,6 @@ public:
 	//ゲームシーンで使うモデル読み込み
 	void LoadGame3DModel();
 
+	Model* Get3DModel(std::string name);
 };
 

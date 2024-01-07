@@ -10,6 +10,12 @@ Model3DManager::~Model3DManager()
 {
 }
 
+void Model3DManager::insertModel()
+{
+	models_.insert(std::make_pair("world", skydomTitleModel_.get()));
+
+}
+
 //タイトルシーンで使うモデル読み込み
 void Model3DManager::LoadTitle3DModel()
 {
@@ -83,4 +89,13 @@ void Model3DManager::LoadGame3DModel()
 
 	frameModel_->LoadFromObj("b_tele");
 	bulletCononModel_->LoadFromObj("bossconon");
+}
+
+Model* Model3DManager::Get3DModel(std::string name)
+{
+	Model* pikModel;
+
+	pikModel = models_.at(name);
+
+	return pikModel;
 }
