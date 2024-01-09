@@ -114,9 +114,9 @@ void GameScene::Update()
 		dPoint_->Update();
 	}
 	
-	for (auto& object : objects) {
+	/*for (auto& object : objects) {
 		object->Update();
-	}
+	}*/
 
 	//player_->Update();
 	//if (player_->GetIsShot()) {
@@ -297,9 +297,9 @@ void GameScene::Draw()
 
 	shadowObject_->Draw();
 
-	for (auto& object : objects) {
-		object->Draw();
-	}
+	//for (auto& object : objects) {
+	//	object->Draw();
+	//}
 
 	for (std::unique_ptr<Door>& door : doors_) {
 		door->Draw();
@@ -567,8 +567,15 @@ void GameScene::ReLoad(const std::string filename)
 			//オブジェクト生成と座標情報代入
 			Inport(model, i);
 
+			////オブジェクト生成と座標情報代入
+			baseObject_[objNum_] = std::make_unique<StageObject>();
+			baseObject_[objNum_]->Initialize(model, newObject[objSize_].get());
+			////オブジェクトを登録する
+			gameObjects_.push_back(std::move(baseObject_[objNum_]));
+			objNum_++;
+
 			// 配列に登録
-			objects.push_back(newObject[objSize_].get());
+			//objects.push_back(newObject[objSize_].get());
 			objSize_++;
 		}
 
