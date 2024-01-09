@@ -130,6 +130,18 @@
     <Filter Include="ソース ファイル\Application\AssetManager">
       <UniqueIdentifier>{cc143b6f-374b-4547-9fb5-e5c3f48bc05f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Application\Player\Bit">
+      <UniqueIdentifier>{c73e493c-8b70-4090-95a5-877b624814cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application\Player\Bit">
+      <UniqueIdentifier>{cb1bd422-057b-497b-95a9-0698b1b80fdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application\GameObject\Base">
+      <UniqueIdentifier>{a5e60987-eb98-476f-994c-70a59c7465b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application\GameObject\Base">
+      <UniqueIdentifier>{58bfa955-99be-4e98-83a9-a77ec4541d61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -288,26 +300,26 @@
     <ClCompile Include="Engine\Math\wa9Math.cpp">
       <Filter>ソース ファイル\Engine\Math</Filter>
     </ClCompile>
-    <ClCompile Include="BaseObject.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\Player\PlayerBasis.cpp">
+      <Filter>ソース ファイル\Application\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBasis.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\Player\PlayerCamera.cpp">
+      <Filter>ソース ファイル\Application\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerMove.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\Player\PlayerMove.cpp">
+      <Filter>ソース ファイル\Application\Player</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerCamera.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\PlayerBit\BitBasis.cpp">
+      <Filter>ソース ファイル\Application\Player\Bit</Filter>
     </ClCompile>
-    <ClCompile Include="BitBasis.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\PlayerBit\BitMove.cpp">
+      <Filter>ソース ファイル\Application\Player\Bit</Filter>
     </ClCompile>
-    <ClCompile Include="BitMove.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\BaseObject\Base3DModelGenerate.cpp">
+      <Filter>ソース ファイル\Application\GameObject\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Base3DModelGenerate.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\BaseObject\BaseObject.cpp">
+      <Filter>ソース ファイル\Application\GameObject\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -467,26 +479,26 @@
     <ClInclude Include="Engine\Math\wa9Math.h">
       <Filter>ヘッダー ファイル\Engine\Math</Filter>
     </ClInclude>
-    <ClInclude Include="BaseObject.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\Player\PlayerBasis.h">
+      <Filter>ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBasis.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\Player\PlayerCamera.h">
+      <Filter>ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerMove.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\Player\PlayerMove.h">
+      <Filter>ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\PlayerBit\BitBasis.h">
+      <Filter>ヘッダー ファイル\Application\Player\Bit</Filter>
     </ClInclude>
-    <ClInclude Include="BitBasis.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\PlayerBit\BitMove.h">
+      <Filter>ヘッダー ファイル\Application\Player\Bit</Filter>
     </ClInclude>
-    <ClInclude Include="BitMove.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\BaseObject\Base3DModelGenerate.h">
+      <Filter>ヘッダー ファイル\Application\GameObject\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base3DModelGenerate.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\BaseObject\BaseObject.h">
+      <Filter>ヘッダー ファイル\Application\GameObject\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

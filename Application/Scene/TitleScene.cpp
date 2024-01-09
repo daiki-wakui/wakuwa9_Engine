@@ -6,11 +6,11 @@
 void TitleScene::Initialize()
 {
 	//3Dモデル読み込み
-	
+	Model3DManager::LoadTitle3DModel();
 
 	//3Dモデル生成
 	skyObject_ = std::make_unique<Object3D>();
-	skyObject_->SetModel(Model3DManager::Get3DModel("world"));
+	skyObject_->SetModel(skydomTitleModel_.get());
 	skyObject_->Initialize();
 	skyObject_->SetScale(SKYDOME_SCALE);
 	skyObject_->SetPosition(SKYDOME_POS);

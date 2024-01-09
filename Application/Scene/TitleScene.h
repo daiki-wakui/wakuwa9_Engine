@@ -10,7 +10,7 @@
  * @brief タイトルシーンを動かしているクラス
  */
 
-class TitleScene
+class TitleScene : public BaseScene
 {
 private: // エイリアス
 	// DirectX::を省略

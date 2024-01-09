@@ -57,7 +57,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;DIRECTINPUT_VERSION=0x0800;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Application;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Camera;$(ProjectDir)Application\Player;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Boss;$(ProjectDir)Application\Scene;$(ProjectDir)Application\GameSound;$(ProjectDir)Application\Effect;$(ProjectDir)Application\GameObject;$(ProjectDir)Application\GameField;$(ProjectDir)Application\OutGameSystem;$(ProjectDir)Application\AssetManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Application;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Camera;$(ProjectDir)Application\Player;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Boss;$(ProjectDir)Application\Scene;$(ProjectDir)Application\GameSound;$(ProjectDir)Application\Effect;$(ProjectDir)Application\GameObject;$(ProjectDir)Application\GameField;$(ProjectDir)Application\OutGameSystem;$(ProjectDir)Application\AssetManager;$(ProjectDir)Application\PlayerBit;$(ProjectDir)Application\BaseObject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -82,7 +82,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Application;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Camera;$(ProjectDir)Application\Player;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Boss;$(ProjectDir)Application\Scene;$(ProjectDir)Application\GameSound;$(ProjectDir)Application\Effect;$(ProjectDir)Application\GameObject;$(ProjectDir)Application\GameField;$(ProjectDir)Application\OutGameSystem;$(ProjectDir)Application\AssetManager;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Engine\2d;$(ProjectDir)Engine\3d;$(ProjectDir)Engine\Light;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\Audio;$(ProjectDir)Application;$(ProjectDir)Engine\Math;$(ProjectDir)Engine\Camera;$(ProjectDir)Application\Player;$(ProjectDir)Application\Enemy;$(ProjectDir)Application\Boss;$(ProjectDir)Application\Scene;$(ProjectDir)Application\GameSound;$(ProjectDir)Application\Effect;$(ProjectDir)Application\GameObject;$(ProjectDir)Application\GameField;$(ProjectDir)Application\OutGameSystem;$(ProjectDir)Application\AssetManager;$(ProjectDir)Application\PlayerBit;$(ProjectDir)Application\BaseObject;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -103,6 +103,8 @@
   <ItemGroup>
     <ClCompile Include="Application\AssetManager\Model3DManager.cpp" />
     <ClCompile Include="Application\AssetManager\TextureManager.cpp" />
+    <ClCompile Include="Application\BaseObject\Base3DModelGenerate.cpp" />
+    <ClCompile Include="Application\BaseObject\BaseObject.cpp" />
     <ClCompile Include="Application\Boss\Boss.cpp" />
     <ClCompile Include="Application\Boss\BossBullet.cpp" />
     <ClCompile Include="Application\Effect\Effect.cpp" />
@@ -116,16 +118,17 @@
     <ClCompile Include="Application\GameSound\SoundManager.cpp" />
     <ClCompile Include="Application\OutGameSystem\GameUI.cpp" />
     <ClCompile Include="Application\OutGameSystem\Pause.cpp" />
+    <ClCompile Include="Application\PlayerBit\BitBasis.cpp" />
+    <ClCompile Include="Application\PlayerBit\BitMove.cpp" />
     <ClCompile Include="Application\Player\Player.cpp" />
+    <ClCompile Include="Application\Player\PlayerBasis.cpp" />
     <ClCompile Include="Application\Player\PlayerBullet.cpp" />
+    <ClCompile Include="Application\Player\PlayerCamera.cpp" />
+    <ClCompile Include="Application\Player\PlayerMove.cpp" />
     <ClCompile Include="Application\Scene\GameCore.cpp" />
     <ClCompile Include="Application\Scene\GameScene.cpp" />
     <ClCompile Include="Application\Scene\SceneManager.cpp" />
     <ClCompile Include="Application\Scene\TitleScene.cpp" />
-    <ClCompile Include="Base3DModelGenerate.cpp" />
-    <ClCompile Include="BaseObject.cpp" />
-    <ClCompile Include="BitBasis.cpp" />
-    <ClCompile Include="BitMove.cpp" />
     <ClCompile Include="Engine\2d\ParticleManager.cpp" />
     <ClCompile Include="Engine\2d\PostEffect.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
@@ -157,13 +160,12 @@
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\wa9Math.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PlayerBasis.cpp" />
-    <ClCompile Include="PlayerCamera.cpp" />
-    <ClCompile Include="PlayerMove.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\AssetManager\Model3DManager.h" />
     <ClInclude Include="Application\AssetManager\TextureManager.h" />
+    <ClInclude Include="Application\BaseObject\Base3DModelGenerate.h" />
+    <ClInclude Include="Application\BaseObject\BaseObject.h" />
     <ClInclude Include="Application\Boss\Boss.h" />
     <ClInclude Include="Application\Boss\BossBullet.h" />
     <ClInclude Include="Application\Effect\Effect.h" />
@@ -177,17 +179,18 @@
     <ClInclude Include="Application\GameSound\SoundManager.h" />
     <ClInclude Include="Application\OutGameSystem\GameUI.h" />
     <ClInclude Include="Application\OutGameSystem\Pause.h" />
+    <ClInclude Include="Application\PlayerBit\BitBasis.h" />
+    <ClInclude Include="Application\PlayerBit\BitMove.h" />
     <ClInclude Include="Application\Player\Player.h" />
+    <ClInclude Include="Application\Player\PlayerBasis.h" />
     <ClInclude Include="Application\Player\PlayerBullet.h" />
+    <ClInclude Include="Application\Player\PlayerCamera.h" />
+    <ClInclude Include="Application\Player\PlayerMove.h" />
     <ClInclude Include="Application\Scene\GameCore.h" />
     <ClInclude Include="Application\Scene\GameScene.h" />
     <ClInclude Include="Application\Scene\SceneList.h" />
     <ClInclude Include="Application\Scene\SceneManager.h" />
     <ClInclude Include="Application\Scene\TitleScene.h" />
-    <ClInclude Include="Base3DModelGenerate.h" />
-    <ClInclude Include="BaseObject.h" />
-    <ClInclude Include="BitBasis.h" />
-    <ClInclude Include="BitMove.h" />
     <ClInclude Include="Engine\2d\ParticleManager.h" />
     <ClInclude Include="Engine\2d\PostEffect.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
@@ -218,9 +221,6 @@
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\wa9Math.h" />
-    <ClInclude Include="PlayerBasis.h" />
-    <ClInclude Include="PlayerCamera.h" />
-    <ClInclude Include="PlayerMove.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">
