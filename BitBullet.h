@@ -1,15 +1,12 @@
 #pragma once
 #include "BaseObject.h"
 
-class PlayerMove;
-class PlayerCamera;
-
-class PlayerBasis : public BaseObject
+class BitBullet : public BaseObject 
 {
 public:
 	//コンストラクタ、デストラクタ
-	PlayerBasis();
-	~PlayerBasis();
+	BitBullet();
+	~BitBullet();
 	//初期化
 	void Initialize(Model* model, Object3D* object) override;
 	//毎フレーム
@@ -18,18 +15,16 @@ public:
 	void Draw() override;
 
 	Vector3 GetWorldPos() override;
+
+
 private:	//メンバ変数
 
 	Model* thismodel_;
+	Object3D* obj_;
 
-	std::unique_ptr<PlayerMove> move_ = std::make_unique<PlayerMove>();
-	std::unique_ptr<PlayerCamera> camera_ = std::make_unique<PlayerCamera>();
-
-	Vector3 a;
-	Vector3 b;
 
 protected:
 
-	Object3D* thisObject_;
+	std::unique_ptr<Object3D> thisObject_;
 };
 

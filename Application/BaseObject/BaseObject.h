@@ -14,5 +14,11 @@ public:
 	virtual void Draw() = 0;
 
 	virtual Vector3 GetWorldPos() = 0;
+
+	virtual void SetInfo(Vector3 pos, Vector3 velocity);
+protected:
+
+	Vector3 pos_;
+	Vector3 velocity_;
 };
 

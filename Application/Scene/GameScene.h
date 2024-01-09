@@ -246,5 +246,8 @@ public:	//getter,setter
 
 	bool GetHitBox() { return hitBox_; }
 	bool GetIsIvent() { return isIvent_; }
+
+	const std::list<std::unique_ptr<BaseObject>>& GetObjList() { return gameObjects_; }
+	void Set(std::list<std::unique_ptr<BaseObject>>& a);
 };
 

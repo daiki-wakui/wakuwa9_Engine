@@ -426,6 +426,7 @@ void GameScene::ReLoad(const std::string filename)
 			
 			//オブジェクト生成と座標情報代入
 			baseObject_[objNum_] = std::make_unique<PlayerBasis>();
+			baseObject_[objNum_]->SetInfo(newObject[objSize_]->GetPosition(), { 1,0,0 });
 			baseObject_[objNum_]->Initialize(playerModel_.get(), playerObject_.get());
 			//オブジェクトを登録する
 			gameObjects_.push_back(std::move(baseObject_[objNum_]));
