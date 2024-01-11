@@ -115,10 +115,12 @@
     <ClCompile Include="Application\GameObject\DebugPoint.cpp" />
     <ClCompile Include="Application\GameObject\Door.cpp" />
     <ClCompile Include="Application\GameObject\EventBox.cpp" />
+    <ClCompile Include="Application\GameObject\StageObject.cpp" />
     <ClCompile Include="Application\GameSound\SoundManager.cpp" />
     <ClCompile Include="Application\OutGameSystem\GameUI.cpp" />
     <ClCompile Include="Application\OutGameSystem\Pause.cpp" />
     <ClCompile Include="Application\PlayerBit\BitBasis.cpp" />
+    <ClCompile Include="Application\PlayerBit\BitBullet.cpp" />
     <ClCompile Include="Application\PlayerBit\BitMove.cpp" />
     <ClCompile Include="Application\Player\Player.cpp" />
     <ClCompile Include="Application\Player\PlayerBasis.cpp" />
@@ -129,7 +131,6 @@
     <ClCompile Include="Application\Scene\GameScene.cpp" />
     <ClCompile Include="Application\Scene\SceneManager.cpp" />
     <ClCompile Include="Application\Scene\TitleScene.cpp" />
-    <ClCompile Include="BitBullet.cpp" />
     <ClCompile Include="Engine\2d\ParticleManager.cpp" />
     <ClCompile Include="Engine\2d\PostEffect.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
@@ -161,7 +162,6 @@
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\wa9Math.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="StageObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\AssetManager\Model3DManager.h" />
@@ -178,10 +178,12 @@
     <ClInclude Include="Application\GameObject\DebugPoint.h" />
     <ClInclude Include="Application\GameObject\Door.h" />
     <ClInclude Include="Application\GameObject\EventBox.h" />
+    <ClInclude Include="Application\GameObject\StageObject.h" />
     <ClInclude Include="Application\GameSound\SoundManager.h" />
     <ClInclude Include="Application\OutGameSystem\GameUI.h" />
     <ClInclude Include="Application\OutGameSystem\Pause.h" />
     <ClInclude Include="Application\PlayerBit\BitBasis.h" />
+    <ClInclude Include="Application\PlayerBit\BitBullet.h" />
     <ClInclude Include="Application\PlayerBit\BitMove.h" />
     <ClInclude Include="Application\Player\Player.h" />
     <ClInclude Include="Application\Player\PlayerBasis.h" />
@@ -193,7 +195,6 @@
     <ClInclude Include="Application\Scene\SceneList.h" />
     <ClInclude Include="Application\Scene\SceneManager.h" />
     <ClInclude Include="Application\Scene\TitleScene.h" />
-    <ClInclude Include="BitBullet.h" />
     <ClInclude Include="Engine\2d\ParticleManager.h" />
     <ClInclude Include="Engine\2d\PostEffect.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
@@ -224,7 +225,6 @@
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\wa9Math.h" />
-    <ClInclude Include="StageObject.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">
