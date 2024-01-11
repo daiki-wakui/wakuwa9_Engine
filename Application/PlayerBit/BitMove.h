@@ -12,6 +12,9 @@ public:
 	//毎フレーム
 	void Update();
 	void Move();
+
+	Vector3 GetEye() { return eye_; }
+	Vector3 GetPos() { return pos_; }
 private:
 
 	const float FRONT_VECTOR_RATE = 1.5f;

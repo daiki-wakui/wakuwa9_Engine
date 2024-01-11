@@ -21,12 +21,22 @@ void BitBasis::Initialize(Model* model, Object3D* object)
 	bulletObject_ = std::make_unique<Object3D>();
 	bulletObject_->SetModel(playerBulletCubeModel_.get());
 	bulletObject_->Initialize();
+
+	reticle3DObject_->SetModel(playerBulletCubeModel_.get());
+	reticle3DObject_->Initialize();
 }
 
 void BitBasis::Update()
 {
 	thisObject_->Update();
 	move_->Update();
+
+	bulletRTPos_ = thisObject_->GetPosition();
+	bulletRTPos_.x -= 5;
+	bulletRTPos_.z += 50;
+
+	reticle3DObject_->SetPosition(bulletRTPos_);
+	reticle3DObject_->Update();
 
 	if (input_->keyInstantPush(DIK_G)) {
 		std::unique_ptr<BaseObject> newBullet = std::make_unique<BitBullet>();
@@ -39,12 +49,18 @@ void BitBasis::Update()
 	for (std::unique_ptr<BaseObject>& bullet : bullets_) {
 		bullet->Update();
 	}
+
+	//デスフラグが立った弾を削除
+	bullets_.remove_if([](std::unique_ptr<BaseObject>& bullet) {
+		return bullet->IsDead();
+	});
 }
 
 void BitBasis::Draw()
 {
 	thisObject_->Draw();
 
+	reticle3DObject_->Draw();
 	//弾の更新処理
 	for (std::unique_ptr<BaseObject>& bullet : bullets_) {
 		bullet->Draw();

@@ -23,8 +23,12 @@ void BitBullet::Update()
 {
 	thisObject_->Update();
 
-	pos_.z++;
+	//pos_.z++;
 	thisObject_->SetPosition(pos_);
+
+	if (--deathTimer_ <= 0) {
+		isDead_ = true;
+	}
 }
 
 void BitBullet::Draw()

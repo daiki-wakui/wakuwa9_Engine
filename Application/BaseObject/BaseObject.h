@@ -16,9 +16,12 @@ public:
 	virtual Vector3 GetWorldPos() = 0;
 
 	virtual void SetInfo(Vector3 pos, Vector3 velocity);
+
+	bool IsDead() const { return isDead_; }
 protected:
 
 	Vector3 pos_;
 	Vector3 velocity_;
+	bool isDead_ = false;
 };
 

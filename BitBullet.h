@@ -22,6 +22,8 @@ private:	//メンバ変数
 	Model* thismodel_;
 	Object3D* obj_;
 
+	static const int32_t kLifeTime = 60 * 5;
+	int32_t deathTimer_ = kLifeTime;
 
 protected:
 
