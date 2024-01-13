@@ -106,11 +106,15 @@
     <ClCompile Include="Application\BaseObject\Base3DModelGenerate.cpp" />
     <ClCompile Include="Application\BaseObject\BaseObject.cpp" />
     <ClCompile Include="Application\Boss\Boss.cpp" />
+    <ClCompile Include="Application\Boss\BossBasis.cpp" />
     <ClCompile Include="Application\Boss\BossBullet.cpp" />
     <ClCompile Include="Application\Effect\Effect.cpp" />
     <ClCompile Include="Application\Enemy\Enemy.cpp" />
+    <ClCompile Include="Application\Enemy\EnemyBasis.cpp" />
     <ClCompile Include="Application\Enemy\EnemyBullet.cpp" />
     <ClCompile Include="Application\GameField\LevelEditor.cpp" />
+    <ClCompile Include="Application\GameObject\BossMovieBox.cpp" />
+    <ClCompile Include="Application\GameObject\ChangeStageBox.cpp" />
     <ClCompile Include="Application\GameObject\CollisionBox.cpp" />
     <ClCompile Include="Application\GameObject\DebugPoint.cpp" />
     <ClCompile Include="Application\GameObject\Door.cpp" />
@@ -131,7 +135,6 @@
     <ClCompile Include="Application\Scene\GameScene.cpp" />
     <ClCompile Include="Application\Scene\SceneManager.cpp" />
     <ClCompile Include="Application\Scene\TitleScene.cpp" />
-    <ClCompile Include="EnemyBasis.cpp" />
     <ClCompile Include="Engine\2d\ParticleManager.cpp" />
     <ClCompile Include="Engine\2d\PostEffect.cpp" />
     <ClCompile Include="Engine\2d\Sprite.cpp" />
@@ -170,15 +173,20 @@
     <ClInclude Include="Application\BaseObject\Base3DModelGenerate.h" />
     <ClInclude Include="Application\BaseObject\BaseObject.h" />
     <ClInclude Include="Application\Boss\Boss.h" />
+    <ClInclude Include="Application\Boss\BossBasis.h" />
     <ClInclude Include="Application\Boss\BossBullet.h" />
     <ClInclude Include="Application\Effect\Effect.h" />
     <ClInclude Include="Application\Enemy\Enemy.h" />
+    <ClInclude Include="Application\Enemy\EnemyBasis.h" />
     <ClInclude Include="Application\Enemy\EnemyBullet.h" />
     <ClInclude Include="Application\GameField\LevelEditor.h" />
+    <ClInclude Include="Application\GameObject\BossMovieBox.h" />
+    <ClInclude Include="Application\GameObject\ChangeStageBox.h" />
     <ClInclude Include="Application\GameObject\CollisionBox.h" />
     <ClInclude Include="Application\GameObject\DebugPoint.h" />
     <ClInclude Include="Application\GameObject\Door.h" />
     <ClInclude Include="Application\GameObject\EventBox.h" />
+    <ClInclude Include="Application\GameObject\GameObjectList.h" />
     <ClInclude Include="Application\GameObject\StageObject.h" />
     <ClInclude Include="Application\GameSound\SoundManager.h" />
     <ClInclude Include="Application\OutGameSystem\GameUI.h" />
@@ -196,7 +204,6 @@
     <ClInclude Include="Application\Scene\SceneList.h" />
     <ClInclude Include="Application\Scene\SceneManager.h" />
     <ClInclude Include="Application\Scene\TitleScene.h" />
-    <ClInclude Include="EnemyBasis.h" />
     <ClInclude Include="Engine\2d\ParticleManager.h" />
     <ClInclude Include="Engine\2d\PostEffect.h" />
     <ClInclude Include="Engine\2d\Sprite.h" />
@@ -227,7 +234,6 @@
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\wa9Math.h" />
-    <ClInclude Include="GameObjectList.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">

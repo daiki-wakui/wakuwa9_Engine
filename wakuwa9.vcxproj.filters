@@ -327,8 +327,17 @@
     <ClCompile Include="Application\GameObject\StageObject.cpp">
       <Filter>ソース ファイル\Application\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBasis.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\GameObject\BossMovieBox.cpp">
+      <Filter>ソース ファイル\Application\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GameObject\ChangeStageBox.cpp">
+      <Filter>ソース ファイル\Application\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyBasis.cpp">
+      <Filter>ソース ファイル\Application\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Boss\BossBasis.cpp">
+      <Filter>ソース ファイル\Application\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -515,11 +524,20 @@
     <ClInclude Include="Application\GameObject\StageObject.h">
       <Filter>ヘッダー ファイル\Application\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBasis.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObjectList.h">
+    <ClInclude Include="Application\GameObject\GameObjectList.h">
       <Filter>ヘッダー ファイル\Application\GameObject\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Boss\BossBasis.h">
+      <Filter>ヘッダー ファイル\Application\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyBasis.h">
+      <Filter>ヘッダー ファイル\Application\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GameObject\BossMovieBox.h">
+      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GameObject\ChangeStageBox.h">
+      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

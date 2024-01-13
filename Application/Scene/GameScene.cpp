@@ -488,12 +488,26 @@ void GameScene::ReLoad(const std::string filename)
 			//オブジェクト生成と座標情報代入
 			Inport(model, i);
 
+			////オブジェクト生成と座標情報代入
+			baseObject_[objNum_] = std::make_unique<BossMovieBox>();
+			baseObject_[objNum_]->Initialize(model, newObject[objSize_].get());
+			////オブジェクトを登録する
+			gameObjects_.push_back(std::move(baseObject_[objNum_]));
+			objNum_++;
+
 			eventBox_->Initialize(model, newObject[objSize_].get());
 			objSize_++;
 		}
 		else if (levelData_->objects[i].fileName == "changeBlock") {
 			//オブジェクト生成と座標情報代入
 			Inport(model, i);
+
+			////オブジェクト生成と座標情報代入
+			baseObject_[objNum_] = std::make_unique<BossMovieBox>();
+			baseObject_[objNum_]->Initialize(model, newObject[objSize_].get());
+			////オブジェクトを登録する
+			gameObjects_.push_back(std::move(baseObject_[objNum_]));
+			objNum_++;
 
 			ChangeBox_->Initialize(model, newObject[objSize_].get(), true);
 			objSize_++;
@@ -563,6 +577,14 @@ void GameScene::ReLoad(const std::string filename)
 			boss_->Initialize(model,newObject[objSize_]->GetPosition(), newObject[objSize_].get(), player_.get());
 			boss_->SetBulletModel(bossBulletModel_.get());
 			boss_->SetBossModels(frameModel_.get());
+
+			//オブジェクト生成と座標情報代入
+			baseObject_[objNum_] = std::make_unique<BossBasis>();
+			baseObject_[objNum_]->Initialize(model, newObject[objSize_].get());
+			//オブジェクトを登録する
+			gameObjects_.push_back(std::move(baseObject_[objNum_]));
+			objNum_++;
+
 
 			objSize_++;
 		}
