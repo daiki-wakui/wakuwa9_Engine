@@ -327,6 +327,9 @@
     <ClCompile Include="Application\GameObject\StageObject.cpp">
       <Filter>ソース ファイル\Application\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyBasis.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Math\Matrix4.h">
@@ -511,6 +514,12 @@
     </ClInclude>
     <ClInclude Include="Application\GameObject\StageObject.h">
       <Filter>ヘッダー ファイル\Application\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBasis.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectList.h">
+      <Filter>ヘッダー ファイル\Application\GameObject\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

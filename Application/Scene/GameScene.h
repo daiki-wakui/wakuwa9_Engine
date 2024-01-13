@@ -17,9 +17,7 @@
 #include <list>
 
 #include "BaseObject.h"
-#include "PlayerBasis.h"
-#include "BitBasis.h"
-#include "StageObject.h"
+#include "GameObjectList.h"
 
 /**
  * @file GameScene

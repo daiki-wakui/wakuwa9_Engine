@@ -525,7 +525,12 @@ void GameScene::ReLoad(const std::string filename)
 			newEnemy[enemySize_]->Initialize(newObject[objSize_].get(), newObject[objSize_]->GetPosition(), player_.get());
 			newEnemy[enemySize_]->SetBulletModel(cubeModel_.get());
 			
-
+			//オブジェクト生成と座標情報代入
+			baseObject_[objNum_] = std::make_unique<EnemyBasis>();
+			baseObject_[objNum_]->Initialize(model, newObject[objSize_].get());
+			//オブジェクトを登録する
+			gameObjects_.push_back(std::move(baseObject_[objNum_]));
+			objNum_++;
 
 			//敵を登録する
 			enemys_.push_back(std::move(newEnemy[enemySize_]));
@@ -539,14 +544,12 @@ void GameScene::ReLoad(const std::string filename)
 			Inport(model, i);
 
 			//オブジェクト生成と座標情報代入
-			newEnemy[enemySize_] = std::make_unique<Enemy>();
+			baseObject_[objNum_] = std::make_unique<EnemyBasis>();
+			baseObject_[objNum_]->Initialize(model, newObject[objSize_].get());
+			//オブジェクトを登録する
+			gameObjects_.push_back(std::move(baseObject_[objNum_]));
+			objNum_++;
 
-			newEnemy[enemySize_]->SetShadow(shadowModel_.get());
-			newEnemy[enemySize_]->Initialize(newObject[objSize_].get(), newObject[objSize_]->GetPosition(), player_.get(),4,0);
-			newEnemy[enemySize_]->SetBulletModel(cubeModel_.get());
-
-			//敵を登録する
-			enemys_.push_back(std::move(newEnemy[enemySize_]));
 
 			objSize_++;
 			enemySize_++;
