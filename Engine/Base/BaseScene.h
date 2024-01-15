@@ -9,7 +9,7 @@
 #include "Sound.h"
 #include "Model3DManager.h"
 
-class BaseScene : public Model3DManager
+class BaseScene
 {
 private:
 

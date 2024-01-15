@@ -190,6 +190,8 @@ private:	//メンバ変数
 	bool isShake_;
 	int32_t shakeTimer_;
 
+	Model3DManager* m = Model3DManager::GetInstance();
+
 public:
 	//3dオブジェクト生成
 	void Object3DGenerate();

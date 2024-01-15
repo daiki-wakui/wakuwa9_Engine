@@ -11,9 +11,9 @@ void GameCore::Initialize()
 	Framework::Initialize();
 	postEffect_->Initialize(0);
 
-	Model3DManager m;
-	m.LoadTitle3DModel();
-	m.insertModel();
+	Model3DManager* m = Model3DManager::GetInstance();
+	m->LoadGame3DModel();
+	m->insertModel();
 
 	sceneManager_->Initialize();
 }

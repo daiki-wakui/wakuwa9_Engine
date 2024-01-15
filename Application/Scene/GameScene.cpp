@@ -2,12 +2,12 @@
 #include "SoundManager.h"
 #include "MyRandom.h"
 #include "Easing.h"
+#include "Model3DManager.h"
 
 //初期化
 void GameScene::Initialize()
 {
 	//3Dモデルの読み込みと生成
-	Model3DManager::LoadGame3DModel();
 	Object3DGenerate();
 
 	eventBox_ = std::make_unique<EventBox>();
@@ -15,8 +15,8 @@ void GameScene::Initialize()
 
 	Reset();
 
-	player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
-	player_->SetBulletModel(cubeModel_.get(), bulletObject_.get());
+	player_->Initialize(m->Get3DModel("player"), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
+	player_->SetBulletModel(m->Get3DModel("whiteCube"), bulletObject_.get());
 
 	particleMan_->Initialize(L"Resources/effect1.png");
 	particleMan_->Update();
@@ -273,7 +273,7 @@ void GameScene::ObjectUpdate()
 		for (int i = 0; i < EFFECT_NUM; i++) {
 
 			std::unique_ptr<Effect> newObj = std::make_unique<Effect>();
-			newObj->Initialize(startEffect_, v, konnpeModel_.get());
+			newObj->Initialize(startEffect_, v, m->Get3DModel("effctModel"));
 			effects_.push_back(std::move(newObj));
 			size++;
 		}
@@ -361,23 +361,23 @@ void GameScene::ReLoad(const std::string filename)
 	// レベルデータの読み込み
 	levelData_ = LevelLoader::LoadFile(filename);
 
-	models.insert(std::make_pair(std::string("player"), playerModel_.get()));
-	models.insert(std::make_pair(std::string("debugpoint"), playerModel_.get()));
-	models.insert(std::make_pair(std::string("boss"), bossModel_.get()));
-	models.insert(std::make_pair(std::string("enemySpawn"), enemyModel_.get()));
-	models.insert(std::make_pair(std::string("enemyc"), enemyModel_.get()));
-	models.insert(std::make_pair(std::string("enemySpawn2"), enemyModel2_.get()));
-	models.insert(std::make_pair(std::string("filed"), filedModel_.get()));
-	models.insert(std::make_pair(std::string("IventBlock"), cubeModel_.get()));
-	models.insert(std::make_pair(std::string("changeBlock"), cubeModel_.get()));
-	models.insert(std::make_pair(std::string("FliedBlock"), filedCubeModel_.get()));
-	models.insert(std::make_pair(std::string("wallBlock"), cubeModel_.get()));
-	models.insert(std::make_pair(std::string("FliedT"), filedTentoModel_.get()));
-	models.insert(std::make_pair(std::string("Fliedtou"), filedTouModel_.get()));
-	models.insert(std::make_pair(std::string("dr"), drModel_.get()));
-	models.insert(std::make_pair(std::string("d"), LeftDoorModel_.get()));
-	models.insert(std::make_pair(std::string("bossf"), bossFiledModel_.get()));
-	models.insert(std::make_pair(std::string("bossf2"), bossFiledGateModel_.get()));
+	models.insert(std::make_pair(std::string("player"), m->Get3DModel("player")));
+	models.insert(std::make_pair(std::string("debugpoint"), m->Get3DModel("player")));
+	models.insert(std::make_pair(std::string("boss"), m->Get3DModel("bossBody")));
+	models.insert(std::make_pair(std::string("enemySpawn"), m->Get3DModel("enemy")));
+	models.insert(std::make_pair(std::string("enemyc"), m->Get3DModel("enemy")));
+	models.insert(std::make_pair(std::string("enemySpawn2"), m->Get3DModel("enemy")));
+	models.insert(std::make_pair(std::string("filed"), m->Get3DModel("filedFloor")));
+	models.insert(std::make_pair(std::string("IventBlock"), m->Get3DModel("redCube")));
+	models.insert(std::make_pair(std::string("changeBlock"), m->Get3DModel("redCube")));
+	models.insert(std::make_pair(std::string("FliedBlock"), m->Get3DModel("blackCube")));
+	models.insert(std::make_pair(std::string("wallBlock"), m->Get3DModel("redCube")));
+	models.insert(std::make_pair(std::string("FliedT"), m->Get3DModel("filedArch")));
+	models.insert(std::make_pair(std::string("Fliedtou"), m->Get3DModel("filedTower")));
+	models.insert(std::make_pair(std::string("dr"), m->Get3DModel("rightDoar")));
+	models.insert(std::make_pair(std::string("d"), m->Get3DModel("leftDoar")));
+	models.insert(std::make_pair(std::string("bossf"), m->Get3DModel("bossFiled")));
+	models.insert(std::make_pair(std::string("bossf2"), m->Get3DModel("bossFiledGate")));
 
 	// レベルデータからオブジェクトを生成、配置
 	for (int32_t i = 0; i < levelData_->objects.size(); i++) {
@@ -427,22 +427,17 @@ void GameScene::ReLoad(const std::string filename)
 			//オブジェクト生成と座標情報代入
 			baseObject_[objNum_] = std::make_unique<PlayerBasis>();
 			baseObject_[objNum_]->SetInfo(newObject[objSize_]->GetPosition(), { 1,0,0 });
-			baseObject_[objNum_]->Initialize(playerModel_.get(), playerObject_.get());
+			baseObject_[objNum_]->Initialize(m->Get3DModel("player"), playerObject_.get());
 			//オブジェクトを登録する
 			gameObjects_.push_back(std::move(baseObject_[objNum_]));
 			objNum_++;
 
 			//オブジェクト生成と座標情報代入
 			baseObject_[objNum_] = std::make_unique<BitBasis>();
-			baseObject_[objNum_]->Initialize(podModel_.get(), podObject_.get());
+			baseObject_[objNum_]->Initialize(m->Get3DModel("playerBit"), podObject_.get());
 			//オブジェクトを登録する
 			gameObjects_.push_back(std::move(baseObject_[objNum_]));
 			objNum_++;
-
-			player_.reset();
-			player_ = std::make_unique<Player>();
-			player_->SetBulletModel(playerBulletCubeModel_.get(), bulletObject_.get());
-			player_->Initialize(playerModel_.get(), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
 		}
 		else if (levelData_->objects[i].fileName == "debugpoint") {
 			//オブジェクト生成と座標情報代入
@@ -535,9 +530,9 @@ void GameScene::ReLoad(const std::string filename)
 			//オブジェクト生成と座標情報代入
 			newEnemy[enemySize_] = std::make_unique<Enemy>();
 
-			newEnemy[enemySize_]->SetShadow(shadowModel_.get());
+			newEnemy[enemySize_]->SetShadow(m->Get3DModel("shadow"));
 			newEnemy[enemySize_]->Initialize(newObject[objSize_].get(), newObject[objSize_]->GetPosition(), player_.get());
-			newEnemy[enemySize_]->SetBulletModel(cubeModel_.get());
+			newEnemy[enemySize_]->SetBulletModel(m->Get3DModel("redCube"));
 			
 			//オブジェクト生成と座標情報代入
 			baseObject_[objNum_] = std::make_unique<EnemyBasis>();
@@ -575,8 +570,8 @@ void GameScene::ReLoad(const std::string filename)
 
 			newObject[objSize_]->SetScale(BOSS_SCALE);
 			boss_->Initialize(model,newObject[objSize_]->GetPosition(), newObject[objSize_].get(), player_.get());
-			boss_->SetBulletModel(bossBulletModel_.get());
-			boss_->SetBossModels(frameModel_.get());
+			boss_->SetBulletModel(m->Get3DModel("bossBullet"));
+			boss_->SetBossModels(m->Get3DModel("bossTail"));
 
 			//オブジェクト生成と座標情報代入
 			baseObject_[objNum_] = std::make_unique<BossBasis>();
@@ -848,39 +843,39 @@ void GameScene::AllCollison()
 void GameScene::Object3DGenerate()
 {
 	shadowObject_ = std::make_unique<Object3D>();
-	shadowObject_->SetModel(shadowModel_.get());
+	shadowObject_->SetModel(m->Get3DModel("shadow"));
 	shadowObject_->Initialize();
 	shadowObject_->SetScale(SHADOW_SCALE);
 
 	poriObject_ = std::make_unique<Object3D>();
-	poriObject_->SetModel(poriModel_.get());
+	poriObject_->SetModel(m->Get3DModel("bulletEffctModel"));
 	poriObject_->Initialize();
 	poriObject_->SetScale(SHOT_EFFECT_SCALE);
 	poriObject_->SetPosition(SHOT_EFFECT_POS);
 
 	//3Dオブジェクト生成
 	playerObject_ = std::make_unique<Object3D>();
-	playerObject_->SetModel(playerModel_.get());
+	playerObject_->SetModel(m->Get3DModel("player"));
 	playerObject_->Initialize();
 	playerObject_->SetScale(Vector3(PLAYER_SCALE));
 	playerObject_->SetPosition({ 0,0,0 });
 
 	podObject_ = std::make_unique<Object3D>();
-	podObject_->SetModel(podModel_.get());
+	podObject_->SetModel(m->Get3DModel("playerBit"));
 	podObject_->Initialize();
 
 	bulletObject_ = std::make_unique<Object3D>();
-	bulletObject_->SetModel(playerBulletCubeModel_.get());
+	bulletObject_->SetModel(m->Get3DModel("whiteCube"));
 	bulletObject_->Initialize();
 
 	skyObject_ = std::make_unique<Object3D>();
-	skyObject_->SetModel(skydomGameModel_.get());
+	skyObject_->SetModel(m->Get3DModel("worldGame"));
 	skyObject_->Initialize();
 	skyObject_->SetScale(SKY_SCALE);
 	skyObject_->SetPosition(SKY_POS);
 
 	bossObject_ = std::make_unique<Object3D>();
-	bossObject_->SetModel(enemyModel_.get());
+	bossObject_->SetModel(m->Get3DModel("bossBody"));
 	bossObject_->Initialize();
 	bossObject_->SetScale(BOSS_SCALE);
 	bossObject_->SetPosition(BOSS_POS);
