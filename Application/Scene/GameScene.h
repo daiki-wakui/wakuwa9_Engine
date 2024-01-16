@@ -19,6 +19,8 @@
 #include "BaseObject.h"
 #include "GameObjectList.h"
 
+#include "LevelEditor.h"
+
 /**
  * @file GameScene
  * @brief ゲームシーンを動かしているクラス
@@ -191,6 +193,9 @@ private:	//メンバ変数
 	int32_t shakeTimer_;
 
 	Model3DManager* m = Model3DManager::GetInstance();
+
+	LevelEditor* lv = new LevelEditor();
+
 
 public:
 	//3dオブジェクト生成
