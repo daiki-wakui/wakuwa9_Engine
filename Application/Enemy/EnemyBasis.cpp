@@ -28,3 +28,12 @@ Vector3 EnemyBasis::GetWorldPos()
 {
 	return thisObject_->GetPosition();
 }
+
+Vector3 EnemyBasis::GetScale()
+{
+	return Vector3();
+}
+
+void EnemyBasis::OnCollison()
+{
+}

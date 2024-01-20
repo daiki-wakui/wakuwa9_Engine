@@ -14,6 +14,8 @@ public:
 	virtual void Draw() = 0;
 
 	virtual Vector3 GetWorldPos() = 0;
+	virtual Vector3 GetScale() = 0;
+	virtual void OnCollison() = 0;
 
 	virtual void SetInfo(Vector3 pos, Vector3 velocity);
 

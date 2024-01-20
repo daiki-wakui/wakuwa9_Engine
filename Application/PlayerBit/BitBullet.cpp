@@ -40,3 +40,12 @@ Vector3 BitBullet::GetWorldPos()
 {
 	return Vector3();
 }
+
+Vector3 BitBullet::GetScale()
+{
+	return Vector3();
+}
+
+void BitBullet::OnCollison()
+{
+}

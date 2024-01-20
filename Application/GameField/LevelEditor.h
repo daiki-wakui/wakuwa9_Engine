@@ -86,6 +86,9 @@ public:
 	//オブジェクト配置時の情報
 	void Inport(Model* model, int32_t size);
 
+
+	const std::list<std::unique_ptr<BaseObject>>& GetObjects() { return gameObjects_; }
+
 };
 
 

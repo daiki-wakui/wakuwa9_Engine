@@ -71,3 +71,12 @@ Vector3 BitBasis::GetWorldPos()
 {
 	return thisObject_->GetPosition();
 }
+
+Vector3 BitBasis::GetScale()
+{
+	return Vector3();
+}
+
+void BitBasis::OnCollison()
+{
+}

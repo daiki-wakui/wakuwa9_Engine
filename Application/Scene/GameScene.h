@@ -20,6 +20,7 @@
 #include "GameObjectList.h"
 
 #include "LevelEditor.h"
+#include "GameCollisons.h"
 
 /**
  * @file GameScene
@@ -90,11 +91,11 @@ private: //定数
 
 private:	//メンバ変数
 
+	std::unique_ptr<GameCollisons> col_ = std::make_unique<GameCollisons>();
+	
 	std::list<std::unique_ptr<BaseObject>> gameObjects_;
 	std::unique_ptr<BaseObject> baseObject_[1000] = {};
 	int32_t objNum_ = 0;
-
-	std::unique_ptr<BaseObject> bPlayer_ = std::make_unique<PlayerBasis>();
 
 	//OBJからモデルを読み込む
 	//天球
@@ -110,10 +111,6 @@ private:	//メンバ変数
 	//ボス
 	std::unique_ptr<Object3D> bossObject_;	
 
-	//ボス戦に入るボックス
-	std::unique_ptr<EventBox> eventBox_;
-	std::unique_ptr<EventBox> ChangeBox_;
-
 	Vector3 podRot = {};
 	int32_t sockSound_ = 0;
 
@@ -125,30 +122,7 @@ private:	//メンバ変数
 	//boss
 	std::unique_ptr<Boss> boss_ = std::make_unique<Boss>();
 
-	std::unique_ptr<DebugPoint> dPoint_ = std::make_unique<DebugPoint>();
-
-
-	//レベルエディタ関連
-	LevelData* levelData_ = nullptr;
-
-	std::map<std::string, Model*> models;
-	std::vector<Object3D*> objects;
-	std::list<std::unique_ptr<Enemy>> enemys_;
-	std::list<std::unique_ptr<CollisionBox>> collisions_;
-	std::list<std::unique_ptr<Door>> doors_;
-
 	
-	std::unique_ptr<Object3D> newObject[1000] = {};
-	std::unique_ptr<Enemy> newEnemy[1000] = {};
-	std::unique_ptr<CollisionBox> collBox[1000] = {};
-	std::unique_ptr<Door> newDoor[100] = {};
-
-	int32_t objSize_ = 0;
-	int32_t enemySize_ = 0;
-	int32_t enemySize2_ = 0;
-	int32_t collSize_ = 0;
-	int32_t doorCount_ = 0;
-
 	//パーティクル
 	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
 	bool BulletEffect = false;
@@ -194,8 +168,7 @@ private:	//メンバ変数
 
 	Model3DManager* m = Model3DManager::GetInstance();
 
-	LevelEditor* lv = new LevelEditor();
-
+	std::unique_ptr<LevelEditor> lv = std::make_unique<LevelEditor>();
 
 public:
 	//3dオブジェクト生成
@@ -226,22 +199,7 @@ public:
 	//シーンリセット関数
 	void Reset();
 
-	//フィールド情報読み込み
-	void EditorLoad(const std::string filename);
-	//フィールド情報再読み込み
-	void ReLoad(const std::string filename);
-	//オブジェクト配置時の情報
-	void Inport(Model* model, int32_t size);
-
-
-	//当たり判定関数
-	bool Collison(Vector3 posa, Vector3 posb, float aScale, float bScale);
-	//ゲームシーン上の当たり判定
-	void AllCollison();
-
 public:	//getter,setter
-
-	DebugPoint* GetDebugPoint() { return dPoint_.get(); }
 	Player* GetPlayer() { return player_.get(); }
 	Boss* GetBoss() { return boss_.get(); }
 
@@ -254,6 +212,5 @@ public:	//getter,setter
 	bool GetIsIvent() { return isIvent_; }
 
 	const std::list<std::unique_ptr<BaseObject>>& GetObjList() { return gameObjects_; }
-	void Set(std::list<std::unique_ptr<BaseObject>>& a);
 };
 

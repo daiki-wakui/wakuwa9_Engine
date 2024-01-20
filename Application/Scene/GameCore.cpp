@@ -59,13 +59,13 @@ void GameCore::Update()
 	ImGui::Text("Editor");
 
 	//オブジェクト読み込み直す
-	if (ImGui::Button("ReLoad")) {
+	/*if (ImGui::Button("ReLoad")) {
 		sceneManager_->GetGameScene()->EditorLoad("obj");
-	}
+	}*/
 
-	if (ImGui::Button("DebugPoint")) {
+	/*if (ImGui::Button("DebugPoint")) {
 		sceneManager_->GetGameScene()->GetPlayer()->SetPos(sceneManager_->GetGameScene()->GetDebugPoint()->GetWorldPos());
-	}
+	}*/
 
 	imGuiM_->End();
 }

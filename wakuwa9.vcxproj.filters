@@ -339,6 +339,9 @@
     <ClCompile Include="Application\Boss\BossBasis.cpp">
       <Filter>ソース ファイル\Application\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="GameCollisons.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Math\Matrix4.h">
@@ -538,6 +541,9 @@
     </ClInclude>
     <ClInclude Include="Application\GameObject\ChangeStageBox.h">
       <Filter>ヘッダー ファイル\Application\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCollisons.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

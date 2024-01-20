@@ -17,7 +17,8 @@ public:
 	void Draw() override;
 
 	Vector3 GetWorldPos() override;
-
+	Vector3 GetScale() override;
+	void OnCollison() override;
 public:
 
 	const float BULLET_VECTOR_Y_VOLUE = 5.0f;

@@ -81,7 +81,7 @@ void SceneManager::Finalize()
 //パーティクルの描画
 void SceneManager::ParticleDraw()
 {
-	gamescene_->ParticleDraw();
+	//gamescene_->ParticleDraw();
 }
 
 //ポストエフェクトをかけないスプライト描画

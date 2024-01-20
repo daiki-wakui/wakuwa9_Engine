@@ -16,7 +16,8 @@ public:
 
 	Vector3 GetWorldPos() override;
 
-
+	Vector3 GetScale() override;
+	void OnCollison() override;
 private:	//メンバ変数
 
 	Model* thismodel_;

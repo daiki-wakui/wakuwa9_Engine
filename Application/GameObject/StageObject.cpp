@@ -28,3 +28,12 @@ Vector3 StageObject::GetWorldPos()
 {
 	return Vector3();
 }
+
+Vector3 StageObject::GetScale()
+{
+	return Vector3();
+}
+
+void StageObject::OnCollison()
+{
+}

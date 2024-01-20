@@ -35,3 +35,12 @@ Vector3 PlayerBasis::GetWorldPos()
 {
 	return thisObject_->GetPosition();
 }
+
+Vector3 PlayerBasis::GetScale()
+{
+	return thisObject_->GetScale();
+}
+
+void PlayerBasis::OnCollison()
+{
+}

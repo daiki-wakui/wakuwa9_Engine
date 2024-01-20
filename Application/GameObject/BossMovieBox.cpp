@@ -28,3 +28,12 @@ Vector3 BossMovieBox::GetWorldPos()
 {
 	return thisObject_->GetPosition();
 }
+
+Vector3 BossMovieBox::GetScale()
+{
+	return Vector3();
+}
+
+void BossMovieBox::OnCollison()
+{
+}

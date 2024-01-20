@@ -28,3 +28,12 @@ Vector3 BossBasis::GetWorldPos()
 {
 	return thisObject_->GetPosition();
 }
+
+Vector3 BossBasis::GetScale()
+{
+	return Vector3();
+}
+
+void BossBasis::OnCollison()
+{
+}
