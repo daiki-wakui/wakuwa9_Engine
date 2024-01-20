@@ -5,7 +5,6 @@
 
 #include "EventBox.h"
 #include "Enemy.h"
-#include "CollisionBox.h"
 #include "Door.h"
 
 #include "LevelLoader.h"

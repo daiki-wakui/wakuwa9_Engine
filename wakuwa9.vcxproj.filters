@@ -279,9 +279,6 @@
     <ClCompile Include="Application\Scene\SceneManager.cpp">
       <Filter>ソース ファイル\Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\GameObject\CollisionBox.cpp">
-      <Filter>ソース ファイル\Application\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Application\GameObject\EventBox.cpp">
       <Filter>ソース ファイル\Application\GameObject</Filter>
     </ClCompile>
@@ -339,8 +336,8 @@
     <ClCompile Include="Application\Boss\BossBasis.cpp">
       <Filter>ソース ファイル\Application\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="GameCollisons.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\GameObject\GameCollisons.cpp">
+      <Filter>ソース ファイル\Application\GameObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -476,9 +473,6 @@
     <ClInclude Include="Application\Scene\SceneManager.h">
       <Filter>ヘッダー ファイル\Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Application\GameObject\CollisionBox.h">
-      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Application\GameObject\EventBox.h">
       <Filter>ヘッダー ファイル\Application\GameObject</Filter>
     </ClInclude>
@@ -542,8 +536,8 @@
     <ClInclude Include="Application\GameObject\ChangeStageBox.h">
       <Filter>ヘッダー ファイル\Application\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="GameCollisons.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\GameObject\GameCollisons.h">
+      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

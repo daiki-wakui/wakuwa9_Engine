@@ -115,10 +115,10 @@
     <ClCompile Include="Application\GameField\LevelEditor.cpp" />
     <ClCompile Include="Application\GameObject\BossMovieBox.cpp" />
     <ClCompile Include="Application\GameObject\ChangeStageBox.cpp" />
-    <ClCompile Include="Application\GameObject\CollisionBox.cpp" />
     <ClCompile Include="Application\GameObject\DebugPoint.cpp" />
     <ClCompile Include="Application\GameObject\Door.cpp" />
     <ClCompile Include="Application\GameObject\EventBox.cpp" />
+    <ClCompile Include="Application\GameObject\GameCollisons.cpp" />
     <ClCompile Include="Application\GameObject\StageObject.cpp" />
     <ClCompile Include="Application\GameSound\SoundManager.cpp" />
     <ClCompile Include="Application\OutGameSystem\GameUI.cpp" />
@@ -165,7 +165,6 @@
     <ClCompile Include="Engine\Math\Vector2.cpp" />
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\wa9Math.cpp" />
-    <ClCompile Include="GameCollisons.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -183,10 +182,10 @@
     <ClInclude Include="Application\GameField\LevelEditor.h" />
     <ClInclude Include="Application\GameObject\BossMovieBox.h" />
     <ClInclude Include="Application\GameObject\ChangeStageBox.h" />
-    <ClInclude Include="Application\GameObject\CollisionBox.h" />
     <ClInclude Include="Application\GameObject\DebugPoint.h" />
     <ClInclude Include="Application\GameObject\Door.h" />
     <ClInclude Include="Application\GameObject\EventBox.h" />
+    <ClInclude Include="Application\GameObject\GameCollisons.h" />
     <ClInclude Include="Application\GameObject\GameObjectList.h" />
     <ClInclude Include="Application\GameObject\StageObject.h" />
     <ClInclude Include="Application\GameSound\SoundManager.h" />
@@ -235,7 +234,6 @@
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\wa9Math.h" />
-    <ClInclude Include="GameCollisons.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">
