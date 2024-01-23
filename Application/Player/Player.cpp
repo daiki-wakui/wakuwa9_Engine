@@ -502,6 +502,11 @@ Vector3 Player::GetScreenRTPos()
 	return screenPos;
 }
 
+Vector3 Player::GetRot()
+{
+	return playerObject_->GetRotation();
+}
+
 void Player::SetPos(Vector3 pos)
 {
 	playerObject_->SetPosition(pos);

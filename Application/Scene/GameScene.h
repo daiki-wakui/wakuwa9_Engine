@@ -12,6 +12,7 @@
 
 #include "Effect.h"
 #include "DebugPoint.h"
+#include "FieldEffect.h"
 
 #include <memory>
 #include <list>
@@ -180,6 +181,13 @@ private:	//メンバ変数
 	bool isDebugBoss_ = false;
 	bool isShake_;
 	int32_t shakeTimer_;
+
+	std::list<std::unique_ptr<FieldEffect>> fEffects_;
+	//std::unique_ptr<FieldEffect> ff_ = std::make_unique<FieldEffect>();
+	Vector3 ffpos_ = { 0,0,0 };
+	Vector3 ffv_ = { 1,1,1 };
+	std::unique_ptr<Object3D> ffo_;
+	int32_t popFTimer_ = 0;
 
 public:
 	//3dオブジェクト生成

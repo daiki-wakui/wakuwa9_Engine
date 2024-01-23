@@ -24,6 +24,9 @@ void GameScene::Initialize()
 	resetOn_ = false;
 
 	gameUI_->GameSceneInitialize();
+
+	/*ff_->Initialize(Vector3{0,10,-300}, ffv_, poriModel_.get());
+	ff_->SetScale(5.0f);*/
 }
 
 //後始末
@@ -37,6 +40,33 @@ void GameScene::Finalize()
 //更新処理
 void GameScene::Update()
 {
+
+	popFTimer_++;
+	if (popFTimer_ > 20) {
+		ffpos_ = player_->GetWorldPos();
+
+		ffpos_.x += MyRandom::GetFloatRandom(-200, 200);
+		ffpos_.y += MyRandom::GetFloatRandom(-20, 20);
+		ffpos_.z += MyRandom::GetFloatRandom(50, 200);
+
+
+		std::unique_ptr<FieldEffect> newFF = std::make_unique<FieldEffect>();
+		newFF->Initialize(ffpos_,player_->GetRot(), ffv_, poriModel_.get());
+		fEffects_.push_back(std::move(newFF));
+		popFTimer_ = 0;
+	}
+
+	//弾の更新処理
+	for (std::unique_ptr<FieldEffect>& ff : fEffects_) {
+		ff->Update();
+	}
+
+	//デスフラグが立った弾を削除
+	fEffects_.remove_if([](std::unique_ptr<FieldEffect>& ff) {
+		return ff->IsDead();
+	});
+
+	//ff_->Update();
 
 	if (isShake_) {
 		shakeTimer_++;
@@ -286,6 +316,7 @@ void GameScene::ObjectUpdate()
 //描画関数
 void GameScene::Draw()
 {
+	
 	shadowObject_->Draw();
 
 	for (auto& object : objects) {
@@ -322,6 +353,11 @@ void GameScene::Draw()
 		poriObject_->Draw();
 		isShotEffect_ = false;
 	}
+
+	for (std::unique_ptr<FieldEffect>& ff : fEffects_) {
+		ff->Draw();
+	}
+
 
 	SpriteDraw();
 }
@@ -795,6 +831,12 @@ void GameScene::Object3DGenerate()
 	poriObject_->Initialize();
 	poriObject_->SetScale(SHOT_EFFECT_SCALE);
 	poriObject_->SetPosition(SHOT_EFFECT_POS);
+
+	ffo_ = std::make_unique<Object3D>();
+	ffo_->SetModel(poriModel_.get());
+	ffo_->Initialize();
+	ffo_->SetScale(SHOT_EFFECT_SCALE);
+	ffo_->SetPosition({ 50,10,-200 });
 
 	//3Dオブジェクト生成
 	playerObject_ = std::make_unique<Object3D>();
