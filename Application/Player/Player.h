@@ -223,6 +223,7 @@ public:	//getter,setter
 	Vector3 GetWorldPos();
 	Vector3 GetScreenRTPos();
 	Vector3 GetRot();
+	Vector3 GetFrontVec();
 
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
 

@@ -507,6 +507,11 @@ Vector3 Player::GetRot()
 	return playerObject_->GetRotation();
 }
 
+Vector3 Player::GetFrontVec()
+{
+	return frontVec;
+}
+
 void Player::SetPos(Vector3 pos)
 {
 	playerObject_->SetPosition(pos);

@@ -60,6 +60,9 @@ void Model3DManager::LoadGame3DModel()
 	poriModel_ = std::make_unique<Model>();
 	poriModel_->LoadFromObj("pori");
 
+	poriFModel_ = std::make_unique<Model>();
+	poriFModel_->LoadFromObj("poriF");
+
 	shadowModel_ = std::make_unique<Model>();
 	shadowModel_->LoadFromObj("cirshadow");
 

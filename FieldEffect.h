@@ -12,9 +12,16 @@ private:
 	Vector3 velocity_;
 	Vector3 pos_;
 	Vector3 rot_;
-	float scale_ = 1;
+	float scale_ = 1.5f;
+	bool isDown_ = false;
+
+	Vector3 scaleEs_ = { 0,0,0 };
 
 	bool isDead_ = false;
+
+	float ariveFrame_ = 0;
+	float timer_;
+	float maxScale_ = 0.5f;
 
 public:
 	

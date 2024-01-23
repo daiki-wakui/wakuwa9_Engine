@@ -1,4 +1,5 @@
 #include "FieldEffect.h"
+#include "Easing.h"
 
 void FieldEffect::Initialize(Vector3 pos, Vector3 rot,Vector3& velocity, Model* model)
 {
@@ -12,16 +13,35 @@ void FieldEffect::Initialize(Vector3 pos, Vector3 rot,Vector3& velocity, Model* 
 	thisObject_->Initialize();
 	thisObject_->SetPosition(pos_);
 	thisObject_->SetRotation(rot_);
+
 }
 
 void FieldEffect::Update()
 {
-	scale_ -= 0.005f;
-	thisObject_->SetScale({ scale_ ,scale_ ,scale_ });
+	ariveFrame_++;
 
+	if (isDown_) {
+		timer_--;
+	}
+	else {
+		timer_++;
+	}
+
+	if (timer_ == 90) {
+		isDown_ = true;
+	}
+	else if (timer_ == 0) {
+		isDown_ = false;
+	}
+
+	pos_ += velocity_;
+
+	scaleEs_ = scaleEs_.lerp({ 0,0,0 }, { maxScale_,maxScale_,maxScale_ }, Easing::EaseOutBack(timer_, 90));
+	thisObject_->SetScale(scaleEs_);
+	thisObject_->SetPosition(pos_);
 	thisObject_->Update();
 
-	if (scale_ < 0) {
+	if (ariveFrame_ > 180) {
 		isDead_ = true;
 	}
 }

@@ -42,16 +42,20 @@ void GameScene::Update()
 {
 
 	popFTimer_++;
-	if (popFTimer_ > 20) {
+	if (popFTimer_ > 10) {
 		ffpos_ = player_->GetWorldPos();
 
-		ffpos_.x += MyRandom::GetFloatRandom(-200, 200);
-		ffpos_.y += MyRandom::GetFloatRandom(-20, 20);
-		ffpos_.z += MyRandom::GetFloatRandom(50, 200);
+		ffpos_.x += -player_->GetFrontVec().x * MyRandom::GetFloatRandom(-500, 500);
+		ffpos_.y += -player_->GetFrontVec().y * MyRandom::GetFloatRandom(-100, 500);
+		ffpos_.z += -player_->GetFrontVec().z * MyRandom::GetFloatRandom( 40, 200);
 
+
+		ffv_.x = MyRandom::GetFloatRandom(-0.1f, 0.1f);
+		ffv_.y = MyRandom::GetFloatRandom(-0.1f, 0.1f);
+		ffv_.z = MyRandom::GetFloatRandom(-0.1f, 0.1f);
 
 		std::unique_ptr<FieldEffect> newFF = std::make_unique<FieldEffect>();
-		newFF->Initialize(ffpos_,player_->GetRot(), ffv_, poriModel_.get());
+		newFF->Initialize(ffpos_,player_->GetRot(), ffv_, poriFModel_.get());
 		fEffects_.push_back(std::move(newFF));
 		popFTimer_ = 0;
 	}
@@ -529,7 +533,7 @@ void GameScene::ReLoad(const std::string filename)
 
 			newEnemy[enemySize_]->SetShadow(shadowModel_.get());
 			newEnemy[enemySize_]->Initialize(newObject[objSize_].get(), newObject[objSize_]->GetPosition(), player_.get());
-			newEnemy[enemySize_]->SetBulletModel(cubeModel_.get());
+			newEnemy[enemySize_]->SetBulletModel(bossBulletModel_.get());
 			
 
 

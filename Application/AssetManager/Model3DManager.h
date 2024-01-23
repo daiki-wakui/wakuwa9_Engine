@@ -36,6 +36,7 @@ protected:
 	std::unique_ptr<Model> LeftDoorModel_;
 
 	std::unique_ptr<Model> poriModel_;
+	std::unique_ptr<Model> poriFModel_;
 	std::unique_ptr<Model> shadowModel_;
 
 	std::unique_ptr<Model> konnpeModel_;
