@@ -140,7 +140,10 @@ private:
 
 	int32_t frame = 0;
 
-	bool dash = false;
+	bool isDash_ = false;
+	bool isStep_ = false;
+	float stepPower_ = 0.0f;
+
 	float dashPower_;
 	float friction = 0.8f;
 

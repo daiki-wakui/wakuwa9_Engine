@@ -49,13 +49,30 @@ void Player::Update()
 	frontVec.normalize();
 	frontVec /= FRONT_VECTOR_RATE;
 
-	if (dash) {
+	if (isDash_) {
 		dashPower_ += DASH_POWTER_VOLUE;
 
 		dashPower_ = min(dashPower_, DASH_POWTER_MAX_VOLUE);
 
 		frontVec.x *= dashPower_;
 		frontVec.z *= dashPower_;
+	}
+
+	if (inputPad_->PushInstantA()) {
+		isStep_ = true;
+		stepPower_ = 8.0f;
+	}
+
+	
+
+	if (isStep_) {
+		frontVec.x *= stepPower_;
+		frontVec.z *= stepPower_;
+		stepPower_--;
+
+		if (stepPower_ <= 0) {
+			isStep_ = false;
+		}
 	}
 
 	if (inputPad_->InputLStickUp()||input_->keyPush(DIK_UP)) {
@@ -152,13 +169,13 @@ void Player::Update()
 	}
 	
 	if (!inputPad_->InputLStick()) {
-		dash = false;
+		isDash_ = false;
 		dashPower_ = 1.0f;
 	}
 
 
 	if (inputPad_->RTrigger()) {
-		dash = true;
+		isDash_ = true;
 	}
 
 	pos_.x += frontMove_.x;
@@ -173,19 +190,23 @@ void Player::Update()
 
 	frame++;
 
-	if (inputPad_->InputRStick() == false && inputPad_->InputLStick() == false) {
-		RotateAngle();
-	}
-	else if (inputPad_->InputLStick() && inputPad_->InputRStick()) {
-		RotateAngle();
+	if (!stepPower_) {
+		if (inputPad_->InputRStick() == false && inputPad_->InputLStick() == false) {
+			RotateAngle();
+		}
+		else if (inputPad_->InputLStick() && inputPad_->InputRStick()) {
+			RotateAngle();
 
-		rot_.y = -angle_;
-	}
-	else if (inputPad_->InputLStick() && inputPad_->InputRStick() == false) {
-		RotateAngle();
+			rot_.y = -angle_;
+		}
+		else if (inputPad_->InputLStick() && inputPad_->InputRStick() == false) {
+			RotateAngle();
 
-		rot_.y = -angle_;
+			rot_.y = -angle_;
+		}
 	}
+
+	
 
 	
 	if (inputPad_->PushInstantLB()) {
