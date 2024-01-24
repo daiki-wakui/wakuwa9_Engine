@@ -58,11 +58,29 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 	tailPos_.x = object_->GetPosition().x;
 	tailPos_.y = object_->GetPosition().y;
 	tailPos_.z = object_->GetPosition().z + TAIL_POSZ_VOLUE;
+
+	for (int i = 0; i < 10; i++) {
+		tailBallObject_[i] = std::make_unique<Object3D>();
+		tailBallObject_[i]->SetModel(bulletModel_);
+		tailBallObject_[i]->Initialize();
+		tailBallObject_[i]->SetScale({ 2,2,2 });
+	}
 }
 
 //更新処理
 void Boss::Update(bool move)
 {
+	tailVec_ = pos_ - tailPos_;
+	taillen_ = tailVec_.length();
+	tailVec_.normalize();
+
+	for (int i = 0; i < 10; i++) {
+		tailballpos_ = pos_;
+		tailballpos_ += -tailVec_ * (taillen_ / 10 * (i + 1));
+		tailBallObject_[i]->SetPosition(tailballpos_);
+		tailBallObject_[i]->Update();
+	}
+
 	//行動パターン繰り返し
 	if (movementPatternCount_ >= MAX_MOVEMENT) {
 		movementPatternCount_ = 0;
@@ -184,6 +202,10 @@ void Boss::Draw()
 
 	for (std::unique_ptr<Effect>& effect : effects_) {
 		effect->Draw();
+	}
+
+	for (int i = 0; i < 10; i++) {
+		tailBallObject_[i]->Draw();
 	}
 }
 

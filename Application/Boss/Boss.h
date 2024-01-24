@@ -110,6 +110,12 @@ private:
 	Object3D* object_;
 	std::unique_ptr<Object3D> tailObject_;
 
+	std::unique_ptr<Object3D> tailBallObject_[10];
+	float taillen_;
+	Vector3 tailVec_;
+	Vector3 tailballpos_;
+
+
 	//player情報取得
 	Player* player_ = nullptr;
 	Vector3 playerPos;
