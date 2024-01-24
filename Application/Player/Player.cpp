@@ -66,12 +66,14 @@ void Player::Update()
 	
 
 	if (isStep_) {
+		pos_.y++;
 		frontVec.x *= stepPower_;
 		frontVec.z *= stepPower_;
 		stepPower_--;
 
 		if (stepPower_ <= 0) {
 			isStep_ = false;
+			isJustStep_ = false;
 		}
 	}
 

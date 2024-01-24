@@ -142,6 +142,7 @@ private:
 
 	bool isDash_ = false;
 	bool isStep_ = false;
+	bool isJustStep_ = false;
 	float stepPower_ = 0.0f;
 
 	float dashPower_;
@@ -215,7 +216,8 @@ public:	//getter,setter
 	bool GetIsHit() { return isHit_; }
 	bool Getinvincible() const { return isInvincible_; }
 	bool IsDead() const { return isDead; }
-	bool GetIsStep() const { return isStep; }
+	bool GetIsStep() const { return isStep_; }
+	bool GetIsJustStep() const { return isJustStep_; }
 
 	int GetCoolTime() const { return coolTime; };
 	int GetHP() const { return HP; }
@@ -229,6 +231,9 @@ public:	//getter,setter
 
 	void SetRok(bool isactive) { isBossRokon_ = isactive; }
 	void SetIsShot(bool isShot) { isShot_ = isShot; }
+	void SetIsInvincible(bool isInvincible) { isInvincible_ = isInvincible; }
+	void SetInvincibleFrame_(int32_t invincibleFrame) { invincibleFrame_ = invincibleFrame; }
+	void SetIsJustStep(bool isJustStep) { isJustStep_ = isJustStep; }
 	void SetIsHit(bool isHit) { isHit_ = isHit; }
 	void SetBulletModel(Model* model, Object3D* obj);
 	void SetEnemy(Boss* boss);

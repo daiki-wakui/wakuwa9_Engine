@@ -116,11 +116,18 @@ void GameUI::GameSceneInitialize()
 	bulletRreticleSprite_->SetSize({ PLAYER_BULLETRETICLE_SIZE,PLAYER_BULLETRETICLE_SIZE });
 	bulletRreticleSprite_->Update();
 
+	StepFilterSprite_->Initialize();
+	StepFilterSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	StepFilterSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	StepFilterSprite_->Update();
+
+
 }
 
 //タイトルシーンUI更新処理
 void GameUI::TitleUpdate(bool sceneChange)
 {
+	
 	titleSprite_->Update();
 	titleUISprite_->Update();
 	sceneSprite_->Update();
@@ -139,6 +146,25 @@ void GameUI::TitleUpdate(bool sceneChange)
 //ゲームシーンUI更新処理
 void GameUI::GameUpdate()
 {
+	//stepAlpha_
+	if (player_->GetIsJustStep()) {
+		stepFillTimer_++;
+
+		if (stepFillTimer_ < 10) {
+			stepAlpha_ += 0.15f;
+			stepAlpha_ = min(stepAlpha_, MAX_ALPHA);
+		}
+	}
+	else {
+		stepFillTimer_ = 0;
+		stepAlpha_ -= 0.1f;
+		stepAlpha_ = max(stepAlpha_, 0);
+	}
+
+	StepFilterSprite_->SetColor({ 1,1,1,stepAlpha_ });
+	StepFilterSprite_->Update();
+
+
 	iventSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,iventAlpha_ });
 	playerHPSprite_->SetSize({ PLAYER_HP_SIZE_X * (float)player_->GetHP(),PLAYER_HP_SIZE_Y });
 
@@ -261,6 +287,7 @@ void GameUI::TitleDraw()
 //ゲームシーンUI描画関数
 void GameUI::GameDraw()
 {
+	StepFilterSprite_->Draw(stepFilterImage_);
 
 	//ボスのイベントムービー中は非表示
 	if (!isIvent_) {

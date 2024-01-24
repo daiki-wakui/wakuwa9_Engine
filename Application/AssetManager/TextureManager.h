@@ -15,6 +15,7 @@ protected:
 	int32_t titleUIImage_ = 0;
 	int32_t sceneChangeImage_ = 0;
 	int32_t filterImage_ = 0;
+	int32_t stepFilterImage_ = 0;
 	int32_t testImage_ = 0;
 
 

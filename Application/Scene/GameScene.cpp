@@ -45,9 +45,9 @@ void GameScene::Update()
 	if (popFTimer_ > 10) {
 		ffpos_ = player_->GetWorldPos();
 
-		ffpos_.x += -player_->GetFrontVec().x * MyRandom::GetFloatRandom(-500, 500);
-		ffpos_.y += -player_->GetFrontVec().y * MyRandom::GetFloatRandom(-100, 500);
-		ffpos_.z += -player_->GetFrontVec().z * MyRandom::GetFloatRandom( 40, 200);
+		ffpos_.x += -player_->GetFrontVec().x * MyRandom::GetFloatRandom(-800, 800);
+		ffpos_.y += -player_->GetFrontVec().y * MyRandom::GetFloatRandom(-100, 800);
+		ffpos_.z += -player_->GetFrontVec().z * MyRandom::GetFloatRandom( 100, 150);
 
 
 		ffv_.x = MyRandom::GetFloatRandom(-0.1f, 0.1f);
@@ -747,6 +747,13 @@ void GameScene::AllCollison()
 	r2 = COL_BOSS_TAIL_SCALE;
 
 	if (Collison(posA, posB, r1, r2)) {
+
+		if (player_->GetIsStep()) {
+			player_->SetIsJustStep(true);
+			player_->SetIsInvincible(true);
+			player_->SetInvincibleFrame_(200);
+		}
+
 		if (!player_->Getinvincible()) {
 
 			SoundManager::GetInstance()->PlayWave("noise.wav", NOISE_SE_VOLUE);
@@ -769,6 +776,11 @@ void GameScene::AllCollison()
 
 			if (Collison(posA, posB, r1, r2)) {
 				bullet->isDead_ = true;
+
+				if (player_->GetIsStep()) {
+					player_->SetIsJustStep(true);
+					player_->SetIsInvincible(true);
+				}
 
 				if (!player_->Getinvincible()) {
 

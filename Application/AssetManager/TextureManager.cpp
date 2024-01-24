@@ -30,6 +30,7 @@ void TextureManager::LoadGameTexture()
 	titleImage_ = spBasis_->TextureData(L"Resources/title.png");
 	sceneChangeImage_ = spBasis_->TextureData(L"Resources/sceneChange.png");
 	filterImage_ = spBasis_->TextureData(L"Resources/fillter.png");
+	stepFilterImage_ = spBasis_->TextureData(L"Resources/step_fillter.png");
 	//ゲームシーンに使うアセット
 	playerHP_ = spBasis_->TextureData(L"Resources/playerHP.png");
 	bossHP_ = spBasis_->TextureData(L"Resources/red.png");

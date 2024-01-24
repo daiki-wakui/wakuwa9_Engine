@@ -91,6 +91,13 @@ private:
 	std::unique_ptr<Sprite> bulletRreticleSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> waringSprite_ = std::make_unique<Sprite>();
 
+	std::unique_ptr<Sprite> StepFilterSprite_ = std::make_unique<Sprite>();
+
+	//ジャスト回避時のフィルターのアルファ値
+	float stepAlpha_ = 0;
+	int32_t stepFillTimer_ = 0;
+
+
 	//ダメージシェイク値
 	Vector3 randShake_;
 

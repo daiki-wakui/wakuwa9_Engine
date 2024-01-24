@@ -132,7 +132,7 @@ void Boss::Update(bool move)
 	}
 
 	//弾の処理
-	Shot();
+	//Shot();
 
 	//デスフラグが立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<BossBullet>& bullet) {
