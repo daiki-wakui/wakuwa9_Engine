@@ -22,12 +22,14 @@ protected:
 	//HP
 	int32_t playerHP_ = 0;
 	int32_t bossHP_ = 0;
+	int32_t bossMaxHP_ = 0;
+	int32_t bossHPImage_ = 0;
 
 	//タイトル
 	int32_t gameover_ = 0;
 	int32_t gameclear_ = 0;
 
-
+	
 	int32_t reticleImage_ = 0;
 	int32_t tesImage_ = 0;
 	int32_t targetImage_ = 0;

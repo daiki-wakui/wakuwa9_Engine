@@ -34,6 +34,9 @@ void TextureManager::LoadGameTexture()
 	//ゲームシーンに使うアセット
 	playerHP_ = spBasis_->TextureData(L"Resources/playerHP.png");
 	bossHP_ = spBasis_->TextureData(L"Resources/red.png");
+	bossMaxHP_ = spBasis_->TextureData(L"Resources/black.png");
+	bossHPImage_ = spBasis_->TextureData(L"Resources/bossHP.png");
+
 	gameover_ = spBasis_->TextureData(L"Resources/gameover.png");
 	gameclear_ = spBasis_->TextureData(L"Resources/gameclear.png");
 	reticleImage_ = spBasis_->TextureData(L"Resources/reticle.png");

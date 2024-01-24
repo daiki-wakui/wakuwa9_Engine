@@ -25,13 +25,14 @@ private:
 	const float MAX_ALPHA = 1.0f;
 
 	const float PLAYER_HP_X = 50.0f;
-	const float PLAYER_HP_Y = 20.0f;
+	const float PLAYER_HP_Y = 655.0f;
 	const float PLAYER_HP_SIZE_X = 32.0f;
 	const float PLAYER_HP_SIZE_Y = 16.0f;
 	const float PLAYER_HP_DANGER = 1.0f;
 
-	const float BOSS_HP_Y = 80.0f;
-	const float BOSS_HP_SIZE_X = 16.0f;
+	const float BOSS_HP_X = 275.0f;
+	const float BOSS_HP_Y = 55.0f;
+	const float BOSS_HP_SIZE_X = 15.0f;
 	const float BOSS_HP_SIZE_Y = 32.0f;
 
 	const float RB_UI_SIZE = 160.0f;
@@ -81,6 +82,9 @@ private:
 	//ゲームシーンで使うスプライト
 	std::unique_ptr<Sprite> playerHPSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> bossHPSprite_ = std::make_unique<Sprite>();
+	std::unique_ptr<Sprite> bossMaxHPSprite_ = std::make_unique<Sprite>();
+	std::unique_ptr<Sprite> bossHPUISprite_ = std::make_unique<Sprite>();
+
 	std::unique_ptr<Sprite> gameoverSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> gameclearSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> reticleSprite_ = std::make_unique<Sprite>();

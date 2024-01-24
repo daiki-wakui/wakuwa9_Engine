@@ -63,8 +63,19 @@ void GameUI::GameSceneInitialize()
 	playerHPSprite_->Create(PLAYER_HP_X, PLAYER_HP_Y);
 	playerHPSprite_->SetAncP({ 0,0 });
 
+
 	bossHPSprite_->Initialize();
-	bossHPSprite_->Create(HALF_SCREEN_SIZE_X, BOSS_HP_Y);
+	bossHPSprite_->SetAncP({ 0,0 });
+	bossHPSprite_->Create(275, 55);
+
+	bossMaxHPSprite_->Initialize();
+	bossMaxHPSprite_->SetAncP({ 0,0 });
+	bossMaxHPSprite_->Create(BOSS_HP_X, BOSS_HP_Y);
+
+	bossHPUISprite_->Initialize();
+	bossHPUISprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	bossHPUISprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	bossHPUISprite_->Update();
 
 	gameoverSprite_->Initialize();
 	gameoverSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
@@ -298,7 +309,9 @@ void GameUI::GameDraw()
 
 	//ボスが現れたら表示
 	if (hitBox_ == true && boss_->GetArive() == true && isIvent_ == false) {
+		bossMaxHPSprite_->Draw(bossMaxHP_);
 		bossHPSprite_->Draw(bossHP_);
+		bossHPUISprite_->Draw(bossHPImage_);
 	}
 	
 	//ゲームオーバー表示
@@ -345,7 +358,8 @@ void GameUI::Shake()
 	randShake_.y = MyRandom::GetFloatRandom(SHACK_MIN, SHACK_MAX);
 
 	playerHPSprite_->SetPosition({ PLAYER_HP_X + randShake_.x * SHACK_RATE,PLAYER_HP_Y + randShake_.y * SHACK_RATE });
-	bossHPSprite_->SetPosition({ HALF_SCREEN_SIZE_X + randShake_.x * SHACK_RATE,BOSS_HP_Y + randShake_.y * SHACK_RATE });
+	bossHPSprite_->SetPosition({ BOSS_HP_X + randShake_.x * SHACK_RATE,BOSS_HP_Y + randShake_.y * SHACK_RATE });
+	bossMaxHPSprite_->SetPosition({ BOSS_HP_X + randShake_.x * SHACK_RATE,BOSS_HP_Y + randShake_.y * SHACK_RATE });
 }
 
 //BossHPUIの更新処理
@@ -353,6 +367,10 @@ void GameUI::BossHpUI()
 {
 	bossHPSprite_->SetSize({ BOSS_HP_SIZE_X * (float)boss_->GetHP(),BOSS_HP_SIZE_Y });
 	bossHPSprite_->Update();
+	bossMaxHPSprite_->SetSize({ BOSS_HP_SIZE_X * 50,BOSS_HP_SIZE_Y });
+	bossMaxHPSprite_->Update();
+
+	bossHPUISprite_->Update();
 }
 
 //ゲームシーンのシーン遷移のフェード用関数
