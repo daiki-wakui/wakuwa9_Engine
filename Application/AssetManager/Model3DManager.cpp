@@ -15,6 +15,9 @@ void Model3DManager::LoadTitle3DModel()
 {
 	skydomTitleModel_ = std::make_unique<Model>();
 	skydomTitleModel_->LoadFromObj("world2");
+
+	poriTFModel_ = std::make_unique<Model>();
+	poriTFModel_->LoadFromObj("poriF");
 }
 
 //ゲームシーンで使うモデル読み込み

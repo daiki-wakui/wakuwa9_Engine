@@ -11,7 +11,8 @@ class Model3DManager
 protected:
 
 	//タイトルで使うモデルデータ
-	std::unique_ptr<Model> skydomTitleModel_;
+	std::unique_ptr<Model> skydomTitleModel_; 
+	std::unique_ptr<Model> poriTFModel_;
 
 	//ゲームシーンで使うモデルデータ
 	std::unique_ptr<Model> skydomGameModel_;

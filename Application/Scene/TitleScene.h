@@ -2,8 +2,9 @@
 #include "Framework.h"
 #include "BaseScene.h"
 #include "GameUI.h"
-#include "Model.h"
-#include "Vector3.h"
+#include "FieldEffect.h"
+
+#include <list>
 
 /**
  * @file TitleScene
@@ -56,6 +57,11 @@ private:	//メンバ変数
 
 	float ChangeAlpha_ = 0;
 	bool isStartSE_ = false;
+
+	std::list<std::unique_ptr<FieldEffect>> fEffects_;
+	Vector3 ffpos_ = { 0,0,0 };
+	Vector3 ffv_ = { 1,1,1 };
+	int32_t popFTimer_ = 0;
 
 public:	//メンバ関数
 

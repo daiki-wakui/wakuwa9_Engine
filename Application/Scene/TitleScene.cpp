@@ -1,6 +1,7 @@
 #include "TitleScene.h"
 #include "SceneList.h"
 #include "SoundManager.h"
+#include "MyRandom.h"
 
 //初期化
 void TitleScene::Initialize()
@@ -56,12 +57,46 @@ void TitleScene::Update()
 	skyObject_->SetPosition(SKYDOME_POS);
 	skyObject_->SetCamera(CAMERA_EYE, CAMERA_TERGET);
 	skyObject_->Update(false);
+
+
+	popFTimer_++;
+	if (popFTimer_ > 10) {
+		ffpos_.x = MyRandom::GetFloatRandom(-200, 200);
+		ffpos_.y = MyRandom::GetFloatRandom(-100, 50);
+		ffpos_.z = MyRandom::GetFloatRandom(20, 150);
+
+		ffv_.x = MyRandom::GetFloatRandom(-0.1f, 0.1f);
+		ffv_.y = MyRandom::GetFloatRandom(-0.1f, 0.1f);
+		ffv_.z = MyRandom::GetFloatRandom(-0.1f, 0.1f);
+
+		std::unique_ptr<FieldEffect> newFF = std::make_unique<FieldEffect>();
+		newFF->Initialize(ffpos_, {0,0,0}, 0.8f ,ffv_, poriTFModel_.get());
+		fEffects_.push_back(std::move(newFF));
+		popFTimer_ = 0;
+	}
+
+	//弾の更新処理
+	for (std::unique_ptr<FieldEffect>& ff : fEffects_) {
+		ff->Update();
+	}
+
+	//デスフラグが立った弾を削除
+	fEffects_.remove_if([](std::unique_ptr<FieldEffect>& ff) {
+		return ff->IsDead();
+		});
 }
 
 //描画関数
 void TitleScene::Draw()
 {
+	
+
 	skyObject_->Draw();
+
+	for (std::unique_ptr<FieldEffect>& ff : fEffects_) {
+		ff->Draw();
+	}
+
 	titleUI_->TitleDraw();
 }
 

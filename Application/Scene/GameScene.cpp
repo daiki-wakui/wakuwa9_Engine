@@ -55,7 +55,7 @@ void GameScene::Update()
 		ffv_.z = MyRandom::GetFloatRandom(-0.1f, 0.1f);
 
 		std::unique_ptr<FieldEffect> newFF = std::make_unique<FieldEffect>();
-		newFF->Initialize(ffpos_,player_->GetRot(), ffv_, poriFModel_.get());
+		newFF->Initialize(ffpos_,player_->GetRot(),0.5f, ffv_, poriFModel_.get());
 		fEffects_.push_back(std::move(newFF));
 		popFTimer_ = 0;
 	}

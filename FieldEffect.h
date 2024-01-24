@@ -32,7 +32,7 @@ public:
 	/// <param name="pos"></param> 初期座標
 	/// <param name="velocity"></param> オブジェクトに加わる速度
 	/// <param name="model"></param> エフェクトに使うモデルの見た目
-	void Initialize(Vector3 pos, Vector3 rot, Vector3& velocity, Model* model);
+	void Initialize(Vector3 pos, Vector3 rot, float scale, Vector3& velocity, Model* model);
 
 	//更新処理
 	void Update();

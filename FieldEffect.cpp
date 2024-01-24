@@ -1,8 +1,9 @@
 #include "FieldEffect.h"
 #include "Easing.h"
 
-void FieldEffect::Initialize(Vector3 pos, Vector3 rot,Vector3& velocity, Model* model)
+void FieldEffect::Initialize(Vector3 pos, Vector3 rot,float scale,Vector3& velocity, Model* model)
 {
+	maxScale_ = scale;
 	pos_ = pos;
 	rot_ = rot;
 	velocity_ = velocity;
