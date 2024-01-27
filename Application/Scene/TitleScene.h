@@ -5,6 +5,10 @@
 #include "Model.h"
 #include "Vector3.h"
 
+#include "json.hpp"
+#include <fstream>
+#include <iostream>
+
 /**
  * @file TitleScene
  * @brief タイトルシーンを動かしているクラス
@@ -41,6 +45,10 @@ private:	//定数
 	const int32_t THIS_SCENE = 0;
 
 private:	//メンバ変数
+
+	// charをキー、intを値として扱う連想配列
+	std::map<std::string, float> v_;
+
 	//天球
 	std::unique_ptr<Object3D> skyObject_;
 	std::unique_ptr<GameUI> titleUI_ = std::make_unique<GameUI>();

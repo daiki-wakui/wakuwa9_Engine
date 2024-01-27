@@ -19,6 +19,34 @@ void TitleScene::Initialize()
 
 	SoundManager::GetInstance()->SetBasis(sound_);
 	SoundManager::GetInstance()->Initialize();
+
+	
+	std::string filenamea = "Resources/json/normal.json";
+
+	//ファイルを読み込んで内容を画面に表示する
+	//読み込みに失敗した場合はエラーを表示する
+	std::ifstream ifs(filenamea.c_str());
+	if (ifs.good())
+	{
+		nlohmann::json m_json;
+		ifs >> m_json;
+
+		
+
+		v_.insert(std::make_pair("speed", m_json["speed"]));
+		v_.insert(std::make_pair("add", m_json["add"]));
+
+		//読み込んだデータをそれぞれの変数に代入する
+		float speed;
+		speed = m_json["speed"];
+		float firingangle;
+		firingangle = m_json["add"];
+	}
+	else
+	{
+		float a = 0;
+		a++;
+	}
 }
 
 //後始末
