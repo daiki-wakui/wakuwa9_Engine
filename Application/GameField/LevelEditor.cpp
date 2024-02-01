@@ -57,6 +57,14 @@ void LevelEditor::EditorLoad(const std::string filename)
 	for (std::unique_ptr<Door>& door : doors_) {
 		door->SetTutorial(true);
 	}
+
+	auto be = gameObjects_.begin();
+	auto end = gameObjects_.end();
+	for (auto iter = be; iter != end; iter++) {
+		if (iter->get()->GetName() == "player") {
+			player_ = iter->get();
+		}
+	}
 }
 
 void LevelEditor::ReLoad(const std::string filename)

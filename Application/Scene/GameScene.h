@@ -90,6 +90,8 @@ private: //定数
 
 private:	//メンバ変数
 
+	BaseObject* playerObj_;
+
 	std::unique_ptr<GameCollisons> col_ = std::make_unique<GameCollisons>();
 	
 	std::list<std::unique_ptr<BaseObject>> gameObjects_;

@@ -20,8 +20,11 @@ public:
 	virtual void SetInfo(Vector3 pos, Vector3 velocity);
 
 	bool IsDead() const { return isDead_; }
+	std::string GetName() { return name_; }
+
 protected:
 
+	std::string name_;
 	Vector3 pos_;
 	Vector3 velocity_;
 	bool isDead_ = false;

@@ -12,6 +12,8 @@ PlayerBasis::~PlayerBasis()
 
 void PlayerBasis::Initialize(Model* model, Object3D* object)
 {
+	name_ = "player";
+
 	thismodel_ = model;
 	thisObject_ = object;
 

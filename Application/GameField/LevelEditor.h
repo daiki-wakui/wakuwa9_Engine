@@ -39,6 +39,8 @@ private:
 	std::unique_ptr<BaseObject> baseObject_[1000] = {};
 	int32_t objNum_ = 0;
 
+	BaseObject* player_;
+
 	//レベルエディタ関連
 	LevelData* levelData_ = nullptr;
 
@@ -86,6 +88,7 @@ public:
 	//オブジェクト配置時の情報
 	void Inport(Model* model, int32_t size);
 
+	BaseObject* GetPlayer() { return player_; }
 
 	const std::list<std::unique_ptr<BaseObject>>& GetObjects() { return gameObjects_; }
 

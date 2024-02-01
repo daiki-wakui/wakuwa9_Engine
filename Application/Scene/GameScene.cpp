@@ -201,7 +201,7 @@ void GameScene::ObjectUpdate()
 		}
 	}
 
-	skyObject_->SetPosition({0,0,0});
+	skyObject_->SetPosition(playerObj_->GetWorldPos());
 	skyObject_->Update();
 
 	lv->Update();
@@ -240,6 +240,8 @@ void GameScene::Reset()
 	lv->EditorLoad("d");
 
 	gameUI_->Reset();
+
+	playerObj_ = lv->GetPlayer();
 }
 
 //3dオブジェクト生成
