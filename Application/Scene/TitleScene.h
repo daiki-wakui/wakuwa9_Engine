@@ -34,17 +34,9 @@ private:
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 	GamePad* gamePad_ = GamePad::GetInstance();
 
-private:	//定数
-
-	const Vector3 SKYDOME_SCALE = { 400.0f,400.0f,400.0f };
-	const Vector3 SKYDOME_POS = { 0,0,100.0f };
-	const Vector3 CAMERA_EYE = { 0, 20.0f, -30.0f };
-	const Vector3 CAMERA_TERGET = { 0, 10.0f, 0 };
-	const float MAX_ALPHA = 1.0f;
-	const float STARTSE_VOLUE = 0.25f;
-	const int32_t THIS_SCENE = 0;
-
 private:	//メンバ変数
+
+	nlohmann::json m_json;
 
 	// charをキー、intを値として扱う連想配列
 	std::map<std::string, float> v_;
@@ -66,6 +58,11 @@ private:	//メンバ変数
 	bool isStartSE_ = false;
 
 public:	//メンバ関数
+
+	Vector3 SetVec(std::string name);
+	void ConstValues();
+	float GetConstValue(std::string name);
+	Vector3 GetConstVectorValue(std::string namex);
 
 	//初期化
 	void Initialize();
