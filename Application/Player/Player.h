@@ -69,7 +69,7 @@ private:
 	const float MOVE_CAMERA_LENGTH_VOLUE = 30.0f;
 	const float MOVE_CAMERA_TARGET_Y_VOLUE = 10.0f;
 	const float MOVE_CAMERA_ROT_MAX_WEIGHT_VOLUE = 1.0f;
-	const float MOVE_CAMERA_ROT_WEIGHT_VOLUE = 0.3f;
+	const float MOVE_CAMERA_ROT_WEIGHT_VOLUE = 0.7f;
 	const float MOVE_CAMERA_ANGLE_VOLUE = 1.5f;
 	const float MOVE_CAMERA_TARGET_ANGLE_VOLUE = 0.25f;
 	const float MOVE_CAMERA_TARGET_MIN_ANGLE = 0.5f;
@@ -91,6 +91,10 @@ private:
 	Object3D* bulletObject_;
 
 	std::unique_ptr<Object3D> reticle3DObject_ = std::make_unique<Object3D>();
+
+	Vector3 Leye_;
+	Vector3 Reye_;
+	float SticTimer_;
 
 	Vector3 rot_;
 	Vector3 pos_;
@@ -127,6 +131,10 @@ private:
 
 	float angle_;
 
+	float weghtV_ = 0.3f;
+
+	bool isStcikRight_ = false;
+	float cameraAnglePower_ = 0.0f;
 	float cameraAngle_ = 180.0f;
 	float cameraTargetAngle_ = 0.0f;
 	float r_;

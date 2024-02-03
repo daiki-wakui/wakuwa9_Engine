@@ -8,6 +8,7 @@
 
 #include "MyRandom.h"
 #include "wa9Math.h"
+#include "Easing.h"
 
 //初期化
 void Player::Initialize(Model* playerModel, Object3D* playerObject, KeyBoard* input, GamePad* inputPad,Object3D* podObject)
@@ -431,14 +432,60 @@ void Player::PlayerCamera(){
 
 	eye_ = newEye;
 	target_ = terget;
+	Leye_ = eye_;
 
 	cameraTargetAngle_ = playerObject_->GetEye().y;
 
 	if (inputPad_->InputRStickRight()) {
-		cameraAngle_ += MOVE_CAMERA_ANGLE_VOLUE;
+		isStcikRight_ = true;
+
+		if (cameraAnglePower_ < 0) {
+			cameraAnglePower_ = 0;
+		}
+
+		if (inputPad_->PushButtonRB()) {
+			cameraAnglePower_ = 0.75f;
+		}
+		else {
+			cameraAnglePower_ += 0.15f;
+			cameraAnglePower_ = min(cameraAnglePower_, 1.75f);
+		}
+
+
+		cameraAngle_ += cameraAnglePower_;
 	}
 	else if (inputPad_->InputRStickLeft()) {
-		cameraAngle_ -= MOVE_CAMERA_ANGLE_VOLUE;
+		isStcikRight_ = false;
+
+		if (cameraAnglePower_ > 0) {
+			cameraAnglePower_ = 0;
+		}
+
+		if (inputPad_->PushButtonRB()) {
+			cameraAnglePower_ = -0.75f;
+		}
+		else {
+			cameraAnglePower_ -= 0.15f;
+			cameraAnglePower_ = max(cameraAnglePower_, -1.75f);
+
+		}
+
+
+		cameraAngle_ += cameraAnglePower_;
+	}
+	else {
+		cameraAnglePower_ = 0;
+		/*	if (isStcikRight_) {
+				cameraAnglePower_ -= 0.09f;
+				cameraAnglePower_ = max(cameraAnglePower_, 0);
+				cameraAngle_ += cameraAnglePower_;
+			}
+			else {
+				cameraAnglePower_ += 0.09f;
+				cameraAnglePower_ = min(cameraAnglePower_, 0);
+				cameraAngle_ += cameraAnglePower_;
+			}*/
+
 	}
 
 	if (inputPad_->InputRStickUp()) {
@@ -449,12 +496,23 @@ void Player::PlayerCamera(){
 	}
 
 	if (inputPad_->InputRStick()) {
-		r_ = cameraAngle_ * wa9Math::PI() / wa9Math::Degree180();
+
+		SticTimer_++;
+		SticTimer_ = min(SticTimer_, 20);
 		cameraTargetAngle_ = max(cameraTargetAngle_, MOVE_CAMERA_TARGET_MIN_ANGLE);
 		cameraTargetAngle_ = min(cameraTargetAngle_, MOVE_CAMERA_TARGET_MAX_ANGLE);
 
+
+		r_ = cameraAngle_ * wa9Math::PI() / wa9Math::Degree180();
 		eye_.x = pos_.x + (sinf(r_) * CameraXZLen);
 		eye_.z = pos_.z + (cosf(r_) * CameraXZLen);
+
+		Reye_ = eye_;
+
+		eye_ = eye_.lerp(Leye_, Reye_, Easing::EaseIn(SticTimer_, 20));
+	}
+	else {
+		SticTimer_ = 0;
 	}
 
 	eye_.y = cameraTargetAngle_;
