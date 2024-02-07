@@ -418,7 +418,19 @@ void Player::PlayerCamera(){
 
 	toNewCameraPosv.normalize();
 
-	float weight = MOVE_CAMERA_ROT_WEIGHT_VOLUE;
+	if (inputPad_->InputLStick()) {
+		weghtV_ += 0.01f;
+		weghtV_ = min(weghtV_, 0.7f);
+	}
+	else {
+		weghtV_ = 0.0f;
+	}
+	
+	if (inputPad_->PushButtonRB()) {
+		weghtV_ = 0;
+	}
+
+	float weight = weghtV_;
 
 	toNewCameraPosv = toNewCameraPosv * weight + toCameraPosXZ * (MOVE_CAMERA_ROT_MAX_WEIGHT_VOLUE - weight);
 	toNewCameraPosv.normalize();
@@ -444,7 +456,7 @@ void Player::PlayerCamera(){
 		}
 
 		if (inputPad_->PushButtonRB()) {
-			cameraAnglePower_ = 0.75f;
+			cameraAnglePower_ = 0.95f;
 		}
 		else {
 			cameraAnglePower_ += 0.15f;
@@ -462,7 +474,7 @@ void Player::PlayerCamera(){
 		}
 
 		if (inputPad_->PushButtonRB()) {
-			cameraAnglePower_ = -0.75f;
+			cameraAnglePower_ = -0.95f;
 		}
 		else {
 			cameraAnglePower_ -= 0.15f;

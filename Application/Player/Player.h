@@ -132,7 +132,6 @@ private:
 	float angle_;
 
 	float weghtV_ = 0.3f;
-
 	bool isStcikRight_ = false;
 	float cameraAnglePower_ = 0.0f;
 	float cameraAngle_ = 180.0f;
