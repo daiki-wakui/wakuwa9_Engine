@@ -16,5 +16,6 @@ public:
 	void LoadConstValue(std::string jsonName);
 	Vector3 LoadVector3(std::string constName);
 	float LoadFloat(std::string constName);
+	int32_t LoadInt(std::string constName);
 };
 

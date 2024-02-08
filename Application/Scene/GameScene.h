@@ -21,6 +21,8 @@
 #include "LevelEditor.h"
 #include "GameCollisons.h"
 
+#include "constJsonValue.h"
+
 /**
  * @file GameScene
  * @brief ゲームシーンを動かしているクラス
@@ -28,76 +30,16 @@
 
 class GameScene : public BaseScene
 {
-private: // エイリアス
-	// DirectX::を省略
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMMATRIX = DirectX::XMMATRIX;
-
 private:
-
-	DirectXBasis* directX_ = DirectXBasis::GetInstance();
-	SpriteBasis* spBasis_ = SpriteBasis::GetInstance();
-	WindowsApp* windows_ = WindowsApp::GetInstance();
-	ImGuiManager* imGuiM_ = ImGuiManager::GetInstance();
-	Sound* sound_ = Sound::GetInstance();
 
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 	GamePad* gamePad_ = GamePad::GetInstance();
-	
-private: //定数
-
-	const float MAX_SHACK_TIME = 30.0f;
-	const float SHADOW_POS_Y = 2.0f;
-	const Vector3 SHADOW_SCALE = { 1.5f, 1.5f, 1.5f};
-	const float BULLET_SHOT_VOLUE = 0.25f;
-	const float WARNING_VOLUE = 2.0f;
-	const float NOISE_SE_VOLUE = 0.5f;
-	const float SHOCK_SE_VOLUE = 1.1f;
-	const float HIT_SE_VOLUE = 0.12f;
-	const Vector3 SHOT_EFFECT_SCALE = { 5.0f, 5.0f, 5.0f };
-	const Vector3 SHOT_EFFECT_POS = { 0.0f, 10.0f, 10.0f };
-	const Vector3 SKY_SCALE = { 900.0f, 900.0f, 900.0f };
-	const Vector3 SKY_POS = { 0.0f, 0.0f, 100.0f };
-
-
-	const int32_t COOLTIME_NUM = 2;
-	const int32_t EFFECT_NUM = 10;
-	const float EFFECT_Y = 1.5f;
-
-	const float BIT_ROT_VOLUE_Y = 180.0f;
-	const float BIT_ROT_VOLUE_Z = 225.0f;
-
-	const float EVENT_TIME_FRAME = 60.0f;
-	const Vector3 LNIT_EYE = { 0.0f,20.0f,-30.0f };
-	const Vector3 LNIT_EVENT_EYE = { 450.0f,100.0f,750.0f };
-	const Vector3 LNIT_TERGET = { 0.0f,10.0f,0.0f };
-	const Vector3 PLAYER_SCALE = { 1.0f,1.0f,1.0f };
-	const Vector3 BOSS_SCALE = { 15.0f,15.0f,15.0f };
-	const Vector3 BOSS_POS = { 0.0f,20.0f,370.0f };
-
-	const float DOOR_POS_VOLUE_X = 15.0f;
-
-	const float COL_PLAYER_SCALE = 6.0f;
-	const float COL_ENEMY_SCALE = 7.0f;
-	const float COL_EVENTBOX_SCALE = 13.0f;
-	const float COL_BOSS_SCALE = 20.0f;
-	const float COL_BOSS_TAIL_SCALE = 20.0f;
-	const float COL_BULLET_SCALE = 1.0f;
-	const float COL_SEARCH_ENEMY_SCALE = 175.0f;
-
 
 private:	//メンバ変数
-
+	std::unique_ptr<constJsonValue> json_;
 	BaseObject* playerObj_;
 
 	std::unique_ptr<GameCollisons> col_ = std::make_unique<GameCollisons>();
-	
-	std::list<std::unique_ptr<BaseObject>> gameObjects_;
-	std::unique_ptr<BaseObject> baseObject_[1000] = {};
-	int32_t objNum_ = 0;
-
 	//OBJからモデルを読み込む
 	//天球
 	std::unique_ptr<Object3D> skyObject_;
@@ -130,12 +72,10 @@ private:	//メンバ変数
 
 	bool start_ = false;
 	bool change_ = false;
-	XMFLOAT2 pos = { 0,0 };
 	
 	bool bossBGM_ = false;
 	
 	Vector3 screenPos_ = {};
-	XMFLOAT2 spPos_ = {};
 
 	float alpha_ = 0;
 	bool isIvent_ = false;
@@ -148,7 +88,6 @@ private:	//メンバ変数
 	float maxTime_ = 300;
 
 	float addYRB_ = 0;
-	XMFLOAT2 posRB_ = {};
 
 	std::list<std::unique_ptr<Effect>> effects_;
 	bool isEffect_ = 0;
@@ -211,7 +150,5 @@ public:	//getter,setter
 
 	bool GetHitBox() { return hitBox_; }
 	bool GetIsIvent() { return isIvent_; }
-
-	const std::list<std::unique_ptr<BaseObject>>& GetObjList() { return gameObjects_; }
 };
 

@@ -1,0 +1,93 @@
+{
+    "Vector3":{
+        "SHADOW_SCALE": [
+            1.5,
+            1.5,
+            1.5
+        ],
+
+        "SHOT_EFFECT_SCALE": [
+            5.0,
+            5.0,
+            5.0
+        ],
+
+        "SHOT_EFFECT_POS": [
+            0.0,
+            10.0,
+            10.0
+        ],
+
+        "SKY_SCALE": [
+            900.0,
+            900.0,
+            900.0
+        ],
+
+        "SKY_POS": [
+            0.0,
+            0.0,
+            100.0
+        ],
+
+        "LNIT_EYE": [
+            0.0,
+            20.0,
+            -30.0
+        ],
+
+        "LNIT_EVENT_EYE": [
+            450.0,
+            100.0,
+            750.0
+        ],
+
+        "LNIT_TERGET": [
+            0.0,
+            10.0,
+            0.0
+        ],
+
+        "PLAYER_SCALE": [
+            1.0,
+            1.0,
+            1.0
+        ],
+
+        "BOSS_SCALE": [
+            15.0,
+            15.0,
+            15.0
+        ],
+
+        "BOSS_POS": [
+            0.0,
+            20.0,
+            370.0
+        ]
+    },
+
+    "MAX_SHACK_TIME":30.0,
+    "SHADOW_POS_Y":2.0,
+    "BULLET_SHOT_VOLUE":30.0,
+    "WARNING_VOLUE":2.0,
+    "NOISE_SE_VOLUE":0.5,
+    "SHOCK_SE_VOLUE":1.1,
+    "HIT_SE_VOLUE":0.12,
+    "EFFECT_Y":1.5,
+    "BIT_ROT_VOLUE_Y":180.0,
+    "BIT_ROT_VOLUE_Z":225.0,
+    "EVENT_TIME_FRAME":60.0,
+    "DOOR_POS_VOLUE_X":15.0,
+    "COL_PLAYER_SCALE":6.0,
+    "COL_ENEMY_SCALE":7.0,
+    "COL_EVENTBOX_SCALE":13.0,
+    "COL_BOSS_SCALE":20.0,
+    "COL_BOSS_TAIL_SCALE":20.0,
+    "COL_BULLET_SCALE":1.0,
+    "COL_SEARCH_ENEMY_SCALE":175.0,
+
+
+    "COOLTIME_NUM":2.0,
+    "EFFECT_NUM":10.0
+}

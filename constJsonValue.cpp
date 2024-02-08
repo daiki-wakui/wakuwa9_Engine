@@ -36,3 +36,10 @@ float constJsonValue::LoadFloat(std::string constName)
 	ans = m_json[constName];
 	return ans;
 }
+
+int32_t constJsonValue::LoadInt(std::string constName)
+{
+	int32_t ans;
+	ans = m_json[constName];
+	return ans;
+}
