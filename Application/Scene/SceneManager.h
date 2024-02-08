@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseScene.h"
+#include "AbstactSceneFactory.h"
 
 #include <memory>
 
@@ -22,9 +23,13 @@ private:
 	BaseScene* scene_ = nullptr;
 	BaseScene* nextScene_ = nullptr;
 
+	AbstractSceneFactory* sceneFactory_ = nullptr;
+
 public:
 	void SetNextScene(BaseScene* nextScene) { nextScene_ = nextScene; }
+	void SetSceneFactory(AbstractSceneFactory* sceneFactory) { sceneFactory_ = sceneFactory; }
 
+	void ChangeScene(const std::string& sceneName);
 
 	//デストラクタ
 	~SceneManager();

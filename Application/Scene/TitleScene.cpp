@@ -4,7 +4,7 @@
 #include "Model3DManager.h"
 
 #include "SceneManager.h"
-#include "GameScene.h"
+
 
 //初期化
 void TitleScene::Initialize()
@@ -35,8 +35,7 @@ void TitleScene::Finalize()
 void TitleScene::Update()
 {
 	if (keyboard_->keyInstantPush(DIK_G)) {
-		BaseScene* scene = new GameScene();
-		sceneManager_->SetNextScene(scene);
+		sceneManager_->ChangeScene("GAME");
 	}
 
 	titleUI_->TitleUpdate(changeStart_);

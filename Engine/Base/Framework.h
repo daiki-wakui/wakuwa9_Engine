@@ -14,6 +14,7 @@
 #include "ParticleManager.h"
 
 #include "SceneManager.h"
+#include "AbstactSceneFactory.h"
 
 #include <memory>
 
@@ -46,11 +47,10 @@ private:
 
 	//サウンド
 	Sound* sound_ = Sound::GetInstance();
-
 	
 public:
 	SceneManager* sceneManager_ = nullptr;
-
+	AbstractSceneFactory* sceneFactory_ = nullptr;
 
 	virtual ~Framework() = default;
 

@@ -1,6 +1,14 @@
 #include "SceneManager.h"
 #include "SceneList.h"
 
+void SceneManager::ChangeScene(const std::string& sceneName)
+{
+	assert(sceneFactory_);
+	assert(nextScene_ == nullptr);
+
+	nextScene_ = sceneFactory_->CreateScene(sceneName);
+}
+
 //デストラクタ
 SceneManager::~SceneManager()
 {

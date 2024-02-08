@@ -1,7 +1,8 @@
 #include "GameCore.h"
 #include "SceneList.h"
 #include "Model3DManager.h"
-#include "TitleScene.h"
+
+#include "SceneFactory.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 using namespace DirectX;
@@ -16,13 +17,18 @@ void GameCore::Initialize()
 	m->LoadGame3DModel();
 	m->insertModel();
 
-	BaseScene* scene = new TitleScene();
-	sceneManager_->SetNextScene(scene);
+	//BaseScene* scene = new TitleScene();
+	sceneFactory_ = new SceneFactory();
+	sceneManager_->SetSceneFactory(sceneFactory_);
+	sceneManager_->ChangeScene("TITLE");
+
+	//sceneManager_->SetNextScene(scene);
 }
 
 //後始末
 void GameCore::Finalize()
 {
+	delete sceneFactory_;
 	Framework::Finalize();
 }
 

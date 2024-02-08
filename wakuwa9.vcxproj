@@ -101,6 +101,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AbstactSceneFactory.cpp" />
     <ClCompile Include="Application\AssetManager\Model3DManager.cpp" />
     <ClCompile Include="Application\AssetManager\TextureManager.cpp" />
     <ClCompile Include="Application\BaseObject\Base3DModelGenerate.cpp" />
@@ -167,8 +168,10 @@
     <ClCompile Include="Engine\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Math\wa9Math.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SceneFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AbstactSceneFactory.h" />
     <ClInclude Include="Application\AssetManager\Model3DManager.h" />
     <ClInclude Include="Application\AssetManager\TextureManager.h" />
     <ClInclude Include="Application\BaseObject\Base3DModelGenerate.h" />
@@ -236,6 +239,7 @@
     <ClInclude Include="Engine\Math\Vector2.h" />
     <ClInclude Include="Engine\Math\Vector3.h" />
     <ClInclude Include="Engine\Math\wa9Math.h" />
+    <ClInclude Include="SceneFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\BasicPShader.hlsl">
