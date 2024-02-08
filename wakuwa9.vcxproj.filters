@@ -142,6 +142,12 @@
     <Filter Include="ソース ファイル\Application\GameObject\Base">
       <UniqueIdentifier>{58bfa955-99be-4e98-83a9-a77ec4541d61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Json">
+      <UniqueIdentifier>{c20c7674-b0ee-4090-be02-852f2662ca76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Json">
+      <UniqueIdentifier>{40d635bd-e776-49a9-a2fd-77b020d96d13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -240,9 +246,6 @@
     <ClCompile Include="Application\Scene\TitleScene.cpp">
       <Filter>ソース ファイル\Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\Player.cpp">
-      <Filter>ソース ファイル\Application\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Player\PlayerBullet.cpp">
       <Filter>ソース ファイル\Application\Player</Filter>
     </ClCompile>
@@ -339,14 +342,14 @@
     <ClCompile Include="Application\GameObject\GameCollisons.cpp">
       <Filter>ソース ファイル\Application\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="constJsonValue.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\Json\constJsonValue.cpp">
+      <Filter>ソース ファイル\Engine\Json</Filter>
     </ClCompile>
-    <ClCompile Include="AbstactSceneFactory.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Engine\Base\AbstactSceneFactory.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
-    <ClCompile Include="SceneFactory.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Application\Scene\SceneFactory.cpp">
+      <Filter>ソース ファイル\Application\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -442,9 +445,6 @@
     </ClInclude>
     <ClInclude Include="Application\Scene\TitleScene.h">
       <Filter>ヘッダー ファイル\Application\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Player\Player.h">
-      <Filter>ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
     <ClInclude Include="Application\Player\PlayerBullet.h">
       <Filter>ヘッダー ファイル\Application\Player</Filter>
@@ -548,14 +548,14 @@
     <ClInclude Include="Application\GameObject\GameCollisons.h">
       <Filter>ヘッダー ファイル\Application\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="constJsonValue.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\Base\AbstactSceneFactory.h">
+      <Filter>ヘッダー ファイル\Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="AbstactSceneFactory.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Application\Scene\SceneFactory.h">
+      <Filter>ヘッダー ファイル\Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="SceneFactory.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Engine\Json\constJsonValue.h">
+      <Filter>ヘッダー ファイル\Engine\Json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

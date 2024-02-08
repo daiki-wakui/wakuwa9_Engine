@@ -1,7 +1,6 @@
 #pragma once
 #include "TextureManager.h"
 #include "Sprite.h"
-#include "Player.h"
 #include "Boss.h"
 #include "GamePad.h"
 #include "Object3D.h"

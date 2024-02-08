@@ -1,7 +1,6 @@
 #pragma once
 #include "Sprite.h"
 #include "KeyBoard.h"
-#include "Player.h"
 
 #include <cstdint>
 #include <random>
@@ -76,7 +75,7 @@ public:
 	//コンストラクタ
 	PostEffect();
 
-	void Update(Player* player);
+	void Update();
 
 	//描画
 	void Draw();

@@ -15,9 +15,6 @@ void GameScene::Initialize()
 	lv->Initialize();
 	Reset();
 
-	player_->Initialize(m->Get3DModel("player"), playerObject_.get(), keyboard_, gamePad_, podObject_.get());
-	player_->SetBulletModel(m->Get3DModel("whiteCube"), bulletObject_.get());
-
 	//particleMan_->Initialize(L"Resources/effect1.png");
 	//particleMan_->Update();
 

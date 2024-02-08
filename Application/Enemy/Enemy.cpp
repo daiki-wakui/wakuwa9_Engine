@@ -1,15 +1,13 @@
 #include "Enemy.h"
-#include "Player.h"
 #include "Easing.h"
 #include "wa9Math.h"
 
 //初期化処理
-void Enemy::Initialize(Object3D* enemyObject, Vector3 pos, Player* player, int hp, int pattern)
+void Enemy::Initialize(Object3D* enemyObject, Vector3 pos,  int hp, int pattern)
 {
 	enemyObject_ = enemyObject;
 	pos_ = pos;
 	pos_.y += ADD_POS_Y;
-	player_ = player;
 	hp_ = hp;
 
 	vPos_ = pos_;
@@ -124,7 +122,7 @@ void Enemy::Shot()
 {
 	//弾発射
 	if (coolTime_ == 0) {
-		playerPos = player_->GetWorldPos();
+		//playerPos = player_->GetWorldPos();
 		enemyPos = GetWorldPos();
 
 		differenceVec.x = enemyPos.x - playerPos.x;
