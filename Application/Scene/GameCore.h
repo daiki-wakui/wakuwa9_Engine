@@ -36,7 +36,7 @@ private:
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_ = std::make_unique<PostEffect>();
 
-	std::unique_ptr<SceneManager> sceneManager_ = std::make_unique<SceneManager>();
+	//std::unique_ptr<SceneManager> sceneManager_ = std::make_unique<SceneManager>();
 
 	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
 

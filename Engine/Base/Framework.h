@@ -13,6 +13,8 @@
 #include "FbxObject3d.h"
 #include "ParticleManager.h"
 
+#include "SceneManager.h"
+
 #include <memory>
 
 class Framework
@@ -47,6 +49,8 @@ private:
 
 	
 public:
+	SceneManager* sceneManager_ = nullptr;
+
 
 	virtual ~Framework() = default;
 

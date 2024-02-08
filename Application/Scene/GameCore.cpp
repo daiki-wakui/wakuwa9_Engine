@@ -1,6 +1,7 @@
 #include "GameCore.h"
 #include "SceneList.h"
 #include "Model3DManager.h"
+#include "TitleScene.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 using namespace DirectX;
@@ -15,13 +16,13 @@ void GameCore::Initialize()
 	m->LoadGame3DModel();
 	m->insertModel();
 
-	sceneManager_->Initialize();
+	BaseScene* scene = new TitleScene();
+	sceneManager_->SetNextScene(scene);
 }
 
 //後始末
 void GameCore::Finalize()
 {
-	sceneManager_->Finalize();
 	Framework::Finalize();
 }
 
@@ -37,23 +38,7 @@ void GameCore::Update()
 	
 
 	Framework::Update();
-	
-	sceneManager_->Update();
 
-	//ノイズのエフェクト
-	postEffect_->Update(sceneManager_->GetGameScene()->GetPlayer());
-	
-	if (sceneManager_->GetSceneState() == TITLE) {
-		postEffect_->SetIsEffect(true);
-	}
-
-	if (sceneManager_->ChangeToGameScene()) {
-
-		if (sceneManager_->GetSceneState() == TITLE) {
-			postEffect_->SetIsEffect(false);
-		}
-	}
-	
 	//デバックImGui
 	imGuiM_->Begin();
 	ImGui::Text("Editor");
@@ -85,8 +70,6 @@ void GameCore::Draw()
 	//パーティクル描画前準備
 	ParticleManager::PreDraw(directX_->GetCommandList());
 	
-	//パーティクル描画
-	sceneManager_->ParticleDraw();
 
 	ParticleManager::PostDraw();
 	
@@ -99,7 +82,6 @@ void GameCore::Draw()
 	//ポストエフェクトをかけた描画
 	postEffect_->Draw();
 
-	sceneManager_->OffEffectDraw();
 	
 	//imgui
 	if (isDebug) {

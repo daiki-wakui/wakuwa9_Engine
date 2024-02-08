@@ -1,6 +1,5 @@
 #pragma once
-#include "TitleScene.h"
-#include "GameScene.h"
+#include "BaseScene.h"
 
 #include <memory>
 
@@ -17,14 +16,15 @@ private:
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 	GamePad* gamePad_ = GamePad::GetInstance();
 
-	//シーンの追加
-	std::unique_ptr<GameScene> gamescene_ = std::make_unique<GameScene>();
-	std::unique_ptr<TitleScene> titlescene_ = std::make_unique<TitleScene>();
-
 	//現在のシーン
 	int32_t nowScene_ = 0;
 
+	BaseScene* scene_ = nullptr;
+	BaseScene* nextScene_ = nullptr;
+
 public:
+	void SetNextScene(BaseScene* nextScene) { nextScene_ = nextScene; }
+
 
 	//デストラクタ
 	~SceneManager();
@@ -50,7 +50,6 @@ public:
 public: //getter
 
 	int32_t GetSceneState() { return nowScene_; }
-	GameScene* GetGameScene() { return gamescene_.get(); }
-	TitleScene* GetTitleScene() { return titlescene_.get(); }
+
 };
 

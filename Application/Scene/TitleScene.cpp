@@ -3,6 +3,9 @@
 #include "SoundManager.h"
 #include "Model3DManager.h"
 
+#include "SceneManager.h"
+#include "GameScene.h"
+
 //初期化
 void TitleScene::Initialize()
 {
@@ -31,6 +34,11 @@ void TitleScene::Finalize()
 //更新処理
 void TitleScene::Update()
 {
+	if (keyboard_->keyInstantPush(DIK_G)) {
+		BaseScene* scene = new GameScene();
+		sceneManager_->SetNextScene(scene);
+	}
+
 	titleUI_->TitleUpdate(changeStart_);
 
 	SoundManager::GetInstance()->Update(TITLE);
