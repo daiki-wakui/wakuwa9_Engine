@@ -1,33 +1,29 @@
 {
     "Vector3":{
-        "a": [
-            1.0,
-            2.0,
-            3.0
+        "SKYDOME_SCALE": [
+            400.0,
+            400.0,
+            400.0
         ],
 
-        "b":[
-            4.0,
-            5.0,
-            6.0
+        "SKYDOME_POS":[
+            0.0,
+            0.0,
+            100.0
+        ],
+
+        "CAMERA_EYE":[
+            0.0,
+            20.0,
+            -30.0
+        ],
+
+        "CAMERA_TERGET":[
+            0.0,
+            10.0,
+            0.0
         ]
     },
-
-    "SKYDOME_SCALE_X":400.0,
-    "SKYDOME_SCALE_Y":400.0,
-    "SKYDOME_SCALE_Z":400.0,
-
-    "SKYDOME_POS_X":0.0,
-    "SKYDOME_POS_Y":0.0,
-    "SKYDOME_POS_Z":100.0,
-
-    "CAMERA_EYE_X":0.0,
-    "CAMERA_EYE_Y":20.0,
-    "CAMERA_EYE_Z":-30.0,
-
-    "CAMERA_TERGET_X":0.0,
-    "CAMERA_TERGET_Y":10.0,
-    "CAMERA_TERGET_Z":0.0,
 
     "MAX_ALPHA":1.0,
     "STARTSE_VOLUE":0.25

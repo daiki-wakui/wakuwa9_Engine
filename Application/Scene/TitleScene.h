@@ -4,6 +4,7 @@
 #include "GameUI.h"
 #include "Model.h"
 #include "Vector3.h"
+#include "constJsonValue.h"
 
 #include "json.hpp"
 #include <fstream>
@@ -35,11 +36,7 @@ private:
 	GamePad* gamePad_ = GamePad::GetInstance();
 
 private:	//メンバ変数
-
-	nlohmann::json m_json;
-
-	// charをキー、intを値として扱う連想配列
-	std::map<std::string, float> v_;
+	std::unique_ptr<constJsonValue> json_;
 
 	//天球
 	std::unique_ptr<Object3D> skyObject_;
@@ -58,11 +55,6 @@ private:	//メンバ変数
 	bool isStartSE_ = false;
 
 public:	//メンバ関数
-
-	Vector3 SetVec(std::string name);
-	void ConstValues();
-	float GetConstValue(std::string name);
-	Vector3 GetConstVectorValue(std::string namex);
 
 	//初期化
 	void Initialize();
