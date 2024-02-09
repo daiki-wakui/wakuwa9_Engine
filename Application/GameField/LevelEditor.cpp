@@ -49,7 +49,6 @@ void LevelEditor::Darw()
 void LevelEditor::EditorLoad(const std::string filename)
 {
 	objects.clear();
-	enemys_.clear();
 	doors_.clear();
 	gameObjects_.clear();
 	ReLoad(filename);
@@ -227,8 +226,7 @@ void LevelEditor::ReLoad(const std::string filename)
 			objNum_++;
 
 			//敵を登録する
-			enemys_.push_back(std::move(newEnemy[enemySize_]));
-
+			
 			objSize_++;
 			enemySize_++;
 		}

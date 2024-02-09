@@ -109,7 +109,6 @@
     <ClCompile Include="Application\Boss\BossBasis.cpp" />
     <ClCompile Include="Application\Boss\BossBullet.cpp" />
     <ClCompile Include="Application\Effect\Effect.cpp" />
-    <ClCompile Include="Application\Enemy\Enemy.cpp" />
     <ClCompile Include="Application\Enemy\EnemyBasis.cpp" />
     <ClCompile Include="Application\Enemy\EnemyBullet.cpp" />
     <ClCompile Include="Application\GameField\LevelEditor.cpp" />
@@ -127,7 +126,6 @@
     <ClCompile Include="Application\PlayerBit\BitBullet.cpp" />
     <ClCompile Include="Application\PlayerBit\BitMove.cpp" />
     <ClCompile Include="Application\Player\PlayerBasis.cpp" />
-    <ClCompile Include="Application\Player\PlayerBullet.cpp" />
     <ClCompile Include="Application\Player\PlayerCamera.cpp" />
     <ClCompile Include="Application\Player\PlayerMove.cpp" />
     <ClCompile Include="Application\Scene\GameCore.cpp" />
@@ -178,7 +176,6 @@
     <ClInclude Include="Application\Boss\BossBasis.h" />
     <ClInclude Include="Application\Boss\BossBullet.h" />
     <ClInclude Include="Application\Effect\Effect.h" />
-    <ClInclude Include="Application\Enemy\Enemy.h" />
     <ClInclude Include="Application\Enemy\EnemyBasis.h" />
     <ClInclude Include="Application\Enemy\EnemyBullet.h" />
     <ClInclude Include="Application\GameField\LevelEditor.h" />
@@ -197,7 +194,6 @@
     <ClInclude Include="Application\PlayerBit\BitBullet.h" />
     <ClInclude Include="Application\PlayerBit\BitMove.h" />
     <ClInclude Include="Application\Player\PlayerBasis.h" />
-    <ClInclude Include="Application\Player\PlayerBullet.h" />
     <ClInclude Include="Application\Player\PlayerCamera.h" />
     <ClInclude Include="Application\Player\PlayerMove.h" />
     <ClInclude Include="Application\Scene\GameCore.h" />

@@ -246,12 +246,6 @@
     <ClCompile Include="Application\Scene\TitleScene.cpp">
       <Filter>ソース ファイル\Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\PlayerBullet.cpp">
-      <Filter>ソース ファイル\Application\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Application\Enemy\Enemy.cpp">
-      <Filter>ソース ファイル\Application\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Enemy\EnemyBullet.cpp">
       <Filter>ソース ファイル\Application\Enemy</Filter>
     </ClCompile>
@@ -445,12 +439,6 @@
     </ClInclude>
     <ClInclude Include="Application\Scene\TitleScene.h">
       <Filter>ヘッダー ファイル\Application\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Player\PlayerBullet.h">
-      <Filter>ヘッダー ファイル\Application\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\Enemy\Enemy.h">
-      <Filter>ヘッダー ファイル\Application\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Application\Enemy\EnemyBullet.h">
       <Filter>ヘッダー ファイル\Application\Enemy</Filter>

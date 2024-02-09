@@ -2,25 +2,17 @@
 #include "Framework.h"
 #include "BaseScene.h"
 #include "GameUI.h"
-
 #include "EventBox.h"
-#include "Enemy.h"
 #include "Door.h"
-
 #include "LevelLoader.h"
-
 #include "Effect.h"
 #include "DebugPoint.h"
-
 #include <memory>
 #include <list>
-
 #include "BaseObject.h"
 #include "GameObjectList.h"
-
 #include "LevelEditor.h"
 #include "GameCollisons.h"
-
 #include "constJsonValue.h"
 
 /**
