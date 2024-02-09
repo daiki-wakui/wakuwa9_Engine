@@ -45,59 +45,32 @@ private:	//メンバ変数
 
 	//ボス
 	std::unique_ptr<Object3D> bossObject_;	
-
-	Vector3 podRot = {};
-	int32_t sockSound_ = 0;
-
-	std::unique_ptr<GameUI> gameUI_ = std::make_unique<GameUI>();
-
 	//boss
 	std::unique_ptr<Boss> boss_ = std::make_unique<Boss>();
 
+	std::unique_ptr<GameUI> gameUI_ = std::make_unique<GameUI>();
 	
 	//パーティクル
 	std::unique_ptr<ParticleManager> particleMan_ = std::make_unique<ParticleManager>();
-	bool BulletEffect = false;
 
 	bool start_ = false;
 	bool change_ = false;
-	
 	bool bossBGM_ = false;
-	
-	Vector3 screenPos_ = {};
-
-	float alpha_ = 0;
 	bool isIvent_ = false;
 
 	Vector3 iventEye_ = { 450,100,750 };
 	Vector3 iventTarget_ = { 450, 100,1000 };
-
 	Vector3 endEye_ = { 450,10,600 };
 	float timer_ = 0;
 	float maxTime_ = 300;
 
-	float addYRB_ = 0;
-
-	std::list<std::unique_ptr<Effect>> effects_;
-	bool isEffect_ = 0;
-	Vector3 startEffect_ = {};
-
-	int32_t coolTime_ = 7;
-	bool isShotEffect_ = false;
-	
 	bool resetOn_ = false;
 
 	bool hitBox_ = true;
-	bool isTutorial_ = false;
 	bool isChangeStage_ = false;
-	
-	bool isDebugBoss_ = false;
-	bool isShake_;
-	int32_t shakeTimer_;
 
 	Model3DManager* modelData_ = Model3DManager::GetInstance();
-
-	std::unique_ptr<LevelEditor> lv = std::make_unique<LevelEditor>();
+	std::unique_ptr<LevelEditor> lvEditor_ = std::make_unique<LevelEditor>();
 
 public:
 	//3dオブジェクト生成

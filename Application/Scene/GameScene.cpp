@@ -12,13 +12,13 @@ void GameScene::Initialize()
 
 	//3Dモデルの読み込みと生成
 	Object3DGenerate();
-	lv->Initialize();
+	lvEditor_->Initialize();
 	Reset();
 
 	resetOn_ = false;
 
 	gameUI_->GameSceneInitialize();
-	col_->SetObjectList(lv.get());
+	col_->SetObjectList(lvEditor_.get());
 }
 
 //後始末
@@ -36,7 +36,7 @@ void GameScene::Update()
 		bossBGM_ = false;
 		hitBox_ = false;
 
-		lv->EditorLoad("obj");
+		lvEditor_->EditorLoad("obj");
 		SoundManager::GetInstance()->SetFiledBGM(true);
 
 		isChangeStage_ = false;
@@ -141,23 +141,18 @@ void GameScene::ObjectUpdate()
 	skyObject_->SetPosition(playerObj_->GetWorldPos());
 	skyObject_->Update();
 
-	lv->Update();
+	lvEditor_->Update();
 	col_->Update();
 }
 
 //描画関数
 void GameScene::Draw()
 {
-	lv->Darw();
+	lvEditor_->Darw();
 
 	shadowObject_->Draw();
 	//obj
 	skyObject_->Draw();
-
-	if (isShotEffect_) {
-		poriObject_->Draw();
-		isShotEffect_ = false;
-	}
 
 	//SpriteDraw();
 }
@@ -167,18 +162,17 @@ void GameScene::ParticleDraw()
 //シーンリセット関数
 void GameScene::Reset()
 {
-	timer_ = 0;
-	alpha_ = 0;
+	timer_ = 0;;
 	bossBGM_ = false;
 	hitBox_ = false;
 	SoundManager::GetInstance()->SetVolue(0);
 	SoundManager::GetInstance()->SetFiledBGM(false);
 
-	lv->EditorLoad("d");
+	lvEditor_->EditorLoad("d");
 
 	gameUI_->Reset();
 
-	playerObj_ = lv->GetPlayer();
+	playerObj_ = lvEditor_->GetPlayer();
 }
 
 //3dオブジェクト生成
