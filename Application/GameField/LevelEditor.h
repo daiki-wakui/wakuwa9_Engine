@@ -4,7 +4,6 @@
 #include "Object3D.h"
 #include "LevelLoader.h"
 
-#include "Enemy.h"
 #include "Door.h"
 #include "BaseObject.h"
 #include "GameObjectList.h"
@@ -46,12 +45,10 @@ private:
 
 	std::map<std::string, Model*> models;
 	std::vector<Object3D*> objects;
-	std::list<std::unique_ptr<Enemy>> enemys_;
 	std::list<std::unique_ptr<Door>> doors_;
 
 
 	std::unique_ptr<Object3D> newObject[1000] = {};
-	std::unique_ptr<Enemy> newEnemy[1000] = {};
 	std::unique_ptr<Door> newDoor[100] = {};
 
 	int32_t objSize_ = 0;

@@ -2,13 +2,14 @@
 #include "Model.h"
 #include "Object3D.h"
 #include "Vector3.h"
+#include "BaseObject.h"
 
 /**
  * @file EnemyBullet
  * @brief 雑魚敵の弾の攻撃の更新、描画を行うクラス
  */
 
-class EnemyBullet
+class EnemyBullet : public BaseObject
 {
 private:	//定数
 
