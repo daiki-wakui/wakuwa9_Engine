@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include "MyRandom.h"
 #include "wa9Math.h"
-#include "Player.h"
 
 //getter
 Vector3 Boss::GetWorldPos()
@@ -19,11 +18,10 @@ Vector3 Boss::GetWorldPos()
 }
 
 //初期化
-void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* player)
+void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object)
 {
 	model_ = model;
 	object_ = Object;
-	player_ = player;
 	pos_ = pos;
 	centerPos_ = pos;
 
@@ -160,7 +158,7 @@ void Boss::Update(bool move)
 	ShackEffect();
 
 
-	playerPos = player_->GetWorldPos();
+	//playerPos = player_->GetWorldPos();
 
 	//オブジェクト更新処理
 	object_->SetScale({ leapScale_.x,leapScale_.y ,leapScale_.z });
@@ -275,24 +273,24 @@ void Boss::Move()
 	std::uniform_real_distribution<float> moveLimitRTY(-bossLimit_.y, 0);
 
 	//playerが左下にいるとき
-	if (player_->GetWorldPos().x < centerPos_.x && player_->GetWorldPos().z < centerPos_.z) {
-		toPlayerArea_ = LBottom;
-	}
-	//左上にいるとき
-	else if (player_->GetWorldPos().x < centerPos_.x && player_->GetWorldPos().z > centerPos_.z) {
-		toPlayerArea_ = LTop;
-	}
-	//右下にいるとき
-	else if (player_->GetWorldPos().x > centerPos_.x && player_->GetWorldPos().z < centerPos_.z) {
-		toPlayerArea_ = RBottom;
-	}
-	//右上にいるとき
-	else if (player_->GetWorldPos().x > centerPos_.x && player_->GetWorldPos().z > centerPos_.z) {
-		toPlayerArea_ = RTop;
-	}
-	else {
-		toPlayerArea_ = 0;
-	}
+	//if (player_->GetWorldPos().x < centerPos_.x && player_->GetWorldPos().z < centerPos_.z) {
+	//	toPlayerArea_ = LBottom;
+	//}
+	////左上にいるとき
+	//else if (player_->GetWorldPos().x < centerPos_.x && player_->GetWorldPos().z > centerPos_.z) {
+	//	toPlayerArea_ = LTop;
+	//}
+	////右下にいるとき
+	//else if (player_->GetWorldPos().x > centerPos_.x && player_->GetWorldPos().z < centerPos_.z) {
+	//	toPlayerArea_ = RBottom;
+	//}
+	////右上にいるとき
+	//else if (player_->GetWorldPos().x > centerPos_.x && player_->GetWorldPos().z > centerPos_.z) {
+	//	toPlayerArea_ = RTop;
+	//}
+	//else {
+	//	toPlayerArea_ = 0;
+	//}
 
 	moveTimer_++;
 
@@ -404,7 +402,7 @@ void Boss::Shot()
 		//行動パターンによって弾の軌道を変更
 		//プレイヤーに向けて直線
 		if (nowState_ == StraightShot) {
-			playerPos = player_->GetWorldPos();
+		//	playerPos = player_->GetWorldPos();
 			myPos = object_->GetPosition();
 
 			differenceVec.x = myPos.x - playerPos.x;

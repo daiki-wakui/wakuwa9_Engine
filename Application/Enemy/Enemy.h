@@ -9,8 +9,6 @@
 #include <memory>
 #include <list>
 
-class Player;
-
 /**
  * @file Enemy
  * @brief 雑魚敵の行動や攻撃を行うクラス
@@ -37,8 +35,7 @@ private:
 private:
 
 	KeyBoard* input_;
-	Player* player_ = nullptr;
-
+	
 	//モデル、オブジェクトを作成する変数
 	Object3D* enemyObject_;
 	Model* bulletModel_;
@@ -82,7 +79,7 @@ public:
 	/// <param name="player"></param> player情報
 	/// <param name="hp"></param> このオブジェクトのHP
 	/// <param name="pattern"></param> 行動パターンパラメータ
-	void Initialize(Object3D* enemyObject, Vector3 pos, Player* player, int hp = 3, int pattern = 1);
+	void Initialize(Object3D* enemyObject, Vector3 pos, int hp = 3, int pattern = 1);
 
 	/// <summary>
 	/// 更新処理

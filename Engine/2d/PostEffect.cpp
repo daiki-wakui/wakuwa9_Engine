@@ -395,12 +395,12 @@ PostEffect::PostEffect()
 
 }
 
-void PostEffect::Update(Player* player)
+void PostEffect::Update()
 {
-	if (player->GetIsHit()) {
-		isEffect_ = true;
-		frame_ = 30;
-	}
+	//if (player->GetIsHit()) {
+	//	isEffect_ = true;
+	//	frame_ = 30;
+	//}
 
 	if (isEffect_) {
 		frame_--;
@@ -410,16 +410,16 @@ void PostEffect::Update(Player* player)
 
 			constMapMaterial->power = MyRandom::GetFloatRandom(0.1f, 1.0f);
 
-			if (player->GetHP() <= 1) {
+			/*if (player->GetHP() <= 1) {
 				constMapMaterial->shiftPower = MyRandom::GetFloatRandom(-0.1f, 0.1f);
 				noiseTimer_ = 2;
 			}
 			else {
 				constMapMaterial->shiftPower = MyRandom::GetFloatRandom(-0.02f, 0.02f);
 				noiseTimer_ = 1;
-			}
+			}*/
 			
-			player->SetIsHit(false);
+			//player->SetIsHit(false);
 		}
 
 		if (frame_ <= 0) {

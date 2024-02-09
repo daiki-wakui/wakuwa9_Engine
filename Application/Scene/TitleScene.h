@@ -4,6 +4,11 @@
 #include "GameUI.h"
 #include "Model.h"
 #include "Vector3.h"
+#include "constJsonValue.h"
+
+#include "json.hpp"
+#include <fstream>
+#include <iostream>
 
 /**
  * @file TitleScene
@@ -30,17 +35,9 @@ private:
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 	GamePad* gamePad_ = GamePad::GetInstance();
 
-private:	//定数
-
-	const Vector3 SKYDOME_SCALE = { 400.0f,400.0f,400.0f };
-	const Vector3 SKYDOME_POS = { 0,0,100.0f };
-	const Vector3 CAMERA_EYE = { 0, 20.0f, -30.0f };
-	const Vector3 CAMERA_TERGET = { 0, 10.0f, 0 };
-	const float MAX_ALPHA = 1.0f;
-	const float STARTSE_VOLUE = 0.25f;
-	const int32_t THIS_SCENE = 0;
-
 private:	//メンバ変数
+	std::unique_ptr<constJsonValue> json_;
+
 	//天球
 	std::unique_ptr<Object3D> skyObject_;
 	std::unique_ptr<GameUI> titleUI_ = std::make_unique<GameUI>();
@@ -60,16 +57,16 @@ private:	//メンバ変数
 public:	//メンバ関数
 
 	//初期化
-	void Initialize() override;
+	void Initialize();
 
 	//終了
-	void Finalize()override;
+	void Finalize();
 
 	//更新処理
-	void Update()override;
+	void Update();
 
 	//描画
-	void Draw()override;
+	void Draw();
 
 	//ポストエフェクトをかけない描画
 	void OffDraw();

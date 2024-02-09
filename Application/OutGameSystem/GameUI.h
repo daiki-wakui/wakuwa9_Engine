@@ -1,7 +1,6 @@
 #pragma once
 #include "TextureManager.h"
 #include "Sprite.h"
-#include "Player.h"
 #include "Boss.h"
 #include "GamePad.h"
 #include "Object3D.h"
@@ -65,7 +64,6 @@ private:
 	GamePad* gamePad_ = GamePad::GetInstance();
 
 	//借りてくる情報
-	Player* player_ = nullptr;
 	Object3D* playerObject_ = nullptr;
 	Boss* boss_ = nullptr;
 
@@ -184,7 +182,7 @@ public:	//getter,setter
 	void SetMovieEnd(bool movieEnd) { movieEnd_ = movieEnd; }
 
 	//必要な情報を借りてくる
-	void SetInfo(Player* player, Object3D* playerObject, Boss* boss);
+	void SetInfo(Object3D* playerObject, Boss* boss);
 	void boolInfo(bool hitBox, bool isIvent);
 };
 

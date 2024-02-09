@@ -130,6 +130,24 @@
     <Filter Include="ソース ファイル\Application\AssetManager">
       <UniqueIdentifier>{cc143b6f-374b-4547-9fb5-e5c3f48bc05f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Application\Player\Bit">
+      <UniqueIdentifier>{c73e493c-8b70-4090-95a5-877b624814cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application\Player\Bit">
+      <UniqueIdentifier>{cb1bd422-057b-497b-95a9-0698b1b80fdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Application\GameObject\Base">
+      <UniqueIdentifier>{a5e60987-eb98-476f-994c-70a59c7465b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Application\GameObject\Base">
+      <UniqueIdentifier>{58bfa955-99be-4e98-83a9-a77ec4541d61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Engine\Json">
+      <UniqueIdentifier>{c20c7674-b0ee-4090-be02-852f2662ca76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Engine\Json">
+      <UniqueIdentifier>{40d635bd-e776-49a9-a2fd-77b020d96d13}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -228,9 +246,6 @@
     <ClCompile Include="Application\Scene\TitleScene.cpp">
       <Filter>ソース ファイル\Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\Player\Player.cpp">
-      <Filter>ソース ファイル\Application\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Application\Player\PlayerBullet.cpp">
       <Filter>ソース ファイル\Application\Player</Filter>
     </ClCompile>
@@ -267,9 +282,6 @@
     <ClCompile Include="Application\Scene\SceneManager.cpp">
       <Filter>ソース ファイル\Application\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Application\GameObject\CollisionBox.cpp">
-      <Filter>ソース ファイル\Application\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Application\GameObject\EventBox.cpp">
       <Filter>ソース ファイル\Application\GameObject</Filter>
     </ClCompile>
@@ -287,6 +299,57 @@
     </ClCompile>
     <ClCompile Include="Engine\Math\wa9Math.cpp">
       <Filter>ソース ファイル\Engine\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerBasis.cpp">
+      <Filter>ソース ファイル\Application\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerCamera.cpp">
+      <Filter>ソース ファイル\Application\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Player\PlayerMove.cpp">
+      <Filter>ソース ファイル\Application\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\PlayerBit\BitBasis.cpp">
+      <Filter>ソース ファイル\Application\Player\Bit</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\PlayerBit\BitMove.cpp">
+      <Filter>ソース ファイル\Application\Player\Bit</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\BaseObject\Base3DModelGenerate.cpp">
+      <Filter>ソース ファイル\Application\GameObject\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\BaseObject\BaseObject.cpp">
+      <Filter>ソース ファイル\Application\GameObject\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\PlayerBit\BitBullet.cpp">
+      <Filter>ソース ファイル\Application\Player\Bit</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GameObject\StageObject.cpp">
+      <Filter>ソース ファイル\Application\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GameObject\BossMovieBox.cpp">
+      <Filter>ソース ファイル\Application\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GameObject\ChangeStageBox.cpp">
+      <Filter>ソース ファイル\Application\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Enemy\EnemyBasis.cpp">
+      <Filter>ソース ファイル\Application\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Boss\BossBasis.cpp">
+      <Filter>ソース ファイル\Application\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\GameObject\GameCollisons.cpp">
+      <Filter>ソース ファイル\Application\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Json\constJsonValue.cpp">
+      <Filter>ソース ファイル\Engine\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\AbstactSceneFactory.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Application\Scene\SceneFactory.cpp">
+      <Filter>ソース ファイル\Application\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -383,9 +446,6 @@
     <ClInclude Include="Application\Scene\TitleScene.h">
       <Filter>ヘッダー ファイル\Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Application\Player\Player.h">
-      <Filter>ヘッダー ファイル\Application\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Application\Player\PlayerBullet.h">
       <Filter>ヘッダー ファイル\Application\Player</Filter>
     </ClInclude>
@@ -422,9 +482,6 @@
     <ClInclude Include="Application\Scene\SceneManager.h">
       <Filter>ヘッダー ファイル\Application\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Application\GameObject\CollisionBox.h">
-      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Application\GameObject\EventBox.h">
       <Filter>ヘッダー ファイル\Application\GameObject</Filter>
     </ClInclude>
@@ -445,6 +502,60 @@
     </ClInclude>
     <ClInclude Include="Engine\Math\wa9Math.h">
       <Filter>ヘッダー ファイル\Engine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\PlayerBasis.h">
+      <Filter>ヘッダー ファイル\Application\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\PlayerCamera.h">
+      <Filter>ヘッダー ファイル\Application\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Player\PlayerMove.h">
+      <Filter>ヘッダー ファイル\Application\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\PlayerBit\BitBasis.h">
+      <Filter>ヘッダー ファイル\Application\Player\Bit</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\PlayerBit\BitMove.h">
+      <Filter>ヘッダー ファイル\Application\Player\Bit</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\BaseObject\Base3DModelGenerate.h">
+      <Filter>ヘッダー ファイル\Application\GameObject\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\BaseObject\BaseObject.h">
+      <Filter>ヘッダー ファイル\Application\GameObject\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\PlayerBit\BitBullet.h">
+      <Filter>ヘッダー ファイル\Application\Player\Bit</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GameObject\StageObject.h">
+      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GameObject\GameObjectList.h">
+      <Filter>ヘッダー ファイル\Application\GameObject\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Boss\BossBasis.h">
+      <Filter>ヘッダー ファイル\Application\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Enemy\EnemyBasis.h">
+      <Filter>ヘッダー ファイル\Application\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GameObject\BossMovieBox.h">
+      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GameObject\ChangeStageBox.h">
+      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\GameObject\GameCollisons.h">
+      <Filter>ヘッダー ファイル\Application\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\AbstactSceneFactory.h">
+      <Filter>ヘッダー ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Application\Scene\SceneFactory.h">
+      <Filter>ヘッダー ファイル\Application\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Json\constJsonValue.h">
+      <Filter>ヘッダー ファイル\Engine\Json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

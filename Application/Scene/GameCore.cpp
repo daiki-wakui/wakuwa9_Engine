@@ -1,5 +1,9 @@
 #include "GameCore.h"
 #include "SceneList.h"
+#include "Model3DManager.h"
+
+#include "SceneFactory.h"
+
 #pragma comment(lib, "d3dcompiler.lib")
 using namespace DirectX;
 
@@ -9,13 +13,22 @@ void GameCore::Initialize()
 	Framework::Initialize();
 	postEffect_->Initialize(0);
 
-	sceneManager_->Initialize();
+	Model3DManager* m = Model3DManager::GetInstance();
+	m->LoadGame3DModel();
+	m->insertModel();
+
+	//BaseScene* scene = new TitleScene();
+	sceneFactory_ = new SceneFactory();
+	sceneManager_->SetSceneFactory(sceneFactory_);
+	sceneManager_->ChangeScene("TITLE");
+
+	//sceneManager_->SetNextScene(scene);
 }
 
 //後始末
 void GameCore::Finalize()
 {
-	sceneManager_->Finalize();
+	delete sceneFactory_;
 	Framework::Finalize();
 }
 
@@ -31,35 +44,19 @@ void GameCore::Update()
 	
 
 	Framework::Update();
-	
-	sceneManager_->Update();
 
-	//ノイズのエフェクト
-	postEffect_->Update(sceneManager_->GetGameScene()->GetPlayer());
-	
-	if (sceneManager_->GetSceneState() == TITLE) {
-		postEffect_->SetIsEffect(true);
-	}
-
-	if (sceneManager_->ChangeToGameScene()) {
-
-		if (sceneManager_->GetSceneState() == TITLE) {
-			postEffect_->SetIsEffect(false);
-		}
-	}
-	
 	//デバックImGui
 	imGuiM_->Begin();
 	ImGui::Text("Editor");
 
 	//オブジェクト読み込み直す
-	if (ImGui::Button("ReLoad")) {
+	/*if (ImGui::Button("ReLoad")) {
 		sceneManager_->GetGameScene()->EditorLoad("obj");
-	}
+	}*/
 
-	if (ImGui::Button("DebugPoint")) {
+	/*if (ImGui::Button("DebugPoint")) {
 		sceneManager_->GetGameScene()->GetPlayer()->SetPos(sceneManager_->GetGameScene()->GetDebugPoint()->GetWorldPos());
-	}
+	}*/
 
 	imGuiM_->End();
 }
@@ -79,8 +76,6 @@ void GameCore::Draw()
 	//パーティクル描画前準備
 	ParticleManager::PreDraw(directX_->GetCommandList());
 	
-	//パーティクル描画
-	sceneManager_->ParticleDraw();
 
 	ParticleManager::PostDraw();
 	
@@ -93,7 +88,6 @@ void GameCore::Draw()
 	//ポストエフェクトをかけた描画
 	postEffect_->Draw();
 
-	sceneManager_->OffEffectDraw();
 	
 	//imgui
 	if (isDebug) {

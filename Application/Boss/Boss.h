@@ -8,8 +8,6 @@
 
 #include <memory>
 
-class Player;
-
 //ボスがエリアのどこにいるか
 enum pArea
 {
@@ -111,7 +109,6 @@ private:
 	std::unique_ptr<Object3D> tailObject_;
 
 	//player情報取得
-	Player* player_ = nullptr;
 	Vector3 playerPos;
 	int32_t toPlayerArea_ = 0;	//playerどのエリアにいるか
 
@@ -208,7 +205,7 @@ public:
 	//Vector3 初期座標
 	//Object3D ボスのオブジェクト情報
 	//Player プレイヤーの情報
-	void Initialize(Model* model, Vector3 pos, Object3D* Object,Player* player);
+	void Initialize(Model* model, Vector3 pos, Object3D* Object);
 
 	//更新処理
 	//bool ボスが移動可能な状態か

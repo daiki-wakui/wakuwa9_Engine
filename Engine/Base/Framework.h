@@ -13,6 +13,9 @@
 #include "FbxObject3d.h"
 #include "ParticleManager.h"
 
+#include "SceneManager.h"
+#include "AbstactSceneFactory.h"
+
 #include <memory>
 
 class Framework
@@ -44,9 +47,10 @@ private:
 
 	//サウンド
 	Sound* sound_ = Sound::GetInstance();
-
 	
 public:
+	SceneManager* sceneManager_ = nullptr;
+	AbstractSceneFactory* sceneFactory_ = nullptr;
 
 	virtual ~Framework() = default;
 

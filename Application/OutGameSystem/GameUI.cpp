@@ -13,9 +13,8 @@ GameUI::~GameUI()
 }
 
 //借りてくる情報
-void GameUI::SetInfo(Player* player ,Object3D* playerObject, Boss* boss)
+void GameUI::SetInfo(Object3D* playerObject, Boss* boss)
 {
-	player_ = player;
 	playerObject_ = playerObject;
 	boss_ = boss;
 }
@@ -140,7 +139,7 @@ void GameUI::TitleUpdate(bool sceneChange)
 void GameUI::GameUpdate()
 {
 	iventSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,iventAlpha_ });
-	playerHPSprite_->SetSize({ PLAYER_HP_SIZE_X * (float)player_->GetHP(),PLAYER_HP_SIZE_Y });
+	//playerHPSprite_->SetSize({ PLAYER_HP_SIZE_X * (float)player_->GetHP(),PLAYER_HP_SIZE_Y });
 
 	//チュートリアルUI
 	RBSprite_->SetPosition({ screenPosPlayer_.x - RB_UI_POS_X_VOLUE,screenPosPlayer_.y - RB_UI_POS_Y_VOLUE });
@@ -180,15 +179,15 @@ void GameUI::GameUpdate()
 	screenPosPlayer_ = playerObject_->Screen();
 
 	//プレイヤーのレティクル座標
-	bulletRreticleSprite_->SetPosition({ player_->GetScreenRTPos().x,player_->GetScreenRTPos().y });
+	//bulletRreticleSprite_->SetPosition({ player_->GetScreenRTPos().x,player_->GetScreenRTPos().y });
 	
 	//ライフ危ない時に出るフィルター
-	if (player_->GetHP() <= PLAYER_HP_DANGER) {
+	/*if (player_->GetHP() <= PLAYER_HP_DANGER) {
 		isLifeOne_ = true;
 	}
 	else {
 		isLifeOne_ = false;
-	}
+	}*/
 	//ライフ危ない時に出るフィルター
 	if (isLifeOne_) {
 		fillTimer_++;
@@ -275,9 +274,9 @@ void GameUI::GameDraw()
 	}
 	
 	//ゲームオーバー表示
-	if (player_->IsDead()) {
+	/*if (player_->IsDead()) {
 		gameoverSprite_->Draw(gameover_);
-	}
+	}*/
 
 	//ゲームクリア表示
 	if (!boss_->GetArive()) {
