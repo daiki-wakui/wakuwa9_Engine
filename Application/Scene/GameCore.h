@@ -25,12 +25,12 @@ class GameCore : public Framework
 private:
 
 	DirectXBasis* directX_ = DirectXBasis::GetInstance();
-	SpriteBasis* spBasis_ = SpriteBasis::GetInstance();
-	WindowsApp* windows_ = WindowsApp::GetInstance();
+	//SpriteBasis* spBasis_ = SpriteBasis::GetInstance();
+	//WindowsApp* windows_ = WindowsApp::GetInstance();
 	KeyBoard* keyboard_ = KeyBoard::GetInstance();
 	GamePad* gamePad_ = GamePad::GetInstance();
 	ImGuiManager* imGuiM_ = ImGuiManager::GetInstance();
-	Sound* sound_ = Sound::GetInstance();
+	//Sound* sound_ = Sound::GetInstance();
 
 	
 	//ポストエフェクト

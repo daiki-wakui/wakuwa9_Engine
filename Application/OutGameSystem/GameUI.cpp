@@ -13,9 +13,8 @@ GameUI::~GameUI()
 }
 
 //借りてくる情報
-void GameUI::SetInfo(Player* player ,Object3D* playerObject, Boss* boss)
+void GameUI::SetInfo(Object3D* playerObject, Boss* boss)
 {
-	player_ = player;
 	playerObject_ = playerObject;
 	boss_ = boss;
 }

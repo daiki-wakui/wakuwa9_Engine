@@ -10,17 +10,24 @@ GameCollisons::~GameCollisons()
 
 void GameCollisons::Update()
 {
-	for (const std::unique_ptr<BaseObject>& objectA : lv_->GetObjects()) {
-		for (const std::unique_ptr<BaseObject>& objectB : lv_->GetObjects()) {
-			posA_ = objectA->GetWorldPos();
-			posB_ = objectB->GetWorldPos();
-			scaleA_ = objectA->GetScale().x;
-			scaleB_ = objectA->GetScale().x;
+	for (const std::unique_ptr<BaseObject>& objectB : lv_->GetObjects()) {
 
-			if (Collison(posA_, posB_, scaleA_, scaleB_)) {
-				objectA->OnCollison();
-				objectB->OnCollison();
-			}
+		if (objectB->GetName() == "stageObject") {
+			continue;
+		}
+
+		if (objectB->GetName() == "player") {
+			continue;
+		}
+
+		posA_ = lv_->GetPlayer()->GetWorldPos();
+		posB_ = objectB->GetWorldPos();
+		scaleA_ = lv_->GetPlayer()->GetScale().x;
+		scaleB_ = objectB->GetScale().x;
+
+		if (Collison(posA_, posB_, scaleA_, scaleB_)) {
+			lv_->GetPlayer()->OnCollison();
+			objectB->OnCollison();
 		}
 	}
 }

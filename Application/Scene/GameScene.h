@@ -59,9 +59,6 @@ private:	//メンバ変数
 
 	std::unique_ptr<GameUI> gameUI_ = std::make_unique<GameUI>();
 
-	//player
-	std::unique_ptr<Player> player_ = std::make_unique<Player>();
-
 	//boss
 	std::unique_ptr<Boss> boss_ = std::make_unique<Boss>();
 
@@ -106,7 +103,7 @@ private:	//メンバ変数
 	bool isShake_;
 	int32_t shakeTimer_;
 
-	Model3DManager* m = Model3DManager::GetInstance();
+	Model3DManager* modelData_ = Model3DManager::GetInstance();
 
 	std::unique_ptr<LevelEditor> lv = std::make_unique<LevelEditor>();
 
@@ -140,7 +137,6 @@ public:
 	void Reset();
 
 public:	//getter,setter
-	Player* GetPlayer() { return player_.get(); }
 	Boss* GetBoss() { return boss_.get(); }
 
 	bool GetChange() { return change_; }

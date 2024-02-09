@@ -15,9 +15,6 @@ void GameScene::Initialize()
 	lv->Initialize();
 	Reset();
 
-	//particleMan_->Initialize(L"Resources/effect1.png");
-	//particleMan_->Update();
-
 	resetOn_ = false;
 
 	gameUI_->GameSceneInitialize();
@@ -34,30 +31,6 @@ void GameScene::Finalize()
 void GameScene::Update()
 {
 
-	if (isShake_) {
-		shakeTimer_++;
-
-		if (shakeTimer_ > json_->LoadFloat("MAX_SHACK_TIME")) {
-			isShake_ = false;
-			shakeTimer_ = 0;
-		}
-		gameUI_->Shake();
-
-		Vector3 toEye = Object3D::GetEye();
-		Vector3 toTerget = Object3D::GetTarget();
-		toEye.x += gameUI_->GetRandShake().x;
-		toEye.y += gameUI_->GetRandShake().y;
-		toTerget.x += gameUI_->GetRandShake().x;
-		toTerget.y += gameUI_->GetRandShake().y;
-
-		Object3D::SetEye(toEye);
-		Object3D::SetTarget(toTerget);
-	}
-
-	if (keyboard_->keyInstantPush(DIK_N)) {
-		isDebugBoss_ = true;
-	}
-
 	//リセット
 	if (isChangeStage_) {
 		bossBGM_ = false;
@@ -70,7 +43,7 @@ void GameScene::Update()
 	}
 
 	if (gameUI_->GetGameSceneChangeAlpha() == 0) {
-		SoundManager::GetInstance()->Update(1);
+		SoundManager::GetInstance()->Update(GAME_BGM);
 	}
 
 	ObjectUpdate();
@@ -80,36 +53,9 @@ void GameScene::Update()
 
 	shadowObject_->SetPosition({ playerObject_->GetPosition().x,json_->LoadFloat("SHADOW_POS_Y"),playerObject_->GetPosition().z});
 	shadowObject_->Update();
-	
-	Vector3 rocalEye = Object3D::GetEye();
-	Vector3 rocalTarget = Object3D::GetTarget();
 
 	if (change_) {
 		SoundManager::GetInstance()->StopBGM();
-	}
-
-	Vector3 podPos;
-
-	if (coolTime_ < 0) {
-		isShotEffect_ = true;
-		coolTime_ = json_->LoadInt("COOLTIME_NUM");
-	}
-
-	if (gamePad_->PushButtonRB()) {
-		podRot.y = podObject_->GetRotation().y - json_->LoadFloat("BIT_ROT_VOLUE_Y");
-		podRot.z += json_->LoadFloat("BIT_ROT_VOLUE_Z");
-		coolTime_--;
-	}
-
-	podPos = podObject_->GetPosition();
-	
-	poriObject_->SetPosition(podPos);
-	poriObject_->SetRotation(podRot);
-	poriObject_->Update();
-
-	if (isDebugBoss_) {
-		isIvent_ = false;
-		hitBox_ = true;
 	}
 	
 	gameUI_->BossIventSceneUI();
@@ -152,7 +98,7 @@ void GameScene::Update()
 //スプライト更新処理
 void GameScene::SpriteUpdate()
 {
-	gameUI_->SetInfo(player_.get(),playerObject_.get(),boss_.get());
+	gameUI_->SetInfo(playerObject_.get(),boss_.get());
 	gameUI_->boolInfo(hitBox_, isIvent_);
 	gameUI_->GameUpdate();
 
@@ -192,15 +138,6 @@ void GameScene::SpriteDraw()
 //オブジェクト更新処理
 void GameScene::ObjectUpdate()
 {
-	//particleMan_->Update();
-
-	//倒した時のオブジェクトエフェクト
-	if (keyboard_->keyInstantPush(DIK_K)) {
-		if (!isEffect_) {
-			isEffect_ = true;
-		}
-	}
-
 	skyObject_->SetPosition(playerObj_->GetWorldPos());
 	skyObject_->Update();
 
@@ -248,39 +185,39 @@ void GameScene::Reset()
 void GameScene::Object3DGenerate()
 {
 	shadowObject_ = std::make_unique<Object3D>();
-	shadowObject_->SetModel(m->Get3DModel("shadow"));
+	shadowObject_->SetModel(modelData_->Get3DModel("shadow"));
 	shadowObject_->Initialize();
 	shadowObject_->SetScale(json_->LoadVector3("SHADOW_SCALE"));
 
 	poriObject_ = std::make_unique<Object3D>();
-	poriObject_->SetModel(m->Get3DModel("bulletEffctModel"));
+	poriObject_->SetModel(modelData_->Get3DModel("bulletEffctModel"));
 	poriObject_->Initialize();
 	poriObject_->SetScale(json_->LoadVector3("SHOT_EFFECT_SCALE"));
 	poriObject_->SetPosition(json_->LoadVector3("SHOT_EFFECT_POS"));
 
 	//3Dオブジェクト生成
 	playerObject_ = std::make_unique<Object3D>();
-	playerObject_->SetModel(m->Get3DModel("player"));
+	playerObject_->SetModel(modelData_->Get3DModel("player"));
 	playerObject_->Initialize();
 	playerObject_->SetScale(Vector3(json_->LoadVector3("PLAYER_SCALE")));
 	playerObject_->SetPosition({ 0,0,0 });
 
 	podObject_ = std::make_unique<Object3D>();
-	podObject_->SetModel(m->Get3DModel("playerBit"));
+	podObject_->SetModel(modelData_->Get3DModel("playerBit"));
 	podObject_->Initialize();
 
 	bulletObject_ = std::make_unique<Object3D>();
-	bulletObject_->SetModel(m->Get3DModel("whiteCube"));
+	bulletObject_->SetModel(modelData_->Get3DModel("whiteCube"));
 	bulletObject_->Initialize();
 
 	skyObject_ = std::make_unique<Object3D>();
-	skyObject_->SetModel(m->Get3DModel("worldGame"));
+	skyObject_->SetModel(modelData_->Get3DModel("worldGame"));
 	skyObject_->Initialize();
 	skyObject_->SetScale(json_->LoadVector3("SKY_SCALE"));
 	skyObject_->SetPosition(json_->LoadVector3("SKY_POS"));
 
 	bossObject_ = std::make_unique<Object3D>();
-	bossObject_->SetModel(m->Get3DModel("bossBody"));
+	bossObject_->SetModel(modelData_->Get3DModel("bossBody"));
 	bossObject_->Initialize();
 	bossObject_->SetScale(json_->LoadVector3("BOSS_SCALE"));
 	bossObject_->SetPosition(json_->LoadVector3("BOSS_POS"));

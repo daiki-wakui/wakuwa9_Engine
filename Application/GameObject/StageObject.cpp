@@ -10,6 +10,8 @@ StageObject::~StageObject()
 
 void StageObject::Initialize(Model* model, Object3D* object)
 {
+	name_ = "stageObject";
+
 	thismodel_ = model;
 	thisObject_ = object;
 }

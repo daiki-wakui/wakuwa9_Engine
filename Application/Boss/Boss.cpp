@@ -18,11 +18,10 @@ Vector3 Boss::GetWorldPos()
 }
 
 //初期化
-void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* player)
+void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object)
 {
 	model_ = model;
 	object_ = Object;
-	player_ = player;
 	pos_ = pos;
 	centerPos_ = pos;
 
