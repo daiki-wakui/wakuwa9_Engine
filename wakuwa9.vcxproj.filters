@@ -291,6 +291,9 @@
     <ClCompile Include="FieldEffect.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="HitEffect.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Math\Matrix4.h">
@@ -450,6 +453,9 @@
       <Filter>ヘッダー ファイル\Engine\Math</Filter>
     </ClInclude>
     <ClInclude Include="FieldEffect.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="HitEffect.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

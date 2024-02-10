@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Easing.h"
 #include "wa9Math.h"
+#include "MyRandom.h"
 
 //初期化処理
 void Enemy::Initialize(Object3D* enemyObject, Vector3 pos, Player* player, int hp, int pattern)
@@ -31,6 +32,8 @@ void Enemy::Initialize(Object3D* enemyObject, Vector3 pos, Player* player, int h
 //更新処理
 void Enemy::Update(bool shot)
 {
+	
+
 	//動き開始
 	if (isMove_) {
 		timer_++;
@@ -55,6 +58,22 @@ void Enemy::Update(bool shot)
 		if (shot && shotOrNotShot_) {
 			coolTime_--;
 		}
+	}
+
+	if (isShake_) {
+		sahkeTimer_++;
+		randShake_.x = MyRandom::GetFloatRandom(-1, 1);
+		randShake_.y = MyRandom::GetFloatRandom(-0.1f, 0.1f);
+		randShake_.z = MyRandom::GetFloatRandom(-1, 1);
+
+		pos_ += randShake_;
+
+		if (sahkeTimer_ > 20) {
+			isShake_ = false;
+		}
+	}
+	else {
+		randShake_ = { 0,0,0 };
 	}
 	
 	Shot();
@@ -84,6 +103,8 @@ void Enemy::OnCollision()
 	if (hp_ <= 0) {
 		isDead_ = true;
 	}
+
+	isShake_ = true;
 }
 
 //座標のgetter

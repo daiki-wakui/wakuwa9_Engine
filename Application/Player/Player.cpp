@@ -241,6 +241,22 @@ void Player::Update()
 	podRot_.y = cameraAngle_;
 
 
+	if (nokBack_) {
+		nokPower_ *= 0.9f;
+
+		pos_ += nokPower_;
+		noktimer_++;
+
+		if (noktimer_ > 60) {
+			nokBack_ = false;
+		}
+
+		rot_.x -= nokPower_.x;
+	}
+	else {
+		noktimer_ = 0;
+	}
+
 	playerObject_->SetRotation(rot_);
 	playerObject_->SetPosition(pos_);
 	podObject_->SetRotation(podRot_);
@@ -298,6 +314,9 @@ void Player::ParticleDraw()
 //当たったときの処理
 bool Player::OnCollision()
 {
+	nokBack_ = true;
+	nokPower_ = frontVec * 5;
+
 	if (!isInvincible_) {
 		HP--;
 

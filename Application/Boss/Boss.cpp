@@ -180,6 +180,24 @@ void Boss::Update(bool move)
 
 	playerPos = player_->GetWorldPos();
 
+
+	if (isShake_) {
+		sahkeTimer_++;
+		randShake_.x = MyRandom::GetFloatRandom(-3, 3);
+		randShake_.y = MyRandom::GetFloatRandom(-0.1f, 0.1f);
+		randShake_.z = MyRandom::GetFloatRandom(-3, 3);
+
+		pos_ += randShake_;
+
+		if (sahkeTimer_ > 20) {
+			isShake_ = false;
+		}
+	}
+	else {
+		randShake_ = { 0,0,0 };
+	}
+
+
 	//オブジェクト更新処理
 	object_->SetScale({ leapScale_.x,leapScale_.y ,leapScale_.z });
 	object_->SetPosition(pos_);
@@ -218,6 +236,8 @@ void Boss::OnCollision()
 	if (hp <= 0) {
 		arive_ = false;
 	}
+
+	isShake_ = true;
 }
 
 //弾のモデル

@@ -40,7 +40,6 @@ protected:
 	int32_t damageFilter_ = 0;
 	int32_t bulletRreticleImage_ = 0;
 
-
 	SpriteBasis* spBasis_ = SpriteBasis::GetInstance();
 
 public:

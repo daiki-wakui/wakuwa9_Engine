@@ -60,13 +60,26 @@ void GameScene::Update()
 		popFTimer_ = 0;
 	}
 
+	if(keyboard_->keyInstantPush(DIK_L)) {
+		
+	}
+
 	//弾の更新処理
 	for (std::unique_ptr<FieldEffect>& ff : fEffects_) {
 		ff->Update();
 	}
 
+	for (std::unique_ptr<HitEffect>& hf : hitEffects_) {
+		hf->Update();
+	}
+
 	//デスフラグが立った弾を削除
 	fEffects_.remove_if([](std::unique_ptr<FieldEffect>& ff) {
+		return ff->IsDead();
+	});
+
+	//デスフラグが立った弾を削除
+	hitEffects_.remove_if([](std::unique_ptr<HitEffect>& ff) {
 		return ff->IsDead();
 	});
 
@@ -362,6 +375,9 @@ void GameScene::Draw()
 		ff->Draw();
 	}
 
+	for (std::unique_ptr<HitEffect>& hf : hitEffects_) {
+		hf->Draw();
+	}
 
 	SpriteDraw();
 }
@@ -374,6 +390,19 @@ void GameScene::ParticleDraw()
 	if (!isIvent_) {
 		player_->ParticleDraw();
 	}
+}
+
+void GameScene::HitEffectPop(Vector3 spos)
+{
+	hfpos_ = spos;
+
+	hfv_.x = MyRandom::GetFloatRandom(-3, 3);
+	hfv_.y = MyRandom::GetFloatRandom(-3, 3);
+	hfv_.z = MyRandom::GetFloatRandom(-3, 3);
+
+	std::unique_ptr<HitEffect> newFF = std::make_unique<HitEffect>();
+	newFF->Initialize(hfpos_, player_->GetRot(), 1.0f, hfv_, poriHitFModel_.get());
+	hitEffects_.push_back(std::move(newFF));
 }
 
 //フィールド情報読み込み
@@ -705,6 +734,9 @@ void GameScene::AllCollison()
 				bullet->isDead_ = true;
 				boss_->OnCollision();
 
+				for (int i = 0; i < 3; i++) {
+					HitEffectPop(boss_->GetWorldPos());
+				}
 				SoundManager::GetInstance()->PlayWave("Hit.wav", HIT_SE_VOLUE);
 			}
 		}
@@ -824,6 +856,11 @@ void GameScene::AllCollison()
 				enemy->OnCollision();
 				BulletEffect = true;
 				SoundManager::GetInstance()->PlayWave("Hit.wav", HIT_SE_VOLUE);
+
+				for (int i = 0; i < 3; i++) {
+					HitEffectPop(enemy->GetWorldPos());
+				}
+				
 			}
 
 			if (enemy->IsDead()) {

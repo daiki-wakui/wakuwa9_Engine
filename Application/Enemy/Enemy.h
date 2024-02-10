@@ -35,6 +35,8 @@ private:
 	const int32_t COOLTIME_VOLUE = 50;
 
 private:
+	float sahkeTimer_;
+	Vector3 randShake_ = {};
 
 	KeyBoard* input_;
 	Player* player_ = nullptr;
@@ -71,6 +73,8 @@ private:
 
 	//弾の処理
 	void Shot();
+
+	bool isShake_;
 
 public:
 

@@ -49,7 +49,7 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 private:
-	const int32_t BOSS_HP = 50;
+	const int32_t BOSS_HP = 500;
 	const float OBJECT_SCALE = 15.0f;
 	const float TAIL_SCALE = 10.0f;
 	const float TAIL_POSZ_VOLUE = 30.0f;
@@ -95,6 +95,11 @@ private:
 
 
 private:
+
+	bool isShake_;
+	float sahkeTimer_;
+	Vector3 randShake_;
+
 	KeyBoard* key_ = KeyBoard::GetInstance();
 
 	//ボス戦の時間

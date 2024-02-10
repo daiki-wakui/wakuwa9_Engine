@@ -13,6 +13,7 @@
 #include "Effect.h"
 #include "DebugPoint.h"
 #include "FieldEffect.h"
+#include "HitEffect.h"
 
 #include <memory>
 #include <list>
@@ -183,6 +184,12 @@ private:	//メンバ変数
 	int32_t shakeTimer_;
 
 	std::list<std::unique_ptr<FieldEffect>> fEffects_;
+
+	std::list<std::unique_ptr<HitEffect>> hitEffects_;
+
+	Vector3 hfpos_ = { 0,0,0 };
+	Vector3 hfv_ = { 1,1,1 };
+
 	//std::unique_ptr<FieldEffect> ff_ = std::make_unique<FieldEffect>();
 	Vector3 ffpos_ = { 0,0,0 };
 	Vector3 ffv_ = { 1,1,1 };
@@ -190,6 +197,8 @@ private:	//メンバ変数
 	int32_t popFTimer_ = 0;
 
 public:
+	void HitEffectPop(Vector3 spos);
+
 	//3dオブジェクト生成
 	void Object3DGenerate();
 

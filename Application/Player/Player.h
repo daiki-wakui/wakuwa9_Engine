@@ -178,6 +178,10 @@ private:
 	float cAngle_;
 	float cRadian_;
 
+	bool nokBack_;
+	float noktimer_;
+	Vector3 nokPower_;
+
 public:
 	int32_t HP = 10;
 	bool isDead = false;
