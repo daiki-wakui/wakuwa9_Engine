@@ -68,6 +68,17 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 		tailBallObject_[i]->SetScale({ 2,2,2 });
 	}
 
+	SadowObject_ = std::make_unique<Object3D>();
+	SadowObject2_ = std::make_unique<Object3D>();
+	SadowObject_->SetModel(sadowModel_);
+	SadowObject2_->SetModel(sadowModel_);
+
+	SadowObject_->SetScale({ 10,10,10 });
+	SadowObject2_->SetScale({ 10,10,10 });
+	SadowObject2_->Initialize();
+	SadowObject_->Initialize();
+
+
 	handObjectL_ = std::make_unique<Object3D>();
 	handObjectR_ = std::make_unique<Object3D>();
 
@@ -311,12 +322,21 @@ void Boss::Update(bool move)
 
 	handObjectL_->Update();
 	handObjectR_->Update();
+
+
+	SadowObject_->SetPosition({ pos_.x,0,pos_.z });
+	SadowObject2_->SetPosition({ tailPos_.x,0,tailPos_.z });
+	SadowObject_->Update();
+	SadowObject2_->Update();
 }
 
 //描画関数
 void Boss::Draw()
 {
 	object_->Draw();
+
+	SadowObject_->Draw();
+	SadowObject2_->Draw();
 
 	if (!halfMovie_) {
 		tailObject_->Draw();
@@ -362,10 +382,11 @@ void Boss::SetBulletModel(Model* model)
 }
 
 //ボスのしっぽモデル
-void Boss::SetBossModels(Model* framemodel,Model* handModel)
+void Boss::SetBossModels(Model* framemodel,Model* handModel, Model* sadowModel)
 {
 	tailModel_ = framemodel;
 	handModel_ = handModel;
+	sadowModel_ = sadowModel;
 }
 
 void Boss::boolInfo(bool mive)

@@ -114,6 +114,8 @@ private:
 	Model* bulletModel_;
 	Model* handModel_;
 
+	Model* sadowModel_;
+
 	Object3D* object_;
 	std::unique_ptr<Object3D> tailObject_;
 
@@ -121,6 +123,9 @@ private:
 
 	std::unique_ptr<Object3D> handObjectL_;
 	std::unique_ptr<Object3D> handObjectR_;
+
+	std::unique_ptr<Object3D> SadowObject_;
+	std::unique_ptr<Object3D> SadowObject2_;
 
 
 	float taillen_;
@@ -272,7 +277,7 @@ public:
 	void SetBulletModel(Model* model);
 
 	//しっぽのモデルの見た目登録
-	void SetBossModels(Model* tailmodel, Model* handModel);
+	void SetBossModels(Model* tailmodel, Model* handModel, Model* sadowModel);
 
 	void boolInfo(bool mive);
 

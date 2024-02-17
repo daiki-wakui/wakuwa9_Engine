@@ -632,7 +632,7 @@ void GameScene::ReLoad(const std::string filename)
 			newObject[objSize_]->SetScale(BOSS_SCALE);
 			boss_->Initialize(model,newObject[objSize_]->GetPosition(), newObject[objSize_].get(), player_.get());
 			boss_->SetBulletModel(bossBulletModel_.get());
-			boss_->SetBossModels(frameModel_.get(), bossModel_.get());
+			boss_->SetBossModels(frameModel_.get(), bossModel_.get(), shadowModel_.get());
 
 			objSize_++;
 		}
