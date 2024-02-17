@@ -21,6 +21,8 @@ Vector3 Boss::GetWorldPos()
 //初期化
 void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* player)
 {
+	INITpos_ = pos;
+
 	model_ = model;
 	object_ = Object;
 	player_ = player;
@@ -65,11 +67,97 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 		tailBallObject_[i]->Initialize();
 		tailBallObject_[i]->SetScale({ 2,2,2 });
 	}
+
+	handObjectL_ = std::make_unique<Object3D>();
+	handObjectR_ = std::make_unique<Object3D>();
+
+	handObjectL_->SetModel(handModel_);
+	handObjectR_->SetModel(handModel_);
+
+	handObjectL_->Initialize();
+	handObjectR_->Initialize();
+
+	handObjectL_->SetScale({ 5,5,5 });
+	handObjectR_->SetScale({ 5,5,5 });
 }
 
 //更新処理
 void Boss::Update(bool move)
 {
+	//ムービー時の移動
+	if (halfMovie_) {
+		MoiveFrame_++;
+		handT_++;
+		handT_ = min(handT_, 60);
+
+		EndhandLPos_ = INITpos_;
+		EndhandRPos_ = INITpos_;
+		EndhandLPos_.x = INITpos_.x - 30;
+		EndhandRPos_.x = INITpos_.x + 30;
+
+
+		if (MoiveFrame_ < 60) {
+			handLPos_ = handLPos_.lerp(INITpos_, EndhandLPos_, Easing::EaseOutCubic(handT_, 60));
+			handRPos_ = handLPos_.lerp(INITpos_, EndhandRPos_, Easing::EaseOutCubic(handT_, 60));
+
+
+		}
+		else {
+
+			handT2_++;
+
+			if (handT2_ > 40) {
+				if (L_ == 0) {
+					movepowL_.x = -10;
+					movepowL_.y = 5;
+					movepowR_.x = 15;
+					movepowR_.y = 4;
+				}
+				else if(L_ == 1){
+					movepowL_.x = 20;
+					movepowL_.y = 5;
+					movepowR_.x = -7;
+					movepowR_.y = 3;
+				}
+				else {
+					movepowL_.x = -12;
+					movepowL_.y = -7;
+					movepowR_.x = -6;
+					movepowR_.y = -3;
+				}
+				
+
+				handT2_ = 0;
+
+				if (L_ == 0) {
+					L_ = 1;
+				}
+				else if (L_ == 1) {
+					L_ = 2;
+				}
+				else {
+					L_ = 0;
+				}
+			}
+
+			handLPos_.y += movepowL_.y;
+			handRPos_.y += movepowR_.y;
+
+			handLPos_.x += movepowL_.x;
+			handRPos_.x += movepowR_.x;
+
+			movepowL_ *= 0.8f;
+			movepowR_ *= 0.8f;
+
+		}
+	}
+	else {
+		handLPos_ = pos_;
+		handLPos_.x = pos_.x - 30;
+		handRPos_ = pos_;
+		handRPos_.x = pos_.x + 30;
+	}
+
 	tailVec_ = pos_ - tailPos_;
 	taillen_ = tailVec_.length();
 	tailVec_.normalize();
@@ -172,7 +260,12 @@ void Boss::Update(bool move)
 	});
 
 	//しっぽ
-	Tail();
+
+	//映像外なら
+	if (!halfMovie_) {
+		Tail();
+	}
+	
 
 	//しっぽが地面に刺さった時のエフェクト
 	ShackEffect();
@@ -197,6 +290,12 @@ void Boss::Update(bool move)
 		randShake_ = { 0,0,0 };
 	}
 
+	if (halfMovie_) {
+		pos_ = INITpos_;
+		visualRot_ = { 0,0,0 };
+
+
+	}
 
 	//オブジェクト更新処理
 	object_->SetScale({ leapScale_.x,leapScale_.y ,leapScale_.z });
@@ -206,14 +305,32 @@ void Boss::Update(bool move)
 	tailObject_->SetPosition(tailPos_);
 	object_->Update();
 	tailObject_->Update();
+
+	handObjectL_->SetPosition(handLPos_);
+	handObjectR_->SetPosition(handRPos_);
+
+	handObjectL_->Update();
+	handObjectR_->Update();
 }
 
 //描画関数
 void Boss::Draw()
 {
 	object_->Draw();
-	tailObject_->Draw();
 
+	if (!halfMovie_) {
+		tailObject_->Draw();
+		for (int i = 0; i < 10; i++) {
+			tailBallObject_[i]->Draw();
+		}
+	}
+
+	if (hp < 25) {
+		handObjectL_->Draw();
+		handObjectR_->Draw();
+	}
+	
+	
 	for (std::unique_ptr<BossBullet>& bullet : bullets_) {
 		bullet->Draw();
 	}
@@ -222,9 +339,7 @@ void Boss::Draw()
 		effect->Draw();
 	}
 
-	for (int i = 0; i < 10; i++) {
-		tailBallObject_[i]->Draw();
-	}
+	
 }
 
 //当たったときの処理
@@ -247,9 +362,15 @@ void Boss::SetBulletModel(Model* model)
 }
 
 //ボスのしっぽモデル
-void Boss::SetBossModels(Model* framemodel)
+void Boss::SetBossModels(Model* framemodel,Model* handModel)
 {
 	tailModel_ = framemodel;
+	handModel_ = handModel;
+}
+
+void Boss::boolInfo(bool mive)
+{
+	halfMovie_ = mive;
 }
 
 Vector3 Boss::GetBossTailWorldPos()
@@ -336,7 +457,11 @@ void Boss::Move()
 		toPlayerArea_ = 0;
 	}
 
-	moveTimer_++;
+	if (!halfMovie_) {
+		moveTimer_++;
+	}
+
+	
 
 	//瞬間移動開始
 	if (moveTimer_ >= randMoveChangeTime_) {

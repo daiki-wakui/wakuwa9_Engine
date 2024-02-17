@@ -200,6 +200,38 @@ void GameScene::Update()
 	
 	gameUI_->BossIventSceneUI();
 
+	if (boss_->GetHP() < 25 && isIventend_ == false) {
+		isIvent2_ = true;
+
+	}
+
+	if (isIvent2_) {
+		timer2_++;
+		iventEye2_ = iventEye2_.lerp(iventEye2_, endEye_, Easing::EaseInCubic(timer2_, maxTime_));
+
+		Vector3 tmpEye;
+		tmpEye = iventEye2_;
+		Vector3 target;
+		target = iventTarget_;
+
+		Object3D::SetEye(tmpEye);
+		Object3D::SetTarget(target);
+
+		//イベントシーン終わり
+		if (timer2_ > maxTime_) {
+			isIventend_ = true;
+			isIvent2_ = false;
+			Vector3 eye = LNIT_EYE;
+
+			Object3D::SetEye(eye);
+			eye = LNIT_TERGET;
+			Object3D::SetTarget(eye);
+			iventEye2_ = LNIT_EVENT_EYE;
+			gameUI_->SetMovieEnd(true);
+			SoundManager::GetInstance()->PlayWave("Warning.wav", WARNING_VOLUE);
+		}
+	}
+
 	if (isIvent_) {
 		timer_++;
 		iventEye_ = iventEye_.lerp(iventEye_, endEye_, Easing::EaseInCubic(timer_, maxTime_));
@@ -285,6 +317,8 @@ void GameScene::SpriteUpdate()
 			boss_->Update(isIvent_);
 		}
 
+		boss_->boolInfo(isIvent2_);
+
 		gameUI_->BossHpUI();
 	}
 }
@@ -344,7 +378,7 @@ void GameScene::Draw()
 		door->Draw();
 	}
 
-	if (player_->IsDead() == false && isIvent_ == false) {
+	if (player_->IsDead() == false && isIvent_ == false && isIvent2_ == false) {
 		player_->Draw();
 	}
 
@@ -598,7 +632,7 @@ void GameScene::ReLoad(const std::string filename)
 			newObject[objSize_]->SetScale(BOSS_SCALE);
 			boss_->Initialize(model,newObject[objSize_]->GetPosition(), newObject[objSize_].get(), player_.get());
 			boss_->SetBulletModel(bossBulletModel_.get());
-			boss_->SetBossModels(frameModel_.get());
+			boss_->SetBossModels(frameModel_.get(), bossModel_.get());
 
 			objSize_++;
 		}

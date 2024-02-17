@@ -49,7 +49,7 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 private:
-	const int32_t BOSS_HP = 500;
+	const int32_t BOSS_HP = 50;
 	const float OBJECT_SCALE = 15.0f;
 	const float TAIL_SCALE = 10.0f;
 	const float TAIL_POSZ_VOLUE = 30.0f;
@@ -112,10 +112,17 @@ private:
 	Model* model_;
 	Model* tailModel_;
 	Model* bulletModel_;
+	Model* handModel_;
+
 	Object3D* object_;
 	std::unique_ptr<Object3D> tailObject_;
 
 	std::unique_ptr<Object3D> tailBallObject_[10];
+
+	std::unique_ptr<Object3D> handObjectL_;
+	std::unique_ptr<Object3D> handObjectR_;
+
+
 	float taillen_;
 	Vector3 tailVec_;
 	Vector3 tailballpos_;
@@ -131,6 +138,8 @@ private:
 	Vector3	differenceVec;
 
 	//ボスの情報
+	Vector3 INITpos_;	//座標
+
 	Vector3 pos_;	//座標
 	Vector3 visualRot_;	//見た目の回転
 	XMFLOAT3 bulletDirRot_;	//弾を発射する回転
@@ -185,6 +194,29 @@ private:
 	bool startAttack_;
 	///------------------------------------///
 
+
+	Vector3 handLPos_;
+	Vector3 handRPos_;
+	float handT_;
+	float handT2_;
+	float MoiveFrame_ = 0;
+	float rotPow_ = 250;
+
+	float L_;
+
+	Vector3 EndhandLPos_;
+	Vector3 EndhandRPos_;
+
+	Vector3 StarthandLPos_;
+	Vector3 StarthandRPos_;
+
+	float setMove_;
+	int32_t moveCount_;
+
+	Vector2 movepowL_;
+	Vector2 movepowR_;
+
+
 	///---------ボスの弾に使う変数---------------///
 	std::list<std::unique_ptr<BossBullet>> bullets_;
 
@@ -198,6 +230,11 @@ private:
 	//シェイク
 	Vector2 randShack_;
 	float shackTimer_;
+
+	float halfMovie_ = false;
+
+	//float Time_;
+
 
 	//移動処理
 	void Move();
@@ -235,7 +272,9 @@ public:
 	void SetBulletModel(Model* model);
 
 	//しっぽのモデルの見た目登録
-	void SetBossModels(Model* tailmodel);
+	void SetBossModels(Model* tailmodel, Model* handModel);
+
+	void boolInfo(bool mive);
 
 	//gettter
 	int32_t GetHP() const { return hp; }

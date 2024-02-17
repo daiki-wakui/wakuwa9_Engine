@@ -159,9 +159,13 @@ private:	//メンバ変数
 	Vector3 iventEye_ = { 450,100,750 };
 	Vector3 iventTarget_ = { 450, 100,1000 };
 
+
+	Vector3 iventEye2_ = { 450,10,650 };
 	Vector3 endEye_ = { 450,10,600 };
 	float timer_ = 0;
 	float maxTime_ = 300;
+
+	float timer2_ = 0;
 
 	float addYRB_ = 0;
 	XMFLOAT2 posRB_ = {};
@@ -195,6 +199,10 @@ private:	//メンバ変数
 	Vector3 ffv_ = { 1,1,1 };
 	std::unique_ptr<Object3D> ffo_;
 	int32_t popFTimer_ = 0;
+
+	bool isIvent2_ = false;
+	bool isIventend_ = false;
+
 
 public:
 	void HitEffectPop(Vector3 spos);
