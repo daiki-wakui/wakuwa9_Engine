@@ -203,6 +203,7 @@ private:	//メンバ変数
 	bool isIvent2_ = false;
 	bool isIventend_ = false;
 
+	bool iSDeBoss_ = false;
 
 public:
 	void HitEffectPop(Vector3 spos);
@@ -228,6 +229,7 @@ public:
 
 	//描画
 	void Draw()override;
+
 
 	//パーティクル描画
 	void ParticleDraw();

@@ -93,7 +93,7 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 }
 
 //更新処理
-void Boss::Update(bool move)
+void Boss::Update(bool move, bool debug)
 {
 	//ムービー時の移動
 	if (halfMovie_) {
@@ -199,66 +199,16 @@ void Boss::Update(bool move)
 	arive_ = true;
 
 	//移動処理
-	if (!move) {
+	if (!move || debug) {
 		Move();
 	}
 
 	frame_++;
 	pos_.y = MOVE_Y_VOLUE * cosf(wa9Math::PI() * frame_ / MOVE_SPEED_VOLUE) + pos_.y;
 
-	//弾の行動パターン
-	switch (nowState_)
-	{
-	case 1:	//直線攻撃
-		if (!isPop_ && !isDisappear_) {
-			coolTime_--;
-		}
+	Stateframe_++;
+	
 
-		visualRot_.x++;
-		visualRot_.z++;
-		
-		break;
-	case 2:	//回転攻撃
-
-		addRot_.y = ADD_ROT_VOLUE;
-		addRot_.x = ADD_ROT_VOLUE;
-		
-		if (!isPop_ && !isDisappear_) {
-			coolTime_--;
-		}
-		bulletDirRot_.y += ROT_VOLUE;
-		visualRot_.y += ROT_VOLUE;
-		
-		break;
-	case 3:	//全体にばらまく
-
-		addRot_.y += ADD_ROT_VOLUE_STATE3;
-		addRot_.x += ADD_ROT_VOLUE_STATE3;
-
-		if (!isPop_ && !isDisappear_) {
-			coolTime_--;
-		}
-
-		visualRot_.z += ROT_VOLUE_STATE3;
-		visualRot_.x += ROT_VOLUE_STATE3;
-
-		bulletDirRot_.y += DIR_ROT_VOLUE;
-		break;
-	default:
-		break;
-	}
-
-	//弾の処理
-	//Shot();
-
-	//デスフラグが立った弾を削除
-	bullets_.remove_if([](std::unique_ptr<BossBullet>& bullet) {
-		return bullet->IsDead();
-	});
-
-	for (std::unique_ptr<BossBullet>& bullet : bullets_) {
-		bullet->Update();
-	}
 
 	//しっぽのエフェクトの更新処理
 	for (std::unique_ptr<Effect>& effect : effects_) {

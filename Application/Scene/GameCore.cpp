@@ -50,17 +50,36 @@ void GameCore::Update()
 	
 	//デバックImGui
 	imGuiM_->Begin();
-	ImGui::Text("Editor");
+	GameScene* g = sceneManager_->GetGameScene();
 
-	//オブジェクト読み込み直す
-	if (ImGui::Button("ReLoad")) {
-		sceneManager_->GetGameScene()->EditorLoad("obj");
+	if (ImGui::TreeNode("StageEditor")) {
+		ImGui::Text("Editor");
+
+		//オブジェクト読み込み直す
+		if (ImGui::Button("ReLoad")) {
+			g->EditorLoad("obj");
+		}
+
+		if (ImGui::Button("DebugPoint")) {
+			g->GetPlayer()->SetPos(sceneManager_->GetGameScene()->GetDebugPoint()->GetWorldPos());
+		}
+		ImGui::TreePop();
+	}
+	
+
+	if (ImGui::TreeNode("BossEditor")) {
+		
+		ImGui::Text("BossPosition");
+		ImGui::Text("%f,%f,%f", g->GetBoss()->GetWorldPos().x, g->GetBoss()->GetWorldPos().y, g->GetBoss()->GetWorldPos().z);
+		ImGui::Text("%f,%f,%f", g->GetBoss()->GetBossTailWorldPos().x, g->GetBoss()->GetBossTailWorldPos().y, g->GetBoss()->GetBossTailWorldPos().z);
+
+		ImGui::Text("StateCount %d", g->GetBoss()->GetState());
+
+		ImGui::TreePop();
 	}
 
-	if (ImGui::Button("DebugPoint")) {
-		sceneManager_->GetGameScene()->GetPlayer()->SetPos(sceneManager_->GetGameScene()->GetDebugPoint()->GetWorldPos());
-	}
-
+	
+	
 	imGuiM_->End();
 }
 

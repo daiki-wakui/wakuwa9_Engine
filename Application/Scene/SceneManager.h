@@ -47,6 +47,8 @@ public:
 	//タイトルシーンに遷移するかの関数
 	bool ChangeToTitleScene();
 
+	void DrawGui();
+
 public: //getter
 
 	int32_t GetSceneState() { return nowScene_; }

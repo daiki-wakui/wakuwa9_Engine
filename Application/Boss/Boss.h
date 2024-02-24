@@ -105,6 +105,8 @@ private:
 	//ボス戦の時間
 	float frame_;
 
+	float Stateframe_;
+
 	//ボスエリアの中心
 	Vector3 centerPos_;
 
@@ -265,7 +267,7 @@ public:
 
 	//更新処理
 	//bool ボスが移動可能な状態か
-	void Update(bool move);
+	void Update(bool move, bool debug);
 
 	//描画関数
 	void Draw();
@@ -288,5 +290,7 @@ public:
 	//座標のgettter
 	Vector3 GetWorldPos();
 	Vector3 GetBossTailWorldPos();
+
+	int32_t GetState() { return movementPatternCount_; }
 };
 

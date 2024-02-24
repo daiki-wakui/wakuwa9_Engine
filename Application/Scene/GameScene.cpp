@@ -61,7 +61,13 @@ void GameScene::Update()
 	}
 
 	if(keyboard_->keyInstantPush(DIK_L)) {
-		
+		EditorLoad("bossEditor");
+		iSDeBoss_ = true;
+		hitBox_ = true;
+	}
+
+	if (keyboard_->keyInstantPush(DIK_N)) {
+		isDebugBoss_ = true;
 	}
 
 	//弾の更新処理
@@ -105,9 +111,7 @@ void GameScene::Update()
 		Object3D::SetTarget(toTerget);
 	}
 
-	if (keyboard_->keyInstantPush(DIK_N)) {
-		isDebugBoss_ = true;
-	}
+
 
 	//リセット
 	if (isChangeStage_) {
@@ -253,7 +257,7 @@ void GameScene::Update()
 		}
 
 		//イベントシーン終わり
-		if (timer_ > maxTime_) {
+		if (timer_ > maxTime_ || iSDeBoss_) {
 			isIvent_ = false;
 			Vector3 eye = LNIT_EYE;
 
@@ -262,7 +266,11 @@ void GameScene::Update()
 			Object3D::SetTarget(eye);
 			iventEye_ = LNIT_EVENT_EYE;
 			gameUI_->SetMovieEnd(true);
-			SoundManager::GetInstance()->PlayWave("Warning.wav", WARNING_VOLUE);
+
+			if (!iSDeBoss_) {
+				SoundManager::GetInstance()->PlayWave("Warning.wav", WARNING_VOLUE);
+			}
+			
 		}
 	}
 
@@ -314,7 +322,7 @@ void GameScene::SpriteUpdate()
 		}
 
 		if (hitBox_ == true && boss_->GetArive() == true) {
-			boss_->Update(isIvent_);
+			boss_->Update(isIvent_, iSDeBoss_);
 		}
 
 		boss_->boolInfo(isIvent2_);
@@ -812,7 +820,7 @@ void GameScene::AllCollison()
 	r1 = COL_PLAYER_SCALE;
 	r2 = COL_BOSS_TAIL_SCALE;
 
-	if (Collison(posA, posB, r1, r2)) {
+	if (Collison(posA, posB, r1, r2)&&!iSDeBoss_) {
 
 		if (player_->GetIsStep()) {
 			player_->SetIsJustStep(true);
