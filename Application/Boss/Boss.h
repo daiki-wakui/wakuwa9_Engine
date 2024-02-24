@@ -242,6 +242,8 @@ private:
 
 	//float Time_;
 
+	bool akTail_;
+
 
 	//移動処理
 	void Move();
@@ -292,5 +294,8 @@ public:
 	Vector3 GetBossTailWorldPos();
 
 	int32_t GetState() { return movementPatternCount_; }
+
+	bool GetAk() { return akTail_; }
+	void SetAkTail(bool AkTail) { akTail_ = AkTail; }
 };
 

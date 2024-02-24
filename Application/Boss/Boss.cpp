@@ -223,7 +223,7 @@ void Boss::Update(bool move, bool debug)
 	//しっぽ
 
 	//映像外なら
-	if (!halfMovie_) {
+	if (!halfMovie_ && akTail_) {
 		Tail();
 	}
 	

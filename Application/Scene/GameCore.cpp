@@ -73,7 +73,14 @@ void GameCore::Update()
 		ImGui::Text("%f,%f,%f", g->GetBoss()->GetWorldPos().x, g->GetBoss()->GetWorldPos().y, g->GetBoss()->GetWorldPos().z);
 		ImGui::Text("%f,%f,%f", g->GetBoss()->GetBossTailWorldPos().x, g->GetBoss()->GetBossTailWorldPos().y, g->GetBoss()->GetBossTailWorldPos().z);
 
-		ImGui::Text("StateCount %d", g->GetBoss()->GetState());
+		ImGui::Text("StateCount %d", g->GetBoss()->GetAk());
+
+		if (ImGui::Button("NotAttack")) {
+			g->GetBoss()->SetAkTail(false);
+		}
+		if (ImGui::Button("Attack")) {
+			g->GetBoss()->SetAkTail(true);
+		}
 
 		ImGui::TreePop();
 	}
