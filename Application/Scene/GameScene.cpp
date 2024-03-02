@@ -66,6 +66,11 @@ void GameScene::Update()
 		hitBox_ = true;
 	}
 
+	if (keyboard_->keyInstantPush(DIK_K)) {
+		iSDeBoss_ = false;
+		hitBox_ = false;
+	}
+
 	if (keyboard_->keyInstantPush(DIK_N)) {
 		isDebugBoss_ = true;
 	}
@@ -204,10 +209,10 @@ void GameScene::Update()
 	
 	gameUI_->BossIventSceneUI();
 
-	if (boss_->GetHP() < 25 && isIventend_ == false) {
+	/*if (boss_->GetHP() < 25 && isIventend_ == false) {
 		isIvent2_ = true;
 
-	}
+	}*/
 
 	if (isIvent2_) {
 		timer2_++;

@@ -41,12 +41,14 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 	bullets_.clear();
 
 	//行動パターン
-	movementPattern_[0] = StraightShot;
-	movementPattern_[1] = StraightShot;
-	movementPattern_[2] = SpinningShot;
-	movementPattern_[3] = ScatterShot;
-	movementPattern_[4] = SpinningShot;
-	movementPattern_[5] = ScatterShot;
+	movementPattern_[0] = 2;
+	movementPattern_[1] = 2;
+	movementPattern_[2] = 2;
+	movementPattern_[3] = 1;
+	movementPattern_[4] = 3;
+	movementPattern_[5] = 2;
+	movementPattern_[6] = 1;
+	movementPattern_[7] = 1;
 	movementPatternCount_ = 0;
 
 	//しっぽ情報
@@ -179,30 +181,53 @@ void Boss::Update(bool move, bool debug)
 		tailBallObject_[i]->SetPosition(tailballpos_);
 		tailBallObject_[i]->Update();
 	}
+	arive_ = true;
+
+
+	//デバック確認
+	if (KeyBoard::GetInstance()->keyInstantPush(DIK_1)) {
+		nowState_ = 1;
+	}
+	if (KeyBoard::GetInstance()->keyInstantPush(DIK_2)) {
+		nowState_ = 2;
+	}
+	if (KeyBoard::GetInstance()->keyInstantPush(DIK_3)) {
+		nowState_ = 3;
+	}
+
+	playerPos = player_->GetWorldPos();
 
 	//行動パターン繰り返し
 	if (movementPatternCount_ >= MAX_MOVEMENT) {
 		movementPatternCount_ = 0;
 	}
 
-	//デバック確認
-	if (KeyBoard::GetInstance()->keyInstantPush(DIK_1)) {
-		nowState_ = StraightShot;
-	}
-	if (KeyBoard::GetInstance()->keyInstantPush(DIK_2)) {
-		nowState_ = SpinningShot;
-	}
-	if (KeyBoard::GetInstance()->keyInstantPush(DIK_3)) {
-		nowState_ = ScatterShot;
+	if (nowState_ == 0) {
+		nowState_ = movementPattern_[movementPatternCount_];
+		movementPatternCount_++;
 	}
 
-	arive_ = true;
-
-	//移動処理
-	if (!move || debug) {
-		Move();
+	if (nowState_ == 1) {
+		//しっぽ
+		//映像外なら
+		if (!halfMovie_ && akTail_) {
+			Tail();
+		}
 	}
-
+	if (nowState_ == 2) {
+		//移動処理
+		if (!move || debug) {
+			Move();
+		}
+	}
+	if (nowState_ == 3) {
+		aidle_++;
+		if (aidle_ >= 120) {
+			nowState_ = 0;
+			aidle_ = 0;
+		}
+	}
+	
 	frame_++;
 	pos_.y = MOVE_Y_VOLUE * cosf(wa9Math::PI() * frame_ / MOVE_SPEED_VOLUE) + pos_.y;
 
@@ -220,21 +245,14 @@ void Boss::Update(bool move, bool debug)
 		return bullet->IsDead();
 	});
 
-	//しっぽ
-
-	//映像外なら
-	if (!halfMovie_ && akTail_) {
-		Tail();
-	}
+	
 	
 
 	//しっぽが地面に刺さった時のエフェクト
 	ShackEffect();
 
 
-	playerPos = player_->GetWorldPos();
-
-
+	
 	if (isShake_) {
 		sahkeTimer_++;
 		randShake_.x = MyRandom::GetFloatRandom(-3, 3);
@@ -295,10 +313,10 @@ void Boss::Draw()
 		}
 	}
 
-	if (hp < 25) {
+	/*if (hp < 25) {
 		handObjectL_->Draw();
 		handObjectR_->Draw();
-	}
+	}*/
 	
 	
 	for (std::unique_ptr<BossBullet>& bullet : bullets_) {
@@ -351,46 +369,14 @@ Vector3 Boss::GetBossTailWorldPos()
 	return pos;
 }
 
+void Boss::SetStateMent(int32_t num, int32_t i)
+{
+	movementPattern_[i] = num;
+}
+
 //移動処理
 void Boss::Move()
 {
-	//攻撃開始
-	if (tailStateTime_[Wait] > MAX_TAIL_WAIT_TIME && !iaAttacking_) {
-		startAttack_ = true;
-	}
-	else {	//待機
-		tailStateTime_[Wait]++;
-	}
-
-	//攻撃中
-	if (iaAttacking_) {
-		tailStateTime_[Attack]++;
-
-		//着弾地点をロック
-		if (tailStateTime_[Attack] == MAX_TAIL_ROK_TIME) {
-			attackingTime_ = 0;
-			isTailAttacking_ = false;
-			backTail_ = false;
-			rokStart_ = tailPos_;
-			rokEnd_ = playerPos;
-		}
-
-		//着弾地点めがけ始め
-		if (tailStateTime_[Attack] >= MAX_TAIL_ATTACK_TIME) {
-			isTailAttacking_ = true;
-			tailStateTime_[Wait] = 0;
-		}
-	}
-
-	//攻撃開始時のフレーム
-	if (startAttack_) {
-		iaAttacking_ = true;
-		attackStart_ = tailPos_;
-		attackEnd_ = tailPos_;
-		attackEnd_.y += ATTACK_END_Y_VOLUE;
-		startAttack_ = false;
-	}
-
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
 	std::uniform_real_distribution<float> moveLimitX(-bossLimit_.x, bossLimit_.x);
@@ -430,26 +416,21 @@ void Boss::Move()
 
 	if (!halfMovie_) {
 		moveTimer_++;
-	}
 
-	
+		if (moveTimer_ > 30) {
 
-	//瞬間移動開始
-	if (moveTimer_ >= randMoveChangeTime_) {
-		if (!isDisappear_) {
-			moveDisappearTime_ = 0;
-			isDisappear_ = true;
-			disappearStart_.x = object_->GetPosition().x;
-			disappearStart_.y = object_->GetPosition().y;
-			disappearStart_.z = object_->GetPosition().z;
+			if (!isDisappear_) {
+				moveDisappearTime_ = 0;
+				isDisappear_ = true;
+				disappearStart_.x = object_->GetPosition().x;
+				disappearStart_.y = object_->GetPosition().y;
+				disappearStart_.z = object_->GetPosition().z;
 
-			disappearEnd_ = disappearStart_;
+				disappearEnd_ = disappearStart_;
+			}
+			moveTimer_ = 0;
 		}
-
-		moveTimer_ = 0;
 	}
-
-
 
 	//瞬間移動始め
 	if (isDisappear_) {
@@ -525,9 +506,7 @@ void Boss::Move()
 		//瞬間移動終わり
 		if (moveDisappearTime_ >= MAX_DISAPPEAR_TIME) {
 			isPop_ = false;
-			nowState_ = movementPattern_[movementPatternCount_];
-			randMoveChangeTime_ = rand() % MOVE_CHANGE_TIME_MAX + MOVE_CHANGE_TIME_MIN;
-			movementPatternCount_++;
+			nowState_ = 0;
 		}
 	}
 
@@ -536,133 +515,49 @@ void Boss::Move()
 //弾の処理
 void Boss::Shot()
 {
-	//0になったら弾を撃つ
-	if (coolTime_ <= 0) {
-
-		//行動パターンによって弾の軌道を変更
-		//プレイヤーに向けて直線
-		if (nowState_ == StraightShot) {
-			playerPos = player_->GetWorldPos();
-			myPos = object_->GetPosition();
-
-			differenceVec.x = myPos.x - playerPos.x;
-			differenceVec.y = myPos.y - playerPos.y;
-			differenceVec.z = myPos.z - playerPos.z;
-			differenceVec /= DIFFERENCE_RATE;
-			differenceVec.normalize();
-
-			object_->SetRotation({ 0,0,0 });
-			object_->Update();
-
-			velocity_ = differenceVec;
-			velocity_.multiplyMat4(object_->matWorld_);
-			velocity_ /= VELOCITY_RATE;
-		}
-		//回転攻撃
-		else if (nowState_ == SpinningShot) {
-			Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };
-			Vector3 end({ 0,0,0 });
-			Vector3 length = { 0, 0, VECTOR_LENGTH };
-			frontVec = { 0, 0, 0 };
-
-			//終点座標を設定
-			end.x = start.x + length.x;
-			end.y = start.y + length.y;
-			end.z = start.z + length.z;
-
-			//回転を考慮した座標を設定
-			end.x = start.x + sinf(bulletDirRot_.y / DIR_ROT_RATE);
-			end.z = start.z + cosf(bulletDirRot_.y / DIR_ROT_RATE);
-
-			//始点と終点から正面ベクトルを求める
-			frontVec.x = end.x - start.x;
-			frontVec.y = end.y - start.y;
-			frontVec.z = end.z - start.z;
-
-			frontVec.normalize();
-
-			velocity_ = frontVec;
-		}
-		//全方向ばらまく
-		else if (nowState_ == ScatterShot) {
-			Vector3 start = { GetWorldPos().x,GetWorldPos().y,GetWorldPos().z };
-			Vector3 end({ 0,0,0 });
-			Vector3 length = { 0, 0, VECTOR_LENGTH };
-			frontVec = { 0, 0, 0 };
-
-			//終点座標を設定
-			end.x = start.x + length.x;
-			end.y = start.y + length.y;
-			end.z = start.z + length.z;
-
-			//回転を考慮した座標を設定
-			end.x = start.x + sinf(bulletDirRot_.y);
-			end.z = start.z + cosf(bulletDirRot_.y);
-
-			//始点と終点から正面ベクトルを求める
-			frontVec.x = end.x - start.x;
-			frontVec.y = end.y - start.y;
-			frontVec.z = end.z - start.z;
-
-			frontVec.normalize();
-
-			velocity_ = frontVec;
-		}
-
-		//弾の生成
-		if (nowState_ == StraightShot) {
-			std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
-
-			newBullet->Initialize(pos_, velocity_, bulletModel_, 3);
-
-			//弾を登録する
-			bullets_.push_back(std::move(newBullet));
-
-			coolTime_ = COOLTIME_STRAIGHTSHOT;
-		}
-		else if (nowState_ == SpinningShot) {
-
-			for (int i = 0; i < 2; i++) {
-				std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
-
-				if (i == 0) {
-					newBullet->Initialize(pos_, velocity_, bulletModel_, false);
-				}
-				else {
-					newBullet->Initialize(pos_, velocity_, bulletModel_, true);
-				}
-
-				//弾を登録する
-				bullets_.push_back(std::move(newBullet));
-
-			}
-
-			coolTime_ = COOLTIME_SPINNINGSHOT;
-		}
-		else if (nowState_ == ScatterShot) {
-			for (int i = 0; i < 2; i++) {
-				std::unique_ptr<BossBullet> newBullet = std::make_unique<BossBullet>();
-
-				if (i == 0) {
-					newBullet->Initialize(pos_, velocity_, bulletModel_, false);
-				}
-				else {
-					newBullet->Initialize(pos_, velocity_, bulletModel_, true);
-				}
-
-				//弾を登録する
-				bullets_.push_back(std::move(newBullet));
-
-			}
-
-			coolTime_ = COOLTIME_SCATTERSHOT;
-		}
-	}
+	
 }
 
 //しっぽ処理
 void Boss::Tail()
 {
+	//攻撃開始
+	if (tailStateTime_[Wait] > MAX_TAIL_WAIT_TIME && !iaAttacking_) {
+		startAttack_ = true;
+	}
+	else {	//待機
+		tailStateTime_[Wait]++;
+	}
+
+	//攻撃中
+	if (iaAttacking_) {
+		tailStateTime_[Attack]++;
+
+		//着弾地点をロック
+		if (tailStateTime_[Attack] == MAX_TAIL_ROK_TIME) {
+			attackingTime_ = 0;
+			isTailAttacking_ = false;
+			backTail_ = false;
+			rokStart_ = tailPos_;
+			rokEnd_ = playerPos;
+		}
+
+		//着弾地点めがけ始め
+		if (tailStateTime_[Attack] >= MAX_TAIL_ATTACK_TIME) {
+			isTailAttacking_ = true;
+			tailStateTime_[Wait] = 0;
+		}
+	}
+
+	//攻撃開始時のフレーム
+	if (startAttack_) {
+		iaAttacking_ = true;
+		attackStart_ = tailPos_;
+		attackEnd_ = tailPos_;
+		attackEnd_.y += ATTACK_END_Y_VOLUE;
+		startAttack_ = false;
+	}
+
 	//しっぽの座標
 	teleLen_ = pos_ - tailPos_;
 	len_ = teleLen_.length();
@@ -735,6 +630,7 @@ void Boss::Tail()
 
 		if (attackingTime_ >= TAIL_ATTACK_MAX_TIME) {
 			endAttack_ = false;
+			nowState_ = 0;
 		}
 	}
 }

@@ -32,7 +32,9 @@ private:
 	ImGuiManager* imGuiM_ = ImGuiManager::GetInstance();
 	Sound* sound_ = Sound::GetInstance();
 
-	
+	int32_t slider[8] = {};
+
+
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_ = std::make_unique<PostEffect>();
 

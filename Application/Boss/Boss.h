@@ -54,7 +54,7 @@ private:
 	const float TAIL_SCALE = 10.0f;
 	const float TAIL_POSZ_VOLUE = 30.0f;
 	const int32_t MOVE_CHANGE_TIME = 60;
-	const int32_t MAX_MOVEMENT = 6;
+	const int32_t MAX_MOVEMENT = 8;
 	const float MOVE_Y_VOLUE = 0.3f;
 	const int32_t MOVE_SPEED_VOLUE = 50;
 	const float ADD_ROT_VOLUE = 2.0f;
@@ -156,7 +156,7 @@ private:
 	Vector2 bossLimit_ = { 140,120 };	//ボスの移動距離制限
 	Vector3 vPos_;
 	Vector3 leapScale_;
-	int32_t movementPattern_[10];
+	int32_t movementPattern_[8];
 	int32_t movementPatternCount_;
 
 	bool isDisappear_;	//瞬間移動始まり
@@ -242,8 +242,9 @@ private:
 
 	//float Time_;
 
-	bool akTail_;
+	bool akTail_ = true;
 
+	float aidle_ = 0;
 
 	//移動処理
 	void Move();
@@ -294,8 +295,14 @@ public:
 	Vector3 GetBossTailWorldPos();
 
 	int32_t GetState() { return movementPatternCount_; }
+	void SetState(int32_t num) { movementPatternCount_ = num; }
+
+	int32_t GetNowState() { return nowState_; }
+	int32_t GetStateMent(int32_t num) { return movementPattern_[num]; }
+	void SetStateMent(int32_t num,int32_t i);
 
 	bool GetAk() { return akTail_; }
+
 	void SetAkTail(bool AkTail) { akTail_ = AkTail; }
 };
 

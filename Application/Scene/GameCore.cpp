@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "GameCore.h"
 #include "SceneList.h"
 #pragma comment(lib, "d3dcompiler.lib")
@@ -75,6 +76,38 @@ void GameCore::Update()
 
 		ImGui::Text("StateCount %d", g->GetBoss()->GetAk());
 
+		ImGui::Text("nowState %d", g->GetBoss()->GetNowState());
+		ImGui::Text("nowStateCount %d", g->GetBoss()->GetState());
+
+		
+		if (ImGui::TreeNode("BossState")) {
+
+			if (ImGui::Button("StartState")) {
+				g->GetBoss()->SetState(0);
+			}
+
+			if (ImGui::Button("SaveState")) {
+				for (int i = 0; i < 8; i++) {
+					g->GetBoss()->SetStateMent(slider[i], i);
+				}
+			}
+
+			if (ImGui::Button("RoadState")) {
+				for (int i = 0; i < 8; i++) {
+					slider[i] = g->GetBoss()->GetStateMent(i);
+				}
+			}
+
+			for (int i = 0; i < 8; i++) {
+				char name[16];
+				sprintf(name, "state %d", i);
+				ImGui::SliderInt(name, &slider[i], 1, 3);
+			}
+			
+			ImGui::TreePop();
+		}
+
+		
 		if (ImGui::Button("NotAttack")) {
 			g->GetBoss()->SetAkTail(false);
 		}

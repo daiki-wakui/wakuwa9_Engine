@@ -59,10 +59,10 @@ void Player::Update()
 		frontVec.z *= dashPower_;
 	}
 
-	if (inputPad_->PushInstantA()) {
+	/*if (inputPad_->PushInstantA()) {
 		isStep_ = true;
 		stepPower_ = 8.0f;
-	}
+	}*/
 
 	
 
