@@ -410,13 +410,15 @@ void PostEffect::Update()
 
 			constMapMaterial->power = MyRandom::GetFloatRandom(0.1f, 1.0f);
 
+			constMapMaterial->shiftPower = MyRandom::GetFloatRandom(-0.02f, 0.02f);
+			noiseTimer_ = 1;
+
 			/*if (player->GetHP() <= 1) {
 				constMapMaterial->shiftPower = MyRandom::GetFloatRandom(-0.1f, 0.1f);
 				noiseTimer_ = 2;
 			}
 			else {
-				constMapMaterial->shiftPower = MyRandom::GetFloatRandom(-0.02f, 0.02f);
-				noiseTimer_ = 1;
+				
 			}*/
 			
 			//player->SetIsHit(false);

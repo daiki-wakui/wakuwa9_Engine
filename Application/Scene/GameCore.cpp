@@ -45,6 +45,12 @@ void GameCore::Update()
 
 	Framework::Update();
 
+	if (sceneManager_->GetNowSccene() == "TITLE") {
+		postEffect_->SetIsEffect(true);
+	}
+
+	postEffect_->Update();
+
 	//デバックImGui
 	imGuiM_->Begin();
 	ImGui::Text("Editor");

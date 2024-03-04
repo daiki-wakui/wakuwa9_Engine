@@ -18,7 +18,7 @@ private:
 	GamePad* gamePad_ = GamePad::GetInstance();
 
 	//現在のシーン
-	int32_t nowScene_ = 0;
+	std::string SceneName_;
 
 	BaseScene* scene_ = nullptr;
 	BaseScene* nextScene_ = nullptr;
@@ -30,6 +30,7 @@ public:
 	void SetSceneFactory(AbstractSceneFactory* sceneFactory) { sceneFactory_ = sceneFactory; }
 
 	void ChangeScene(const std::string& sceneName);
+	std::string GetNowSccene() { return SceneName_; }
 
 	//デストラクタ
 	~SceneManager();
@@ -46,15 +47,5 @@ public:
 	void ParticleDraw();
 	//ポストエフェクトをかけない描画
 	void OffEffectDraw();
-
-	//ゲームシーンに遷移するかの関数
-	bool ChangeToGameScene();
-	//タイトルシーンに遷移するかの関数
-	bool ChangeToTitleScene();
-
-public: //getter
-
-	int32_t GetSceneState() { return nowScene_; }
-
 };
 

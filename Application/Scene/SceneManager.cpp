@@ -7,6 +7,7 @@ void SceneManager::ChangeScene(const std::string& sceneName)
 	assert(nextScene_ == nullptr);
 
 	nextScene_ = sceneFactory_->CreateScene(sceneName);
+	SceneName_ = sceneName;
 }
 
 //デストラクタ
