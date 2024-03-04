@@ -35,19 +35,17 @@ void BitBasis::Update()
 	eye_ = thisObject_->GetEye();
 
 	bulletRTPos_ = thisObject_->GetPosition();
-	bulletRTPos_.x -= 5;
-	bulletRTPos_.z += 50;
-
-	reticle3DObject_->SetPosition(bulletRTPos_);
-	reticle3DObject_->Update();
-
 
 	bulletVec_.x = eye_.x - (thisObject_->GetPosition().x - 5);
 	bulletVec_.y = (eye_.y - 5) - thisObject_->GetPosition().y;
 	bulletVec_.z = eye_.z - thisObject_->GetPosition().z;
-
-
 	bulletVec_.normalize();
+
+	bulletRTVec_ = bulletVec_;
+	bulletRTVec_ *= -150;
+	bulletRTPos_ += bulletRTVec_;
+
+
 	bulletVec_ *= -15;
 
 	if (inputPad_->RTrigger()) {
@@ -71,6 +69,9 @@ void BitBasis::Update()
 	bullets_.remove_if([](std::unique_ptr<BaseObject>& bullet) {
 		return bullet->IsDead();
 	});
+
+	reticle3DObject_->SetPosition(bulletRTPos_);
+	reticle3DObject_->Update();
 }
 
 void BitBasis::Draw()
