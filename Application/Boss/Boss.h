@@ -129,7 +129,6 @@ private:
 	std::unique_ptr<Object3D> SadowObject_;
 	std::unique_ptr<Object3D> SadowObject2_;
 
-
 	float taillen_;
 	Vector3 tailVec_;
 	Vector3 tailballpos_;

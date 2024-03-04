@@ -194,6 +194,9 @@ void Boss::Update(bool move, bool debug)
 	if (KeyBoard::GetInstance()->keyInstantPush(DIK_3)) {
 		nowState_ = 3;
 	}
+	if (KeyBoard::GetInstance()->keyInstantPush(DIK_4)) {
+		nowState_ = 4;
+	}
 
 	playerPos = player_->GetWorldPos();
 
@@ -226,6 +229,10 @@ void Boss::Update(bool move, bool debug)
 			nowState_ = 0;
 			aidle_ = 0;
 		}
+	}
+
+	if (nowState_ == 4) {
+
 	}
 	
 	frame_++;
