@@ -42,6 +42,11 @@ private:
 	Vector3 bulletRTVec_ = { 0,0,0 };
 	Vector3 bulletRTPos_ = { 0,0,0 };
 	Vector3 bulletVec_ = { 0,0,0 };
+
+	uint8_t cooltime_;
+
+	Vector3 eye_;
+
 protected:
 
 

@@ -82,6 +82,9 @@ void PlayerCamera::Update()
 
 	obj_->SetEye(eye_);
 	obj_->SetTarget(target_);
+	Object3D::SetEye(eye_);
+	Object3D::SetTarget(target_);
+
 	/*ParticleManager::SetEye(eye_);
 	ParticleManager::SetTarget(target_);*/
 }

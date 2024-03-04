@@ -23,7 +23,7 @@ void BitBullet::Update()
 {
 	thisObject_->Update();
 
-	//pos_.z++;
+	pos_ += velocity_;
 	thisObject_->SetPosition(pos_);
 
 	if (--deathTimer_ <= 0) {
@@ -48,4 +48,10 @@ Vector3 BitBullet::GetScale()
 
 void BitBullet::OnCollison()
 {
+}
+
+void BitBullet::SetInfo(Vector3 pos, Vector3 velocity)
+{
+	pos_ = pos;
+	velocity_ = velocity;
 }

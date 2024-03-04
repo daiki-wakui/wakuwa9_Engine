@@ -18,6 +18,8 @@ public:
 
 	Vector3 GetScale() override;
 	void OnCollison() override;
+	void SetInfo(Vector3 pos, Vector3 velocity) override;
+
 private:	//メンバ変数
 
 	Model* thismodel_;
