@@ -201,16 +201,22 @@ void Boss::Update(bool move, bool debug)
 	playerPos = player_->GetWorldPos();
 
 	//行動パターン繰り返し
-	if (movementPatternCount_ >= MAX_MOVEMENT) {
+	if (movementPatternCount_ > MAX_MOVEMENT) {
 		movementPatternCount_ = 0;
+		nowState_ = 0;
 	}
 
 	if (nowState_ == 0) {
 		nowState_ = movementPattern_[movementPatternCount_];
 		movementPatternCount_++;
+		isCount_ = true;
+	}
+	else {
+		isCount_ = false;
 	}
 
 	if (nowState_ == 1) {
+		
 		//しっぽ
 		//映像外なら
 		if (!halfMovie_ && akTail_) {
@@ -218,12 +224,14 @@ void Boss::Update(bool move, bool debug)
 		}
 	}
 	if (nowState_ == 2) {
+		
 		//移動処理
 		if (!move || debug) {
 			Move();
 		}
 	}
 	if (nowState_ == 3) {
+		
 		aidle_++;
 		if (aidle_ >= 120) {
 			nowState_ = 0;

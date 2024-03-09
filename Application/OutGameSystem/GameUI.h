@@ -97,6 +97,20 @@ private:
 
 	std::unique_ptr<Sprite> StepFilterSprite_ = std::make_unique<Sprite>();
 
+
+	std::unique_ptr<Sprite> editSprite_[8];
+	std::unique_ptr<Sprite> editStateSprite_[8];
+
+	std::unique_ptr<Sprite> nowEditStateSprite_;
+	std::unique_ptr<Sprite> EditStateSprite_;
+
+	Vector3 ditSizeS_;
+	Vector3 ditSizeE_;
+	Vector3 trueEitSize_;
+	float ditTimer_;
+
+	bool isDebug_;
+
 	//ジャスト回避時のフィルターのアルファ値
 	float stepAlpha_ = 0;
 	int32_t stepFillTimer_ = 0;
@@ -137,6 +151,10 @@ private:
 
 	Vector3 wSize_ = {};
 	bool movieEnd_ = false;
+
+	int32_t stateNum_[8];
+	int32_t NowState_;
+
 public:
 
 	//コンストラクタ、デストラクタ
@@ -197,5 +215,10 @@ public:	//getter,setter
 	//必要な情報を借りてくる
 	void SetInfo(Player* player, Object3D* playerObject, Boss* boss);
 	void boolInfo(bool hitBox, bool isIvent);
+
+	void SetStateNum(int32_t stateNum, int Num) { stateNum_[Num] = stateNum; }
+	void SetNowStateNum(int32_t num) { NowState_ = num; }
+
+	void SetDebug(int32_t num) { isDebug_ = num; }
 };
 

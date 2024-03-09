@@ -132,7 +132,37 @@ void GameUI::GameSceneInitialize()
 	StepFilterSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
 	StepFilterSprite_->Update();
 
+	for (int i = 0; i < 8; i++) {
+		editSprite_[i] = std::make_unique<Sprite>();
+		editSprite_[i]->Initialize();
+		editSprite_[i]->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+		editSprite_[i]->SetSize({ 380 / 3,380 / 3 });
+		editSprite_[i]->Update();
 
+		editStateSprite_[i] = std::make_unique<Sprite>();
+		editStateSprite_[i]->Initialize();
+		editStateSprite_[i]->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+		editStateSprite_[i]->SetSize({ 380 / 3,380 / 3 });
+		editStateSprite_[i]->Update();
+	}
+	
+	nowEditStateSprite_ = std::make_unique<Sprite>();
+	nowEditStateSprite_->Initialize();
+	nowEditStateSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	nowEditStateSprite_->SetSize({ 380 / 2.9f,380 / 2.9f });
+	nowEditStateSprite_->Update();
+
+	EditStateSprite_ = std::make_unique<Sprite>();
+	EditStateSprite_->Initialize();
+	EditStateSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	EditStateSprite_->SetSize({ 380/2.5f,380 * 4 });
+	EditStateSprite_->Update();
+
+	ditSizeE_.x = nowEditStateSprite_->GetSize().x;
+	ditSizeE_.y = nowEditStateSprite_->GetSize().y;
+
+	ditSizeS_.x = ditSizeE_.x + 50;
+	ditSizeS_.y = ditSizeE_.y + 50;
 }
 
 //タイトルシーンUI更新処理
@@ -157,6 +187,36 @@ void GameUI::TitleUpdate(bool sceneChange)
 //ゲームシーンUI更新処理
 void GameUI::GameUpdate()
 {
+	for (int i = 0; i < 8; i++) {
+
+		editSprite_[i]->SetPosition({ 150,130 + 65 * (float)i });
+		editSprite_[i]->Update();
+
+		editStateSprite_[i]->SetPosition({ 150,130 + 65 * (float)i });
+		editStateSprite_[i]->Update();
+	}
+
+
+	NowState_ -= 1;
+	NowState_ = max(0, NowState_);
+	NowState_ = min(8, NowState_);
+
+
+	ditTimer_++;
+
+	if (boss_->GetCount()) {
+		ditTimer_ = 0;
+	}
+
+	trueEitSize_ = trueEitSize_.lerp(ditSizeS_, ditSizeE_, Easing::EaseOutCubic(ditTimer_, 10));
+
+	nowEditStateSprite_->SetPosition({ 150,130 + 65 * ((float)NowState_) });
+	nowEditStateSprite_->SetSize({ trueEitSize_.x,trueEitSize_.y });
+	nowEditStateSprite_->Update();
+
+	EditStateSprite_->SetPosition({ 150,420 });
+	EditStateSprite_->Update();
+
 	//stepAlpha_
 	if (player_->GetIsJustStep()) {
 		stepFillTimer_++;
@@ -298,6 +358,22 @@ void GameUI::TitleDraw()
 //ゲームシーンUI描画関数
 void GameUI::GameDraw()
 {
+
+	if (isDebug_) {
+		EditStateSprite_->Draw(EditBImage_);
+
+		for (int i = 0; i < 8; i++) {
+			editSprite_[i]->Draw(editImage_[0]);
+			editStateSprite_[i]->Draw(editImage_[stateNum_[i]]);
+		}
+
+		nowEditStateSprite_->Draw(nowEditImage_);
+		//editSprite_[1]->Draw(editImage_[stateNum_[0]]);
+	}
+	
+
+	
+
 	StepFilterSprite_->Draw(stepFilterImage_);
 
 	//ボスのイベントムービー中は非表示

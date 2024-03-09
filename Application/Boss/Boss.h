@@ -156,7 +156,9 @@ private:
 	Vector3 vPos_;
 	Vector3 leapScale_;
 	int32_t movementPattern_[8];
-	int32_t movementPatternCount_;
+	int32_t movementPatternCount_ = 1;
+
+	bool isCount_;
 
 	bool isDisappear_;	//瞬間移動始まり
 	bool isPop_;	//瞬間移動終わり
@@ -301,7 +303,11 @@ public:
 	void SetStateMent(int32_t num,int32_t i);
 
 	bool GetAk() { return akTail_; }
+	bool GetCount() { return isCount_; }
+
 
 	void SetAkTail(bool AkTail) { akTail_ = AkTail; }
+
+	void SetIsCount(bool isState) { isCount_ = isState; }
 };
 

@@ -49,6 +49,12 @@ void TextureManager::LoadGameTexture()
 	damageFilter_ = spBasis_->TextureData(L"Resources/damageFilter.png");
 	bulletRreticleImage_ = spBasis_->TextureData(L"Resources/shotReticle.png");
 
+	editImage_[0] = spBasis_->TextureData(L"Resources/z_gui/edit.png");
+	editImage_[1] = spBasis_->TextureData(L"Resources/z_gui/edit_ak.png");
+	editImage_[2] = spBasis_->TextureData(L"Resources/z_gui/edit_move.png");
+	editImage_[3] = spBasis_->TextureData(L"Resources/z_gui/edit_wit.png");
+	nowEditImage_ = spBasis_->TextureData(L"Resources/z_gui/edit_now.png");
+	EditBImage_ = spBasis_->TextureData(L"Resources/z_gui/edit_b.png");
 
 	spBasis_->TextureSetting();
 }

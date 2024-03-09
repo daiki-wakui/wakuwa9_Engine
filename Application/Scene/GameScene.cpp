@@ -64,6 +64,7 @@ void GameScene::Update()
 		EditorLoad("bossEditor");
 		iSDeBoss_ = true;
 		hitBox_ = true;
+		gameUI_->SetDebug(true);
 	}
 
 	if (keyboard_->keyInstantPush(DIK_K)) {
@@ -334,6 +335,16 @@ void GameScene::SpriteUpdate()
 
 		gameUI_->BossHpUI();
 	}
+
+
+	for (int i = 0; i < 8; i++) {
+		int a;
+		a = boss_->GetStateMent(i);
+
+		gameUI_->SetStateNum(a, i);
+	}
+	
+	gameUI_->SetNowStateNum(boss_->GetState());
 }
 
 //スプライト描画
