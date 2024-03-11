@@ -51,6 +51,9 @@ void GameCore::Update()
 	
 	//デバックImGui
 	imGuiM_->Begin();
+
+	ImGui::Begin("aaaaaa");
+
 	GameScene* g = sceneManager_->GetGameScene();
 
 	if (ImGui::TreeNode("StageEditor")) {
@@ -66,10 +69,10 @@ void GameCore::Update()
 		}
 		ImGui::TreePop();
 	}
-	
+
 
 	if (ImGui::TreeNode("BossEditor")) {
-		
+
 		ImGui::Text("BossPosition");
 		ImGui::Text("%f,%f,%f", g->GetBoss()->GetWorldPos().x, g->GetBoss()->GetWorldPos().y, g->GetBoss()->GetWorldPos().z);
 		ImGui::Text("%f,%f,%f", g->GetBoss()->GetBossTailWorldPos().x, g->GetBoss()->GetBossTailWorldPos().y, g->GetBoss()->GetBossTailWorldPos().z);
@@ -79,7 +82,7 @@ void GameCore::Update()
 		ImGui::Text("nowState %d", g->GetBoss()->GetNowState());
 		ImGui::Text("nowStateCount %d", g->GetBoss()->GetState());
 
-		
+
 		if (ImGui::TreeNode("BossState")) {
 
 			if (ImGui::Button("StartState")) {
@@ -103,11 +106,11 @@ void GameCore::Update()
 				sprintf(name, "state %d", i);
 				ImGui::SliderInt(name, &slider[i], 1, 3);
 			}
-			
+
 			ImGui::TreePop();
 		}
 
-		
+
 		if (ImGui::Button("NotAttack")) {
 			g->GetBoss()->SetAkTail(false);
 		}
@@ -118,6 +121,15 @@ void GameCore::Update()
 		ImGui::TreePop();
 	}
 
+	ImGui::End();
+
+	ImGui::Begin("bbbbbbb");
+
+	ImGui::End();
+
+	ImGui::Begin("cccccc");
+
+	ImGui::End();
 	
 	
 	imGuiM_->End();
