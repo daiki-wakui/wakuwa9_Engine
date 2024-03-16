@@ -55,6 +55,7 @@ void TextureManager::LoadGameTexture()
 	editImage_[3] = spBasis_->TextureData(L"Resources/z_gui/edit_wit.png");
 	nowEditImage_ = spBasis_->TextureData(L"Resources/z_gui/edit_now.png");
 	EditBImage_ = spBasis_->TextureData(L"Resources/z_gui/edit_b.png");
+	EditArrowImage_ = spBasis_->TextureData(L"Resources/z_gui/edit_aroow.png");
 
 	spBasis_->TextureSetting();
 }

@@ -100,6 +100,7 @@ private:
 
 	std::unique_ptr<Sprite> editSprite_[8];
 	std::unique_ptr<Sprite> editStateSprite_[8];
+	std::unique_ptr<Sprite> editarrowSprite_[8];
 
 	std::unique_ptr<Sprite> nowEditStateSprite_;
 	std::unique_ptr<Sprite> EditStateSprite_;

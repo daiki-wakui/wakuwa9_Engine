@@ -43,6 +43,7 @@ protected:
 	int32_t editImage_[4];
 	int32_t nowEditImage_;
 	int32_t EditBImage_;
+	int32_t EditArrowImage_;
 
 
 	SpriteBasis* spBasis_ = SpriteBasis::GetInstance();

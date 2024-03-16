@@ -144,6 +144,15 @@ void GameUI::GameSceneInitialize()
 		editStateSprite_[i]->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
 		editStateSprite_[i]->SetSize({ 380 / 3,380 / 3 });
 		editStateSprite_[i]->Update();
+
+		if (i != 7) {
+			editarrowSprite_[i] = std::make_unique<Sprite>();
+			editarrowSprite_[i]->Initialize();
+			editarrowSprite_[i]->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+			editarrowSprite_[i]->SetSize({ 380 / 6,380 / 6 });
+			editarrowSprite_[i]->Update();
+		}
+		
 	}
 	
 	nowEditStateSprite_ = std::make_unique<Sprite>();
@@ -194,6 +203,12 @@ void GameUI::GameUpdate()
 
 		editStateSprite_[i]->SetPosition({ 150,130 + 65 * (float)i });
 		editStateSprite_[i]->Update();
+
+		if (i != 7) {
+			editarrowSprite_[i]->SetPosition({ 150,150 + 65 * (float)i });
+			editarrowSprite_[i]->Update();
+		}
+		
 	}
 
 
@@ -365,6 +380,10 @@ void GameUI::GameDraw()
 		for (int i = 0; i < 8; i++) {
 			editSprite_[i]->Draw(editImage_[0]);
 			editStateSprite_[i]->Draw(editImage_[stateNum_[i]]);
+		}
+
+		for (int i = 0; i < 7; i++) {
+			editarrowSprite_[i]->Draw(EditArrowImage_);
 		}
 
 		nowEditStateSprite_->Draw(nowEditImage_);
