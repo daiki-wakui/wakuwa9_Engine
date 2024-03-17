@@ -43,8 +43,10 @@ void GameScene::Update()
 	}
 
 	if (gameUI_->GetGameSceneChangeAlpha() == 0) {
-		SoundManager::GetInstance()->Update(GAME_BGM);
+		
 	}
+
+	SoundManager::GetInstance()->Update(GAME_BGM);
 
 	ObjectUpdate();
 

@@ -12,6 +12,8 @@ void EnemyBasis::Initialize(Model* model, Object3D* object)
 {
 	thismodel_ = model;
 	thisObject_ = object;
+	thisObject_->SetScale({ 3,3,3 });
+
 }
 
 void EnemyBasis::Update()

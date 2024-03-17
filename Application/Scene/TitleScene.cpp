@@ -34,8 +34,10 @@ void TitleScene::Finalize()
 //更新処理
 void TitleScene::Update()
 {
-	if (keyboard_->keyInstantPush(DIK_G)) {
-		sceneManager_->ChangeScene("GAME");
+	if (gamePad_->PushButtonB()) {
+
+		changeStart_ = true;
+		
 	}
 
 	titleUI_->TitleUpdate(changeStart_);
@@ -55,6 +57,7 @@ void TitleScene::Update()
 			changeEnd_ = true;
 			isStartSE_ = false;
 			playBGM_ = false;
+			sceneManager_->ChangeScene("GAME");
 		}
 
 		SoundManager::GetInstance()->StopBGM();

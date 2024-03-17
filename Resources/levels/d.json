@@ -525,7 +525,7 @@
                     1.0
                 ]
             },
-            "file_name": "enemyc"
+            "file_name": "enemySpawn"
         },
         {
             "type": "MESH",
@@ -547,7 +547,7 @@
                     1.0
                 ]
             },
-            "file_name": "enemyc"
+            "file_name": "enemySpawn"
         },
         {
             "type": "MESH",
@@ -569,7 +569,7 @@
                     1.0
                 ]
             },
-            "file_name": "enemyc"
+            "file_name": "enemySpawn"
         },
         {
             "type": "MESH",
