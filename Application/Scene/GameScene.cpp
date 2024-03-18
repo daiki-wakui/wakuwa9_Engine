@@ -31,16 +31,23 @@ void GameScene::Finalize()
 void GameScene::Update()
 {
 
-	//リセット
-	if (isChangeStage_) {
+	if (col_->GetIsStageChange()) {
 		bossBGM_ = false;
 		hitBox_ = false;
 
 		lvEditor_->EditorLoad("obj");
+		playerObj_ = lvEditor_->GetPlayer();
 		SoundManager::GetInstance()->SetFiledBGM(true);
 
-		isChangeStage_ = false;
+		col_->SetIsStageChanhe(false);
 	}
+
+	//リセット
+	/*if (isChangeStage_) {
+		
+
+		isChangeStage_ = false;
+	}*/
 
 	if (gameUI_->GetGameSceneChangeAlpha() == 0) {
 		
@@ -55,6 +62,8 @@ void GameScene::Update()
 
 	shadowObject_->SetPosition({ playerObject_->GetPosition().x,json_->LoadFloat("SHADOW_POS_Y"),playerObject_->GetPosition().z});
 	shadowObject_->Update();
+
+
 
 	if (change_) {
 		SoundManager::GetInstance()->StopBGM();

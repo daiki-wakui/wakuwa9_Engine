@@ -17,7 +17,12 @@ public:
 
 	void SetObjectList(LevelEditor* lv);
 
+	bool GetIsStageChange() { return isChange_; }
+	void SetIsStageChanhe(bool isChange) { isChange_ = isChange; }
+
 private:
+
+	bool isChange_;
 
 	LevelEditor* lv_;
 

@@ -25,9 +25,20 @@ void GameCollisons::Update()
 		scaleA_ = lv_->GetPlayer()->GetScale().x;
 		scaleB_ = objectB->GetScale().x;
 
+		if (objectB->GetName() == "ChangeStageBox") {
+			scaleB_ = objectB->GetScale().x;
+		}
+
 		if (Collison(posA_, posB_, scaleA_, scaleB_)) {
+
 			lv_->GetPlayer()->OnCollison();
 			objectB->OnCollison();
+
+
+			if (objectB->GetName() == "ChangeStageBox") {
+				isChange_ = true;
+			}
+			
 		}
 	}
 }
