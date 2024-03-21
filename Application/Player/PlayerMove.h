@@ -3,6 +3,7 @@
 #include "KeyBoard.h"
 #include "GamePad.h"
 #include "Vector3.h"
+#include "constJsonValue.h"
 
 class PlayerMove
 {
@@ -19,16 +20,7 @@ private:
 
 private:
 
-	const float FRONT_VECTOR_RATE = 1.5f;
-	const float DASH_POWTER_VOLUE = 0.2f;
-	const float ROT_MAX = 5;
-	const int32_t ADD_FRAME = 20;
-	const float DASH_POWTER_MAX_VOLUE = 1.5f;
-
-
-	const int32_t FRAME_RATE = 40;
-	const float POS_Y_RATE = 0.5f;
-	const float ADD_POS_Y_VOLUE = 10.0f;
+	std::unique_ptr<constJsonValue> json_;
 
 protected:
 

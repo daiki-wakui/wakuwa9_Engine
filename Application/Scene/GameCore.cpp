@@ -37,8 +37,8 @@ void GameCore::Update()
 {
 #ifdef _DEBUG
 	if (keyboard_->keyInstantPush(DIK_P)) {
-		isDebug++;
-		isDebug = isDebug % 2;
+		isDebug_++;
+		isDebug_ = isDebug_ % 2;
 	}
 #endif // _DEBUG
 	
@@ -96,7 +96,7 @@ void GameCore::Draw()
 
 	
 	//imgui
-	if (isDebug) {
+	if (isDebug_) {
 		imGuiM_->Draw();
 	}
 

@@ -7,6 +7,7 @@
 //初期化
 void GameScene::Initialize()
 {
+	//jsonファイルから定数を読み込み
 	json_ = std::make_unique<constJsonValue>();
 	json_->LoadConstValue("Resources/json/gameSceneConst.json");
 
@@ -30,7 +31,7 @@ void GameScene::Finalize()
 //更新処理
 void GameScene::Update()
 {
-
+	//リセット
 	if (col_->GetIsStageChange()) {
 		bossBGM_ = false;
 		hitBox_ = false;
@@ -42,17 +43,6 @@ void GameScene::Update()
 		col_->SetIsStageChanhe(false);
 	}
 
-	//リセット
-	/*if (isChangeStage_) {
-		
-
-		isChangeStage_ = false;
-	}*/
-
-	if (gameUI_->GetGameSceneChangeAlpha() == 0) {
-		
-	}
-
 	SoundManager::GetInstance()->Update(GAME_BGM);
 
 	ObjectUpdate();
@@ -62,8 +52,6 @@ void GameScene::Update()
 
 	shadowObject_->SetPosition({ playerObject_->GetPosition().x,json_->LoadFloat("SHADOW_POS_Y"),playerObject_->GetPosition().z});
 	shadowObject_->Update();
-
-
 
 	if (change_) {
 		SoundManager::GetInstance()->StopBGM();

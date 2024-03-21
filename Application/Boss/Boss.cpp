@@ -273,24 +273,6 @@ void Boss::Move()
 	std::uniform_real_distribution<float> moveLimitRTY(-bossLimit_.y, 0);
 
 	//playerが左下にいるとき
-	//if (player_->GetWorldPos().x < centerPos_.x && player_->GetWorldPos().z < centerPos_.z) {
-	//	toPlayerArea_ = LBottom;
-	//}
-	////左上にいるとき
-	//else if (player_->GetWorldPos().x < centerPos_.x && player_->GetWorldPos().z > centerPos_.z) {
-	//	toPlayerArea_ = LTop;
-	//}
-	////右下にいるとき
-	//else if (player_->GetWorldPos().x > centerPos_.x && player_->GetWorldPos().z < centerPos_.z) {
-	//	toPlayerArea_ = RBottom;
-	//}
-	////右上にいるとき
-	//else if (player_->GetWorldPos().x > centerPos_.x && player_->GetWorldPos().z > centerPos_.z) {
-	//	toPlayerArea_ = RTop;
-	//}
-	//else {
-	//	toPlayerArea_ = 0;
-	//}
 
 	moveTimer_++;
 

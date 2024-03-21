@@ -3,25 +3,27 @@
 
 void BitMove::Initialize(Object3D* object)
 {
+	//jsonファイルから定数を読み込み
+	json_ = std::make_unique<constJsonValue>();
+	json_->LoadConstValue("Resources/json/playerBitMoveConst.json");
+
 	obj_ = object;
 	pos_ = obj_->GetPosition();
-	pos_.x += ADD_BIT_X_VOLUE;
+	pos_.x += json_->LoadFloat("ADD_BIT_X_VOLUE");
 }
 
 void BitMove::Update()
 {
-//	pos_ = obj_->GetPosition();
 
 	eye_ = obj_->GetEye();
 	target_ = obj_->GetTarget();
-
 
 	Move();
 
 	posPod_ = pos_;
 	posPod_.x += sideMove_.x;
 
-	posPod_.y = sinf(wa9Math::PI() * frame * BIT_FRAME_RATE) * BIT_POS_Y_RATE + ADD_BIT_POS_Y_VOLUE;
+	posPod_.y = sinf(wa9Math::PI() * frame * json_->LoadInt("BIT_FRAME_RATE")) * json_->LoadFloat("BIT_POS_Y_RATE") + json_->LoadFloat("ADD_BIT_POS_Y_VOLUE");
 	posPod_.y += 7;
 
 	obj_->SetPosition(posPod_);
@@ -34,12 +36,12 @@ void BitMove::Move()
 	frontVec.z = eye_.z - target_.z;
 
 	frontVec.normalize();
-	frontVec /= FRONT_VECTOR_RATE;
+	frontVec /= json_->LoadFloat("FRONT_VECTOR_RATE");
 
 	if (dash) {
-		dashPower_ += DASH_POWTER_VOLUE;
+		dashPower_ += json_->LoadFloat("DASH_POWTER_VOLUE");
 
-		dashPower_ = min(dashPower_, DASH_POWTER_MAX_VOLUE);
+		dashPower_ = min(dashPower_, json_->LoadFloat("DASH_POWTER_MAX_VOLUE"));
 
 		frontVec.x *= dashPower_;
 		frontVec.z *= dashPower_;
@@ -48,16 +50,10 @@ void BitMove::Move()
 	if (inputPad_->InputLStickUp() || input_->keyPush(DIK_UP)) {
 		Vector3 tmppos = pos_;
 
-		/*Vector3 vel{};
-		vel.x = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
-		vel.y = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
-
-		moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);*/
-
 		frontMove_.x = -frontVec.x;
 		frontMove_.z = -frontVec.z;
 		rot_.x++;
-		rot_.x = min(rot_.x, ROT_MAX);
+		rot_.x = min(rot_.x, json_->LoadFloat("ROT_MAX"));
 	}
 	else {
 		if (!inputPad_->InputLStick() && rot_.x > 0) {
@@ -70,16 +66,10 @@ void BitMove::Move()
 	if (inputPad_->InputLStickDown() || input_->keyPush(DIK_DOWN)) {
 		Vector3 tmppos = pos_;
 
-		/*Vector3 vel{};
-		vel.x = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
-		vel.y = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
-
-		moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);*/
-
 		frontMove_.x = frontVec.x;
 		frontMove_.z = frontVec.z;
 		rot_.x--;
-		rot_.x = max(rot_.x, -ROT_MAX);
+		rot_.x = max(rot_.x, -json_->LoadFloat("ROT_MAX"));
 	}
 	else {
 		if (!inputPad_->InputLStick() && rot_.x < 0) {
@@ -96,16 +86,10 @@ void BitMove::Move()
 
 		Vector3 tmppos = pos_;
 
-		/*Vector3 vel{};
-		vel.x = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
-		vel.y = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
-
-		moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);*/
-
 		sideMove_.x = -moveXVec.x;
 		sideMove_.z = -moveXVec.z;
 		rot_.z--;
-		rot_.z = max(rot_.z, -ROT_MAX);
+		rot_.z = max(rot_.z, -json_->LoadFloat("ROT_MAX"));
 	}
 	else {
 		sideMove_ *= friction;
@@ -119,16 +103,10 @@ void BitMove::Move()
 
 		Vector3 tmppos = pos_;
 
-		/*Vector3 vel{};
-		vel.x = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
-		vel.y = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
-
-		moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);*/
-
 		sideMove_.x = moveXVec.x;
 		sideMove_.z = moveXVec.z;
 		rot_.z++;
-		rot_.z = min(rot_.z, ROT_MAX);
+		rot_.z = min(rot_.z, json_->LoadFloat("ROT_MAX"));
 	}
 	else {
 		if (!inputPad_->InputLStick() && rot_.z > 0) {
@@ -156,7 +134,7 @@ void BitMove::Move()
 	pos_.y += sideMove_.y;
 	pos_.z += sideMove_.z;
 
-	pos_.y = sinf(wa9Math::PI() * (frame + ADD_FRAME) * FRAME_RATE) * POS_Y_RATE + ADD_POS_Y_VOLUE;
+	pos_.y = sinf(wa9Math::PI() * (frame + json_->LoadInt("ADD_FRAME")) * json_->LoadInt("FRAME_RATE")) * json_->LoadFloat("POS_Y_RATE") + json_->LoadFloat("ADD_POS_Y_VOLUE");
 
 	frame++;
 

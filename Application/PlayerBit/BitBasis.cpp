@@ -10,7 +10,11 @@ BitBasis::~BitBasis()
 
 void BitBasis::Initialize(Model* model, Object3D* object)
 {
-	cooltime_ = 7;
+	//jsonファイルから定数を読み込み
+	json_ = std::make_unique<constJsonValue>();
+	json_->LoadConstValue("Resources/json/playerBitBasisConst.json");
+
+	cooltime_ = json_->LoadInt("COOL_TIME");
 	thismodel_ = model;
 	thisObject_ = object;
 

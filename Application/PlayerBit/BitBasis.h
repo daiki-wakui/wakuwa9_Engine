@@ -2,6 +2,7 @@
 #include "BaseObject.h"
 #include "BitMove.h"
 #include "BitBullet.h"
+#include "constJsonValue.h"
 
 class BitBasis : public BaseObject
 {
@@ -26,6 +27,9 @@ public:
 
 
 private:
+
+	std::unique_ptr<constJsonValue> json_;
+
 	KeyBoard* input_ = KeyBoard::GetInstance();
 	GamePad* inputPad_ = GamePad::GetInstance();
 	Model* thismodel_;

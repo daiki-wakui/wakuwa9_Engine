@@ -1,0 +1,13 @@
+{
+    "FRONT_VECTOR_RATE":1.5,
+    "DASH_POWTER_VOLUE":0.2,
+    "ROT_MAX":5.0,
+    "DASH_POWTER_MAX_VOLUE":1.5,
+    "POS_Y_RATE":0.5,
+    "ADD_POS_Y_VOLUE":10.0,
+
+    
+    "ADD_FRAME":20,
+    "FRAME_RATE":40
+
+}

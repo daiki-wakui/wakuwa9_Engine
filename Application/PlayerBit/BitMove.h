@@ -2,6 +2,8 @@
 #include "Object3D.h"
 #include "KeyBoard.h"
 #include "GamePad.h"
+#include "constJsonValue.h"
+
 
 class BitMove
 {
@@ -15,26 +17,10 @@ public:
 
 	Vector3 GetEye() { return eye_; }
 	Vector3 GetPos() { return pos_; }
-private:
-
-	const float FRONT_VECTOR_RATE = 1.5f;
-	const float DASH_POWTER_VOLUE = 0.2f;
-	const float ROT_MAX = 5;
-	const int32_t ADD_FRAME = 20;
-	const float DASH_POWTER_MAX_VOLUE = 1.5f;
-
-
-	const int32_t FRAME_RATE = 40;
-	const float POS_Y_RATE = 0.5f;
-	const float ADD_POS_Y_VOLUE = 10.0f;
-
-
-	const float ADD_BIT_X_VOLUE = 5.0f;
-	const int32_t BIT_FRAME_RATE = 40;
-	const float BIT_POS_Y_RATE = 0.5f;
-	const float ADD_BIT_POS_Y_VOLUE = 10.0f;
 
 private:
+
+	std::unique_ptr<constJsonValue> json_;
 
 	Object3D* obj_;
 

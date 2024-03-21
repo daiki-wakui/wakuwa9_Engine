@@ -4,6 +4,10 @@
 void PlayerCamera::Initialize(Object3D* object)
 {
 	obj_ = object;
+
+	//jsonファイルから定数を読み込み
+	json_ = std::make_unique<constJsonValue>();
+	json_->LoadConstValue("Resources/json/playerCameraConst.json");
 }
 
 void PlayerCamera::Update()
@@ -17,11 +21,13 @@ void PlayerCamera::Update()
 
 	float height = toCameraPosXZ.y;
 	toCameraPosXZ.y = 0.0f;
-	float CameraXZLen = MOVE_CAMERA_LENGTH_VOLUE;
+	float CameraXZLen = json_->LoadFloat("MOVE_CAMERA_LENGTH_VOLUE");
 	toCameraPosXZ.normalize();
 
+	
+
 	Vector3 terget = pos_;
-	terget.y += MOVE_CAMERA_TARGET_Y_VOLUE;
+	terget.y += json_->LoadFloat("MOVE_CAMERA_TARGET_Y_VOLUE");
 
 	DirectX::XMFLOAT3 toNewCameraPos;
 	toNewCameraPos.x = eye_.x - terget.x;
@@ -38,9 +44,11 @@ void PlayerCamera::Update()
 
 	toNewCameraPosv.normalize();
 
-	float weight = MOVE_CAMERA_ROT_WEIGHT_VOLUE;
-
-	toNewCameraPosv = toNewCameraPosv * weight + toCameraPosXZ * (MOVE_CAMERA_ROT_MAX_WEIGHT_VOLUE - weight);
+	
+	float weight = json_->LoadFloat("MOVE_CAMERA_ROT_WEIGHT_VOLUE");
+	
+	
+	toNewCameraPosv = toNewCameraPosv * weight + toCameraPosXZ * (json_->LoadFloat("MOVE_CAMERA_ROT_MAX_WEIGHT_VOLUE") - weight);
 	toNewCameraPosv.normalize();
 	toNewCameraPosv *= CameraXZLen;
 	toNewCameraPosv.y = height;
@@ -56,23 +64,24 @@ void PlayerCamera::Update()
 	cameraTargetAngle_ = obj_->GetEye().y;
 
 	if (inputPad_->InputRStickRight()) {
-		cameraAngle_ += MOVE_CAMERA_ANGLE_VOLUE;
+		cameraAngle_ += json_->LoadFloat("MOVE_CAMERA_ANGLE_VOLUE");
 	}
 	else if (inputPad_->InputRStickLeft()) {
-		cameraAngle_ -= MOVE_CAMERA_ANGLE_VOLUE;
+		cameraAngle_ -= json_->LoadFloat("MOVE_CAMERA_ANGLE_VOLUE");
 	}
+	
 
 	if (inputPad_->InputRStickUp()) {
-		cameraTargetAngle_ -= MOVE_CAMERA_TARGET_ANGLE_VOLUE;
+		cameraTargetAngle_ -= json_->LoadFloat("MOVE_CAMERA_TARGET_ANGLE_VOLUE");
 	}
 	else if (inputPad_->InputRStickDown()) {
-		cameraTargetAngle_ += MOVE_CAMERA_TARGET_ANGLE_VOLUE;
+		cameraTargetAngle_ += json_->LoadFloat("MOVE_CAMERA_TARGET_ANGLE_VOLUE");
 	}
 
 	if (inputPad_->InputRStick()) {
 		r_ = cameraAngle_ * wa9Math::PI() / wa9Math::Degree180();
-		cameraTargetAngle_ = max(cameraTargetAngle_, MOVE_CAMERA_TARGET_MIN_ANGLE);
-		cameraTargetAngle_ = min(cameraTargetAngle_, MOVE_CAMERA_TARGET_MAX_ANGLE);
+		cameraTargetAngle_ = max(cameraTargetAngle_, json_->LoadFloat("MOVE_CAMERA_TARGET_MIN_ANGLE"));
+		cameraTargetAngle_ = min(cameraTargetAngle_, json_->LoadFloat("MOVE_CAMERA_TARGET_MAX_ANGLE"));
 
 		eye_.x = pos_.x + (sinf(r_) * CameraXZLen);
 		eye_.z = pos_.z + (cosf(r_) * CameraXZLen);
@@ -84,7 +93,4 @@ void PlayerCamera::Update()
 	obj_->SetTarget(target_);
 	Object3D::SetEye(eye_);
 	Object3D::SetTarget(target_);
-
-	/*ParticleManager::SetEye(eye_);
-	ParticleManager::SetTarget(target_);*/
 }
