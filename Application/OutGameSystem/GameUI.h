@@ -6,6 +6,7 @@
 #include "Object3D.h"
 #include "Vector2.h"
 #include "Vector3.h"
+#include "constJsonValue.h"
 
 /**
  * @file GameUI
@@ -16,49 +17,7 @@ class GameUI : public TextureManager
 {
 private:
 
-	const float SCREEN_SIZE_X = 1280.0f;
-	const float SCREEN_SIZE_Y = 720.0f;
-	const float HALF_SCREEN_SIZE_X = SCREEN_SIZE_X / 2.0f;
-	const float HALF_SCREEN_SIZE_Y = SCREEN_SIZE_Y / 2.0f;
-	const float COLOR_WIHTE = 1.0f;
-	const float MAX_ALPHA = 1.0f;
-
-	const float PLAYER_HP_X = 50.0f;
-	const float PLAYER_HP_Y = 20.0f;
-	const float PLAYER_HP_SIZE_X = 32.0f;
-	const float PLAYER_HP_SIZE_Y = 16.0f;
-	const float PLAYER_HP_DANGER = 1.0f;
-
-	const float BOSS_HP_Y = 80.0f;
-	const float BOSS_HP_SIZE_X = 16.0f;
-	const float BOSS_HP_SIZE_Y = 32.0f;
-
-	const float RB_UI_SIZE = 160.0f;
-	const float RB_UI_POS_X_VOLUE = 175.0f;
-	const float RB_UI_POS_Y_VOLUE = 90.0f;
-	const float RB_ALPHA_VOLUE = 0.15f;
-
-	const float PLAYER_BULLETRETICLE_SIZE = 32.0f;
-	const float CHANGE_TITLE_ALPHA_VOLUE = 0.05f;
-	const float CHANGE_GAME_ALPHA_VOLUE = 0.05f;
-	const float EVENT_MOVIE_ALPHA_VOLUE = 0.05f;
-
-	const float SIDE_RETICLE_SIZE_VOLUE_X = 300.0f;
-	const float SIDE_RETICLE_SIZE_VOLUE_Y = 200.0f;
-
-	const float FILLTER_TIMER_FRAME = 50.0f;
-	const float FILLTER_ALPHA_ADD_VOLUE = 0.07f;
-	const float FILLTER_ALPHA_SUB_VOLUE = 0.05f;
-
-	const int32_t BLINKING_COUNT = 3;
-	const int32_t WARING_FRAME = 2;
-	const float POP_FRAME_MAX = 60.0f;
-
-	const float SHACK_MIN = -2.0f;
-	const float SHACK_MAX = 2.0f;
-	const float SHACK_RATE = 5.0f;
-
-private:
+	std::unique_ptr<constJsonValue> json_;
 
 	//ゲームパッド処理使えるように
 	GamePad* gamePad_ = GamePad::GetInstance();
@@ -106,9 +65,9 @@ private:
 	//スクリーン上でのプレイヤーの座標
 	Vector3 screenPosPlayer_ = {};
 
-	bool hitBox_;
-	bool isIvent_;
-	bool isManual_;
+	bool hitBox_ = false;
+	bool isIvent_ = false;
+	bool isManual_ = false;
 
 	//危険な情報を知らせるときのUIに使う変数
 	bool isLifeOne_ = false;

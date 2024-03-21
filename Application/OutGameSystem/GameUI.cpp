@@ -5,6 +5,9 @@
 //コンストラクタ
 GameUI::GameUI()
 {
+	//jsonファイルから定数を読み込み
+	json_ = std::make_unique<constJsonValue>();
+	json_->LoadConstValue("Resources/json/gameUIConst.json");
 }
 
 //デストラクタ
@@ -32,22 +35,22 @@ void GameUI::TitleSceneInitialize()
 
 	titleSprite_->Initialize(titleImage_);
 	titleSprite_->Create();
-	titleSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	titleSprite_->SetSize({ json_->LoadFloat("SCREEN_SIZE_X"),json_->LoadFloat("SCREEN_SIZE_Y") });
 	titleSprite_->SetAncP({ 0,0 });
 
 	titleUISprite_->Initialize(titleUIImage_);
 	titleUISprite_->Create();
-	titleUISprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	titleUISprite_->SetSize({ json_->LoadFloat("SCREEN_SIZE_X"),json_->LoadFloat("SCREEN_SIZE_Y") });
 	titleUISprite_->SetAncP({ 0,0 });
 
 	sceneSprite_->Initialize();
-	sceneSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
-	sceneSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
-	sceneSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,0 });
+	sceneSprite_->Create(json_->LoadFloat("HALF_SCREEN_SIZE_X"), json_->LoadFloat("HALF_SCREEN_SIZE_Y"));
+	sceneSprite_->SetSize({ json_->LoadFloat("SCREEN_SIZE_X"),json_->LoadFloat("SCREEN_SIZE_Y") });
+	sceneSprite_->SetColor({ json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),0 });
 
 	fillSprite_->Initialize();
-	fillSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
-	fillSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	fillSprite_->Create(json_->LoadFloat("HALF_SCREEN_SIZE_X"), json_->LoadFloat("HALF_SCREEN_SIZE_Y"));
+	fillSprite_->SetSize({ json_->LoadFloat("SCREEN_SIZE_X"), json_->LoadFloat("SCREEN_SIZE_Y") });
 	fillSprite_->Update();
 }
 
@@ -59,60 +62,60 @@ void GameUI::GameSceneInitialize()
 
 	//スプライトの初期化
 	playerHPSprite_->Initialize();
-	playerHPSprite_->Create(PLAYER_HP_X, PLAYER_HP_Y);
+	playerHPSprite_->Create(json_->LoadFloat("PLAYER_HP_X"), json_->LoadFloat("PLAYER_HP_Y"));
 	playerHPSprite_->SetAncP({ 0,0 });
 
 	bossHPSprite_->Initialize();
-	bossHPSprite_->Create(HALF_SCREEN_SIZE_X, BOSS_HP_Y);
+	bossHPSprite_->Create(json_->LoadFloat("HALF_SCREEN_SIZE_X"), json_->LoadFloat("BOSS_HP_Y"));
 
 	gameoverSprite_->Initialize();
-	gameoverSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
-	gameoverSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	gameoverSprite_->Create(json_->LoadFloat("HALF_SCREEN_SIZE_X"), json_->LoadFloat("HALF_SCREEN_SIZE_Y"));
+	gameoverSprite_->SetSize({ json_->LoadFloat("SCREEN_SIZE_X"),json_->LoadFloat("SCREEN_SIZE_Y") });
 	gameoverSprite_->Update();
 
 	gameclearSprite_->Initialize();
-	gameclearSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_X);
-	gameclearSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	gameclearSprite_->Create(json_->LoadFloat("HALF_SCREEN_SIZE_X"), json_->LoadFloat("HALF_SCREEN_SIZE_Y"));
+	gameclearSprite_->SetSize({ json_->LoadFloat("SCREEN_SIZE_X"), json_->LoadFloat("SCREEN_SIZE_Y") });
 	gameclearSprite_->Update();
 
 	reticleSprite_->Initialize();
-	reticleSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	reticleSprite_->Create(json_->LoadFloat("HALF_SCREEN_SIZE_X"), json_->LoadFloat("HALF_SCREEN_SIZE_Y"));
 	reticleSprite_->SetSize({ 0,0 });
 
 	sceneSprite_->Initialize();
-	sceneSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
-	sceneSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
-	sceneSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,MAX_ALPHA });
+	sceneSprite_->Create(json_->LoadFloat("HALF_SCREEN_SIZE_X"), json_->LoadFloat("HALF_SCREEN_SIZE_Y"));
+	sceneSprite_->SetSize({ json_->LoadFloat("SCREEN_SIZE_X"), json_->LoadFloat("SCREEN_SIZE_Y") });
+	sceneSprite_->SetColor({ json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("MAX_ALPHA") });
 
 	fillSprite_->Initialize();
-	fillSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
-	fillSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	fillSprite_->Create(json_->LoadFloat("HALF_SCREEN_SIZE_X"), json_->LoadFloat("HALF_SCREEN_SIZE_Y"));
+	fillSprite_->SetSize({ json_->LoadFloat("SCREEN_SIZE_X"), json_->LoadFloat("SCREEN_SIZE_Y") });
 	fillSprite_->Update();
 
 	dFilterSprite_->Initialize();
-	dFilterSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
-	dFilterSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
-	dFilterSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,0 });
+	dFilterSprite_->Create(json_->LoadFloat("HALF_SCREEN_SIZE_X"), json_->LoadFloat("HALF_SCREEN_SIZE_Y"));
+	dFilterSprite_->SetSize({ json_->LoadFloat("SCREEN_SIZE_X"), json_->LoadFloat("SCREEN_SIZE_Y") });
+	dFilterSprite_->SetColor({ json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),0 });
 	dFilterSprite_->Update();
 
 	RBSprite_->Initialize();
 	RBSprite_->Create(0, 0);
-	RBSprite_->SetSize({ RB_UI_SIZE,RB_UI_SIZE });
+	RBSprite_->SetSize({ json_->LoadFloat("RB_UI_SIZE"),json_->LoadFloat("RB_UI_SIZE")});
 
 	iventSprite_->Initialize();
-	iventSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
-	iventSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
-	iventSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,0 });
+	iventSprite_->Create(json_->LoadFloat("HALF_SCREEN_SIZE_X"), json_->LoadFloat("HALF_SCREEN_SIZE_Y"));
+	iventSprite_->SetSize({ json_->LoadFloat("SCREEN_SIZE_X"), json_->LoadFloat("SCREEN_SIZE_Y") });
+	iventSprite_->SetColor({ json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),0 });
 	iventSprite_->Update();
 
 	waringSprite_->Initialize();
-	waringSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
-	waringSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	waringSprite_->Create(json_->LoadFloat("HALF_SCREEN_SIZE_X"), json_->LoadFloat("HALF_SCREEN_SIZE_Y"));
+	waringSprite_->SetSize({ json_->LoadFloat("SCREEN_SIZE_X"), json_->LoadFloat("SCREEN_SIZE_Y") });
 	waringSprite_->Update();
 
 	bulletRreticleSprite_->Initialize();
-	bulletRreticleSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
-	bulletRreticleSprite_->SetSize({ PLAYER_BULLETRETICLE_SIZE,PLAYER_BULLETRETICLE_SIZE });
+	bulletRreticleSprite_->Create(json_->LoadFloat("HALF_SCREEN_SIZE_X"), json_->LoadFloat("HALF_SCREEN_SIZE_Y"));
+	bulletRreticleSprite_->SetSize({ json_->LoadFloat("PLAYER_BULLETRETICLE_SIZE"),json_->LoadFloat("PLAYER_BULLETRETICLE_SIZE") });
 	bulletRreticleSprite_->Update();
 
 }
@@ -125,34 +128,33 @@ void GameUI::TitleUpdate(bool sceneChange)
 	sceneSprite_->Update();
 
 	if (sceneChange) {
-		ChangeTitleAlpha_ += CHANGE_TITLE_ALPHA_VOLUE;
-		ChangeTitleAlpha_ = min(ChangeTitleAlpha_, MAX_ALPHA);
-		sceneSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE, COLOR_WIHTE, ChangeTitleAlpha_ });
+		ChangeTitleAlpha_ += json_->LoadFloat("CHANGE_TITLE_ALPHA_VOLUE");
+		ChangeTitleAlpha_ = min(ChangeTitleAlpha_, json_->LoadFloat("MAX_ALPHA"));
+		sceneSprite_->SetColor({ json_->LoadFloat("COLOR_WIHTE"), json_->LoadFloat("COLOR_WIHTE"),  json_->LoadFloat("COLOR_WIHTE"), ChangeTitleAlpha_ });
 	}
 	else {
 		ChangeTitleAlpha_ = 0;
-		sceneSprite_->SetColor({ COLOR_WIHTE, COLOR_WIHTE, COLOR_WIHTE, ChangeTitleAlpha_ });
+		sceneSprite_->SetColor({ json_->LoadFloat("COLOR_WIHTE"),  json_->LoadFloat("COLOR_WIHTE"),  json_->LoadFloat("COLOR_WIHTE"), ChangeTitleAlpha_ });
 	}
 }
 
 //ゲームシーンUI更新処理
 void GameUI::GameUpdate()
 {
-	iventSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,iventAlpha_ });
-	//playerHPSprite_->SetSize({ PLAYER_HP_SIZE_X * (float)player_->GetHP(),PLAYER_HP_SIZE_Y });
+	iventSprite_->SetColor({ json_->LoadFloat("COLOR_WIHTE"), json_->LoadFloat("COLOR_WIHTE"), json_->LoadFloat("COLOR_WIHTE"),iventAlpha_ });
 
 	//チュートリアルUI
-	RBSprite_->SetPosition({ screenPosPlayer_.x - RB_UI_POS_X_VOLUE,screenPosPlayer_.y - RB_UI_POS_Y_VOLUE });
+	RBSprite_->SetPosition({ screenPosPlayer_.x - json_->LoadFloat("RB_UI_POS_X_VOLUE"),screenPosPlayer_.y - json_->LoadFloat("RB_UI_POS_Y_VOLUE") });
 
 	if (!isManual_) {
-		alphaRB_ += RB_ALPHA_VOLUE;
-		alphaRB_ = min(alphaRB_, MAX_ALPHA);
-		RBSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,alphaRB_ });
+		alphaRB_ += json_->LoadFloat("RB_ALPHA_VOLUE");
+		alphaRB_ = min(alphaRB_, json_->LoadFloat("MAX_ALPHA"));
+		RBSprite_->SetColor({ json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),alphaRB_ });
 	}
 	else {
-		alphaRB_ -= RB_ALPHA_VOLUE;
+		alphaRB_ -= json_->LoadFloat("RB_ALPHA_VOLUE");
 		alphaRB_ = max(alphaRB_, 0);
-		RBSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,alphaRB_ });
+		RBSprite_->SetColor({ json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),alphaRB_ });
 	}
 
 	//弾を打ったときの左右レティクル
@@ -160,15 +162,15 @@ void GameUI::GameUpdate()
 		isManual_ = true;
 
 		reticleSize_ = reticleSprite_->GetSize();
-		reticleSize_.x += SIDE_RETICLE_SIZE_VOLUE_X;
-		reticleSize_.y += SIDE_RETICLE_SIZE_VOLUE_Y;
-		reticleSize_.x = min(reticleSize_.x, SCREEN_SIZE_X);
-		reticleSize_.y = min(reticleSize_.y, SCREEN_SIZE_Y);
+		reticleSize_.x += json_->LoadFloat("SIDE_RETICLE_SIZE_VOLUE_X");
+		reticleSize_.y += json_->LoadFloat("SIDE_RETICLE_SIZE_VOLUE_Y");
+		reticleSize_.x = min(reticleSize_.x, json_->LoadFloat("SCREEN_SIZE_X"));
+		reticleSize_.y = min(reticleSize_.y, json_->LoadFloat("SCREEN_SIZE_Y"));
 	}
 	else {
 		reticleSize_ = reticleSprite_->GetSize();
-		reticleSize_.x -= SIDE_RETICLE_SIZE_VOLUE_X;
-		reticleSize_.y -= SIDE_RETICLE_SIZE_VOLUE_Y;
+		reticleSize_.x -= json_->LoadFloat("SIDE_RETICLE_SIZE_VOLUE_X");
+		reticleSize_.y -= json_->LoadFloat("SIDE_RETICLE_SIZE_VOLUE_Y");
 		reticleSize_.x = max(reticleSize_.x, 0);
 		reticleSize_.y = max(reticleSize_.y, 0);
 	}
@@ -178,29 +180,19 @@ void GameUI::GameUpdate()
 	//プレイヤーの3D座標をスクリーン変換した座標
 	screenPosPlayer_ = playerObject_->Screen();
 
-	//プレイヤーのレティクル座標
-	//bulletRreticleSprite_->SetPosition({ player_->GetScreenRTPos().x,player_->GetScreenRTPos().y });
-	
-	//ライフ危ない時に出るフィルター
-	/*if (player_->GetHP() <= PLAYER_HP_DANGER) {
-		isLifeOne_ = true;
-	}
-	else {
-		isLifeOne_ = false;
-	}*/
 	//ライフ危ない時に出るフィルター
 	if (isLifeOne_) {
 		fillTimer_++;
 
-		if (fillTimer_ < FILLTER_TIMER_FRAME) {
-			fillAlpha_ += FILLTER_ALPHA_ADD_VOLUE;
-			fillAlpha_ = min(fillAlpha_, MAX_ALPHA);
+		if (fillTimer_ < json_->LoadFloat("FILLTER_TIMER_FRAME")) {
+			fillAlpha_ += json_->LoadFloat("FILLTER_ALPHA_ADD_VOLUE");
+			fillAlpha_ = min(fillAlpha_, json_->LoadFloat("MAX_ALPHA"));
 		}
 		else {
-			fillAlpha_ -= FILLTER_ALPHA_SUB_VOLUE;
+			fillAlpha_ -= json_->LoadFloat("FILLTER_ALPHA_SUB_VOLUE");
 			fillAlpha_ = max(fillAlpha_, 0);
 		}
-		dFilterSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,fillAlpha_ });
+		dFilterSprite_->SetColor({ json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),fillAlpha_ });
 
 	}
 	else {
@@ -209,7 +201,7 @@ void GameUI::GameUpdate()
 
 
 	if (hitBox_ && !isIvent_) {
-		if (count_ < BLINKING_COUNT) {
+		if (count_ < json_->LoadInt("BLINKING_COUNT")) {
 			pow_++;
 			wSize_.y = waringSprite_->GetSize().y;
 		}
@@ -218,20 +210,20 @@ void GameUI::GameUpdate()
 		}
 
 		//ワーニング点滅
-		if (pow_ > WARING_FRAME) {
+		if (pow_ > json_->LoadInt("WARING_FRAME")) {
 			pow_ = 0;
 			count_++;
 		}
 
 		//点滅後の動き
-		if (count_ == BLINKING_COUNT) {
+		if (count_ == json_->LoadInt("BLINKING_COUNT")) {
 			popFrame_++;
 
-			if (popFrame_ > POP_FRAME_MAX) {
+			if (popFrame_ > json_->LoadFloat("POP_FRAME_MAX")) {
 				wTimer_++;
 				wTimer_ = min(wTimer_, wMax_);
 
-				wSize_ = wSize_.lerp({ SCREEN_SIZE_X,SCREEN_SIZE_Y,0 }, { SCREEN_SIZE_X,0,0 }, Easing::EaseOutCubic(wTimer_, wMax_));
+				wSize_ = wSize_.lerp({ json_->LoadFloat("SCREEN_SIZE_X"), json_->LoadFloat("SCREEN_SIZE_Y"),0 }, { json_->LoadFloat("SCREEN_SIZE_X"),0,0 }, Easing::EaseOutCubic(wTimer_, wMax_));
 
 				waringSprite_->SetSize({ wSize_.x,wSize_.y });
 			}
@@ -298,10 +290,10 @@ void GameUI::GameDraw()
 //リセット関数
 void GameUI::Reset()
 {
-	ChangeGameAlpha_ = MAX_ALPHA;
+	ChangeGameAlpha_ = json_->LoadFloat("MAX_ALPHA");
 	pow_ = 0;
 	count_ = 0;
-	waringSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	waringSprite_->SetSize({ json_->LoadFloat("SCREEN_SIZE_X"), json_->LoadFloat("SCREEN_SIZE_Y") });
 }
 
 //ポストエフェクトをかけないスプライトの描画
@@ -313,35 +305,35 @@ void GameUI::OffDraw()
 //ダメージシェイク時の処理
 void GameUI::Shake()
 {
-	randShake_.x = MyRandom::GetFloatRandom(SHACK_MIN, SHACK_MAX);
-	randShake_.y = MyRandom::GetFloatRandom(SHACK_MIN, SHACK_MAX);
+	randShake_.x = MyRandom::GetFloatRandom(json_->LoadFloat("SHACK_MIN"), json_->LoadFloat("SHACK_MAX"));
+	randShake_.y = MyRandom::GetFloatRandom(json_->LoadFloat("SHACK_MIN"), json_->LoadFloat("SHACK_MAX"));
 
-	playerHPSprite_->SetPosition({ PLAYER_HP_X + randShake_.x * SHACK_RATE,PLAYER_HP_Y + randShake_.y * SHACK_RATE });
-	bossHPSprite_->SetPosition({ HALF_SCREEN_SIZE_X + randShake_.x * SHACK_RATE,BOSS_HP_Y + randShake_.y * SHACK_RATE });
+	playerHPSprite_->SetPosition({ json_->LoadFloat("PLAYER_HP_X") + randShake_.x * json_->LoadFloat("SHACK_RATE"),json_->LoadFloat("PLAYER_HP_Y") + randShake_.y * json_->LoadFloat("SHACK_RATE") });
+	bossHPSprite_->SetPosition({ json_->LoadFloat("HALF_SCREEN_SIZE_X") + randShake_.x * json_->LoadFloat("SHACK_RATE"),json_->LoadFloat("BOSS_HP_Y") + randShake_.y * json_->LoadFloat("SHACK_RATE") });
 }
 
 //BossHPUIの更新処理
 void GameUI::BossHpUI()
 {
-	bossHPSprite_->SetSize({ BOSS_HP_SIZE_X * (float)boss_->GetHP(),BOSS_HP_SIZE_Y });
+	bossHPSprite_->SetSize({ json_->LoadFloat("BOSS_HP_SIZE_X") * (float)boss_->GetHP(),json_->LoadFloat("BOSS_HP_SIZE_Y") });
 	bossHPSprite_->Update();
 }
 
 //ゲームシーンのシーン遷移のフェード用関数
 void GameUI::SceneStartFadeUI() {
-	ChangeGameAlpha_ -= CHANGE_GAME_ALPHA_VOLUE;
+	ChangeGameAlpha_ -= json_->LoadFloat("CHANGE_GAME_ALPHA_VOLUE");
 	ChangeGameAlpha_ = max(ChangeGameAlpha_, 0);
-	sceneSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,ChangeGameAlpha_ });
+	sceneSprite_->SetColor({ json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),json_->LoadFloat("COLOR_WIHTE"),ChangeGameAlpha_ });
 }
 
 //ボス戦のイベントムービー用の関数
 void GameUI::BossIventSceneUI() {
 	if (isIvent_) {
-		iventAlpha_ += EVENT_MOVIE_ALPHA_VOLUE;
-		iventAlpha_ = min(iventAlpha_, MAX_ALPHA);
+		iventAlpha_ += json_->LoadFloat("EVENT_MOVIE_ALPHA_VOLUE");
+		iventAlpha_ = min(iventAlpha_, json_->LoadFloat("MAX_ALPHA"));
 	}
 	else {
-		iventAlpha_ -= EVENT_MOVIE_ALPHA_VOLUE;
+		iventAlpha_ -= json_->LoadFloat("EVENT_MOVIE_ALPHA_VOLUE");
 		iventAlpha_ = max(iventAlpha_, 0);
 	}
 }
