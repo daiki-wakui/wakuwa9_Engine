@@ -14,7 +14,12 @@ private:
 	Vector3 pos_;
 	Vector3 vro_;
 
+	bool isFall_;
+	
+	uint16_t detchTimer_;
+
 public:
+	bool isDead_ = false;
 
 	void Initialize(Model* model, Vector3 pos, Player* player);
 
@@ -22,5 +27,7 @@ public:
 
 	void Draw();
 
+	void SetPos(Vector3 pos);
+	bool IsDead() const { return isDead_; }
 };
 

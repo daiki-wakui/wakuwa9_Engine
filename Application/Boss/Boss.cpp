@@ -44,7 +44,7 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 	movementPattern_[0] = 2;
 	movementPattern_[1] = 2;
 	movementPattern_[2] = 2;
-	movementPattern_[3] = 1;
+	movementPattern_[3] = 4;
 	movementPattern_[4] = 3;
 	movementPattern_[5] = 2;
 	movementPattern_[6] = 1;
@@ -92,11 +92,16 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 
 	handObjectL_->SetScale({ 5,5,5 });
 	handObjectR_->SetScale({ 5,5,5 });
+
+	
 }
 
 //更新処理
 void Boss::Update(bool move, bool debug)
 {
+
+	//coanonObj_->Update();
+
 	//ムービー時の移動
 	if (halfMovie_) {
 		MoiveFrame_++;
@@ -240,15 +245,39 @@ void Boss::Update(bool move, bool debug)
 	}
 
 	if (nowState_ == 4) {
+		cononCoolTime_--;
 
+		if (cononCoolTime_ < 0) {
+			//弾の生成と初期化
+			std::unique_ptr<BossCanon> newBullet = std::make_unique<BossCanon>();
+			newBullet->Initialize(model_, pos_, player_);
+			coanonObjs_.push_back(std::move(newBullet));
+
+			countBullet_++;
+			cononCoolTime_ = 10;
+		}
+
+		if (countBullet_ >= 20) {
+			nowState_ = 0;
+			countBullet_ = 0;
+		}
 	}
+
+	//弾の更新処理
+	for (std::unique_ptr<BossCanon>& bullet : coanonObjs_) {
+		bullet->Update();
+	}
+
+	//デスフラグが立った弾を削除
+	coanonObjs_.remove_if([](std::unique_ptr<BossCanon>& bullet) {
+		return bullet->IsDead();
+	});
+
 	
 	frame_++;
 	pos_.y = MOVE_Y_VOLUE * cosf(wa9Math::PI() * frame_ / MOVE_SPEED_VOLUE) + pos_.y;
 
 	Stateframe_++;
-	
-
 
 	//しっぽのエフェクトの更新処理
 	for (std::unique_ptr<Effect>& effect : effects_) {
@@ -316,6 +345,12 @@ void Boss::Update(bool move, bool debug)
 //描画関数
 void Boss::Draw()
 {
+	//coanonObj_->Draw();
+	for (std::unique_ptr<BossCanon>& bullet : coanonObjs_) {
+		bullet->Draw();
+	}
+
+
 	object_->Draw();
 
 	SadowObject_->Draw();

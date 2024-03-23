@@ -40,7 +40,7 @@ protected:
 	int32_t damageFilter_ = 0;
 	int32_t bulletRreticleImage_ = 0;
 
-	int32_t editImage_[4];
+	int32_t editImage_[5];
 	int32_t nowEditImage_;
 	int32_t EditBImage_;
 	int32_t EditArrowImage_;

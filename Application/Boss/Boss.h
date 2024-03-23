@@ -5,8 +5,10 @@
 #include "KeyBoard.h"
 #include "Vector2.h"
 #include "Effect.h"
+#include "BossCanon.h"
 
 #include <memory>
+#include <list>
 
 class Player;
 
@@ -95,6 +97,10 @@ private:
 
 
 private:
+
+	float cononCoolTime_;
+	uint16_t countBullet_;
+	std::list<std::unique_ptr<BossCanon>> coanonObjs_;
 
 	bool isShake_;
 	float sahkeTimer_;
