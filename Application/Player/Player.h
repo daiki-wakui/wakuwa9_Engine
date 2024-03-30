@@ -47,7 +47,7 @@ private:
 	const int32_t ADD_FRAME = 20;
 	const int32_t FRAME_RATE = 40;
 	const float POS_Y_RATE = 0.5f;
-	const float ADD_POS_Y_VOLUE = 10.0f;
+	const float ADD_POS_Y_VOLUE = 5.0f;
 
 	const float ADD_BIT_X_VOLUE = 5.0f;
 	const int32_t BIT_FRAME_RATE = 40;

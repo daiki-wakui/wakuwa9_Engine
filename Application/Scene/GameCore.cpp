@@ -54,6 +54,12 @@ void GameCore::Update()
 
 	ImGui::Begin("aaaaaa");
 
+	Vector2 a;
+
+	a.x = ImGui::GetWindowPos().x;
+	a.y = ImGui::GetWindowPos().y;
+
+
 	GameScene* g = sceneManager_->GetGameScene();
 
 	if (ImGui::TreeNode("StageEditor")) {
@@ -124,6 +130,11 @@ void GameCore::Update()
 	ImGui::End();
 
 	ImGui::Begin("bbbbbbb");
+
+	Vector2 b;
+
+	b.x = ImGui::GetWindowPos().x;
+	b.y = ImGui::GetWindowPos().y;
 
 	ImGui::End();
 
