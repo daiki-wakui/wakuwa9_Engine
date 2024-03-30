@@ -97,13 +97,19 @@ private:
 
 	std::unique_ptr<Sprite> StepFilterSprite_ = std::make_unique<Sprite>();
 
+	int a = 150;
+	float entryPos_ = 175;
 
 	std::unique_ptr<Sprite> editSprite_[8];
 	std::unique_ptr<Sprite> editStateSprite_[8];
 	std::unique_ptr<Sprite> editarrowSprite_[8];
 
 	std::unique_ptr<Sprite> nowEditStateSprite_;
+	std::unique_ptr<Sprite> editEntryStateSprite_;
+
 	std::unique_ptr<Sprite> EditStateSprite_;
+	std::unique_ptr<Sprite> editFillSprite_;
+	std::unique_ptr<Sprite> editEntryArrowSprite_;
 
 	Vector3 ditSizeS_;
 	Vector3 ditSizeE_;

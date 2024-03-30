@@ -145,16 +145,33 @@ void GameUI::GameSceneInitialize()
 		editStateSprite_[i]->SetSize({ 380 / 3,380 / 3 });
 		editStateSprite_[i]->Update();
 
-		if (i != 7) {
-			editarrowSprite_[i] = std::make_unique<Sprite>();
-			editarrowSprite_[i]->Initialize();
-			editarrowSprite_[i]->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
-			editarrowSprite_[i]->SetSize({ 380 / 6,380 / 6 });
-			editarrowSprite_[i]->Update();
-		}
+		editarrowSprite_[i] = std::make_unique<Sprite>();
+		editarrowSprite_[i]->Initialize();
+		editarrowSprite_[i]->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+		editarrowSprite_[i]->SetSize({ 380 / 5,380 / 5 });
+		editarrowSprite_[i]->Update();
 		
 	}
+	editEntryArrowSprite_ = std::make_unique<Sprite>();
+	editEntryArrowSprite_->Initialize();
+	editEntryArrowSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	editEntryArrowSprite_->SetSize({ 380 / 4,380 / 4 });
+	editEntryArrowSprite_->Update();
+
 	
+	editEntryStateSprite_ = std::make_unique<Sprite>();
+	editEntryStateSprite_->Initialize();
+	editEntryStateSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	editEntryStateSprite_->SetSize({ 380 / 2.9f,380 / 2.9f });
+	editEntryStateSprite_->Update();
+
+	editFillSprite_ = std::make_unique<Sprite>();
+	editFillSprite_->Initialize();
+	editFillSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
+	editFillSprite_->SetSize({ 380 / 2.9f,380 / 2.9f });
+	editFillSprite_->Update();
+
+
 	nowEditStateSprite_ = std::make_unique<Sprite>();
 	nowEditStateSprite_->Initialize();
 	nowEditStateSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
@@ -163,8 +180,8 @@ void GameUI::GameSceneInitialize()
 
 	EditStateSprite_ = std::make_unique<Sprite>();
 	EditStateSprite_->Initialize();
-	EditStateSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
-	EditStateSprite_->SetSize({ 380/2.5f,380 * 4 });
+	EditStateSprite_->Create(HALF_SCREEN_SIZE_X+250, HALF_SCREEN_SIZE_Y+30);
+	EditStateSprite_->SetSize({ 380 * 4,380 * 2.5 });
 	EditStateSprite_->Update();
 
 	ditSizeE_.x = nowEditStateSprite_->GetSize().x;
@@ -196,21 +213,66 @@ void GameUI::TitleUpdate(bool sceneChange)
 //ゲームシーンUI更新処理
 void GameUI::GameUpdate()
 {
+	editFillSprite_->SetPosition({ 150 ,entryPos_ });
+	editFillSprite_->Update();
+
+	editEntryStateSprite_->SetPosition({ 150,entryPos_ });
+	editEntryStateSprite_->Update();
+
+	editEntryArrowSprite_->SetPosition({ 150,entryPos_+50 });
+	editEntryArrowSprite_->Update();
+
+
 	for (int i = 0; i < 8; i++) {
 
-		editSprite_[i]->SetPosition({ 150,130 + 65 * (float)i });
-		editSprite_[i]->Update();
 
-		editStateSprite_[i]->SetPosition({ 150,130 + 65 * (float)i });
-		editStateSprite_[i]->Update();
+		if (i < 4) {
+			editSprite_[i]->SetPosition({ 150 + a * (float)i,130+ entryPos_ });
+			editSprite_[i]->Update();
 
-		if (i != 7) {
-			editarrowSprite_[i]->SetPosition({ 150,150 + 65 * (float)i });
-			editarrowSprite_[i]->Update();
+			editStateSprite_[i]->SetPosition({ 150 + a * (float)i,130+ entryPos_ });
+			editStateSprite_[i]->Update();
+		}
+		else{
+			editSprite_[i]->SetPosition({ 150 - a * (float)i + 1050,230+ entryPos_ });
+			editSprite_[i]->Update();
+
+			editStateSprite_[i]->SetPosition({ 150 - a * (float)i + 1050,230+ entryPos_ });
+			editStateSprite_[i]->Update();
 		}
 		
 	}
+	
+	editarrowSprite_[0]->SetPosition({ 210,125+ entryPos_ });
+	editarrowSprite_[0]->SetRotation(-90);
+	editarrowSprite_[0]->Update();
 
+	editarrowSprite_[1]->SetPosition({ 210+150,125+ entryPos_ });
+	editarrowSprite_[1]->SetRotation(-90);
+	editarrowSprite_[1]->Update();
+
+	editarrowSprite_[2]->SetPosition({ 210 + 300,125+ entryPos_ });
+	editarrowSprite_[2]->SetRotation(-90);
+	editarrowSprite_[2]->Update();
+
+	editarrowSprite_[3]->SetPosition({ 330 + 275,170+ entryPos_ });
+	editarrowSprite_[3]->Update();
+
+	editarrowSprite_[4]->SetPosition({ 210 + 320,230+ entryPos_ });
+	editarrowSprite_[4]->SetRotation(90);
+	editarrowSprite_[4]->Update();
+
+	editarrowSprite_[5]->SetPosition({ 210 + 170,230+ entryPos_ });
+	editarrowSprite_[5]->SetRotation(90);
+	editarrowSprite_[5]->Update();
+
+	editarrowSprite_[6]->SetPosition({ 210 + 20,230+ entryPos_ });
+	editarrowSprite_[6]->SetRotation(90);
+	editarrowSprite_[6]->Update();
+
+	editarrowSprite_[7]->SetPosition({ 150,180+ entryPos_ });
+	editarrowSprite_[7]->SetRotation(180);
+	editarrowSprite_[7]->Update();
 
 	NowState_ -= 1;
 	NowState_ = max(0, NowState_);
@@ -225,11 +287,11 @@ void GameUI::GameUpdate()
 
 	trueEitSize_ = trueEitSize_.lerp(ditSizeS_, ditSizeE_, Easing::EaseOutCubic(ditTimer_, 10));
 
-	nowEditStateSprite_->SetPosition({ 150,130 + 65 * ((float)NowState_) });
+	nowEditStateSprite_->SetPosition({ editStateSprite_[NowState_]->GetPosition().x,editStateSprite_[NowState_]->GetPosition().y });
 	nowEditStateSprite_->SetSize({ trueEitSize_.x,trueEitSize_.y });
 	nowEditStateSprite_->Update();
 
-	EditStateSprite_->SetPosition({ 150,420 });
+	EditStateSprite_->SetPosition({ 150,330 });
 	EditStateSprite_->Update();
 
 	//stepAlpha_
@@ -373,7 +435,8 @@ void GameUI::TitleDraw()
 //ゲームシーンUI描画関数
 void GameUI::GameDraw()
 {
-
+	
+	
 	if (isDebug_) {
 		EditStateSprite_->Draw(EditBImage_);
 
@@ -382,14 +445,17 @@ void GameUI::GameDraw()
 			editStateSprite_[i]->Draw(editImage_[stateNum_[i]]);
 		}
 
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 8; i++) {
 			editarrowSprite_[i]->Draw(EditArrowImage_);
 		}
 
 		nowEditStateSprite_->Draw(nowEditImage_);
 		//editSprite_[1]->Draw(editImage_[stateNum_[0]]);
 	}
-	
+
+	editEntryStateSprite_->Draw(editImage_[0]);
+	editFillSprite_->Draw(EditEntryImage_);
+	editEntryArrowSprite_->Draw(EditArrowImage_);
 
 	
 
