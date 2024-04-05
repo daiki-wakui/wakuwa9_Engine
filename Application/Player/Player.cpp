@@ -85,8 +85,11 @@ void Player::Update()
 		vel.x = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
 		vel.y = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
 
-		moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);
+		if (!isDead) {
+			moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);
 
+		}
+		
 		frontMove_.x = -frontVec.x;
 		frontMove_.z = -frontVec.z;
 		rot_.x++;
@@ -107,8 +110,11 @@ void Player::Update()
 		vel.x = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
 		vel.y = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
 
-		moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);
+		if (!isDead) {
+			moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);
 
+		}
+		
 		frontMove_.x = frontVec.x;
 		frontMove_.z = frontVec.z;
 		rot_.x--;
@@ -133,8 +139,11 @@ void Player::Update()
 		vel.x = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
 		vel.y = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
 
-		moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);
+		if (!isDead) {
+			moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);
 
+		}
+		
 		sideMove_.x = -moveXVec.x;
 		sideMove_.z = -moveXVec.z;
 		rot_.z--;
@@ -156,8 +165,11 @@ void Player::Update()
 		vel.x = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
 		vel.y = MyRandom::GetFloatRandom(EFFECT_MIN, EFFECT_MAX);
 
-		moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);
+		if (!isDead) {
+			moveParticle_->Add(PARTICLE_TIME, tmppos, vel, PARTICLE_ACCEL, PARTICLE_START_SCALE, PARTICLE_END_SCALE);
 
+		}
+		
 		sideMove_.x = moveXVec.x;
 		sideMove_.z = moveXVec.z;
 		rot_.z++;
@@ -179,6 +191,11 @@ void Player::Update()
 
 	if (inputPad_->RTrigger()) {
 		isDash_ = true;
+	}
+
+	if (isDead) {
+		frontMove_ = { 0,0,0 };
+		sideMove_ = { 0,0,0 };
 	}
 
 	pos_.x += frontMove_.x;
@@ -212,10 +229,10 @@ void Player::Update()
 	
 
 	
-	if (inputPad_->PushInstantLB()) {
+	/*if (inputPad_->PushInstantLB()) {
 		isBossRokon_++;
 		isBossRokon_ = isBossRokon_ % 2;
-	}
+	}*/
 
 	if (isBossRokon_) {
 		tergetCamera();
@@ -314,10 +331,10 @@ void Player::ParticleDraw()
 //当たったときの処理
 bool Player::OnCollision()
 {
-	nokBack_ = true;
-	nokPower_ = frontVec * 5;
-
 	if (!isInvincible_) {
+		nokBack_ = true;
+		nokPower_ = frontVec * 5;
+
 		HP--;
 
 		isHit_ = true;

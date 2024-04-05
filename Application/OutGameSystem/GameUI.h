@@ -78,9 +78,11 @@ private:
 
 	//タイトルシーンからゲームシーンに遷移するときに使うアルファ値
  	float ChangeTitleAlpha_ = 0;
+	float clearAlpha_ = 0;
 
 	//ゲームシーンで使うスプライト
 	std::unique_ptr<Sprite> playerHPSprite_ = std::make_unique<Sprite>();
+	std::unique_ptr<Sprite> playerMaxHPSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> bossHPSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> bossMaxHPSprite_ = std::make_unique<Sprite>();
 	std::unique_ptr<Sprite> bossHPUISprite_ = std::make_unique<Sprite>();

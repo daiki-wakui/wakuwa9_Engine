@@ -78,7 +78,7 @@ private: //定数
 
 	const float COL_PLAYER_SCALE = 6.0f;
 	const float COL_ENEMY_SCALE = 7.0f;
-	const float COL_EVENTBOX_SCALE = 13.0f;
+	const float COL_EVENTBOX_SCALE = 25.0f;
 	const float COL_BOSS_SCALE = 20.0f;
 	const float COL_BOSS_TAIL_SCALE = 20.0f;
 	const float COL_BULLET_SCALE = 1.0f;

@@ -38,8 +38,10 @@ void SceneManager::Update()
 		nowScene_ = TITLE;	
 	}
 
+	
+
 	//タイトルシーンに戻る
-	if (keyboard_->keyInstantPush(DIK_T)) {
+	if (!gamescene_->GetBoss()->GetArive()&&gamePad_->PushInstantB()||gamescene_->GetPlayer()->IsDead()&&gamePad_->PushInstantB()) {
 		titlescene_->SetStart(false);
 		gamescene_->SetStart(false);
 		titlescene_->SetChange(false);

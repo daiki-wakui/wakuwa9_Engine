@@ -51,7 +51,7 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 private:
-	const int32_t BOSS_HP = 50;
+	const int32_t BOSS_HP = 250;
 	const float OBJECT_SCALE = 15.0f;
 	const float TAIL_SCALE = 10.0f;
 	const float TAIL_POSZ_VOLUE = 30.0f;

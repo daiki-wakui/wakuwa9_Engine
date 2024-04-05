@@ -44,8 +44,8 @@ void Boss::Initialize(Model* model, Vector3 pos, Object3D* Object, Player* playe
 	movementPattern_[0] = 2;
 	movementPattern_[1] = 2;
 	movementPattern_[2] = 2;
-	movementPattern_[3] = 4;
-	movementPattern_[4] = 3;
+	movementPattern_[3] = 1;
+	movementPattern_[4] = 1;
 	movementPattern_[5] = 2;
 	movementPattern_[6] = 1;
 	movementPattern_[7] = 1;
@@ -189,19 +189,19 @@ void Boss::Update(bool move, bool debug)
 	arive_ = true;
 
 
-	//デバック確認
-	if (KeyBoard::GetInstance()->keyInstantPush(DIK_1)) {
-		nowState_ = 1;
-	}
-	if (KeyBoard::GetInstance()->keyInstantPush(DIK_2)) {
-		nowState_ = 2;
-	}
-	if (KeyBoard::GetInstance()->keyInstantPush(DIK_3)) {
-		nowState_ = 3;
-	}
-	if (KeyBoard::GetInstance()->keyInstantPush(DIK_4)) {
-		nowState_ = 4;
-	}
+	////デバック確認
+	//if (KeyBoard::GetInstance()->keyInstantPush(DIK_1)) {
+	//	nowState_ = 1;
+	//}
+	//if (KeyBoard::GetInstance()->keyInstantPush(DIK_2)) {
+	//	nowState_ = 2;
+	//}
+	//if (KeyBoard::GetInstance()->keyInstantPush(DIK_3)) {
+	//	nowState_ = 3;
+	//}
+	//if (KeyBoard::GetInstance()->keyInstantPush(DIK_4)) {
+	//	nowState_ = 4;
+	//}
 
 	playerPos = player_->GetWorldPos();
 

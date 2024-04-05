@@ -60,21 +60,21 @@ void GameScene::Update()
 		popFTimer_ = 0;
 	}
 
-	if(keyboard_->keyInstantPush(DIK_L)) {
+	/*if(keyboard_->keyInstantPush(DIK_L)) {
 		EditorLoad("bossEditor");
 		iSDeBoss_ = true;
 		hitBox_ = true;
 		gameUI_->SetDebug(true);
-	}
+	}*/
 
-	if (keyboard_->keyInstantPush(DIK_K)) {
+	/*if (keyboard_->keyInstantPush(DIK_K)) {
 		iSDeBoss_ = false;
 		hitBox_ = false;
 	}
 
 	if (keyboard_->keyInstantPush(DIK_N)) {
 		isDebugBoss_ = true;
-	}
+	}*/
 
 	//弾の更新処理
 	for (std::unique_ptr<FieldEffect>& ff : fEffects_) {
@@ -175,7 +175,12 @@ void GameScene::Update()
 		object->Update();
 	}
 
-	player_->Update();
+
+	if (!isIvent_) {
+		player_->Update();
+	}
+	
+
 	if (player_->GetIsShot()) {
 
 		SoundManager::GetInstance()->PlayWave("Shot.wav", BULLET_SHOT_VOLUE);
@@ -359,11 +364,11 @@ void GameScene::ObjectUpdate()
 	particleMan_->Update();
 
 	//倒した時のオブジェクトエフェクト
-	if (keyboard_->keyInstantPush(DIK_K)) {
-		if (!isEffect_) {
-			isEffect_ = true;
-		}
-	}
+	//if (keyboard_->keyInstantPush(DIK_K)) {
+	//	if (!isEffect_) {
+	//		isEffect_ = true;
+	//	}
+	//}
 
 	if (isEffect_) {
 		int size = 0;
@@ -392,7 +397,7 @@ void GameScene::ObjectUpdate()
 void GameScene::Draw()
 {
 	
-	shadowObject_->Draw();
+	
 
 	for (auto& object : objects) {
 		object->Draw();
@@ -403,6 +408,7 @@ void GameScene::Draw()
 	}
 
 	if (player_->IsDead() == false && isIvent_ == false && isIvent2_ == false) {
+		shadowObject_->Draw();
 		player_->Draw();
 	}
 
@@ -424,7 +430,7 @@ void GameScene::Draw()
 		effect->Draw();
 	}
 
-	if (isShotEffect_) {
+	if (isShotEffect_&&!player_->IsDead()) {
 		poriObject_->Draw();
 		isShotEffect_ = false;
 	}
@@ -443,8 +449,11 @@ void GameScene::Draw()
 //パーティクル描画
 void GameScene::ParticleDraw()
 {
-	particleMan_->Draw();
+	if (!player_->IsDead()) {
+		particleMan_->Draw();
 
+	}
+	
 	if (!isIvent_) {
 		player_->ParticleDraw();
 	}

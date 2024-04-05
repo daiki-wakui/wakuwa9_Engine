@@ -63,6 +63,9 @@ void GameUI::GameSceneInitialize()
 	playerHPSprite_->Create(PLAYER_HP_X, PLAYER_HP_Y);
 	playerHPSprite_->SetAncP({ 0,0 });
 
+	playerMaxHPSprite_->Initialize();
+	playerMaxHPSprite_->Create(PLAYER_HP_X, PLAYER_HP_Y);
+	playerMaxHPSprite_->SetAncP({ 0,0 });
 
 	bossHPSprite_->Initialize();
 	bossHPSprite_->SetAncP({ 0,0 });
@@ -83,8 +86,9 @@ void GameUI::GameSceneInitialize()
 	gameoverSprite_->Update();
 
 	gameclearSprite_->Initialize();
-	gameclearSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_X);
+	gameclearSprite_->Create(HALF_SCREEN_SIZE_X, HALF_SCREEN_SIZE_Y);
 	gameclearSprite_->SetSize({ SCREEN_SIZE_X,SCREEN_SIZE_Y });
+	gameclearSprite_->SetColor({ 1,1,1,0 });
 	gameclearSprite_->Update();
 
 	reticleSprite_->Initialize();
@@ -315,6 +319,8 @@ void GameUI::GameUpdate()
 
 	iventSprite_->SetColor({ COLOR_WIHTE,COLOR_WIHTE,COLOR_WIHTE,iventAlpha_ });
 	playerHPSprite_->SetSize({ PLAYER_HP_SIZE_X * (float)player_->GetHP(),PLAYER_HP_SIZE_Y });
+	playerMaxHPSprite_->SetSize({ PLAYER_HP_SIZE_X * 5,PLAYER_HP_SIZE_Y });
+
 
 	//チュートリアルUI
 	RBSprite_->SetPosition({ screenPosPlayer_.x - RB_UI_POS_X_VOLUE,screenPosPlayer_.y - RB_UI_POS_Y_VOLUE });
@@ -357,7 +363,7 @@ void GameUI::GameUpdate()
 	bulletRreticleSprite_->SetPosition({ player_->GetScreenRTPos().x,player_->GetScreenRTPos().y });
 	
 	//ライフ危ない時に出るフィルター
-	if (player_->GetHP() <= PLAYER_HP_DANGER) {
+	if (player_->GetHP() <= PLAYER_HP_DANGER||player_->IsDead()) {
 		isLifeOne_ = true;
 	}
 	else {
@@ -368,6 +374,10 @@ void GameUI::GameUpdate()
 		fillTimer_++;
 
 		if (fillTimer_ < FILLTER_TIMER_FRAME) {
+			fillAlpha_ += FILLTER_ALPHA_ADD_VOLUE;
+			fillAlpha_ = min(fillAlpha_, MAX_ALPHA);
+		}
+		else if (player_->IsDead()) {
 			fillAlpha_ += FILLTER_ALPHA_ADD_VOLUE;
 			fillAlpha_ = min(fillAlpha_, MAX_ALPHA);
 		}
@@ -413,6 +423,13 @@ void GameUI::GameUpdate()
 		}
 	}
 
+	if (!boss_->GetArive()) {
+		clearAlpha_ += 0.05f;
+		gameclearSprite_->SetColor({ 1,1,1,clearAlpha_ });
+		gameclearSprite_->Update();
+	}
+	
+
 	dFilterSprite_->Update();
 	sceneSprite_->Update();
 	iventSprite_->Update();
@@ -420,6 +437,7 @@ void GameUI::GameUpdate()
 	RBSprite_->Update();
 	fillSprite_->Update();
 	playerHPSprite_->Update();
+	playerMaxHPSprite_->Update();
 	reticleSprite_->Update();
 	bulletRreticleSprite_->Update();
 }
@@ -451,21 +469,24 @@ void GameUI::GameDraw()
 
 		nowEditStateSprite_->Draw(nowEditImage_);
 		//editSprite_[1]->Draw(editImage_[stateNum_[0]]);
+
+		editEntryStateSprite_->Draw(editImage_[0]);
+		editFillSprite_->Draw(EditEntryImage_);
+		editEntryArrowSprite_->Draw(EditArrowImage_);
 	}
-
-	editEntryStateSprite_->Draw(editImage_[0]);
-	editFillSprite_->Draw(EditEntryImage_);
-	editEntryArrowSprite_->Draw(EditArrowImage_);
-
-	
 
 	StepFilterSprite_->Draw(stepFilterImage_);
 
 	//ボスのイベントムービー中は非表示
 	if (!isIvent_) {
+		playerMaxHPSprite_->Draw(bossMaxHP_);
 		playerHPSprite_->Draw(playerHP_);
-		reticleSprite_->Draw(reticleImage_);
+		
 		bulletRreticleSprite_->Draw(bulletRreticleImage_);
+
+		if (!player_->IsDead()) {
+			reticleSprite_->Draw(reticleImage_);
+		}
 	}
 
 	//ボスが現れたら表示
@@ -485,6 +506,7 @@ void GameUI::GameDraw()
 		gameclearSprite_->Draw(gameclear_);
 	}
 	
+	
 	if (pow_ < 1 && hitBox_ && movieEnd_) {
 		waringSprite_->Draw(warningImage_);
 	}
@@ -500,6 +522,8 @@ void GameUI::GameDraw()
 //リセット関数
 void GameUI::Reset()
 {
+	isLifeOne_ = false;
+	dFilterSprite_->SetColor({ 1,1,1,0 });
 	ChangeGameAlpha_ = MAX_ALPHA;
 	pow_ = 0;
 	count_ = 0;
@@ -519,6 +543,7 @@ void GameUI::Shake()
 	randShake_.y = MyRandom::GetFloatRandom(SHACK_MIN, SHACK_MAX);
 
 	playerHPSprite_->SetPosition({ PLAYER_HP_X + randShake_.x * SHACK_RATE,PLAYER_HP_Y + randShake_.y * SHACK_RATE });
+	playerMaxHPSprite_->SetPosition({ PLAYER_HP_X + randShake_.x * SHACK_RATE,PLAYER_HP_Y + randShake_.y * SHACK_RATE });
 	bossHPSprite_->SetPosition({ BOSS_HP_X + randShake_.x * SHACK_RATE,BOSS_HP_Y + randShake_.y * SHACK_RATE });
 	bossMaxHPSprite_->SetPosition({ BOSS_HP_X + randShake_.x * SHACK_RATE,BOSS_HP_Y + randShake_.y * SHACK_RATE });
 }
@@ -526,9 +551,9 @@ void GameUI::Shake()
 //BossHPUIの更新処理
 void GameUI::BossHpUI()
 {
-	bossHPSprite_->SetSize({ BOSS_HP_SIZE_X * (float)boss_->GetHP(),BOSS_HP_SIZE_Y });
+	bossHPSprite_->SetSize({ (BOSS_HP_SIZE_X * (float)boss_->GetHP())/5,BOSS_HP_SIZE_Y });
 	bossHPSprite_->Update();
-	bossMaxHPSprite_->SetSize({ BOSS_HP_SIZE_X * 50,BOSS_HP_SIZE_Y });
+	bossMaxHPSprite_->SetSize({ (BOSS_HP_SIZE_X * 250)/5,BOSS_HP_SIZE_Y });
 	bossMaxHPSprite_->Update();
 
 	bossHPUISprite_->Update();

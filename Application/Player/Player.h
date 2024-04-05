@@ -183,7 +183,7 @@ private:
 	Vector3 nokPower_;
 
 public:
-	int32_t HP = 10;
+	int32_t HP = 5;
 	bool isDead = false;
 
 	/// <summary>
