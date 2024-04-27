@@ -282,9 +282,6 @@
     <ClCompile Include="Application\OutGameSystem\GameUI.cpp">
       <Filter>ソース ファイル\Application\OutGameSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Application\OutGameSystem\Pause.cpp">
-      <Filter>ソース ファイル\Application\OutGameSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Application\AssetManager\TextureManager.cpp">
       <Filter>ソース ファイル\Application\AssetManager</Filter>
     </ClCompile>
@@ -474,9 +471,6 @@
       <Filter>ヘッダー ファイル\Application\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="Application\OutGameSystem\GameUI.h">
-      <Filter>ヘッダー ファイル\Application\OutGameSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Application\OutGameSystem\Pause.h">
       <Filter>ヘッダー ファイル\Application\OutGameSystem</Filter>
     </ClInclude>
     <ClInclude Include="Application\AssetManager\TextureManager.h">

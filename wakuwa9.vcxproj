@@ -121,7 +121,6 @@
     <ClCompile Include="Application\GameObject\StageObject.cpp" />
     <ClCompile Include="Application\GameSound\SoundManager.cpp" />
     <ClCompile Include="Application\OutGameSystem\GameUI.cpp" />
-    <ClCompile Include="Application\OutGameSystem\Pause.cpp" />
     <ClCompile Include="Application\PlayerBit\BitBasis.cpp" />
     <ClCompile Include="Application\PlayerBit\BitBullet.cpp" />
     <ClCompile Include="Application\PlayerBit\BitMove.cpp" />
@@ -189,7 +188,6 @@
     <ClInclude Include="Application\GameObject\StageObject.h" />
     <ClInclude Include="Application\GameSound\SoundManager.h" />
     <ClInclude Include="Application\OutGameSystem\GameUI.h" />
-    <ClInclude Include="Application\OutGameSystem\Pause.h" />
     <ClInclude Include="Application\PlayerBit\BitBasis.h" />
     <ClInclude Include="Application\PlayerBit\BitBullet.h" />
     <ClInclude Include="Application\PlayerBit\BitMove.h" />
